@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog - R</title><link href="/" rel="alternate"></link><link href="/feeds/r.atom.xml" rel="self"></link><id>/</id><updated>2020-08-27T00:00:00+02:00</updated><entry><title>Fonctionnement de across() dans dplyr</title><link href="/fonctionnement-de-across-dans-dplyr.html" rel="alternate"></link><published>2020-08-27T00:00:00+02:00</published><updated>2020-08-27T00:00:00+02:00</updated><author><name>Antoine Sireyjol</name></author><id>tag:None,2020-08-27:/fonctionnement-de-across-dans-dplyr.html</id><summary type="html">&lt;p&gt;On va faire du R pour changer!&lt;/p&gt;</summary><content type="html">&lt;p&gt;Vous avez dû voir passer cette information : une mise à jour majeure de &lt;code&gt;dplyr&lt;/code&gt; (version 1.0.0) est sortie il y a quelques mois! L'occasion de faire une nouvelle petite note sur un élément très important de cette nouvelle version : &lt;code&gt;across()&lt;/code&gt;, un nouveau verbe pour réaliser des opérations sur plusieurs colonnes. On va le présenter rapidement et regarder ensuite ses performances en termes de vitesse d'exécution par rapport aux anciennes méthodes. On utilise la version &lt;code&gt;1.0.2&lt;/code&gt; de dplyr, celle sur le CRAN à ce jour, et qui a justement été optimisée par rapport à la version &lt;code&gt;1.0.0&lt;/code&gt;. Cette note est organisée en deux parties :&lt;br&gt;
+- [&lt;code&gt;across()&lt;/code&gt;, ça marche comment?][&lt;code&gt;across()&lt;/code&gt;, ça marche comment?], où l'on présente les bases de &lt;code&gt;across()&lt;/code&gt;.   &lt;br&gt;
+- [&lt;code&gt;across()&lt;/code&gt;, ça tourne comment?][&lt;code&gt;across()&lt;/code&gt;, ça tourne comment?], où l'on évalue la vitesse d'exécution par rapport aux anciennes méthodes.  &lt;/p&gt;
+&lt;p&gt;Si vous voulez balayer plus largement les différents éléments de la mise à jour de &lt;code&gt;dplyr&lt;/code&gt;, vous pouvez vous rendre sur &lt;a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/"&gt;le site du tidyverse&lt;/a&gt; (en anglais) ou sur &lt;a href="https://thinkr.fr/hey-quoi-de-neuf-dplyr-le-point-sur-la-v1/#La_fonction_de_calcul_avec_conditions_sur_les_variables_across()"&gt;cet article du blog de ThinkR&lt;/a&gt; (en français) qui en présentent les changements majeurs. &lt;/p&gt;
+&lt;h1 id="across-ca-marche-comment"&gt;&lt;code&gt;across()&lt;/code&gt;, ça marche comment?&lt;/h1&gt;
+&lt;h2 id="syntaxe-de-base"&gt;Syntaxe de base&lt;/h2&gt;
+&lt;p&gt;Le verbe &lt;code&gt;across()&lt;/code&gt; vise à remplacer toutes les fonctions suffixées par &lt;code&gt;_if&lt;/code&gt;, &lt;code&gt;_at&lt;/code&gt; et &lt;code&gt;_all&lt;/code&gt;. Il regroupe ces méthodes dans une seule et permet ainsi de les associer, ce qui n'était pas possible avant. Il s'utilise dans &lt;code&gt;mutate&lt;/code&gt; et &lt;code&gt;summarise&lt;/code&gt;. La syntaxe associée à ce verbe est la suivante :   &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;across(.cols, .fns)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Dans laquelle :&lt;br&gt;
+ - Les colonnes &lt;code&gt;.cols&lt;/code&gt; peuvent être sélectionnées en utilisant la même syntaxe que pour la méthode &lt;code&gt;vars()&lt;/code&gt; (nom des variables, &lt;code&gt;starts_with&lt;/code&gt;, &lt;code&gt;end_with&lt;/code&gt;, &lt;code&gt;contains&lt;/code&gt;,...), mais aussi avec des conditions rentrées dans &lt;code&gt;where()&lt;/code&gt; qui sélectionneront de la même manière que le faisaient les fonctions suffixées par &lt;code&gt;_if&lt;/code&gt;.&lt;br&gt;
+ - La fonction &lt;code&gt;.fns&lt;/code&gt; est définie comme auparavant (le nom de la fonction ou sa définition "à la volée" avec &lt;code&gt;~ my_fun(.)&lt;/code&gt;).  &lt;/p&gt;
+&lt;h2 id="quelques-exemples"&gt;Quelques exemples&lt;/h2&gt;
+&lt;p&gt;Pour changer, on utilise pour ces petits exemples la table &lt;code&gt;penguins&lt;/code&gt; promue par &lt;a href="https://github.com/allisonhorst/palmerpenguins"&gt;Allison Horst&lt;/a&gt; pour remplacer l'usage de la table iris. Vous pouvez l'obtenir depuis le package &lt;code&gt;palmerpenguins&lt;/code&gt; sur le CRAN. À partir de cette table, l'instruction visant à sortir la moyenne de toutes les variables numériques s'écrivait auparavant :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;penguins&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;summarise_if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;is.numeric&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;na.rm&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;table class="dataframe"&gt;
+&lt;caption&gt;A tibble: 1 × 5&lt;/caption&gt;
+&lt;thead&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;bill_length_mm&lt;/th&gt;&lt;th scope=col&gt;bill_depth_mm&lt;/th&gt;&lt;th scope=col&gt;flipper_length_mm&lt;/th&gt;&lt;th scope=col&gt;body_mass_g&lt;/th&gt;&lt;th scope=col&gt;year&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;43.92193&lt;/td&gt;&lt;td&gt;17.15117&lt;/td&gt;&lt;td&gt;200.9152&lt;/td&gt;&lt;td&gt;4201.754&lt;/td&gt;&lt;td&gt;2008.029&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Elle se réécrit avec &lt;code&gt;across()&lt;/code&gt; en utilisant &lt;code&gt;where()&lt;/code&gt; :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;penguins&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;summarise&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;across&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;is.numeric&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;na.rm&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;table class="dataframe"&gt;
+&lt;caption&gt;A tibble: 1 × 5&lt;/caption&gt;
+&lt;thead&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;bill_length_mm&lt;/th&gt;&lt;th scope=col&gt;bill_depth_mm&lt;/th&gt;&lt;th scope=col&gt;flipper_length_mm&lt;/th&gt;&lt;th scope=col&gt;body_mass_g&lt;/th&gt;&lt;th scope=col&gt;year&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;43.92193&lt;/td&gt;&lt;td&gt;17.15117&lt;/td&gt;&lt;td&gt;200.9152&lt;/td&gt;&lt;td&gt;4201.754&lt;/td&gt;&lt;td&gt;2008.029&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Si l'on souhaite sélectionner à partir du nom des variables, la nouvelle syntaxe est la suivante :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Ancienne version&lt;/span&gt;
+&lt;span class="n"&gt;penguins&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;summarise_at&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;vars&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;matches&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;bill*|flipper*&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;na.rm&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Avec across()&lt;/span&gt;
+&lt;span class="n"&gt;penguins&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;summarise&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;across&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;matches&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;bill*|flipper*&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;na.rm&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;table class="dataframe"&gt;
+&lt;caption&gt;A tibble: 1 × 3&lt;/caption&gt;
+&lt;thead&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;bill_length_mm&lt;/th&gt;&lt;th scope=col&gt;bill_depth_mm&lt;/th&gt;&lt;th scope=col&gt;flipper_length_mm&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;43.92193&lt;/td&gt;&lt;td&gt;17.15117&lt;/td&gt;&lt;td&gt;200.9152&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table class="dataframe"&gt;
+&lt;caption&gt;A tibble: 1 × 3&lt;/caption&gt;
+&lt;thead&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;bill_length_mm&lt;/th&gt;&lt;th scope=col&gt;bill_depth_mm&lt;/th&gt;&lt;th scope=col&gt;flipper_length_mm&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;43.92193&lt;/td&gt;&lt;td&gt;17.15117&lt;/td&gt;&lt;td&gt;200.9152&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;On note également qu'on peut combiner dorénavant les sélections sur les types des colonnes et sur leur nom dans une seule instruction &lt;code&gt;across()&lt;/code&gt;, ce qui n'était pas possible avant. Pour enlever les années des moyennes numériques, on peut par exemple écrire :   &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;penguins&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;summarise&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;across&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;is.numeric&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nf"&gt;contains&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;year&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;na.rm&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;table class="dataframe"&gt;
+&lt;caption&gt;A tibble: 1 × 4&lt;/caption&gt;
+&lt;thead&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;bill_length_mm&lt;/th&gt;&lt;th scope=col&gt;bill_depth_mm&lt;/th&gt;&lt;th scope=col&gt;flipper_length_mm&lt;/th&gt;&lt;th scope=col&gt;body_mass_g&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;43.92193&lt;/td&gt;&lt;td&gt;17.15117&lt;/td&gt;&lt;td&gt;200.9152&lt;/td&gt;&lt;td&gt;4201.754&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Enfin, le paramètre &lt;code&gt;.names&lt;/code&gt; de &lt;code&gt;across()&lt;/code&gt; est également très pratique et permet notamment dans une instruction &lt;code&gt;mutate()&lt;/code&gt; de créer de nouvelles colonnes nommées à partir des anciennes auxquelles on peut se référer avec &lt;code&gt;.col&lt;/code&gt;. Par exemple, si je veux créer deux nouvelles colonnes passant les informations sur le bec en pouces mais en conservant les anciennes colonnes, je peux écrire :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;penguins&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  &lt;span class="nf"&gt;mutate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;across&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;starts_with&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;bill&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt; &lt;span class="n"&gt;.&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="m"&gt;0.04&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;.names&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;pouces_{.col}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  &lt;span class="nf"&gt;select&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;contains&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;bill&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;head&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;table class="dataframe"&gt;
+&lt;caption&gt;A tibble: 5 × 4&lt;/caption&gt;
+&lt;thead&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;bill_length_mm&lt;/th&gt;&lt;th scope=col&gt;bill_depth_mm&lt;/th&gt;&lt;th scope=col&gt;pouces_bill_length_mm&lt;/th&gt;&lt;th scope=col&gt;pouces_bill_depth_mm&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;39.1&lt;/td&gt;&lt;td&gt;18.7&lt;/td&gt;&lt;td&gt;1.564&lt;/td&gt;&lt;td&gt;0.748&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;39.5&lt;/td&gt;&lt;td&gt;17.4&lt;/td&gt;&lt;td&gt;1.580&lt;/td&gt;&lt;td&gt;0.696&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;40.3&lt;/td&gt;&lt;td&gt;18.0&lt;/td&gt;&lt;td&gt;1.612&lt;/td&gt;&lt;td&gt;0.720&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;  NA&lt;/td&gt;&lt;td&gt;  NA&lt;/td&gt;&lt;td&gt;   NA&lt;/td&gt;&lt;td&gt;   NA&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;36.7&lt;/td&gt;&lt;td&gt;19.3&lt;/td&gt;&lt;td&gt;1.468&lt;/td&gt;&lt;td&gt;0.772&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h1 id="across-ca-tourne-comment"&gt;&lt;code&gt;across()&lt;/code&gt;, ça tourne comment?&lt;/h1&gt;
+&lt;p&gt;À la sortie de la mise à jour de &lt;code&gt;dplyr&lt;/code&gt;, il avait été signalé que la méthode &lt;code&gt;across()&lt;/code&gt; impliquerait peut-être de légères pertes en termes de vitesse d'exécution par rapport aux anciennes méthodes &lt;code&gt;_at&lt;/code&gt;, &lt;code&gt;_if&lt;/code&gt; et &lt;code&gt;_all&lt;/code&gt;. Une partie de ce retard a été apparemment rattrapé dans les dernières mises à jour et donc dans la version &lt;code&gt;1.0.2&lt;/code&gt; que l'on utilise dans cet article. Sur le modèle de ce que l'on a proposé dans un &lt;a href="https://antoinesir.rbind.io/post/vitesses-d-agr%C3%A9gation-de-data-table-et-dplyr/"&gt;article précédent&lt;/a&gt;, on va comparer les instructions &lt;code&gt;_if&lt;/code&gt; et &lt;code&gt;_at&lt;/code&gt; d'un summarise groupé avec leurs équivalents dans &lt;code&gt;across()&lt;/code&gt; pour différentes tailles d'échantillons et de groupes.   &lt;/p&gt;
+&lt;p&gt;Le tibble utilisé a le format suivant, ici pour 100 lignes et deux groupes :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;nbrow&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;100&lt;/span&gt;
+&lt;span class="n"&gt;nbgpe&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;
+&lt;span class="nf"&gt;as_tibble&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;data.frame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;rnorm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nbrow&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;x2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="nf"&gt;rnorm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nbrow&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; 
+                     &lt;span class="n"&gt;x3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;runif&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nbrow&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;x4&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;runif&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nbrow&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                     &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;as.factor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;floor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nbgpe&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;replace&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                               &lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+  &lt;span class="nf"&gt;arrange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;head&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;table class="dataframe"&gt;
+&lt;caption&gt;A tibble: 5 × 5&lt;/caption&gt;
+&lt;thead&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;x1&lt;/th&gt;&lt;th scope=col&gt;x2&lt;/th&gt;&lt;th scope=col&gt;x3&lt;/th&gt;&lt;th scope=col&gt;x4&lt;/th&gt;&lt;th scope=col&gt;y&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;fct&amp;gt;&lt;/th&gt;&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;-2.738078&lt;/td&gt;&lt;td&gt; 1.12303171&lt;/td&gt;&lt;td&gt;0.84041535&lt;/td&gt;&lt;td&gt;0.66216821&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;-2.418178&lt;/td&gt;&lt;td&gt;-0.18281610&lt;/td&gt;&lt;td&gt;0.01449968&lt;/td&gt;&lt;td&gt;0.22480163&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;-2.038240&lt;/td&gt;&lt;td&gt;-0.48819836&lt;/td&gt;&lt;td&gt;0.47085237&lt;/td&gt;&lt;td&gt;0.42920691&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;-1.961096&lt;/td&gt;&lt;td&gt; 0.49787841&lt;/td&gt;&lt;td&gt;0.48345918&lt;/td&gt;&lt;td&gt;0.61128447&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;-1.853462&lt;/td&gt;&lt;td&gt;-0.03496033&lt;/td&gt;&lt;td&gt;0.22337675&lt;/td&gt;&lt;td&gt;0.05563201&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Les différentes instructions testées sont les suivantes :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# summarise_if  &lt;/span&gt;
+&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;group_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;summarise_if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;is.numeric&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+
+&lt;span class="c1"&gt;# across + where()  &lt;/span&gt;
+&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;group_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;summarise&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;across&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;is.numeric&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;  
+
+&lt;span class="c1"&gt;# summarise_at  &lt;/span&gt;
+&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;group_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;summarise_at&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;vars&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;starts_with&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;x&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+
+&lt;span class="c1"&gt;# across + starts_with()  &lt;/span&gt;
+&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;group_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;summarise&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;across&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;starts_with&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;x&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Les résultats du &lt;code&gt;microbenchmark()&lt;/code&gt; pour les différentes combinaisons de nombres de groupes et de lignes sont présentés dans un graphique qui représente la distribution du temps d’exécution des 10 occurences testées pour chaque méthode :     &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;microbenchmark&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nf"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ggplot2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;test_group_by&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="nf"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nbrow&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nbgpe&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+  &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="nf"&gt;as_tibble&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;data.frame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;rnorm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nbrow&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;x2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="nf"&gt;rnorm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nbrow&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; 
+                               &lt;span class="n"&gt;x3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;runif&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nbrow&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;x4&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;runif&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nbrow&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                               &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;as.factor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;floor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nbgpe&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; 
+                                                    &lt;span class="n"&gt;replace&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                               &lt;span class="p"&gt;))&lt;/span&gt;
+  &lt;span class="nf"&gt;return&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;autoplot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;microbenchmark&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;microbenchmark&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;times&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;ms&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+                                   &lt;span class="n"&gt;summarise_if&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;group_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;summarise_if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;is.numeric&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                                   &lt;span class="s"&gt;&amp;quot;across + where()&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;group_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;summarise&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;across&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;is.numeric&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt;
+                                   &lt;span class="n"&gt;summarise_at&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;group_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;summarise_at&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;vars&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;starts_with&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;x&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                                   &lt;span class="s"&gt;&amp;quot;across + starts_with()&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;group_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="nf"&gt;summarise&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;across&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;starts_with&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;x&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+                                   &lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="n"&gt;log&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nf"&gt;ggtitle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nbrow&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot; lignes, &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nbgpe&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot; groupes&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nf"&gt;expand_limits&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;))}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;100&lt;/span&gt;
+&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;0.5&lt;/span&gt;
+&lt;span class="nf"&gt;for &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="nf"&gt;seq&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)){&lt;/span&gt;
+  &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;
+  &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;
+  &lt;span class="nf"&gt;assign&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;plot&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="nf"&gt;test_group_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;100&lt;/span&gt;
+&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;50&lt;/span&gt;
+&lt;span class="nf"&gt;for &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="nf"&gt;seq&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)){&lt;/span&gt;
+  &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;
+  &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;
+  &lt;span class="nf"&gt;assign&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nf"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;plot&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="nf"&gt;test_group_by&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="nf"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gridExtra&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nf"&gt;grid.arrange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;plot1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;plot4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;plot2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;plot5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;plot3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;plot6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ncol&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;heights&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;14&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;14&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="m"&gt;14&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="Pelican" src="../images/output_18_1.png"&gt;&lt;/p&gt;
+&lt;p&gt;On constate en effet une moins bonne performance en termes de vitesse d'exécution des instructions utilisant le verbe &lt;code&gt;across()&lt;/code&gt;. Les différences sont surtout marquées dans le cas où il y a beaucoup de groupes par rapport au nombre de lignes (colonne de droite) et ce quelque soit le nombre de lignes. Elles sont moins importantes dans le cas où il y a peu de groupes par rapport au nombre de lignes (colonne de gauche). &lt;/p&gt;</content><category term="R"></category><category term="dplyr"></category><category term="across"></category><category term="benchmark"></category><category term="rstats"></category><category term="R"></category><category term="tidyverse"></category></entry></feed>
