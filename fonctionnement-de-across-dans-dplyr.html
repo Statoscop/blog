@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Le blog de Statoscop</title>
+  <link rel="icon" type="image/x-icon" href="/theme/images/favicon.ico" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="/fonctionnement-de-across-dans-dplyr.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="/theme/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="On va faire du R pour changer!">
+
+    <meta name="author" content="Antoine Sireyjol">
+
+    <meta name="tags" content="dplyr">
+    <meta name="tags" content="across">
+    <meta name="tags" content="benchmark">
+    <meta name="tags" content="rstats">
+    <meta name="tags" content="R">
+    <meta name="tags" content="tidyverse">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="Fonctionnement de across() dans dplyr"/>
+<meta property="og:description" content="On va faire du R pour changer!"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="/fonctionnement-de-across-dans-dplyr.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2020-08-27 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="/author/antoine-sireyjol.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="dplyr"/>
+<meta property="article:tag" content="across"/>
+<meta property="article:tag" content="benchmark"/>
+<meta property="article:tag" content="rstats"/>
+<meta property="article:tag" content="R"/>
+<meta property="article:tag" content="tidyverse"/>
+<meta property="og:image" content="/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Fonctionnement de across() dans dplyr",
+  "headline": "Fonctionnement de across() dans dplyr",
+  "datePublished": "2020-08-27 00:00:00+02:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Antoine Sireyjol",
+    "url": "/author/antoine-sireyjol.html"
+  },
+  "image": "/theme/images/post-bg.jpg",
+  "url": "/fonctionnement-de-across-dans-dplyr.html",
+  "description": "On va faire du R pour changer!"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+          <span class="blog-logo">
+            <a href="https://statoscop.fr"><img src="/theme/images/logo-statoscop.png" alt="Blog Logo" /></a>
+          </span>
+          <span id="menu-button" class="nav-button">
+            <a href="/">Retour à l'accueil du blog</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Fonctionnement de across() dans dplyr</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="/author/antoine-sireyjol.html">Antoine Sireyjol</a>
+            | <time datetime="jeu. 27 août 2020">jeu. 27 août 2020</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>Vous avez dû voir passer cette information : une mise à jour majeure de <code>dplyr</code> (version 1.0.0) est sortie il y a quelques mois! L'occasion de faire une nouvelle petite note sur un élément très important de cette nouvelle version : <code>across()</code>, un nouveau verbe pour réaliser des opérations sur plusieurs colonnes. On va le présenter rapidement et regarder ensuite ses performances en termes de vitesse d'exécution par rapport aux anciennes méthodes. On utilise la version <code>1.0.2</code> de dplyr, celle sur le CRAN à ce jour, et qui a justement été optimisée par rapport à la version <code>1.0.0</code>. Cette note est organisée en deux parties :<br>
+- [<code>across()</code>, ça marche comment?][<code>across()</code>, ça marche comment?], où l'on présente les bases de <code>across()</code>.   <br>
+- [<code>across()</code>, ça tourne comment?][<code>across()</code>, ça tourne comment?], où l'on évalue la vitesse d'exécution par rapport aux anciennes méthodes.  </p>
+<p>Si vous voulez balayer plus largement les différents éléments de la mise à jour de <code>dplyr</code>, vous pouvez vous rendre sur <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/">le site du tidyverse</a> (en anglais) ou sur <a href="https://thinkr.fr/hey-quoi-de-neuf-dplyr-le-point-sur-la-v1/#La_fonction_de_calcul_avec_conditions_sur_les_variables_across()">cet article du blog de ThinkR</a> (en français) qui en présentent les changements majeurs. </p>
+<h1 id="across-ca-marche-comment"><code>across()</code>, ça marche comment?</h1>
+<h2 id="syntaxe-de-base">Syntaxe de base</h2>
+<p>Le verbe <code>across()</code> vise à remplacer toutes les fonctions suffixées par <code>_if</code>, <code>_at</code> et <code>_all</code>. Il regroupe ces méthodes dans une seule et permet ainsi de les associer, ce qui n'était pas possible avant. Il s'utilise dans <code>mutate</code> et <code>summarise</code>. La syntaxe associée à ce verbe est la suivante :   </p>
+<div class="highlight"><pre><span></span><code><span class="err">across(.cols, .fns)</span>
+</code></pre></div>
+
+<p>Dans laquelle :<br>
+ - Les colonnes <code>.cols</code> peuvent être sélectionnées en utilisant la même syntaxe que pour la méthode <code>vars()</code> (nom des variables, <code>starts_with</code>, <code>end_with</code>, <code>contains</code>,...), mais aussi avec des conditions rentrées dans <code>where()</code> qui sélectionneront de la même manière que le faisaient les fonctions suffixées par <code>_if</code>.<br>
+ - La fonction <code>.fns</code> est définie comme auparavant (le nom de la fonction ou sa définition "à la volée" avec <code>~ my_fun(.)</code>).  </p>
+<h2 id="quelques-exemples">Quelques exemples</h2>
+<p>Pour changer, on utilise pour ces petits exemples la table <code>penguins</code> promue par <a href="https://github.com/allisonhorst/palmerpenguins">Allison Horst</a> pour remplacer l'usage de la table iris. Vous pouvez l'obtenir depuis le package <code>palmerpenguins</code> sur le CRAN. À partir de cette table, l'instruction visant à sortir la moyenne de toutes les variables numériques s'écrivait auparavant :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">penguins</span> <span class="o">%&gt;%</span> <span class="nf">summarise_if</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">na.rm</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</code></pre></div>
+
+<table class="dataframe">
+<caption>A tibble: 1 × 5</caption>
+<thead>
+    <tr><th scope=col>bill_length_mm</th><th scope=col>bill_depth_mm</th><th scope=col>flipper_length_mm</th><th scope=col>body_mass_g</th><th scope=col>year</th></tr>
+    <tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>43.92193</td><td>17.15117</td><td>200.9152</td><td>4201.754</td><td>2008.029</td></tr>
+</tbody>
+</table>
+
+<p>Elle se réécrit avec <code>across()</code> en utilisant <code>where()</code> :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">penguins</span> <span class="o">%&gt;%</span> <span class="nf">summarise</span><span class="p">(</span><span class="nf">across</span><span class="p">(</span><span class="nf">where</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">),</span> <span class="n">mean</span><span class="p">,</span> <span class="n">na.rm</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">))</span>
+</code></pre></div>
+
+<table class="dataframe">
+<caption>A tibble: 1 × 5</caption>
+<thead>
+    <tr><th scope=col>bill_length_mm</th><th scope=col>bill_depth_mm</th><th scope=col>flipper_length_mm</th><th scope=col>body_mass_g</th><th scope=col>year</th></tr>
+    <tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>43.92193</td><td>17.15117</td><td>200.9152</td><td>4201.754</td><td>2008.029</td></tr>
+</tbody>
+</table>
+
+<p>Si l'on souhaite sélectionner à partir du nom des variables, la nouvelle syntaxe est la suivante :  </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Ancienne version</span>
+<span class="n">penguins</span> <span class="o">%&gt;%</span> <span class="nf">summarise_at</span><span class="p">(</span><span class="nf">vars</span><span class="p">(</span><span class="nf">matches</span><span class="p">(</span><span class="s">&quot;bill*|flipper*&quot;</span><span class="p">)),</span> <span class="n">mean</span><span class="p">,</span> <span class="n">na.rm</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+
+<span class="c1"># Avec across()</span>
+<span class="n">penguins</span> <span class="o">%&gt;%</span> <span class="nf">summarise</span><span class="p">(</span><span class="nf">across</span><span class="p">(</span><span class="nf">matches</span><span class="p">(</span><span class="s">&quot;bill*|flipper*&quot;</span><span class="p">),</span> <span class="n">mean</span><span class="p">,</span> <span class="n">na.rm</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">))</span>
+</code></pre></div>
+
+<table class="dataframe">
+<caption>A tibble: 1 × 3</caption>
+<thead>
+    <tr><th scope=col>bill_length_mm</th><th scope=col>bill_depth_mm</th><th scope=col>flipper_length_mm</th></tr>
+    <tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>43.92193</td><td>17.15117</td><td>200.9152</td></tr>
+</tbody>
+</table>
+
+<table class="dataframe">
+<caption>A tibble: 1 × 3</caption>
+<thead>
+    <tr><th scope=col>bill_length_mm</th><th scope=col>bill_depth_mm</th><th scope=col>flipper_length_mm</th></tr>
+    <tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>43.92193</td><td>17.15117</td><td>200.9152</td></tr>
+</tbody>
+</table>
+
+<p>On note également qu'on peut combiner dorénavant les sélections sur les types des colonnes et sur leur nom dans une seule instruction <code>across()</code>, ce qui n'était pas possible avant. Pour enlever les années des moyennes numériques, on peut par exemple écrire :   </p>
+<div class="highlight"><pre><span></span><code><span class="n">penguins</span> <span class="o">%&gt;%</span> <span class="nf">summarise</span><span class="p">(</span><span class="nf">across</span><span class="p">(</span><span class="nf">where</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">)</span> <span class="o">&amp;</span> <span class="o">-</span><span class="nf">contains</span><span class="p">(</span><span class="s">&quot;year&quot;</span><span class="p">),</span> <span class="n">mean</span><span class="p">,</span> <span class="n">na.rm</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">))</span>
+</code></pre></div>
+
+<table class="dataframe">
+<caption>A tibble: 1 × 4</caption>
+<thead>
+    <tr><th scope=col>bill_length_mm</th><th scope=col>bill_depth_mm</th><th scope=col>flipper_length_mm</th><th scope=col>body_mass_g</th></tr>
+    <tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>43.92193</td><td>17.15117</td><td>200.9152</td><td>4201.754</td></tr>
+</tbody>
+</table>
+
+<p>Enfin, le paramètre <code>.names</code> de <code>across()</code> est également très pratique et permet notamment dans une instruction <code>mutate()</code> de créer de nouvelles colonnes nommées à partir des anciennes auxquelles on peut se référer avec <code>.col</code>. Par exemple, si je veux créer deux nouvelles colonnes passant les informations sur le bec en pouces mais en conservant les anciennes colonnes, je peux écrire :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">penguins</span> <span class="o">%&gt;%</span> 
+  <span class="nf">mutate</span><span class="p">(</span><span class="nf">across</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;bill&quot;</span><span class="p">),</span> <span class="o">~</span> <span class="n">.</span> <span class="o">*</span> <span class="m">0.04</span><span class="p">,</span> <span class="n">.names</span> <span class="o">=</span> <span class="s">&quot;pouces_{.col}&quot;</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+  <span class="nf">select</span><span class="p">(</span><span class="nf">contains</span><span class="p">(</span><span class="s">&quot;bill&quot;</span><span class="p">))</span> <span class="o">%&gt;%</span> <span class="nf">head</span><span class="p">(</span><span class="m">5</span><span class="p">)</span>
+</code></pre></div>
+
+<table class="dataframe">
+<caption>A tibble: 5 × 4</caption>
+<thead>
+    <tr><th scope=col>bill_length_mm</th><th scope=col>bill_depth_mm</th><th scope=col>pouces_bill_length_mm</th><th scope=col>pouces_bill_depth_mm</th></tr>
+    <tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>39.1</td><td>18.7</td><td>1.564</td><td>0.748</td></tr>
+    <tr><td>39.5</td><td>17.4</td><td>1.580</td><td>0.696</td></tr>
+    <tr><td>40.3</td><td>18.0</td><td>1.612</td><td>0.720</td></tr>
+    <tr><td>  NA</td><td>  NA</td><td>   NA</td><td>   NA</td></tr>
+    <tr><td>36.7</td><td>19.3</td><td>1.468</td><td>0.772</td></tr>
+</tbody>
+</table>
+
+<h1 id="across-ca-tourne-comment"><code>across()</code>, ça tourne comment?</h1>
+<p>À la sortie de la mise à jour de <code>dplyr</code>, il avait été signalé que la méthode <code>across()</code> impliquerait peut-être de légères pertes en termes de vitesse d'exécution par rapport aux anciennes méthodes <code>_at</code>, <code>_if</code> et <code>_all</code>. Une partie de ce retard a été apparemment rattrapé dans les dernières mises à jour et donc dans la version <code>1.0.2</code> que l'on utilise dans cet article. Sur le modèle de ce que l'on a proposé dans un <a href="https://antoinesir.rbind.io/post/vitesses-d-agr%C3%A9gation-de-data-table-et-dplyr/">article précédent</a>, on va comparer les instructions <code>_if</code> et <code>_at</code> d'un summarise groupé avec leurs équivalents dans <code>across()</code> pour différentes tailles d'échantillons et de groupes.   </p>
+<p>Le tibble utilisé a le format suivant, ici pour 100 lignes et deux groupes :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">nbrow</span> <span class="o">&lt;-</span> <span class="m">100</span>
+<span class="n">nbgpe</span> <span class="o">&lt;-</span> <span class="m">2</span>
+<span class="nf">as_tibble</span><span class="p">(</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">x1</span> <span class="o">=</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">nbrow</span><span class="p">),</span> <span class="n">x2</span> <span class="o">=</span>  <span class="nf">rnorm</span><span class="p">(</span><span class="n">nbrow</span><span class="p">),</span> 
+                     <span class="n">x3</span> <span class="o">=</span> <span class="nf">runif</span><span class="p">(</span><span class="n">nbrow</span><span class="p">),</span> <span class="n">x4</span> <span class="o">=</span> <span class="nf">runif</span><span class="p">(</span><span class="n">nbrow</span><span class="p">),</span>
+                     <span class="n">y</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">sample</span><span class="p">(</span><span class="nf">floor</span><span class="p">(</span><span class="n">nbgpe</span><span class="p">),</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">))</span>
+                               <span class="p">))</span> <span class="o">%&gt;%</span> 
+  <span class="nf">arrange</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">head</span><span class="p">(</span><span class="m">5</span><span class="p">)</span>
+</code></pre></div>
+
+<table class="dataframe">
+<caption>A tibble: 5 × 5</caption>
+<thead>
+    <tr><th scope=col>x1</th><th scope=col>x2</th><th scope=col>x3</th><th scope=col>x4</th><th scope=col>y</th></tr>
+    <tr><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;fct&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>-2.738078</td><td> 1.12303171</td><td>0.84041535</td><td>0.66216821</td><td>2</td></tr>
+    <tr><td>-2.418178</td><td>-0.18281610</td><td>0.01449968</td><td>0.22480163</td><td>2</td></tr>
+    <tr><td>-2.038240</td><td>-0.48819836</td><td>0.47085237</td><td>0.42920691</td><td>2</td></tr>
+    <tr><td>-1.961096</td><td> 0.49787841</td><td>0.48345918</td><td>0.61128447</td><td>2</td></tr>
+    <tr><td>-1.853462</td><td>-0.03496033</td><td>0.22337675</td><td>0.05563201</td><td>2</td></tr>
+</tbody>
+</table>
+
+<p>Les différentes instructions testées sont les suivantes :  </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># summarise_if  </span>
+<span class="n">data</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">summarise_if</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">,</span> <span class="n">mean</span><span class="p">)</span> 
+
+<span class="c1"># across + where()  </span>
+<span class="n">data</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">summarise</span><span class="p">(</span><span class="nf">across</span><span class="p">(</span><span class="nf">where</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">),</span> <span class="n">mean</span><span class="p">))</span>  
+
+<span class="c1"># summarise_at  </span>
+<span class="n">data</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">summarise_at</span><span class="p">(</span><span class="nf">vars</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">)),</span> <span class="n">mean</span><span class="p">)</span> 
+
+<span class="c1"># across + starts_with()  </span>
+<span class="n">data</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">summarise</span><span class="p">(</span><span class="nf">across</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">),</span> <span class="n">mean</span><span class="p">))</span>
+</code></pre></div>
+
+<p>Les résultats du <code>microbenchmark()</code> pour les différentes combinaisons de nombres de groupes et de lignes sont présentés dans un graphique qui représente la distribution du temps d’exécution des 10 occurences testées pour chaque méthode :     </p>
+<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">microbenchmark</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="n">test_group_by</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">nbrow</span><span class="p">,</span> <span class="n">nbgpe</span><span class="p">){</span>
+  <span class="n">test</span> <span class="o">&lt;-</span> <span class="nf">as_tibble</span><span class="p">(</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">x1</span> <span class="o">=</span> <span class="nf">rnorm</span><span class="p">(</span><span class="n">nbrow</span><span class="p">),</span> <span class="n">x2</span> <span class="o">=</span>  <span class="nf">rnorm</span><span class="p">(</span><span class="n">nbrow</span><span class="p">),</span> 
+                               <span class="n">x3</span> <span class="o">=</span> <span class="nf">runif</span><span class="p">(</span><span class="n">nbrow</span><span class="p">),</span> <span class="n">x4</span> <span class="o">=</span> <span class="nf">runif</span><span class="p">(</span><span class="n">nbrow</span><span class="p">),</span>
+                               <span class="n">y</span> <span class="o">=</span> <span class="nf">as.factor</span><span class="p">(</span><span class="nf">sample</span><span class="p">(</span><span class="nf">floor</span><span class="p">(</span><span class="n">nbgpe</span><span class="p">),</span> 
+                                                    <span class="n">replace</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">))</span>
+                               <span class="p">))</span>
+  <span class="nf">return</span><span class="p">(</span><span class="nf">autoplot</span><span class="p">(</span>
+    <span class="n">microbenchmark</span><span class="o">::</span><span class="nf">microbenchmark</span><span class="p">(</span><span class="n">times</span> <span class="o">=</span> <span class="m">10</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s">&quot;ms&quot;</span><span class="p">,</span> 
+                                   <span class="n">summarise_if</span> <span class="o">=</span> <span class="n">test</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">summarise_if</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">,</span> <span class="n">mean</span><span class="p">),</span>
+                                   <span class="s">&quot;across + where()&quot;</span> <span class="o">=</span> <span class="n">test</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">summarise</span><span class="p">(</span><span class="nf">across</span><span class="p">(</span><span class="nf">where</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">),</span> <span class="n">mean</span><span class="p">)),</span>
+                                   <span class="n">summarise_at</span> <span class="o">=</span> <span class="n">test</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">summarise_at</span><span class="p">(</span><span class="nf">vars</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">)),</span> <span class="n">mean</span><span class="p">),</span>
+                                   <span class="s">&quot;across + starts_with()&quot;</span> <span class="o">=</span> <span class="n">test</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">summarise</span><span class="p">(</span><span class="nf">across</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">),</span> <span class="n">mean</span><span class="p">))</span>
+                                   <span class="p">),</span>
+    <span class="n">log</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+    <span class="o">+</span> <span class="nf">ggtitle</span><span class="p">(</span><span class="nf">paste0</span><span class="p">(</span><span class="n">nbrow</span><span class="p">,</span> <span class="s">&quot; lignes, &quot;</span><span class="p">,</span> <span class="n">nbgpe</span><span class="p">,</span> <span class="s">&quot; groupes&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="nf">expand_limits</span><span class="p">(</span><span class="n">y</span> <span class="o">=</span> <span class="m">0</span><span class="p">))}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">x</span> <span class="o">&lt;-</span> <span class="m">100</span>
+<span class="n">y</span> <span class="o">&lt;-</span> <span class="m">0.5</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="nf">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">3</span><span class="p">)){</span>
+  <span class="n">x</span> <span class="o">&lt;-</span> <span class="n">x</span> <span class="o">*</span> <span class="m">10</span>
+  <span class="n">y</span> <span class="o">&lt;-</span> <span class="n">y</span> <span class="o">*</span> <span class="m">10</span>
+  <span class="nf">assign</span><span class="p">(</span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;plot&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">),</span> <span class="nf">test_group_by</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="n">x</span> <span class="o">&lt;-</span> <span class="m">100</span>
+<span class="n">y</span> <span class="o">&lt;-</span> <span class="m">50</span>
+<span class="nf">for </span><span class="p">(</span><span class="n">i</span> <span class="n">in</span> <span class="nf">seq</span><span class="p">(</span><span class="m">4</span><span class="p">,</span> <span class="m">6</span><span class="p">)){</span>
+  <span class="n">x</span> <span class="o">&lt;-</span> <span class="n">x</span> <span class="o">*</span> <span class="m">10</span>
+  <span class="n">y</span> <span class="o">&lt;-</span> <span class="n">y</span> <span class="o">*</span> <span class="m">10</span>
+  <span class="nf">assign</span><span class="p">(</span><span class="nf">paste0</span><span class="p">(</span><span class="s">&quot;plot&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">),</span> <span class="nf">test_group_by</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="nf">library</span><span class="p">(</span><span class="n">gridExtra</span><span class="p">)</span>
+<span class="nf">grid.arrange</span><span class="p">(</span><span class="n">plot1</span><span class="p">,</span> <span class="n">plot4</span><span class="p">,</span> <span class="n">plot2</span><span class="p">,</span> <span class="n">plot5</span><span class="p">,</span> <span class="n">plot3</span><span class="p">,</span> <span class="n">plot6</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="m">2</span><span class="p">,</span> <span class="n">heights</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">14</span><span class="p">,</span> <span class="m">14</span><span class="p">,</span> <span class="m">14</span><span class="p">))</span>
+</code></pre></div>
+
+<p><img alt="Pelican" src="../images/output_18_1.png"></p>
+<p>On constate en effet une moins bonne performance en termes de vitesse d'exécution des instructions utilisant le verbe <code>across()</code>. Les différences sont surtout marquées dans le cas où il y a beaucoup de groupes par rapport au nombre de lignes (colonne de droite) et ce quelque soit le nombre de lignes. Elles sont moins importantes dans le cas où il y a peu de groupes par rapport au nombre de lignes (colonne de gauche). </p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Fonctionnement de across() dans dplyr&amp;url=/fonctionnement-de-across-dans-dplyr.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/fonctionnement-de-across-dans-dplyr.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=/fonctionnement-de-across-dans-dplyr.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="/tag/dplyr.html">dplyr</a><a href="/tag/across.html">across</a><a href="/tag/benchmark.html">benchmark</a><a href="/tag/rstats.html">rstats</a><a href="/tag/r.html">R</a><a href="/tag/tidyverse.html">tidyverse</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+          <span class="credits-theme">Blog réalisé par les fondateurs de Statoscop et publié avec
+            <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a>
+          </span>
+          <span class="credits-software">
+            Thème <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a>
+          </span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+</body>
+</html>
