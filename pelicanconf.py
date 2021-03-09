@@ -3,7 +3,7 @@
 
 AUTHOR = 'Statoscop'
 SITENAME = 'Le blog'
-SITEURL = ''
+SITEURL = 'https://statoscop.github.io/blog'
 
 PATH = 'content'
 STATIC_PATHS = ['images', 'static']
