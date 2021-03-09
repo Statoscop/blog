@@ -692,7 +692,8 @@ pre {
     background: #faf9f7;
     border: 1px solid #e5e4e1;
     box-sizing: border-box
-}
+} 
+
 
 pre .lines {
     position: absolute;
@@ -719,8 +720,8 @@ pre code,
 pre tt {
     position: static;
     top: auto;
-    margin: -1.333em -1.333em -1.333em 1.333em;
-    padding: 1.333em;
+    margin: -1em -1em -1em 0em;
+    padding: 0em; 
     overflow: scroll;
     font-size: 0.75em;
     line-height: 2em;
@@ -729,6 +730,7 @@ pre tt {
     border: none;
     vertical-align: inherit
 }
+
 
 kbd {
     display: inline-block;
@@ -1981,3 +1983,13 @@ img {
     background-color: #4CAF50;
     color: white;
 }
+/*
+code{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+  }
+  */
