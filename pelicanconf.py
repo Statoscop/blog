@@ -48,7 +48,7 @@ MARKDOWN = {
   'output_format': 'html5',
 }
 
-COLOR_SCHEME_CSS = 'tomorrow.css'
+COLOR_SCHEME_CSS = 'github.css'
 
 
 
