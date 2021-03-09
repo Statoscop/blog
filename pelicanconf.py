@@ -3,7 +3,7 @@
 
 AUTHOR = 'Statoscop'
 SITENAME = 'Le blog'
-SITEURL = 'https://statoscop.github.io/blog'
+SITEURL = ''
 
 PATH = 'content'
 STATIC_PATHS = ['images', 'static']
@@ -47,6 +47,9 @@ MARKDOWN = {
   },
   'output_format': 'html5',
 }
+
+COLOR_SCHEME_CSS = 'tomorrow.css'
+
 
 
 
