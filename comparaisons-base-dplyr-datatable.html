@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Le blog de Statoscop</title>
+  <link rel="icon" type="image/x-icon" href="https://statoscop.github.io/blog/theme/images/favicon.ico" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://statoscop.github.io/blog/comparaisons-base-dplyr-datatable.html" rel="canonical" />
+  <!-- Feed -->
+        <link href="https://statoscop.github.io/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
+          <link href="https://statoscop.github.io/blog/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
+
+  <link href="https://statoscop.github.io/blog/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://statoscop.github.io/blog/theme/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude">
+
+    <meta name="author" content="Antoine Sireyjol">
+
+    <meta name="tags" content="R">
+    <meta name="tags" content="Rstats">
+    <meta name="tags" content="dplyr">
+    <meta name="tags" content="data.table">
+    <meta name="tags" content="benchmark">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="Comparaisons base R, dplyr et data.table"/>
+<meta property="og:description" content="Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://statoscop.github.io/blog/comparaisons-base-dplyr-datatable.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2021-03-15 00:00:00+01:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://statoscop.github.io/blog/author/antoine-sireyjol.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="R"/>
+<meta property="article:tag" content="Rstats"/>
+<meta property="article:tag" content="dplyr"/>
+<meta property="article:tag" content="data.table"/>
+<meta property="article:tag" content="benchmark"/>
+<meta property="og:image" content="https://statoscop.github.io/blog/theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Comparaisons base R, dplyr et data.table",
+  "headline": "Comparaisons base R, dplyr et data.table",
+  "datePublished": "2021-03-15 00:00:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Antoine Sireyjol",
+    "url": "https://statoscop.github.io/blog/author/antoine-sireyjol.html"
+  },
+  "image": "https://statoscop.github.io/blog/theme/images/post-bg.jpg",
+  "url": "https://statoscop.github.io/blog/comparaisons-base-dplyr-datatable.html",
+  "description": "Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+          <span class="blog-logo">
+            <a href="https://statoscop.fr"><img src="https://statoscop.github.io/blog/theme/images/logo-statoscop.png" alt="Blog Logo" /></a>
+          </span>
+          <span id="menu-button" class="nav-button">
+            <a href="https://statoscop.github.io/blog">Retour à l'accueil du blog</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Comparaisons base R, dplyr et data.table</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://statoscop.github.io/blog/author/antoine-sireyjol.html">Antoine Sireyjol</a>
+            | <time datetime="lun. 15 mars 2021">lun. 15 mars 2021</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>Cet article est une mise à jour de l'article du <a href="https://antoinesir.rbind.io/post/comparaisons-base-r-dplyr-data-table/">blog d'Antoine</a> réalisé en 2018. L'idée est de comparer les performances de trois alternatives dans R pour l'analyse de données :<br>
+- l'utilisation des seules fonctions de base R<br>
+- dplyr<br>
+- data.table  </p>
+<h1 id="rappels-sur-dplyr-et-datatable">Rappels sur dplyr et data.table</h1>
+<p>On rappelle ici les principales caractéristiques de ces packages mais pour se former à leur utilisation on peut se référer au <a href="https://teaching.slmc.fr/perf/presentation_handout.pdf">cours de perfectionnement de Martin Chevalier</a>. Pour une exploration de ce qu'englobe le <code>tidyverse</code> et notamment une présentation des commandes de <code>dplyr</code>, vous pouvez jeter un oeil à <a href="https://juba.github.io/tidyverse/index.html">l'introduction à R et au tidyverse</a> de J. Barnier. Enfin pour data.table, on trouve des informations utiles sur le cours <a href="http://larmarange.github.io/analyse-R/manipulations-avancees-avec-data-table.html">Manipulations avancée avec data.table</a> de J. Larmarange et on vous conseille l'excellent article <a href="https://atrebas.github.io/post/2020-06-17-datatable-introduction/">a gentle introduction to data.table</a>.  </p>
+<h2 id="dplyr-et-le-tidyverse">dplyr et le tidyverse</h2>
+<p>Le <code>tidyverse</code> (contraction de "tidy" et "universe") est un concept initié par Hadley Wickham, chef statisticien de RStudio. Il regroupe un ensemble de packages utiles au traitement statistique et au nettoyage de bases de données. On va s'intéresser ici presque seulement au package <code>dplyr</code> (dont les instructions seront appliquées aux <code>tibbles</code>, un format de data.frame issu du <code>tidyverse</code>), mais vous pouvez parcourir les packages proposés dans le tidyverse sur <a href="https://www.tidyverse.org/">le site officiel</a>.  </p>
+<p><code>dplyr</code> propose un ensemble d'opérations de traitement de données sous une syntaxe différente de celle utilisée dans les fonctions de base de R. Ce langage présente le double avantage d'être à la fois lisible pour quelqu'un habitué aux langages tels que SAS ou SQL et de proposer des fonctions optimisées qui présentent de bonnes performances en termes de temps d'exécution. La grammaire <code>dplyr</code> s'appuie en effet sur des fonctions au nom explicite :  </p>
+<ul>
+<li><code>mutate(data, newvar1=fonction(var1,var2...))</code> et <code>transmute(data, newvar1=fonction(var1,var2...))</code> créent de nouvelles variables</li>
+<li><code>filter(data, condition)</code> sélectionne au sein d'une table certaines observations, à la manière de <code>where</code> dans SAS.</li>
+<li><code>arrange(data, var1, descending var2,...)</code> trie une base selon une ou plusieurs variables (l'équivalent d'une <code>proc sort</code>).</li>
+<li><code>select(data, var1 : varX)</code> sélectionne certaines variables dans une base, à la manière de <code>keep</code> dans SAS. </li>
+<li><code>summarise(data, newvar1=mean(var1), newvar2=sum(var2))</code> réalise toute sorte d'opérations statistiques sur une table.</li>
+<li><code>group_by(data, var)</code> regroupe une table par une variable</li>
+<li>et bien d'autres...  </li>
+</ul>
+<p>Un aspect pratique de ce langage est que toutes ces opérations peuvent être chaînées à l'aide de l'opérateur <code>%&gt;%</code> ("pipe" en anglais, issu du package <code>magrittr</code>) dont la syntaxe est la suivante : <code>data %&gt;% fonction(...)</code> est équivalent à <code>fonction(data, ...)</code>. Cette syntaxe permet de chaîner un grand nombre d'opérations sur une base commune, en limitant le nombre de fois où l'on écrit des tables intermédiaires tout en conservant une grande lisibilité du code. Ce petit exemple vous en convaincra peut-être :  </p>
+<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="c1"># on crée un data frame avec 100 lignes, </span>
+<span class="c1"># chaque individu appartenant à un des 50 groupes</span>
+<span class="n">df</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span><span class="n">id1</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">100</span><span class="p">),</span> <span class="n">idgpe</span> <span class="o">=</span> <span class="nf">sample</span><span class="p">(</span><span class="m">50</span><span class="p">),</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+
+<span class="c1"># on y applique les instructions de dplyr</span>
+<span class="n">df</span> <span class="o">%&gt;%</span> <span class="nf">as_tibble</span><span class="p">()</span> <span class="o">%&gt;%</span> <span class="nf">mutate</span><span class="p">(</span><span class="n">var</span> <span class="o">=</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">100</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+  <span class="nf">group_by</span><span class="p">(</span><span class="n">idgpe</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">summarise</span><span class="p">(</span><span class="n">var_mean</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">var</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">output_tibble</span>
+</code></pre></div>
+
+<p>Un regard peu habitué contesterait peut-être l'aspect très lisible de l'instruction, mais ça l'est réellement. Le déroulé est le suivant :  </p>
+<p>1) on transforme notre data.frame en tibble (pour rappel : format optimisé de data.frame pour dplyr) avec <code>as_tibble</code><br>
+2) on crée une variable <code>var</code> avec <code>mutate</code><br>
+3) on agrège par  <code>idgpe</code> avec <code>group_by</code> <br>
+4) on calcule la moyenne de <code>var</code> avec <code>summarise</code>, que l'on stocke dans <code>var_mean</code>. Comme cette instruction suit un group_by, elle est réalisée à l'intérieur de chaque groupe (défini par <code>idgpe</code>), sinon elle aurait été réalisé sur l'ensemble de la table.    </p>
+<p>Tout cela est stocké dans une table output_tibble, qui est ainsi un tibble agrégé par <code>idgpe</code> et qui a donc 50 lignes. L'intérêt de ce chaînage est qu'il permet une économie de code et d'écriture d'éventuelles tables intermédiaires.  </p>
+<h2 id="datatable">Data.table</h2>
+<p>Le package <code>data.table</code> ne prétend pas, contrairement au <code>tidyverse</code>, proposer une syntaxe concurrente à base R mais enrichir celle-ci. Il est axé autour d'un nouveau format d'objet, le data.table, qui est un type de data.frame qui permet une utilisation optimisée de l'opérateur <code>[</code>.<br>
+Tout data.frame peut être converti en data.table grâce à la fonction <code>as.data.table</code>, ou, de manière plus optimale pour l'utilisation de la mémoire, grâce à la fonction <code>setDT</code> qui permet de directement transformer la nature de l'objet sans avoir à en écrire un autre. Il est important d'avoir en tête qu'un data.frame converti en data.table conserve les caractéristiques d'un data.frame. Cependant, l'opérateur <code>[</code> appliqué au data.table change de signification et devient :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">DT</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">by</span><span class="p">]</span>
+</code></pre></div>
+
+<p>Avec <code>i</code> qui permet de sélectionner des observations (sans avoir besoin de répéter le nom de la base dans laquelle on se trouve), <code>j</code> qui permet de créer ou sélectionner des variables et <code>by</code> de regrouper les traitement selon les modalités d'une variable définie. Comme dans <code>dplyr</code>, il est possible de chaîner les opérations réalisées comme le montre l'exemple suivant, qui reprend le même cas de figure que celui illustrant le package <code>dplyr</code> :  </p>
+<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span> 
+<span class="c1"># on convertit notre data frame précédemment créé en data.table</span>
+<span class="n">dt</span> <span class="o">&lt;-</span> <span class="nf">as.data.table</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1"># on y applique les même instructions</span>
+<span class="n">dt</span><span class="p">[,</span> <span class="nf">list</span><span class="p">(</span><span class="n">var_mean</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="m">100</span><span class="p">))),</span> <span class="n">by</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">idgpe</span> <span class="o">=</span> <span class="n">idgpe</span><span class="p">)]</span> <span class="o">-&gt;</span> <span class="n">output_dt</span>
+</code></pre></div>
+
+<p>Le fait de renseigner les variables au sein de <code>list()</code> permet d'avoir une table en sortie au niveau de <code>idgpe</code> (donc 50 observations), sans cela la variable est bien moyennée par groupe mais la table en sortie est toujours au niveau <code>id1</code> (100 observations).   </p>
+<h2 id="vitesses-dexecution">Vitesses d'exécution</h2>
+<p>Voilà donc pour les présentations! Allez, on montre le résultat d'un petit <code>microbenchmark</code> des deux juste pour voir : </p>
+<table class="dataframe">
+<caption>A data.frame: 2 × 8</caption>
+<thead>
+    <tr><th scope=col>expr</th><th scope=col>min</th><th scope=col>lq</th><th scope=col>mean</th><th scope=col>median</th><th scope=col>uq</th><th scope=col>max</th><th scope=col>neval</th></tr>
+    <tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>dplyr     </td><td>7.648986</td><td>9.79270</td><td>13.23297</td><td>11.710638</td><td>14.367579</td><td>37.122657</td><td>100</td></tr>
+    <tr><td>data.table</td><td>1.123516</td><td>1.40644</td><td> 2.13729</td><td> 1.773149</td><td> 2.546176</td><td> 7.915053</td><td>100</td></tr>
+</tbody>
+</table>
+
+<p>Sur cet exemple, on voit un avantage clair à data.table! Mais on est sur une toute petite table en entrée. On va essayer de se rapprocher de cas plus concrets en s'intéressant à un exemple sur des bases plus importantes.  </p>
+<h1 id="comparaisons-sur-une-etude-de-cas-simple">Comparaisons sur une étude de cas simple</h1>
+<p>Les avantages et inconvénients de ces deux packages sont à l'origine de nombreux débats. Vous pouvez vous en convaincre en suivant <a href="https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly">cette discussion sur stackoverflow</a>. On peut quand même dégager deux compromis :   </p>
+<ul>
+<li>Le choix de l'un ou l'autre des packages dépend beaucoup de ce que l'on va en faire (types d'analyses, taille des données, profils des utilisateurs du code...).   </li>
+<li>Les deux packages sont plus intéressants que base R pour l'analyse de données, que ce soit en termes de facilité d'écriture ou de performances.   </li>
+</ul>
+<p>Pour ce deuxième point, on va essayer de s'en convaincre ensemble avec ce petit exemple.</p>
+<h2 id="notre-etude-de-cas">Notre étude de cas</h2>
+<p>Pour cet exemple, on utilise les données du package de Hadley Wickham que l'on trouve dans <code>nycflights13</code>. En particulier, la base <code>flights</code> donne toutes les heures de départ et d'arrivée selon les aéroports de départ et d'arrivée ainsi que les retards au départ et à l'arrivée. La base <code>weather</code> donne elle des indications météo, heure par heure, dans chaque aéroport. <br>
+Commençons par charger nos packages (n'oubliez pas de faire <code>install.packages("nom_pck")</code> avant si vous ne l'avez jamais fait) et nos données : </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Les packages nécessaires</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span> <span class="c1"># Regroupe différents packages, voir https://www.tidyverse.org/ </span>
+<span class="nf">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">microbenchmark</span><span class="p">)</span> <span class="c1"># Pour les calculs de vitesse d&#39;exécution</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">nycflights13</span><span class="p">)</span> <span class="c1"># Pour les données</span>
+
+<span class="c1"># data.table pour tests avec data.table</span>
+<span class="n">flightsdt</span> <span class="o">&lt;-</span> <span class="nf">as.data.table</span><span class="p">(</span><span class="n">flights</span><span class="p">)</span>
+<span class="n">weatherdt</span> <span class="o">&lt;-</span> <span class="nf">as.data.table</span><span class="p">(</span><span class="n">weather</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="moyenne-des-retards-et-fusion-des-tables">Moyenne des retards et fusion des tables</h2>
+<p>Un rapide examen des bases vous montre que la première étape avant toute analyse est comme souvent de regrouper les éléments de flights par heure et aéroport de départ pour pouvoir les fusionner avec la table weather, qui donnent les indications météo minute par minute. On écrit cette instruction de  3 manières différentes :  </p>
+<p><strong>En base R</strong>  </p>
+<div class="highlight"><pre><span></span><code><span class="n">flights_time_hour</span> <span class="o">&lt;-</span> <span class="nf">aggregate.data.frame</span><span class="p">(</span>
+    <span class="nf">list</span><span class="p">(</span><span class="n">arr_delay</span> <span class="o">=</span> <span class="n">flights</span><span class="o">$</span><span class="n">arr_delay</span><span class="p">,</span> 
+         <span class="n">dep_delay</span> <span class="o">=</span> <span class="n">flights</span><span class="o">$</span><span class="n">dep_delay</span><span class="p">),</span> 
+    <span class="nf">list</span><span class="p">(</span><span class="n">time_hour</span> <span class="o">=</span> <span class="n">flights</span><span class="o">$</span><span class="n">time_hour</span><span class="p">,</span> 
+         <span class="n">origin</span> <span class="o">=</span> <span class="n">flights</span><span class="o">$</span><span class="n">origin</span><span class="p">),</span> 
+    <span class="n">mean</span><span class="p">)</span>
+<span class="n">output_base</span> <span class="o">&lt;-</span> <span class="nf">merge</span><span class="p">(</span><span class="n">weather</span><span class="p">,</span> <span class="n">flights_time_hour</span><span class="p">,</span> 
+                     <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;time_hour&quot;</span><span class="p">,</span> <span class="s">&quot;origin&quot;</span><span class="p">),</span> 
+                     <span class="n">sort</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>En dplyr</strong>  </p>
+<div class="highlight"><pre><span></span><code><span class="n">flights</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">time_hour</span><span class="p">,</span> <span class="n">origin</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+  <span class="nf">summarise</span><span class="p">(</span><span class="n">arr_delay</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">arr_delay</span><span class="p">),</span>
+            <span class="n">dep_delay</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">dep_delay</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+  <span class="nf">ungroup</span><span class="p">()</span> <span class="o">%&gt;%</span> 
+  <span class="nf">inner_join</span><span class="p">(</span><span class="n">weather</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;time_hour&quot;</span><span class="p">,</span> <span class="s">&quot;origin&quot;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">output_dplyr</span> 
+</code></pre></div>
+
+<p><strong>En data.table</strong>  </p>
+<div class="highlight"><pre><span></span><code><span class="n">output_DT</span> <span class="o">&lt;-</span> <span class="nf">merge</span><span class="p">(</span><span class="n">flightsdt</span><span class="p">[,</span> <span class="nf">list</span><span class="p">(</span><span class="n">arr_perc_delay</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">arr_delay</span><span class="p">),</span>
+                                    <span class="n">dep_perc_delay</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">dep_delay</span><span class="p">)),</span> 
+                             <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;time_hour&quot;</span><span class="p">,</span> <span class="s">&quot;origin&quot;</span><span class="p">)],</span> 
+                   <span class="n">weatherdt</span><span class="p">,</span> 
+                   <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;time_hour&quot;</span><span class="p">,</span> <span class="s">&quot;origin&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<p>On utilise la fonction <code>merge</code> plutôt que <code>DT1[DT2, on = c("time_hour", "origin"), nomatch = 0]</code> car on a constaté qu'elle était plus rapide, conformément à ce que montre bien cet <a href="https://jozefhajnala.gitlab.io/r/r006-merge/">article du Jozef's Rblog</a>.  </p>
+<h2 id="comparaisons-des-vitesses-dexecution">Comparaisons des vitesses d'exécution</h2>
+<p>Chacun jugera de la lisibilité de chacune de ces instructions, qui font toutes la même chose, car c'est finalement assez subjectif. On donne ici les résultats d'un <code>microbenchmark</code> de ces instructions : </p>
+<table class="dataframe">
+<caption>A data.frame: 3 × 8</caption>
+<thead>
+    <tr><th scope=col>expr</th><th scope=col>min</th><th scope=col>lq</th><th scope=col>mean</th><th scope=col>median</th><th scope=col>uq</th><th scope=col>max</th><th scope=col>neval</th></tr>
+    <tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+</thead>
+<tbody>
+    <tr><td>Base </td><td>1136.85310</td><td>1182.33161</td><td>1396.52780</td><td>1392.25445</td><td>1559.42968</td><td>1750.10879</td><td>10</td></tr>
+    <tr><td>dplyr</td><td> 216.39137</td><td> 223.45642</td><td> 313.16457</td><td> 272.93173</td><td> 360.95388</td><td> 553.90233</td><td>10</td></tr>
+    <tr><td>DT   </td><td>  22.45729</td><td>  22.83487</td><td>  24.68264</td><td>  23.53482</td><td>  26.32068</td><td>  29.90679</td><td>10</td></tr>
+</tbody>
+</table>
+
+<p>Les résultats sont très nettement en faveur des packages <code>dplyr</code> et <code>data.table</code>. Ce dernier a davantage creusé l'écart que lors de la première version de ce billet. Sans doute existe-t-il des moyens de plus optimiser l'instruction en base R, mais là n'est pas vraiment la question. On voit qu'avec une syntaxe simple et lisible, <code>dplyr</code> et <code>data.table</code> font beaucoup mieux que les fonctions de base R. </p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Comparaisons base R, dplyr et data.table&amp;url=https://statoscop.github.io/blog/comparaisons-base-dplyr-datatable.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://statoscop.github.io/blog/comparaisons-base-dplyr-datatable.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=https://statoscop.github.io/blog/comparaisons-base-dplyr-datatable.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://statoscop.github.io/blog/tag/r.html">R</a><a href="https://statoscop.github.io/blog/tag/rstats.html">Rstats</a><a href="https://statoscop.github.io/blog/tag/dplyr.html">dplyr</a><a href="https://statoscop.github.io/blog/tag/datatable.html">data.table</a><a href="https://statoscop.github.io/blog/tag/benchmark.html">benchmark</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+          <span class="credits-theme">Blog réalisé par les fondateurs de Statoscop et publié avec
+            <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a>
+          </span>
+          <span class="credits-software">
+            Thème <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a>
+          </span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://statoscop.github.io/blog/theme/js/script.js"></script>
+
+</body>
+</html>
