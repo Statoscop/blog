@@ -904,7 +904,7 @@ img {
     font-weight: 700;
     font-size: 2em;
     line-height: 1em;
-    color: rgb(34, 50, 80);
+    color: rgb(16, 67, 139);
     text-decoration: none
 }
 
@@ -996,12 +996,12 @@ img {
     height: 1.5em;
     margin-bottom: 1em;
     padding: 0.5em 1.25em;
-    border: 1px solid rgb(26, 68, 145);
+    border: 1px solid rgb(52,107,179);
     font-family: 'Fira Sans', sans-serif;
     font-size: 0.75em;
     line-height: 1.666em;
     text-shadow: none;
-    color: rgb(26, 68, 145);
+    color: rgb(52,107,179);
     cursor: pointer;
     background: #fff;
     transition: color, border-color ease 0.3s;
@@ -1010,8 +1010,8 @@ img {
 
 .nav-button a:hover,
 .nav-button a:focus {
-    color: #238b09;
-    border-color: #238b09
+    color: rgb(0,152,117);
+    border-color: rgb(0,152,117)
 }
 
 .cover-active .nav-button a {
@@ -1079,7 +1079,7 @@ img {
 #menu .close-button:hover,
 #menu .close-button:focus {
     transform: rotate(180deg);
-    border-color: rgb(26, 68, 145)
+    border-color: rgb(52,107,179)
 }
 
 #menu .close-button:after,
@@ -1099,7 +1099,7 @@ img {
 #menu .close-button:hover:before,
 #menu .close-button:focus:after,
 #menu .close-button:focus:before {
-    background: rgb(26, 68, 145)
+    background: rgb(52,107,179)
 }
 
 #menu .close-button:after {
@@ -1161,7 +1161,7 @@ img {
     height: 100%;
     left: 0;
     top: 0;
-    background: rgb(26, 68, 145)
+    background: rgb(52,107,179)
 }
 
 #menu li a {
@@ -1210,8 +1210,8 @@ img {
     display: block;
     width: 0;
     height: 1px;
-    background: rgb(26, 68, 145);
-    box-shadow: 0 0 1px rgb(26, 68, 145), 0 0 3px rgb(26, 68, 145)
+    background: rgb(52,107,179);
+    box-shadow: 0 0 1px rgb(52,107,179), 0 0 3px rgb(52,107,179)
 }
 
 #footer {
@@ -1388,7 +1388,7 @@ img {
     line-height: 1em;
     font-weight: 700;
     text-indent: -1px;
-    color: rgb(26, 68, 145)
+    color: rgb(52,107,179)
 }
 
 .post-title a {
@@ -1399,8 +1399,8 @@ img {
 
 .post-title a:hover,
 .post-title a:focus {
-    color: #238b09;
-    border-color: #238b09
+    color: rgb(0,152,117);
+    border-color: rgb(0,152,117)
 }
 
 .has-cover .post-title {
@@ -1445,12 +1445,12 @@ img {
 }
 
 .post-content a {
-    border-bottom: 1px solid rgb(26, 68, 145)
+    border-bottom: 1px solid rgb(52,107,179)
 }
 
 .post-content a:hover,
 .post-content a:focus {
-    color: rgb(26, 68, 145)
+    color: rgb(52,107,179)
 }
 
 .post-content img,
@@ -1523,13 +1523,13 @@ img {
     margin: 0 0.333em 0.666em 0;
     padding: 0.575em 1em;
     background: #fff;
-    border: 1px solid rgb(26, 68, 145);
+    border: 1px solid rgb(52,107,179);
     font-size: 0.75em;
     font-weight: 500;
     line-height: 1.333em;
     text-align: center;
     text-decoration: none;
-    color: rgb(26, 68, 145);
+    color: rgb(52,107,179);
     border-radius: 2em;
     transition: all ease 0.3s;
     box-sizing: border-box
@@ -1537,7 +1537,7 @@ img {
 
 .post-tags a:hover,
 .post-tags a:focus {
-    background: #238b09;
+    background: rgb(0,152,117);
     color: #fff
 }
 
@@ -1641,8 +1641,8 @@ img {
 
 .post-comments-activate:hover,
 .post-comments-activate:focus {
-    color: rgb(26, 68, 145);
-    border-color: rgb(26, 68, 145)
+    color: rgb(52,107,179);
+    border-color: rgb(52,107,179)
 }
 
 .activated .post-comments-activate {
@@ -1717,7 +1717,7 @@ img {
 
 .post-nav a:hover i,
 .post-nav a:focus i {
-    color: rgb(26, 68, 145)
+    color: rgb(52,107,179)
 }
 
 .post-nav-title {
@@ -1782,8 +1782,8 @@ img {
 
 .pagination a:hover,
 .pagination a:focus {
-    color: rgb(26, 68, 145);
-    border-color: rgb(26, 68, 145)
+    color: rgb(52,107,179);
+    border-color: rgb(52,107,179)
 }
 
 .pagination .pagination-label {
