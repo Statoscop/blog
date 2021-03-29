@@ -8,7 +8,7 @@
 
 
   <title>Le blog de Statoscop</title>
-  <link rel="icon" type="image/x-icon" href="https://statoscop.github.io/blog/theme/images/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="https://statoscop.github.io/blog/themes/statoscop/static/images/favicon-v1.ico" />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,10 +19,10 @@
         <link href="https://statoscop.github.io/blog/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
           <link href="https://statoscop.github.io/blog/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
 
-  <link href="https://statoscop.github.io/blog/theme/css/style.css" type="text/css" rel="stylesheet" />
+  <link href="https://statoscop.github.io/blog/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />
 
   <!-- Code highlight color scheme -->
-      <link href="https://statoscop.github.io/blog/theme/css/code_blocks/github.css" rel="stylesheet">
+      <link href="https://statoscop.github.io/blog/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
 
   <!-- Custom fonts -->
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
@@ -39,7 +39,7 @@
 
     <meta name="description" content="Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude">
 
-    <meta name="author" content="Antoine Sireyjol">
+    <meta name="author" content="Antoine">
 
     <meta name="tags" content="R">
     <meta name="tags" content="Rstats">
@@ -57,16 +57,16 @@
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="https://statoscop.github.io/blog/comparaisons-base-dplyr-datatable.html"/>
 <meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2021-03-15 00:00:00+01:00"/>
+<meta property="article:published_time" content="2021-03-30 00:00:00+02:00"/>
 <meta property="article:modified_time" content=""/>
-<meta property="article:author" content="https://statoscop.github.io/blog/author/antoine-sireyjol.html">
+<meta property="article:author" content="https://statoscop.github.io/blog/author/antoine.html">
 <meta property="article:section" content="R"/>
 <meta property="article:tag" content="R"/>
 <meta property="article:tag" content="Rstats"/>
 <meta property="article:tag" content="dplyr"/>
 <meta property="article:tag" content="data.table"/>
 <meta property="article:tag" content="benchmark"/>
-<meta property="og:image" content="https://statoscop.github.io/blog/theme/images/post-bg.jpg">
+<meta property="og:image" content="https://statoscop.github.io/blog/themes/statoscop/static/images/post-bg.jpg">
 
 <!-- Twitter Card -->
 
@@ -76,14 +76,14 @@
   "@type": "Article",
   "name": "Comparaisons base R, dplyr et data.table",
   "headline": "Comparaisons base R, dplyr et data.table",
-  "datePublished": "2021-03-15 00:00:00+01:00",
+  "datePublished": "2021-03-30 00:00:00+02:00",
   "dateModified": "",
   "author": {
     "@type": "Person",
-    "name": "Antoine Sireyjol",
-    "url": "https://statoscop.github.io/blog/author/antoine-sireyjol.html"
+    "name": "Antoine",
+    "url": "https://statoscop.github.io/blog/author/antoine.html"
   },
-  "image": "https://statoscop.github.io/blog/theme/images/post-bg.jpg",
+  "image": "https://statoscop.github.io/blog/themes/statoscop/static/images/post-bg.jpg",
   "url": "https://statoscop.github.io/blog/comparaisons-base-dplyr-datatable.html",
   "description": "Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude"
 }
@@ -113,7 +113,7 @@
       <div class="inner">
         <nav id="navigation">
           <span class="blog-logo">
-            <a href="https://statoscop.fr"><img src="https://statoscop.github.io/blog/theme/images/logo-statoscop.png" alt="Blog Logo" /></a>
+            <a href="https://statoscop.fr"><img src="https://statoscop.github.io/blog/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Blog Logo" /></a>
           </span>
           <span id="menu-button" class="nav-button">
             <a href="https://statoscop.github.io/blog">Retour à l'accueil du blog</a>
@@ -122,8 +122,8 @@
         <h1 class="post-title">Comparaisons base R, dplyr et data.table</h1>
         <!-- TODO : Proper class for headline -->
         <span class="post-meta">
-                <a href="https://statoscop.github.io/blog/author/antoine-sireyjol.html">Antoine Sireyjol</a>
-            | <time datetime="lun. 15 mars 2021">lun. 15 mars 2021</time>
+                <a href="https://statoscop.github.io/blog/author/antoine.html">Antoine</a>
+            | <time datetime="mar. 30 mars 2021">mar. 30 mars 2021</time>
         </span>
         <!-- TODO : Modified check -->
       </div>
@@ -270,7 +270,7 @@ Commençons par charger nos packages (n'oubliez pas de faire <code>install.packa
 </tbody>
 </table>
 
-<p>Les résultats sont très nettement en faveur des packages <code>dplyr</code> et <code>data.table</code>. Ce dernier a davantage creusé l'écart que lors de la première version de ce billet. Sans doute existe-t-il des moyens de plus optimiser l'instruction en base R, mais là n'est pas vraiment la question. On voit qu'avec une syntaxe simple et lisible, <code>dplyr</code> et <code>data.table</code> font beaucoup mieux que les fonctions de base R. </p>
+<p>Les résultats sont très nettement en faveur des packages <code>dplyr</code> et <code>data.table</code>. Ce dernier est même assez largement le plus rapide, son avantage s'étant accru depuis la première version de cette article. Sans doute existe-t-il des moyens de plus optimiser l'instruction en base R, mais là n'est pas vraiment la question. On voit qu'avec une syntaxe simple et lisible, <code>dplyr</code> et <code>data.table</code> font beaucoup mieux en termes de vitesse d'exécution que les fonctions de base R. </p>
             </section>
 
             <section class="post-info">
@@ -321,7 +321,7 @@ Commençons par charger nos packages (n'oubliez pas de faire <code>install.packa
   </section>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="https://statoscop.github.io/blog/theme/js/script.js"></script>
+  <script type="text/javascript" src="https://statoscop.github.io/blog/themes/statoscop/static/js/script.js"></script>
 
 </body>
 </html>
