@@ -1,6 +1,6 @@
 Title: Comparaisons base R, dplyr et data.table
-Author: Antoine Sireyjol
-Date: '2021-03-15'
+Author: Antoine
+Date: '2021-03-30'
 Slug: comparaisons-base-dplyr-datatable
 Category: R
 Tags: R, Rstats, dplyr, data.table, benchmark
@@ -172,5 +172,5 @@ Chacun jugera de la lisibilité de chacune de ces instructions, qui font toutes 
 </table>
 
 
-Les résultats sont très nettement en faveur des packages `dplyr` et `data.table`. Ce dernier a davantage creusé l'écart que lors de la première version de ce billet. Sans doute existe-t-il des moyens de plus optimiser l'instruction en base R, mais là n'est pas vraiment la question. On voit qu'avec une syntaxe simple et lisible, `dplyr` et `data.table` font beaucoup mieux que les fonctions de base R. 
+Les résultats sont très nettement en faveur des packages `dplyr` et `data.table`. Ce dernier est même assez largement le plus rapide, son avantage s'étant accru depuis la première version de cette article. Sans doute existe-t-il des moyens de plus optimiser l'instruction en base R, mais là n'est pas vraiment la question. On voit qu'avec une syntaxe simple et lisible, `dplyr` et `data.table` font beaucoup mieux en termes de vitesse d'exécution que les fonctions de base R. 
 

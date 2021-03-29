@@ -35,6 +35,7 @@ DEFAULT_PAGINATION = 10
 #RELATIVE_URLS = True
 
 THEME = 'themes/statoscop'
+THEME_STATIC_DIR = 'themes/statoscop/static' 
 
 MARKDOWN = {
   'extension_configs': {
