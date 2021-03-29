@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    {% include 'partials/og.html' %}
+    {% include 'partials/jsonld.html' %}
+{% endblock %}
+
+{% block header %}
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="blog-header" {% if selected_cover or selected_color %}class="has-cover"{% endif %}>
+      <div class="inner">
+        <nav id="navigation">
+          <span class="blog-logo">
+            <a href="http://statoscop.fr"><img src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/images/logo-statoscop-v1.png" alt="Blog Logo" /></a>
+          </span>
+          <span id="menu-button" class="nav-button">
+            <a href="http://statoscop.fr">Retour sur le site</a>
+          </span>
+        </nav>
+        <h1 class="blog-name"><a href="{{ SITEURL }}/">Le blog de Statoscop</a></h1>
+        <span class="blog-description"><br>Quelques notes sur les méthodes de programmation et d'analyse de données</span>
+
+        {% if selected_cover %}
+          <div class="blog-cover cover" style="background-image: url('{{ selected_cover }}')">
+        {% elif selected_color %}
+          <div class="blog-cover cover" style="background-color: url('{{ selected_color }}')">
+        {% endif %}
+      </div>
+    </header>
+
+{% endblock header %}
+
+{% block content %}
+
+<!-- <span class="topnav">
+  <a href="https://statoscop.fr">Retour au site</a>
+  <a class="active" href="#">Le blog</a>
+</span> -->
+
+<div id="index" class="container">
+  <main class="content" role="main">
+    {% include "partials/loop.html" %}
+  </main>
+</div>
+{% endblock content %}
