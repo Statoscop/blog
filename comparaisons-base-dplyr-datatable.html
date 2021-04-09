@@ -191,14 +191,13 @@ Tout data.frame peut être converti en data.table grâce à la fonction <code>as
 <h2 id="vitesses-dexecution">Vitesses d'exécution</h2>
 <p>Voilà donc pour les présentations! Allez, on montre le résultat d'un petit <code>microbenchmark</code> des deux juste pour voir : </p>
 <table class="dataframe">
-<caption>A data.frame: 2 × 8</caption>
+<caption>Temps d'exécution en microsecondes</caption>
 <thead>
-    <tr><th scope=col>expr</th><th scope=col>min</th><th scope=col>lq</th><th scope=col>mean</th><th scope=col>median</th><th scope=col>uq</th><th scope=col>max</th><th scope=col>neval</th></tr>
-    <tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+    <tr><th scope=col>expr</th><th scope=col>lq</th><th scope=col>mean</th><th scope=col>uq</th><th scope=col>neval</th></tr>
 </thead>
 <tbody>
-    <tr><td>dplyr     </td><td>7.648986</td><td>9.79270</td><td>13.23297</td><td>11.710638</td><td>14.367579</td><td>37.122657</td><td>100</td></tr>
-    <tr><td>data.table</td><td>1.123516</td><td>1.40644</td><td> 2.13729</td><td> 1.773149</td><td> 2.546176</td><td> 7.915053</td><td>100</td></tr>
+    <tr><td>dplyr     </td><td>9.79270</td><td>13.23297</td><td>14.367579</td><td>100</td></tr>
+    <tr><td>data.table</td><td>1.40644</td><td> 2.13729</td><td> 2.546176</td><td>100</td></tr>
 </tbody>
 </table>
 
@@ -258,15 +257,14 @@ Commençons par charger nos packages (n'oubliez pas de faire <code>install.packa
 <h2 id="comparaisons-des-vitesses-dexecution">Comparaisons des vitesses d'exécution</h2>
 <p>Chacun jugera de la lisibilité de chacune de ces instructions, qui font toutes la même chose, car c'est finalement assez subjectif. On donne ici les résultats d'un <code>microbenchmark</code> de ces instructions : </p>
 <table class="dataframe">
-<caption>A data.frame: 3 × 8</caption>
+<caption>Temps d'exécution en millisecondes</caption>
 <thead>
-    <tr><th scope=col>expr</th><th scope=col>min</th><th scope=col>lq</th><th scope=col>mean</th><th scope=col>median</th><th scope=col>uq</th><th scope=col>max</th><th scope=col>neval</th></tr>
-    <tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+    <tr><th scope=col>expr</th><th scope=col>lq</th><th scope=col>mean</th><th scope=col>uq</th><th scope=col>neval</th></tr>
 </thead>
 <tbody>
-    <tr><td>Base </td><td>1136.85310</td><td>1182.33161</td><td>1396.52780</td><td>1392.25445</td><td>1559.42968</td><td>1750.10879</td><td>10</td></tr>
-    <tr><td>dplyr</td><td> 216.39137</td><td> 223.45642</td><td> 313.16457</td><td> 272.93173</td><td> 360.95388</td><td> 553.90233</td><td>10</td></tr>
-    <tr><td>DT   </td><td>  22.45729</td><td>  22.83487</td><td>  24.68264</td><td>  23.53482</td><td>  26.32068</td><td>  29.90679</td><td>10</td></tr>
+    <tr><td>Base </td><td>1182.33161</td><td>1396.52780</td><td>1559.42968</td><td>10</td></tr>
+    <tr><td>dplyr</td><td> 223.45642</td><td> 313.16457</td><td> 360.95388</td><td>10</td></tr>
+    <tr><td>DT   </td><td>  22.83487</td><td>  24.68264</td><td>  26.32068</td><td>10</td></tr>
 </tbody>
 </table>
 
@@ -277,12 +275,6 @@ Commençons par charger nos packages (n'oubliez pas de faire <code>install.packa
                 <div class="post-share">
                     <a class="twitter" href="https://twitter.com/share?text=Comparaisons base R, dplyr et data.table&amp;url=https://statoscop.github.io/blog/comparaisons-base-dplyr-datatable.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                     <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
-                    </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://statoscop.github.io/blog/comparaisons-base-dplyr-datatable.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
-                    </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=https://statoscop.github.io/blog/comparaisons-base-dplyr-datatable.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
                     </a>
                     <div class="clear"></div>
                 </div>

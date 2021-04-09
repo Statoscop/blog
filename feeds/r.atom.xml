@@ -53,14 +53,13 @@ Tout data.frame peut être converti en data.table grâce à la fonction &lt;code
 &lt;h2 id="vitesses-dexecution"&gt;Vitesses d'exécution&lt;/h2&gt;
 &lt;p&gt;Voilà donc pour les présentations! Allez, on montre le résultat d'un petit &lt;code&gt;microbenchmark&lt;/code&gt; des deux juste pour voir : &lt;/p&gt;
 &lt;table class="dataframe"&gt;
-&lt;caption&gt;A data.frame: 2 × 8&lt;/caption&gt;
+&lt;caption&gt;Temps d'exécution en microsecondes&lt;/caption&gt;
 &lt;thead&gt;
-    &lt;tr&gt;&lt;th scope=col&gt;expr&lt;/th&gt;&lt;th scope=col&gt;min&lt;/th&gt;&lt;th scope=col&gt;lq&lt;/th&gt;&lt;th scope=col&gt;mean&lt;/th&gt;&lt;th scope=col&gt;median&lt;/th&gt;&lt;th scope=col&gt;uq&lt;/th&gt;&lt;th scope=col&gt;max&lt;/th&gt;&lt;th scope=col&gt;neval&lt;/th&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;th scope=col&gt;&amp;lt;fct&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;expr&lt;/th&gt;&lt;th scope=col&gt;lq&lt;/th&gt;&lt;th scope=col&gt;mean&lt;/th&gt;&lt;th scope=col&gt;uq&lt;/th&gt;&lt;th scope=col&gt;neval&lt;/th&gt;&lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
-    &lt;tr&gt;&lt;td&gt;dplyr     &lt;/td&gt;&lt;td&gt;7.648986&lt;/td&gt;&lt;td&gt;9.79270&lt;/td&gt;&lt;td&gt;13.23297&lt;/td&gt;&lt;td&gt;11.710638&lt;/td&gt;&lt;td&gt;14.367579&lt;/td&gt;&lt;td&gt;37.122657&lt;/td&gt;&lt;td&gt;100&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;data.table&lt;/td&gt;&lt;td&gt;1.123516&lt;/td&gt;&lt;td&gt;1.40644&lt;/td&gt;&lt;td&gt; 2.13729&lt;/td&gt;&lt;td&gt; 1.773149&lt;/td&gt;&lt;td&gt; 2.546176&lt;/td&gt;&lt;td&gt; 7.915053&lt;/td&gt;&lt;td&gt;100&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;dplyr     &lt;/td&gt;&lt;td&gt;9.79270&lt;/td&gt;&lt;td&gt;13.23297&lt;/td&gt;&lt;td&gt;14.367579&lt;/td&gt;&lt;td&gt;100&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;data.table&lt;/td&gt;&lt;td&gt;1.40644&lt;/td&gt;&lt;td&gt; 2.13729&lt;/td&gt;&lt;td&gt; 2.546176&lt;/td&gt;&lt;td&gt;100&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 
@@ -120,15 +119,14 @@ Commençons par charger nos packages (n'oubliez pas de faire &lt;code&gt;install
 &lt;h2 id="comparaisons-des-vitesses-dexecution"&gt;Comparaisons des vitesses d'exécution&lt;/h2&gt;
 &lt;p&gt;Chacun jugera de la lisibilité de chacune de ces instructions, qui font toutes la même chose, car c'est finalement assez subjectif. On donne ici les résultats d'un &lt;code&gt;microbenchmark&lt;/code&gt; de ces instructions : &lt;/p&gt;
 &lt;table class="dataframe"&gt;
-&lt;caption&gt;A data.frame: 3 × 8&lt;/caption&gt;
+&lt;caption&gt;Temps d'exécution en millisecondes&lt;/caption&gt;
 &lt;thead&gt;
-    &lt;tr&gt;&lt;th scope=col&gt;expr&lt;/th&gt;&lt;th scope=col&gt;min&lt;/th&gt;&lt;th scope=col&gt;lq&lt;/th&gt;&lt;th scope=col&gt;mean&lt;/th&gt;&lt;th scope=col&gt;median&lt;/th&gt;&lt;th scope=col&gt;uq&lt;/th&gt;&lt;th scope=col&gt;max&lt;/th&gt;&lt;th scope=col&gt;neval&lt;/th&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;th scope=col&gt;&amp;lt;fct&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;th scope=col&gt;&amp;lt;dbl&amp;gt;&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;th scope=col&gt;expr&lt;/th&gt;&lt;th scope=col&gt;lq&lt;/th&gt;&lt;th scope=col&gt;mean&lt;/th&gt;&lt;th scope=col&gt;uq&lt;/th&gt;&lt;th scope=col&gt;neval&lt;/th&gt;&lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
-    &lt;tr&gt;&lt;td&gt;Base &lt;/td&gt;&lt;td&gt;1136.85310&lt;/td&gt;&lt;td&gt;1182.33161&lt;/td&gt;&lt;td&gt;1396.52780&lt;/td&gt;&lt;td&gt;1392.25445&lt;/td&gt;&lt;td&gt;1559.42968&lt;/td&gt;&lt;td&gt;1750.10879&lt;/td&gt;&lt;td&gt;10&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;dplyr&lt;/td&gt;&lt;td&gt; 216.39137&lt;/td&gt;&lt;td&gt; 223.45642&lt;/td&gt;&lt;td&gt; 313.16457&lt;/td&gt;&lt;td&gt; 272.93173&lt;/td&gt;&lt;td&gt; 360.95388&lt;/td&gt;&lt;td&gt; 553.90233&lt;/td&gt;&lt;td&gt;10&lt;/td&gt;&lt;/tr&gt;
-    &lt;tr&gt;&lt;td&gt;DT   &lt;/td&gt;&lt;td&gt;  22.45729&lt;/td&gt;&lt;td&gt;  22.83487&lt;/td&gt;&lt;td&gt;  24.68264&lt;/td&gt;&lt;td&gt;  23.53482&lt;/td&gt;&lt;td&gt;  26.32068&lt;/td&gt;&lt;td&gt;  29.90679&lt;/td&gt;&lt;td&gt;10&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Base &lt;/td&gt;&lt;td&gt;1182.33161&lt;/td&gt;&lt;td&gt;1396.52780&lt;/td&gt;&lt;td&gt;1559.42968&lt;/td&gt;&lt;td&gt;10&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;dplyr&lt;/td&gt;&lt;td&gt; 223.45642&lt;/td&gt;&lt;td&gt; 313.16457&lt;/td&gt;&lt;td&gt; 360.95388&lt;/td&gt;&lt;td&gt;10&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;DT   &lt;/td&gt;&lt;td&gt;  22.83487&lt;/td&gt;&lt;td&gt;  24.68264&lt;/td&gt;&lt;td&gt;  26.32068&lt;/td&gt;&lt;td&gt;10&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 
