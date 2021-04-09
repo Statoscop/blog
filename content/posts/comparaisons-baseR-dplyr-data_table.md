@@ -4,6 +4,7 @@ Date: '2021-03-30'
 Slug: comparaisons-base-dplyr-datatable
 Category: R
 Tags: R, Rstats, dplyr, data.table, benchmark
+Cover: images/cover_1.png
 Summary: Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude
 
 Cet article est une mise à jour de l'article du [blog d'Antoine](https://antoinesir.rbind.io/post/comparaisons-base-r-dplyr-data-table/) réalisé en 2018. L'idée est de comparer les performances de trois alternatives dans R pour l'analyse de données :  

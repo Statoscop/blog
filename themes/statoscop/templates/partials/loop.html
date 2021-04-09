@@ -32,9 +32,13 @@
                     {% elif article.summary %}
                         {{ article.summary|striptags|truncate(250) }}
                     {% endif %}
+                    {% if article.cover %}           
+                    <img src="{{ article.cover }}" alt = "" style = "width:50%">
+                    {% endif %} 
                     </p>
                 </section>
             {% endif %}
+
             {% include 'partials/comments_count.html' %}
             </div>
         </article>
