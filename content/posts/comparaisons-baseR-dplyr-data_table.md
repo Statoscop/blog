@@ -77,14 +77,13 @@ Le fait de renseigner les variables au sein de `list()` permet d'avoir une table
 Voilà donc pour les présentations! Allez, on montre le résultat d'un petit `microbenchmark` des deux juste pour voir : 
 
 <table class="dataframe">
-<caption>A data.frame: 2 × 8</caption>
+<caption>Temps d'exécution en microsecondes</caption>
 <thead>
-	<tr><th scope=col>expr</th><th scope=col>min</th><th scope=col>lq</th><th scope=col>mean</th><th scope=col>median</th><th scope=col>uq</th><th scope=col>max</th><th scope=col>neval</th></tr>
-	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+	<tr><th scope=col>expr</th><th scope=col>lq</th><th scope=col>mean</th><th scope=col>uq</th><th scope=col>neval</th></tr>
 </thead>
 <tbody>
-	<tr><td>dplyr     </td><td>7.648986</td><td>9.79270</td><td>13.23297</td><td>11.710638</td><td>14.367579</td><td>37.122657</td><td>100</td></tr>
-	<tr><td>data.table</td><td>1.123516</td><td>1.40644</td><td> 2.13729</td><td> 1.773149</td><td> 2.546176</td><td> 7.915053</td><td>100</td></tr>
+	<tr><td>dplyr     </td><td>9.79270</td><td>13.23297</td><td>14.367579</td><td>100</td></tr>
+	<tr><td>data.table</td><td>1.40644</td><td> 2.13729</td><td> 2.546176</td><td>100</td></tr>
 </tbody>
 </table>
 
@@ -159,15 +158,14 @@ On utilise la fonction `merge` plutôt que `DT1[DT2, on = c("time_hour", "origin
 Chacun jugera de la lisibilité de chacune de ces instructions, qui font toutes la même chose, car c'est finalement assez subjectif. On donne ici les résultats d'un `microbenchmark` de ces instructions : 
 
 <table class="dataframe">
-<caption>A data.frame: 3 × 8</caption>
+<caption>Temps d'exécution en millisecondes</caption>
 <thead>
-	<tr><th scope=col>expr</th><th scope=col>min</th><th scope=col>lq</th><th scope=col>mean</th><th scope=col>median</th><th scope=col>uq</th><th scope=col>max</th><th scope=col>neval</th></tr>
-	<tr><th scope=col>&lt;fct&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th><th scope=col>&lt;dbl&gt;</th></tr>
+	<tr><th scope=col>expr</th><th scope=col>lq</th><th scope=col>mean</th><th scope=col>uq</th><th scope=col>neval</th></tr>
 </thead>
 <tbody>
-	<tr><td>Base </td><td>1136.85310</td><td>1182.33161</td><td>1396.52780</td><td>1392.25445</td><td>1559.42968</td><td>1750.10879</td><td>10</td></tr>
-	<tr><td>dplyr</td><td> 216.39137</td><td> 223.45642</td><td> 313.16457</td><td> 272.93173</td><td> 360.95388</td><td> 553.90233</td><td>10</td></tr>
-	<tr><td>DT   </td><td>  22.45729</td><td>  22.83487</td><td>  24.68264</td><td>  23.53482</td><td>  26.32068</td><td>  29.90679</td><td>10</td></tr>
+	<tr><td>Base </td><td>1182.33161</td><td>1396.52780</td><td>1559.42968</td><td>10</td></tr>
+	<tr><td>dplyr</td><td> 223.45642</td><td> 313.16457</td><td> 360.95388</td><td>10</td></tr>
+	<tr><td>DT   </td><td>  22.83487</td><td>  24.68264</td><td>  26.32068</td><td>10</td></tr>
 </tbody>
 </table>
 
