@@ -1,5 +1,295 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog</title><link href="https://statoscop.github.io/blog/" rel="alternate"></link><link href="https://statoscop.github.io/blog/feeds/all.atom.xml" rel="self"></link><id>https://statoscop.github.io/blog/</id><updated>2021-03-30T00:00:00+02:00</updated><entry><title>Comparaisons base R, dplyr et data.table</title><link href="https://statoscop.github.io/blog/comparaisons-base-dplyr-datatable.html" rel="alternate"></link><published>2021-03-30T00:00:00+02:00</published><updated>2021-03-30T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:statoscop.github.io,2021-03-30:/blog/comparaisons-base-dplyr-datatable.html</id><summary type="html">&lt;p&gt;Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude&lt;/p&gt;</summary><content type="html">&lt;p&gt;Cet article est une mise à jour de l'article du &lt;a href="https://antoinesir.rbind.io/post/comparaisons-base-r-dplyr-data-table/"&gt;blog d'Antoine&lt;/a&gt; réalisé en 2018. L'idée est de comparer les performances de trois alternatives dans R pour l'analyse de données :&lt;br&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog</title><link href="https://statoscop.github.io/blog/" rel="alternate"></link><link href="https://statoscop.github.io/blog/feeds/all.atom.xml" rel="self"></link><id>https://statoscop.github.io/blog/</id><updated>2021-04-13T00:00:00+02:00</updated><entry><title>Analyse en composantes principales avec Python</title><link href="https://statoscop.github.io/blog/acp-python.html" rel="alternate"></link><published>2021-04-13T00:00:00+02:00</published><updated>2021-04-13T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:statoscop.github.io,2021-04-13:/blog/acp-python.html</id><summary type="html">&lt;p&gt;Présentation et exemples d'utilisation de l'ACP en statistiques et data science.&lt;/p&gt;</summary><content type="html">&lt;h1 id="analyse-en-composantes-principales-avec-python"&gt;Analyse en composantes principales avec Python&lt;/h1&gt;
+&lt;p&gt;Dans cet article, nous allons essayer de comprendre intuitivement comment fonctionne l'analyse en composantes principales. Nous présenterons ensuite à quoi celle-ci peut servir en prenant les exemples d'une analyse exploratoire des données et d'une problématique de réduction de dimension. &lt;/p&gt;
+&lt;h2 id="explication-introductive"&gt;Explication introductive&lt;/h2&gt;
+&lt;p&gt;L'analyse en composantes principales est une méthode consistant à transformer des variables corrélées entre elles en nouvelles variables. Chacune de ces nouvelles variables est le résultat d'une combinaison linéaire des anciennes variables. &lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note : une combinaison linéaire de 3 variables &lt;span class="math"&gt;\(V_1\)&lt;/span&gt;, &lt;span class="math"&gt;\(V_2\)&lt;/span&gt; et &lt;span class="math"&gt;\(V_3\)&lt;/span&gt; s'écrit &lt;span class="math"&gt;\(\alpha_1.V_1 + \alpha_2.V_2 + \alpha_3.V_3\)&lt;/span&gt; où les &lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt; sont des coefficients réels.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Ces nouvelles variables sont appelées &lt;strong&gt;composantes principales&lt;/strong&gt; et sont, par contruction, décorrélées les unes des autres.  &lt;/p&gt;
+&lt;p&gt;Autrement dit, l'ACP projette vos données dans un nouvel espace. La première composante principale est construite de manière à capter la plus grande variance possible de vos données, la seconde la part la plus importante de la variance possible &lt;strong&gt;restant à expliquer&lt;/strong&gt;, et ainsi de suite.  &lt;/p&gt;
+&lt;p&gt;Une illustration brillante de ce processus est proposée par &lt;a href="https://www.allisonhorst.com/"&gt;Allison Horst&lt;/a&gt;. Elle &lt;a href="https://twitter.com/allison_horst/status/1288904459490213888"&gt;représente&lt;/a&gt; un jeu de données à deux dimensions avec des crevettes et l'analyse en composantes principales comme les passages d'un requin-baleine affamé :  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_3_0.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_4_0.png"&gt;&lt;/p&gt;
+&lt;p&gt;La problématique du requin-baleine est en effet la même que celle de la création d'une première composante principale : quel axe choisir pour avaler un maximum de crevettes dès le premier passage? L'axe choisi va ressembler à celui-ci :  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_6_0.png"&gt;&lt;/p&gt;
+&lt;p&gt;Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient le plus proche possible de cette droite. Mathématiquement, la première composante principale est la combinaison linéaire des deux axes &lt;span class="math"&gt;\(x\)&lt;/span&gt; et &lt;span class="math"&gt;\(y\)&lt;/span&gt; qui maximise l'inertie projetée ce qui revient à minimiser les écarts entre les points et cette droite.&lt;/p&gt;
+&lt;p&gt;Dans cet exemple, la seconde composante principale sera l'axe perpendiculaire à ce premier axe.&lt;/p&gt;
+&lt;p&gt;Si les points étaient parfaitement alignés sur une ligne, l'ensemble de la variance serait expliqué par la première composante et on serait parvenus à réduire le nombre de dimensions de notre problème sans perte d'information.&lt;/p&gt;
+&lt;h2 id="mise-en-oeuvre-dune-acp"&gt;Mise en oeuvre d'une ACP&lt;/h2&gt;
+&lt;p&gt;D'accord, on a projeté notre jeu de données dans un nouvel espace avec des nouvelles "variables" décrites comme combinaisons linéaires des précédentes telles que la première explique la plus grande partie de la variance possible, la seconde la plus grande partie de la variance restant à expliquer, etc... Mais ça nous sert à quoi?   &lt;/p&gt;
+&lt;h3 id="analyse-exploratoire-de-nos-donnees"&gt;Analyse exploratoire de nos données&lt;/h3&gt;
+&lt;p&gt;La caractéristique des composantes principales par rapport au jeu de données non transformé est que les premières composantes principales ont un fort pouvoir discriminant, puisqu'elles expliquent une grande partie de la variance totale du jeu de données. Ainsi, représenter notre jeu de données par rapport aux deux premiers axes de l'ACP peut permettre de vérifier que ces données permettent bien de distinguer différentes classes.  &lt;/p&gt;
+&lt;p&gt;Prenons comme exemple la base de données &lt;code&gt;wine&lt;/code&gt; que l'on peut charger directement depuis le module &lt;code&gt;sklearn&lt;/code&gt;. Cette base de données contient des résultats d'analyses chimiques de 178 vins de 3 différents producteurs. Ces résultats sont synthétisés par 13 mesures différentes que l'on retrouve dans les données. Pour voir si ces mesures permettent ou non de distinguer les vins des trois producteurs, nous allons commencer par représenter les vins sur l'espace des deux premières composantes principales. Pour cela, on importe les données et on les centre-réduit avant d'appliquer notre ACP avec la fonction &lt;code&gt;sklearn.decomposition.PCA&lt;/code&gt;. On paramètre celle-ci pour qu'elle nous renvoie seulement les deux premières composantes :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+&lt;span class="c1"&gt;# Import fonction ACP&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.decomposition&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;PCA&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Import données&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.datasets&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;load_wine&lt;/span&gt;
+
+&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;load_wine&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;return_X_y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;target_names&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;load_wine&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;target_names&lt;/span&gt;
+&lt;span class="n"&gt;feature_names&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;load_wine&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;feature_names&lt;/span&gt;
+&lt;span class="c1"&gt;# on standardise nos données : &lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.preprocessing&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;StandardScaler&lt;/span&gt;
+&lt;span class="n"&gt;values_cr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;StandardScaler&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit_transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# On paramètre notre PCA pour garder les deux premières composantes&lt;/span&gt;
+&lt;span class="n"&gt;pca&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PCA&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;pca_wine&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pca&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit_transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;values_cr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# en sortie : le même nombre de lignes que les données en entrées&lt;/span&gt;
+&lt;span class="c1"&gt;# et le nombre de variables correspondant au nombre de composantes&lt;/span&gt;
+&lt;span class="c1"&gt;# conservées&lt;/span&gt;
+&lt;span class="n"&gt;pca_wine&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;(178, 2)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;En sortie, nous obtenons les vecteurs des deux premières composantes dans l'objet &lt;code&gt;pca_wine&lt;/code&gt;. Notons que nous aurions pu paramétrer la fonction &lt;code&gt;PCA&lt;/code&gt; de manière à ce qu'elle nous renvoie le nombre de composantes nécessaire à expliquer &lt;code&gt;X&lt;/code&gt;% de la variance, comme nous le ferons par la suite. Depuis l'objet &lt;code&gt;pca&lt;/code&gt;, on peut voir le vecteur de la variance expliquée par chaque composante avec &lt;code&gt;pca.explained_variance_ratio_&lt;/code&gt; et donc la variance totale expliquée par nos deux composantes en sommant les éléments de ce vecteur :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;pca&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;explained_variance_ratio_&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;0.554063383569353&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On explique donc 55 % de la variance totale de nos données avec 2 composantes, alors que celle-ci contient 13 variables. Voyons si cela suffit à discriminer nos 3 producteurs visuellement :  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_13_0.png"&gt;&lt;/p&gt;
+&lt;p&gt;On constate ici que les 3 producteurs sont bien répartis dans des zones distinctes du plan et ce résultat semble montrer que chacun produit des types de vin caractéristiques.&lt;/p&gt;
+&lt;p&gt;On peut se convaincre que l'ACP a bien joué son rôle en produisant le même type de schéma avec deux autres variables originales du jeu de données (sans transformation linéaire), disons le degré d'alcool et l'intensité de la couleur. On s'attend bien sûr à ce que les classes soient moins discriminées qu'avec les deux premières composantes principales :  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_15_0.png"&gt;&lt;/p&gt;
+&lt;p&gt;Ces variables permettent de distinguer des tendances, comme le fait que le producteur 1 produit des vins plutôt moins alcoolisés et dont la couleur est peu intense alors que le producteur 0 produit des vins plus alcoolisés. Mais ces variables seules ne permettent pas de partitionner nos classes aussi clairement qu'avec les deux premières composantes de notre ACP.   &lt;/p&gt;
+&lt;p&gt;L'ACP ne permet certes pas au premier coup d'oeil de proposer une interprétation des résultats, mais il est néanmoins possible d'étudier comment chaque variable contribue aux composantes avec l'instruction &lt;code&gt;pca.components_&lt;/code&gt; :  &lt;/p&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+&lt;/style&gt;
+&lt;table border="1" class="dataframe"&gt;
+  &lt;thead&gt;
+    &lt;tr style="text-align: right;"&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;Noms des variables&lt;/th&gt;
+      &lt;th&gt;Composante 1&lt;/th&gt;
+      &lt;th&gt;Composante 2&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;alcohol&lt;/td&gt;
+      &lt;td&gt;0.144329&lt;/td&gt;
+      &lt;td&gt;-0.483652&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;malic_acid&lt;/td&gt;
+      &lt;td&gt;-0.245188&lt;/td&gt;
+      &lt;td&gt;-0.224931&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;ash&lt;/td&gt;
+      &lt;td&gt;-0.002051&lt;/td&gt;
+      &lt;td&gt;-0.316069&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;alcalinity_of_ash&lt;/td&gt;
+      &lt;td&gt;-0.239320&lt;/td&gt;
+      &lt;td&gt;0.010591&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;magnesium&lt;/td&gt;
+      &lt;td&gt;0.141992&lt;/td&gt;
+      &lt;td&gt;-0.299634&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;5&lt;/th&gt;
+      &lt;td&gt;total_phenols&lt;/td&gt;
+      &lt;td&gt;0.394661&lt;/td&gt;
+      &lt;td&gt;-0.065040&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;6&lt;/th&gt;
+      &lt;td&gt;flavanoids&lt;/td&gt;
+      &lt;td&gt;0.422934&lt;/td&gt;
+      &lt;td&gt;0.003360&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;7&lt;/th&gt;
+      &lt;td&gt;nonflavanoid_phenols&lt;/td&gt;
+      &lt;td&gt;-0.298533&lt;/td&gt;
+      &lt;td&gt;-0.028779&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;8&lt;/th&gt;
+      &lt;td&gt;proanthocyanins&lt;/td&gt;
+      &lt;td&gt;0.313429&lt;/td&gt;
+      &lt;td&gt;-0.039302&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;9&lt;/th&gt;
+      &lt;td&gt;color_intensity&lt;/td&gt;
+      &lt;td&gt;-0.088617&lt;/td&gt;
+      &lt;td&gt;-0.529996&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;10&lt;/th&gt;
+      &lt;td&gt;hue&lt;/td&gt;
+      &lt;td&gt;0.296715&lt;/td&gt;
+      &lt;td&gt;0.279235&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;11&lt;/th&gt;
+      &lt;td&gt;od280/od315_of_diluted_wines&lt;/td&gt;
+      &lt;td&gt;0.376167&lt;/td&gt;
+      &lt;td&gt;0.164496&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;12&lt;/th&gt;
+      &lt;td&gt;proline&lt;/td&gt;
+      &lt;td&gt;0.286752&lt;/td&gt;
+      &lt;td&gt;-0.364903&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Ce tableau représente les coefficients de la combinaison linéaire des variables pour chaque composante. Il nous permet par exemple de constater que l'intensité de la couleur et l'alcool jouent fortement et négativement sur la seconde composante. Cela correspond à ce que l'on observait dans les deux graphiques précédents puisque les vins des producteurs 0 et 2 ont des valeurs négatives sur l'axe de la seconde composante (1er graphique) et ce sont bien ceux dont le taux en alcool et l'intensité de la couleur sont les plus importants (2e graphique)&lt;/p&gt;
+&lt;h3 id="utilisation-de-lacp-pour-la-reduction-de-dimensions"&gt;Utilisation de l'ACP pour la réduction de dimensions&lt;/h3&gt;
+&lt;p&gt;La propriété de l'ACP de capter une partie importante de la variance des données à partir de moins de variables est particulièrement intéressante dans le domaine du Machine Learning pour être capable de fournir des prédictions avec des modèles plus légers (car utilisant moins de variables) et des résultats au moins aussi performants.&lt;br&gt;
+Pour notre exemple, même si la réduction de dimensions n'est pas un enjeu fondamental vu le faible nombre de variables, nous pouvons tester si nous parvenons à faire un modèle de prédiction de l'origine du vin (producteur 0, 1 ou 2) en réduisant le nombre de dimensions.&lt;br&gt;
+Tout d'abord, commençons par déterminer ce nombre de dimensions. Le graphique suivant nous donne l'évolution de la variance expliquée en fonction du nombre de composantes :   &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_20_0.png"&gt;&lt;/p&gt;
+&lt;p&gt;L'ACP permettrait d'expliquer plus de 70% de la variance totale dès 4 composantes. Pour voir si cela est suffisant pour entraîner un modèle de prédiction, on peut comparer les performances d'un arbre de classification sur les données transformées après PCA et sur les données brutes. On utilise une méthode de validation croisée pour estimer les performances du modèle qui consiste à partitionner les données en 5 groupes et à entraîner les données sur 4 groupes et les tester sur celui restant. On fait cela 5 fois pour parcourir le champ des possibles et on évalue la précision globale du modèle en faisant la moyenne de ces 5 résultats. Cette méthode doit permettre d'estimer la qualité du modèle sur des données sur lesquelles il n'a pas été entraîné et de ne pas prendre en compte le surapprentissage dans son évaluation. Le tableau suivant donne les taux de précision obtenus pour chaque méthode, c'est à dire le nombre de vins correctement classifiés sur le nombre de vins total.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# Plutôt que de renseigner le nombre de composantes &lt;/span&gt;
+&lt;span class="c1"&gt;# on renseigne la valeur minimum de la variance &lt;/span&gt;
+&lt;span class="c1"&gt;# expliquée totale que l&amp;#39;on souhaite&lt;/span&gt;
+&lt;span class="n"&gt;pca&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PCA&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.70&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+&lt;span class="n"&gt;wine_pca&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pca&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit_transform&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;values_cr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# On entraîne notre modèle et on l&amp;#39;évalue avec une &lt;/span&gt;
+&lt;span class="c1"&gt;# méthode de validation croisée &lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.model_selection&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;cross_val_score&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.tree&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;DecisionTreeClassifier&lt;/span&gt;
+&lt;span class="n"&gt;clf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;DecisionTreeClassifier&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;random_state&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;mean_pca&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cross_val_score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;wine_pca&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cv&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;mean_all&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cross_val_score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clf&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cv&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Précision moyenne après ACP&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;mean_pca&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; 
+              &lt;span class="s2"&gt;&amp;quot;Précision moyenne sans ACP&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;mean_all&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; 
+              &lt;span class="s2"&gt;&amp;quot;Nombre de composantes&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;wine_pca&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]]})&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+&lt;/style&gt;
+&lt;table border="1" class="dataframe"&gt;
+  &lt;thead&gt;
+    &lt;tr style="text-align: right;"&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;Précision moyenne après ACP&lt;/th&gt;
+      &lt;th&gt;Précision moyenne sans ACP&lt;/th&gt;
+      &lt;th&gt;Nombre de composantes&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;0.933175&lt;/td&gt;
+      &lt;td&gt;0.887619&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+&lt;p&gt;On constate que l'ACP n'a pas seulement permis de réduire le nombre de dimensions de notre problème, elle nous offre aussi une précision globale du modèle supérieure. Cela n'est pas toujours le cas - puisque ça dépend de votre problématique, des variables explicatives dont vous disposez et du nombre de composantes que vous retenez - mais ici c'est dû au fait qu'elle permet de réduire le bruit associé aux données en ne conservant qu'une partie de l'information totale. Cela permet ainsi de prévenir les problèmes de surapprentissage, c'est à dire le fait que le modèle explique parfaitement les données d'entraînement mais se généralise mal à de nouvelles données. Ce sujet fera sans doute l'objet d'une note de blog dédiée prochainement!  &lt;/p&gt;
+&lt;p&gt;C'est tout pour aujourd'hui! Si vous voulez voir d'autres exemples d'utilisation de l'ACP, je vous conseille &lt;a href="https://jakevdp.github.io/PythonDataScienceHandbook/05.09-principal-component-analysis.html"&gt;cet article&lt;/a&gt; qui aborde notamment le cas du traitement des images, pour lequel il est particulièrement intéressant de réduire le nombre de dimensions. Vous pouvez trouver le notebook avec l'ensemble du code ayant servi à générer cette note sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.   &lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category></entry><entry><title>Comparaisons base R, dplyr et data.table</title><link href="https://statoscop.github.io/blog/comparaisons-base-dplyr-datatable.html" rel="alternate"></link><published>2021-03-30T00:00:00+02:00</published><updated>2021-03-30T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:statoscop.github.io,2021-03-30:/blog/comparaisons-base-dplyr-datatable.html</id><summary type="html">&lt;p&gt;Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude&lt;/p&gt;</summary><content type="html">&lt;p&gt;Cet article est une mise à jour de l'article du &lt;a href="https://antoinesir.rbind.io/post/comparaisons-base-r-dplyr-data-table/"&gt;blog d'Antoine&lt;/a&gt; réalisé en 2018. L'idée est de comparer les performances de trois alternatives dans R pour l'analyse de données :&lt;br&gt;
 - l'utilisation des seules fonctions de base R&lt;br&gt;
 - dplyr&lt;br&gt;
 - data.table  &lt;/p&gt;
