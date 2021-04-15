@@ -54,5 +54,3 @@ COLOR_SCHEME_CSS = 'github.css'
 
 
 
-
-
