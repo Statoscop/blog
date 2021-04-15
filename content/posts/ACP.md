@@ -1,6 +1,6 @@
 Title: Analyse en composantes principales avec Python
 Author: Antoine
-Date: '2021-04-13'
+Date: '2021-04-16'
 Slug: acp-python
 Category: Python
 Tags: Python, Machine Learning, Statistiques, Data Science  
