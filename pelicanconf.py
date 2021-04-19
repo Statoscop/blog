@@ -52,6 +52,7 @@ MARKDOWN = {
 
 COLOR_SCHEME_CSS = 'github.css'
 
-
+PLUGIN_PATHS = ['pelican-plugins']
+PLUGINS = ['pelican-toc']
 
 
