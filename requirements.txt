@@ -53,6 +53,7 @@ parso=0.7.1=pypi_0
 pelican=4.5.3=pypi_0
 pelican-jupyter=0.10.0=pypi_0
 pelican-render-math=1.0.3=pypi_0
+pelican-sitemap=1.0.2=pypi_0
 pexpect=4.8.0=pypi_0
 pickleshare=0.7.5=pypi_0
 pillow=8.1.0=pypi_0
