@@ -139,15 +139,12 @@
         <article class="post">
         <div class="inner">
             <section class="post-content">
-                <h1 id="les-series-temporelles-avec-python-14">Les séries temporelles avec Python (1/4)</h1>
-<blockquote>
-<ol>
+                <ol>
 <li><strong>Introduction à la manipulation de données temporelles avec Python</strong></li>
 <li>Visualisation et opérations sur les séries temporelles</li>
 <li>Éléments théoriques et exemples</li>
 <li>Analyse, modélisation et prédiction</li>
 </ol>
-</blockquote>
 <p>Cet article introductif est le premier d'une séquence de 4 posts sur les séries temporelles. Avant d'entrer dans le vif du sujet, nous allons donc nous pencher sur le fonctionnement, le stockage et la manipulation des données temporelles avec Python.</p>
 <h1 id="introduction-a-la-manipulation-de-donnees-temporelles-avec-python">Introduction à la manipulation de données temporelles avec Python</h1>
 <p>La libraire <code>Pandas</code> a été développée dans un contexte de données financières et son nom est une contraction de <em>Panel Datas</em> (données de panel), c'est-à-dire des données pour lesquelles on a, pour un même individu, des observations au cours du temps. <code>Pandas</code> contient donc par essence de nombreux outils pour travailler avec les dates, le temps et des données indexées en fonction du temps.</p>
@@ -156,15 +153,19 @@
 <a href="https://fr.wikipedia.org/wiki/S%C3%A9rie_temporelle">Maître Wiki</a></p>
 </blockquote>
 <p>Une série temporelle peut être vue comme un cas très particulier des données panel puisqu'il s'agit de l'évolution d'une seule observation au cours du temps.</p>
-<p>Nous allons donc nous intéresser à ces données temporelles et pour commencer, un peu de vocabulaire et d'anglicisme :
-- <strong>Timestamps</strong> correspond à un moment précis (par exemple <em>03 juin 2020, 14:15:16</em>)
-- <strong>Time intervals</strong> et <strong>periods</strong> correspondent à une durée ayant des dates de début et de fin précises (par exemple, <em>l'année 2020</em>)
-- <strong>Time deltas</strong> ou <strong>durations</strong> correspondent à une durée exacte (par exemple <em>123.45 secondes</em>)</p>
+<p>Nous allons donc nous intéresser à ces données temporelles et pour commencer, un peu de vocabulaire et d'anglicisme :  </p>
+<blockquote>
+<ul>
+<li><strong>Timestamps</strong> correspond à un moment précis (par exemple <em>03 juin 2020, 14:15:16</em>)  </li>
+<li><strong>Time intervals</strong> et <strong>periods</strong> correspondent à une durée ayant des dates de début et de fin précises (par exemple, <em>l'année 2020</em>)  </li>
+<li><strong>Time deltas</strong> ou <strong>durations</strong> correspondent à une durée exacte (par exemple <em>123.45 secondes</em>)  </li>
+</ul>
+</blockquote>
 <p>On va voir comment utiliser et manipuler ces objets date/time avec Python d'une part, puis avec <code>Pandas</code> plus particulièrement.</p>
 <h2 id="1-les-dates-et-heures-avec-python">1. Les dates (et heures) avec Python</h2>
 <p>Python a de nombreuses représentations et formats possibles des dates, heures, durées...un petit tour d'horizon s'impose.</p>
 <h3 id="11-les-packagesdatetime-and-dateutil">1.1. Les packages<code>datetime</code> and <code>dateutil</code></h3>
-<p>Les objet natifs Python pour les dates/times sont dans le module built-in <code>datetime</code>. En utilisant également le package <code>dateutil</code>, on peut facilement et rapidement effecture bon nombre d'opérations sur objets temporels.</p>
+<p>Les objet natifs Python pour les dates/times sont dans le module built-in <code>datetime</code>. En utilisant également le package <code>dateutil</code>, on peut facilement et rapidement effectuer bon nombre d'opérations sur objets temporels.</p>
 <p>Par exemple, on peut construire une date manuellement.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
@@ -208,17 +209,11 @@ Une autre aide utile sur les manipulation de dates est la <a href="http://labix.
 </code></pre></div>
 
 <p>Une fois qu'on a une date dans le bon format, on peut facilement effectuer des opérations vectorielles dessus :</p>
-<div class="highlight"><pre><span></span><code><span class="n">date</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">31</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">date</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="k">array</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30&#39;, &#39;2021-05-01&#39;, &#39;2021-05-02&#39;, &#39;2021-05-03&#39;,</span>
-<span class="n">       &#39;2021-05-04&#39;, &#39;2021-05-05&#39;, &#39;2021-05-06&#39;, &#39;2021-05-07&#39;,</span>
-<span class="n">       &#39;2021-05-08&#39;, &#39;2021-05-09&#39;, &#39;2021-05-10&#39;, &#39;2021-05-11&#39;,</span>
-<span class="n">       &#39;2021-05-12&#39;, &#39;2021-05-13&#39;, &#39;2021-05-14&#39;, &#39;2021-05-15&#39;,</span>
-<span class="n">       &#39;2021-05-16&#39;, &#39;2021-05-17&#39;, &#39;2021-05-18&#39;, &#39;2021-05-19&#39;,</span>
-<span class="n">       &#39;2021-05-20&#39;, &#39;2021-05-21&#39;, &#39;2021-05-22&#39;, &#39;2021-05-23&#39;,</span>
-<span class="n">       &#39;2021-05-24&#39;, &#39;2021-05-25&#39;, &#39;2021-05-26&#39;, &#39;2021-05-27&#39;,</span>
-<span class="n">       &#39;2021-05-28&#39;, &#39;2021-05-29&#39;, &#39;2021-05-30&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[D]&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">       &#39;2021-05-04&#39;, &#39;2021-05-05&#39;, &#39;2021-05-06&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[D]&#39;</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 
 <p>Grâce au type de données uniforme dans les tableaux <code>datetime64</code>, ce genre d'opérations vectorielles peut être effectué bien plus rapidement qu'en travaillant directement avec les objets <code>datetime</code> de Python, particulièrement pour de grands tableaux.</p>
@@ -368,49 +363,36 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 <span class="err">4 April</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">date</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">31</span><span class="p">),</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">date</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span>
 <span class="c1"># à noter ici l&#39;utilisation de to_timedelta pour transformer </span>
 <span class="c1"># le tableau d&#39;entiers en tableau de durées</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30&#39;, &#39;2021-05-01&#39;, &#39;2021-05-02&#39;, &#39;2021-05-03&#39;,</span>
-<span class="n">               &#39;2021-05-04&#39;, &#39;2021-05-05&#39;, &#39;2021-05-06&#39;, &#39;2021-05-07&#39;,</span>
-<span class="n">               &#39;2021-05-08&#39;, &#39;2021-05-09&#39;, &#39;2021-05-10&#39;, &#39;2021-05-11&#39;,</span>
-<span class="n">               &#39;2021-05-12&#39;, &#39;2021-05-13&#39;, &#39;2021-05-14&#39;, &#39;2021-05-15&#39;,</span>
-<span class="n">               &#39;2021-05-16&#39;, &#39;2021-05-17&#39;, &#39;2021-05-18&#39;, &#39;2021-05-19&#39;,</span>
-<span class="n">               &#39;2021-05-20&#39;, &#39;2021-05-21&#39;, &#39;2021-05-22&#39;, &#39;2021-05-23&#39;,</span>
-<span class="n">               &#39;2021-05-24&#39;, &#39;2021-05-25&#39;, &#39;2021-05-26&#39;, &#39;2021-05-27&#39;,</span>
-<span class="n">               &#39;2021-05-28&#39;, &#39;2021-05-29&#39;, &#39;2021-05-30&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
+<span class="n">               &#39;2021-05-04&#39;, &#39;2021-05-05&#39;, &#39;2021-05-06&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
 <span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1"># ici on crée un liste d&#39;entier entre 0 et 72 avec un intervalle de 6 </span>
+<div class="highlight"><pre><span></span><code><span class="c1"># ici on crée une liste d&#39;entier entre 0 et 24 avec un intervalle de 6 </span>
 <span class="c1"># que l&#39;on transforme en durée en heures avant de les ajouter à notre timestamp</span>
 <span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s2">&quot;30 of April, 2021, 14:00&quot;</span><span class="p">)</span>
-<span class="n">d</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">73</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="s1">&#39;h&#39;</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="s1">&#39;h&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30 14:00:00&#39;, &#39;2021-04-30 20:00:00&#39;,</span>
 <span class="n">               &#39;2021-05-01 02:00:00&#39;, &#39;2021-05-01 08:00:00&#39;,</span>
-<span class="n">               &#39;2021-05-01 14:00:00&#39;, &#39;2021-05-01 20:00:00&#39;,</span>
-<span class="n">               &#39;2021-05-02 02:00:00&#39;, &#39;2021-05-02 08:00:00&#39;,</span>
-<span class="n">               &#39;2021-05-02 14:00:00&#39;, &#39;2021-05-02 20:00:00&#39;,</span>
-<span class="n">               &#39;2021-05-03 02:00:00&#39;, &#39;2021-05-03 08:00:00&#39;,</span>
-<span class="n">               &#39;2021-05-03 14:00:00&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
+<span class="n">               &#39;2021-05-01 14:00:00&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
 <span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1"># un dernier exemple avant le suivant</span>
 <span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s2">&quot;30 of April, 2021, 14:00&quot;</span><span class="p">)</span>
-<span class="n">d</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="s1">&#39;m&#39;</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">71</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="s1">&#39;m&#39;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30 14:00:00&#39;, &#39;2021-04-30 14:10:00&#39;,</span>
-<span class="n">               &#39;2021-04-30 14:20:00&#39;, &#39;2021-04-30 14:30:00&#39;,</span>
+<div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30 14:20:00&#39;, &#39;2021-04-30 14:30:00&#39;,</span>
 <span class="n">               &#39;2021-04-30 14:40:00&#39;, &#39;2021-04-30 14:50:00&#39;,</span>
-<span class="n">               &#39;2021-04-30 15:00:00&#39;, &#39;2021-04-30 15:10:00&#39;,</span>
-<span class="n">               &#39;2021-04-30 15:20:00&#39;, &#39;2021-04-30 15:30:00&#39;,</span>
-<span class="n">               &#39;2021-04-30 15:40:00&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
+<span class="n">               &#39;2021-04-30 15:00:00&#39;, &#39;2021-04-30 15:10:00&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
 <span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 
@@ -455,14 +437,11 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 </code></pre></div>
 
 <h3 id="22-les-structures-de-donnees-pandas-pour-les-series-temporelles">2.2. Les structures de données <code>pandas</code> pour les séries temporelles</h3>
-<p>Nous allons maintenant introduire les structures de données fondamentales de <code>pandas</code> pour travailler avec les séries temporelles :
-- pour les <em>timestamps</em>, il y a le type <code>Timestamp</code> : l'idée est que ça remplace le type natif de Python <code>datetime</code> tout en étant construit sur le type <code>numpy.datetime64</code> qui est plus efficace.<br>
-La structure d'index associée est le <code>DatetimeIndex</code>
-- pour les <em>time Periods</em>, il y a le type <code>Period</code> : il permet d'encoder des durées de fréquences fixes basées sur <code>numpy.datetime64</code>.<br>
-La structure d'index associée est le <code>PeriodIndex</code>
-- pour les <em>time deltas</em> ou <em>durations</em>, il y a le type<code>Timedelta</code> : c'est un remplaçant plus efficace du type natif de Python <code>datetime.timedelta</code> basé sur <code>numpy.timedelta64</code>.<br>
-La structure d'index associée est le <code>TimedeltaIndex</code></p>
-<p><strong>Les plus importantes de ces structures date/time sont les objets <code>Timestamp</code> et <code>DatetimeIndex</code>.</strong></p>
+<p>Nous allons maintenant introduire les structures de données fondamentales de <code>pandas</code> pour travailler avec les séries temporelles :<br>
+1. pour les <em>timestamps</em>, il y a le type <code>Timestamp</code> : l'idée est que ça remplace le type natif de Python <code>datetime</code> tout en étant construit sur le type <code>numpy.datetime64</code> qui est plus efficace<br>
+2. pour les <em>time Periods</em>, il y a le type <code>Period</code> : il permet d'encoder des durées de fréquences fixes basées sur <code>numpy.datetime64</code><br>
+3. pour les <em>time deltas</em> ou <em>durations</em>, il y a le type<code>Timedelta</code> : c'est un remplaçant plus efficace du type natif de Python <code>datetime.timedelta</code> basé sur <code>numpy.timedelta64</code>  </p>
+<p>Les structures d'index associées sont respectivement les <code>DatetimeIndex</code>, <code>PeriodIndex</code> et <code>TimedeltaIndex</code>. On retiendra que parmi ces différents objets, les structures de date/time les plus utilisées sont les <code>Timestamp</code> et <code>DatetimeIndex</code>.</p>
 <p>Même si on peut très bien appeler ces classes d'objets directement, généralement on passe par la fonction <code>pd.to_datetime()</code> qui permet de lire une grande variété de formats de chaîne de caractères. Si on passe une seule date à <code>pd.to_datetime()</code>, on obtient un <code>Timestamp</code>. Si on lui passe une série de dates, on obtient un <code>DatetimeIndex</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">([</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="s1">&#39;6th of May, 2021&#39;</span><span class="p">,</span> <span class="s1">&#39;2021-Jun-7&#39;</span><span class="p">,</span> <span class="s1">&#39;06-10-2021&#39;</span><span class="p">,</span> <span class="s1">&#39;20210429&#39;</span><span class="p">])</span>
 <span class="n">dates</span>
@@ -499,12 +478,11 @@ La structure d'index associée est le <code>TimedeltaIndex</code></p>
 <p>Pour pouvoir créer des séquences régulières de dates, <code>pandas</code> contient un certain nombre de fonctions : <code>pd.date_range()</code>, <code>pd.period_range()</code> et <code>pd.timedelta_range()</code>.
 Les <code>range()</code> de Python et <code>arange()</code> de numpy prennent comme paramètres un premier élément, un dernier élément (non-inclus) et éventuellement un pas.<br>
 De la même manière, <code>pd.date_range()</code> prend une date de départ, une date de fin (qui elle est inclue !) et éventuellement une fréquence (qui vaut 1 jour par défaut).</p>
-<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s1">&#39;2021-04-30&#39;</span><span class="p">,</span> <span class="s1">&#39;2021-05-10&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s1">&#39;2021-04-30&#39;</span><span class="p">,</span> <span class="s1">&#39;2021-05-06&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30&#39;, &#39;2021-05-01&#39;, &#39;2021-05-02&#39;, &#39;2021-05-03&#39;,</span>
-<span class="n">               &#39;2021-05-04&#39;, &#39;2021-05-05&#39;, &#39;2021-05-06&#39;, &#39;2021-05-07&#39;,</span>
-<span class="n">               &#39;2021-05-08&#39;, &#39;2021-05-09&#39;, &#39;2021-05-10&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
+<span class="n">               &#39;2021-05-04&#39;, &#39;2021-05-05&#39;, &#39;2021-05-06&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
 <span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 
@@ -518,13 +496,12 @@ De la même manière, <code>pd.date_range()</code> prend une date de départ, un
 <span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="c1"># pour avoir 6 timestamps chacune correspondant à un décalage de 2 heures à partir d&#39;aujourd&#39;hui 14h</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s1">&#39;2021-04-30 14h&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;2H&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># pour avoir 4 timestamps chacune correspondant à un décalage de 2 heures à partir d&#39;aujourd&#39;hui 14h</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s1">&#39;2021-04-30 14h&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;2H&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30 14:00:00&#39;, &#39;2021-04-30 16:00:00&#39;,</span>
-<span class="n">               &#39;2021-04-30 18:00:00&#39;, &#39;2021-04-30 20:00:00&#39;,</span>
-<span class="n">               &#39;2021-04-30 22:00:00&#39;, &#39;2021-05-01 00:00:00&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
+<span class="n">               &#39;2021-04-30 18:00:00&#39;, &#39;2021-04-30 20:00:00&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
 <span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;2H&#39;</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 
@@ -555,9 +532,6 @@ On a déjà croisé les codes <code>M</code> (month), <code>D</code> (day) et <c
 <th>Code</th>
 <th>Description EN</th>
 <th>Description     FR</th>
-<th>Code</th>
-<th>Description EN</th>
-<th>Description</th>
 </tr>
 </thead>
 <tbody>
@@ -565,89 +539,81 @@ On a déjà croisé les codes <code>M</code> (month), <code>D</code> (day) et <c
 <td><code>D</code></td>
 <td>Calendar day</td>
 <td>Jour de la semaine</td>
-<td><code>B</code></td>
-<td>Business day</td>
-<td>Jour ouvrable</td>
 </tr>
 <tr>
 <td><code>W</code></td>
 <td>Weekly</td>
 <td>Semaine</td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td><code>M</code></td>
 <td>Month end</td>
 <td>Fin du mois</td>
-<td><code>BM</code></td>
-<td>Business month end</td>
-<td>Fin ouvrable de mois</td>
 </tr>
 <tr>
 <td><code>Q</code></td>
 <td>Quarter end</td>
 <td>Fin du trimestre</td>
-<td><code>BQ</code></td>
-<td>Business quarter end</td>
-<td>Fin ouvrable de trimestre</td>
 </tr>
 <tr>
 <td><code>A</code></td>
 <td>Year end</td>
 <td>Fin de l'année</td>
-<td><code>BA</code></td>
-<td>Business year end</td>
-<td>Fin ouvrable d'année</td>
 </tr>
 <tr>
 <td><code>H</code></td>
 <td>Hours</td>
 <td>Heures</td>
-<td><code>BH</code></td>
-<td>Business hours</td>
-<td>Heures ouvrables</td>
 </tr>
 <tr>
 <td><code>T</code></td>
 <td>Minutes</td>
 <td>Minutes</td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td><code>S</code></td>
 <td>Seconds</td>
 <td>Secondes</td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td><code>L</code></td>
 <td>Milliseonds</td>
 <td>Milliseondes</td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td><code>U</code></td>
 <td>Microseconds</td>
 <td>Microsecondes</td>
-<td></td>
-<td></td>
-<td></td>
 </tr>
 <tr>
 <td><code>N</code></td>
 <td>nanoseconds</td>
 <td>nanosecondes</td>
-<td></td>
-<td></td>
-<td></td>
+</tr>
+<tr>
+<td><code>B</code></td>
+<td>Business day</td>
+<td>Jour ouvrable</td>
+</tr>
+<tr>
+<td><code>BM</code></td>
+<td>Business month end</td>
+<td>Fin ouvrable de mois</td>
+</tr>
+<tr>
+<td><code>BQ</code></td>
+<td>Business quarter end</td>
+<td>Fin ouvrable de trimestre</td>
+</tr>
+<tr>
+<td><code>BA</code></td>
+<td>Business year end</td>
+<td>Fin ouvrable d'année</td>
+</tr>
+<tr>
+<td><code>BH</code></td>
+<td>Business hours</td>
+<td>Heures ouvrables</td>
 </tr>
 </tbody>
 </table>
@@ -658,9 +624,6 @@ On a déjà croisé les codes <code>M</code> (month), <code>D</code> (day) et <c
 <th>Code</th>
 <th>Description EN</th>
 <th>Description FR</th>
-<th>Code</th>
-<th>Description EN</th>
-<th>Description FR</th>
 </tr>
 </thead>
 <tbody>
@@ -668,33 +631,38 @@ On a déjà croisé les codes <code>M</code> (month), <code>D</code> (day) et <c
 <td><code>MS</code></td>
 <td>Month start</td>
 <td>Début de mois</td>
-<td><code>BMS</code></td>
-<td>Business month start</td>
-<td>Début ouvrable de mois</td>
 </tr>
 <tr>
 <td><code>QS</code></td>
 <td>Quarter start</td>
 <td>Début de trimestre</td>
-<td><code>BQS</code></td>
-<td>Business quarter start</td>
-<td>Début ouvrable de trimestre</td>
 </tr>
 <tr>
 <td><code>AS</code></td>
 <td>Year start</td>
 <td>Début d'année</td>
+</tr>
+<tr>
+<td><code>BMS</code></td>
+<td>Business month start</td>
+<td>Début ouvrable de mois</td>
+</tr>
+<tr>
+<td><code>BQS</code></td>
+<td>Business quarter start</td>
+<td>Début ouvrable de trimestre</td>
+</tr>
+<tr>
 <td><code>BAS</code></td>
 <td>Business year start</td>
 <td>Début ouvrable d'année</td>
 </tr>
 </tbody>
 </table>
-<p>On peut aussi modifier le mois utilisé pour marquer un code trimestriel ou annuel en ajoutant les 3 lettres du mois en suffixes:
-- <code>Q-JAN</code>, <code>BQ-FEB</code>, <code>QS-MAR</code>, <code>BQS-APR</code>, etc.
-- <code>A-JAN</code>, <code>BA-FEB</code>, <code>AS-MAR</code>, <code>BAS-APR</code>, etc.</p>
-<p>De la même manière, le "jour seuil" d'une fréquence hebdomadaire peut être modifié en ajoutant en suffixes les 3 lettres du jour:
-- <code>W-SUN</code>, <code>W-MON</code>, <code>W-TUE</code>, <code>W-WED</code>, etc.</p>
+<p>On peut aussi modifier le mois utilisé pour marquer un code trimestriel ou annuel en ajoutant les 3 lettres du mois en suffixes:<br>
+- <code>Q-JAN</code>, <code>BQ-FEB</code>, <code>QS-MAR</code>, <code>BQS-APR</code>, ...<br>
+- <code>A-JAN</code>, <code>BA-FEB</code>, <code>AS-MAR</code>, <code>BAS-APR</code>, ...  </p>
+<p>De la même manière, le "jour seuil" d'une fréquence hebdomadaire peut être modifié en ajoutant en suffixes les 3 lettres du jour:<code>W-SUN</code>, <code>W-MON</code>, <code>W-TUE</code>, <code>W-WED</code>, etc.</p>
 <p>Enfin, comme vu un peu plus haut, les codes peuvent être combinés avec des valeurs numériques pour spécifier d'autres fréquences. Par exemple, pour une fréquence de 2h30min, on peut faire:</p>
 <div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">timedelta_range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;2H30T&quot;</span><span class="p">)</span>
 </code></pre></div>

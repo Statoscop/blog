@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog</title><link href="https://statoscop.github.io/blog/" rel="alternate"></link><link href="https://statoscop.github.io/blog/feeds/all.atom.xml" rel="self"></link><id>https://statoscop.github.io/blog/</id><updated>2021-05-04T00:00:00+02:00</updated><entry><title>Les séries temporelles avec Python (1/4)</title><link href="https://statoscop.github.io/blog/timeseries-1.html" rel="alternate"></link><published>2021-05-04T00:00:00+02:00</published><updated>2021-05-04T00:00:00+02:00</updated><author><name>Louis</name></author><id>tag:statoscop.github.io,2021-05-04:/blog/timeseries-1.html</id><summary type="html">&lt;p&gt;Introduction à la manipulation de données temporelles avec Python&lt;/p&gt;</summary><content type="html">&lt;h1 id="les-series-temporelles-avec-python-14"&gt;Les séries temporelles avec Python (1/4)&lt;/h1&gt;
-&lt;blockquote&gt;
-&lt;ol&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog</title><link href="https://statoscop.github.io/blog/" rel="alternate"></link><link href="https://statoscop.github.io/blog/feeds/all.atom.xml" rel="self"></link><id>https://statoscop.github.io/blog/</id><updated>2021-05-04T00:00:00+02:00</updated><entry><title>Les séries temporelles avec Python (1/4)</title><link href="https://statoscop.github.io/blog/timeseries-1.html" rel="alternate"></link><published>2021-05-04T00:00:00+02:00</published><updated>2021-05-04T00:00:00+02:00</updated><author><name>Louis</name></author><id>tag:statoscop.github.io,2021-05-04:/blog/timeseries-1.html</id><summary type="html">&lt;p&gt;Introduction à la manipulation de données temporelles avec Python&lt;/p&gt;</summary><content type="html">&lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;Introduction à la manipulation de données temporelles avec Python&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;Visualisation et opérations sur les séries temporelles&lt;/li&gt;
 &lt;li&gt;Éléments théoriques et exemples&lt;/li&gt;
 &lt;li&gt;Analyse, modélisation et prédiction&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/blockquote&gt;
 &lt;p&gt;Cet article introductif est le premier d'une séquence de 4 posts sur les séries temporelles. Avant d'entrer dans le vif du sujet, nous allons donc nous pencher sur le fonctionnement, le stockage et la manipulation des données temporelles avec Python.&lt;/p&gt;
 &lt;h1 id="introduction-a-la-manipulation-de-donnees-temporelles-avec-python"&gt;Introduction à la manipulation de données temporelles avec Python&lt;/h1&gt;
 &lt;p&gt;La libraire &lt;code&gt;Pandas&lt;/code&gt; a été développée dans un contexte de données financières et son nom est une contraction de &lt;em&gt;Panel Datas&lt;/em&gt; (données de panel), c'est-à-dire des données pour lesquelles on a, pour un même individu, des observations au cours du temps. &lt;code&gt;Pandas&lt;/code&gt; contient donc par essence de nombreux outils pour travailler avec les dates, le temps et des données indexées en fonction du temps.&lt;/p&gt;
@@ -16,15 +13,19 @@
 &lt;a href="https://fr.wikipedia.org/wiki/S%C3%A9rie_temporelle"&gt;Maître Wiki&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Une série temporelle peut être vue comme un cas très particulier des données panel puisqu'il s'agit de l'évolution d'une seule observation au cours du temps.&lt;/p&gt;
-&lt;p&gt;Nous allons donc nous intéresser à ces données temporelles et pour commencer, un peu de vocabulaire et d'anglicisme :
-- &lt;strong&gt;Timestamps&lt;/strong&gt; correspond à un moment précis (par exemple &lt;em&gt;03 juin 2020, 14:15:16&lt;/em&gt;)
-- &lt;strong&gt;Time intervals&lt;/strong&gt; et &lt;strong&gt;periods&lt;/strong&gt; correspondent à une durée ayant des dates de début et de fin précises (par exemple, &lt;em&gt;l'année 2020&lt;/em&gt;)
-- &lt;strong&gt;Time deltas&lt;/strong&gt; ou &lt;strong&gt;durations&lt;/strong&gt; correspondent à une durée exacte (par exemple &lt;em&gt;123.45 secondes&lt;/em&gt;)&lt;/p&gt;
+&lt;p&gt;Nous allons donc nous intéresser à ces données temporelles et pour commencer, un peu de vocabulaire et d'anglicisme :  &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Timestamps&lt;/strong&gt; correspond à un moment précis (par exemple &lt;em&gt;03 juin 2020, 14:15:16&lt;/em&gt;)  &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Time intervals&lt;/strong&gt; et &lt;strong&gt;periods&lt;/strong&gt; correspondent à une durée ayant des dates de début et de fin précises (par exemple, &lt;em&gt;l'année 2020&lt;/em&gt;)  &lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Time deltas&lt;/strong&gt; ou &lt;strong&gt;durations&lt;/strong&gt; correspondent à une durée exacte (par exemple &lt;em&gt;123.45 secondes&lt;/em&gt;)  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;On va voir comment utiliser et manipuler ces objets date/time avec Python d'une part, puis avec &lt;code&gt;Pandas&lt;/code&gt; plus particulièrement.&lt;/p&gt;
 &lt;h2 id="1-les-dates-et-heures-avec-python"&gt;1. Les dates (et heures) avec Python&lt;/h2&gt;
 &lt;p&gt;Python a de nombreuses représentations et formats possibles des dates, heures, durées...un petit tour d'horizon s'impose.&lt;/p&gt;
 &lt;h3 id="11-les-packagesdatetime-and-dateutil"&gt;1.1. Les packages&lt;code&gt;datetime&lt;/code&gt; and &lt;code&gt;dateutil&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;Les objet natifs Python pour les dates/times sont dans le module built-in &lt;code&gt;datetime&lt;/code&gt;. En utilisant également le package &lt;code&gt;dateutil&lt;/code&gt;, on peut facilement et rapidement effecture bon nombre d'opérations sur objets temporels.&lt;/p&gt;
+&lt;p&gt;Les objet natifs Python pour les dates/times sont dans le module built-in &lt;code&gt;datetime&lt;/code&gt;. En utilisant également le package &lt;code&gt;dateutil&lt;/code&gt;, on peut facilement et rapidement effectuer bon nombre d'opérations sur objets temporels.&lt;/p&gt;
 &lt;p&gt;Par exemple, on peut construire une date manuellement.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;datetime&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;datetime&lt;/span&gt;
 &lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;year&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2021&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;month&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;day&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -68,17 +69,11 @@ Une autre aide utile sur les manipulation de dates est la &lt;a href="http://lab
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Une fois qu'on a une date dans le bon format, on peut facilement effectuer des opérations vectorielles dessus :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;date&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;31&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;date&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;&amp;#39;2021-04-30&amp;#39;, &amp;#39;2021-05-01&amp;#39;, &amp;#39;2021-05-02&amp;#39;, &amp;#39;2021-05-03&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;       &amp;#39;2021-05-04&amp;#39;, &amp;#39;2021-05-05&amp;#39;, &amp;#39;2021-05-06&amp;#39;, &amp;#39;2021-05-07&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;       &amp;#39;2021-05-08&amp;#39;, &amp;#39;2021-05-09&amp;#39;, &amp;#39;2021-05-10&amp;#39;, &amp;#39;2021-05-11&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;       &amp;#39;2021-05-12&amp;#39;, &amp;#39;2021-05-13&amp;#39;, &amp;#39;2021-05-14&amp;#39;, &amp;#39;2021-05-15&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;       &amp;#39;2021-05-16&amp;#39;, &amp;#39;2021-05-17&amp;#39;, &amp;#39;2021-05-18&amp;#39;, &amp;#39;2021-05-19&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;       &amp;#39;2021-05-20&amp;#39;, &amp;#39;2021-05-21&amp;#39;, &amp;#39;2021-05-22&amp;#39;, &amp;#39;2021-05-23&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;       &amp;#39;2021-05-24&amp;#39;, &amp;#39;2021-05-25&amp;#39;, &amp;#39;2021-05-26&amp;#39;, &amp;#39;2021-05-27&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;       &amp;#39;2021-05-28&amp;#39;, &amp;#39;2021-05-29&amp;#39;, &amp;#39;2021-05-30&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;dtype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;datetime64[D]&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;       &amp;#39;2021-05-04&amp;#39;, &amp;#39;2021-05-05&amp;#39;, &amp;#39;2021-05-06&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;dtype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;datetime64[D]&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Grâce au type de données uniforme dans les tableaux &lt;code&gt;datetime64&lt;/code&gt;, ce genre d'opérations vectorielles peut être effectué bien plus rapidement qu'en travaillant directement avec les objets &lt;code&gt;datetime&lt;/code&gt; de Python, particulièrement pour de grands tableaux.&lt;/p&gt;
@@ -228,49 +223,36 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 &lt;span class="err"&gt;4 April&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;date&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_timedelta&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;31&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;D&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;date&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_timedelta&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;D&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="c1"&gt;# à noter ici l&amp;#39;utilisation de to_timedelta pour transformer &lt;/span&gt;
 &lt;span class="c1"&gt;# le tableau d&amp;#39;entiers en tableau de durées&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;DatetimeIndex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;&amp;#39;2021-04-30&amp;#39;, &amp;#39;2021-05-01&amp;#39;, &amp;#39;2021-05-02&amp;#39;, &amp;#39;2021-05-03&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-05-04&amp;#39;, &amp;#39;2021-05-05&amp;#39;, &amp;#39;2021-05-06&amp;#39;, &amp;#39;2021-05-07&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-05-08&amp;#39;, &amp;#39;2021-05-09&amp;#39;, &amp;#39;2021-05-10&amp;#39;, &amp;#39;2021-05-11&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-05-12&amp;#39;, &amp;#39;2021-05-13&amp;#39;, &amp;#39;2021-05-14&amp;#39;, &amp;#39;2021-05-15&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-05-16&amp;#39;, &amp;#39;2021-05-17&amp;#39;, &amp;#39;2021-05-18&amp;#39;, &amp;#39;2021-05-19&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-05-20&amp;#39;, &amp;#39;2021-05-21&amp;#39;, &amp;#39;2021-05-22&amp;#39;, &amp;#39;2021-05-23&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-05-24&amp;#39;, &amp;#39;2021-05-25&amp;#39;, &amp;#39;2021-05-26&amp;#39;, &amp;#39;2021-05-27&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-05-28&amp;#39;, &amp;#39;2021-05-29&amp;#39;, &amp;#39;2021-05-30&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;               &amp;#39;2021-05-04&amp;#39;, &amp;#39;2021-05-05&amp;#39;, &amp;#39;2021-05-06&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="n"&gt;dtype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;datetime64[ns]&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;freq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# ici on crée un liste d&amp;#39;entier entre 0 et 72 avec un intervalle de 6 &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# ici on crée une liste d&amp;#39;entier entre 0 et 24 avec un intervalle de 6 &lt;/span&gt;
 &lt;span class="c1"&gt;# que l&amp;#39;on transforme en durée en heures avant de les ajouter à notre timestamp&lt;/span&gt;
 &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_datetime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;30 of April, 2021, 14:00&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_timedelta&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;73&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;h&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_timedelta&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;h&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;DatetimeIndex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;&amp;#39;2021-04-30 14:00:00&amp;#39;, &amp;#39;2021-04-30 20:00:00&amp;#39;,&lt;/span&gt;
 &lt;span class="n"&gt;               &amp;#39;2021-05-01 02:00:00&amp;#39;, &amp;#39;2021-05-01 08:00:00&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-05-01 14:00:00&amp;#39;, &amp;#39;2021-05-01 20:00:00&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-05-02 02:00:00&amp;#39;, &amp;#39;2021-05-02 08:00:00&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-05-02 14:00:00&amp;#39;, &amp;#39;2021-05-02 20:00:00&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-05-03 02:00:00&amp;#39;, &amp;#39;2021-05-03 08:00:00&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-05-03 14:00:00&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;               &amp;#39;2021-05-01 14:00:00&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="n"&gt;dtype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;datetime64[ns]&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;freq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# un dernier exemple avant le suivant&lt;/span&gt;
 &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_datetime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;30 of April, 2021, 14:00&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_timedelta&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;101&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;m&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_timedelta&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;71&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;m&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;DatetimeIndex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;&amp;#39;2021-04-30 14:00:00&amp;#39;, &amp;#39;2021-04-30 14:10:00&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-04-30 14:20:00&amp;#39;, &amp;#39;2021-04-30 14:30:00&amp;#39;,&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;DatetimeIndex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;&amp;#39;2021-04-30 14:20:00&amp;#39;, &amp;#39;2021-04-30 14:30:00&amp;#39;,&lt;/span&gt;
 &lt;span class="n"&gt;               &amp;#39;2021-04-30 14:40:00&amp;#39;, &amp;#39;2021-04-30 14:50:00&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-04-30 15:00:00&amp;#39;, &amp;#39;2021-04-30 15:10:00&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-04-30 15:20:00&amp;#39;, &amp;#39;2021-04-30 15:30:00&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-04-30 15:40:00&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;               &amp;#39;2021-04-30 15:00:00&amp;#39;, &amp;#39;2021-04-30 15:10:00&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="n"&gt;dtype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;datetime64[ns]&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;freq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -315,14 +297,11 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id="22-les-structures-de-donnees-pandas-pour-les-series-temporelles"&gt;2.2. Les structures de données &lt;code&gt;pandas&lt;/code&gt; pour les séries temporelles&lt;/h3&gt;
-&lt;p&gt;Nous allons maintenant introduire les structures de données fondamentales de &lt;code&gt;pandas&lt;/code&gt; pour travailler avec les séries temporelles :
-- pour les &lt;em&gt;timestamps&lt;/em&gt;, il y a le type &lt;code&gt;Timestamp&lt;/code&gt; : l'idée est que ça remplace le type natif de Python &lt;code&gt;datetime&lt;/code&gt; tout en étant construit sur le type &lt;code&gt;numpy.datetime64&lt;/code&gt; qui est plus efficace.&lt;br&gt;
-La structure d'index associée est le &lt;code&gt;DatetimeIndex&lt;/code&gt;
-- pour les &lt;em&gt;time Periods&lt;/em&gt;, il y a le type &lt;code&gt;Period&lt;/code&gt; : il permet d'encoder des durées de fréquences fixes basées sur &lt;code&gt;numpy.datetime64&lt;/code&gt;.&lt;br&gt;
-La structure d'index associée est le &lt;code&gt;PeriodIndex&lt;/code&gt;
-- pour les &lt;em&gt;time deltas&lt;/em&gt; ou &lt;em&gt;durations&lt;/em&gt;, il y a le type&lt;code&gt;Timedelta&lt;/code&gt; : c'est un remplaçant plus efficace du type natif de Python &lt;code&gt;datetime.timedelta&lt;/code&gt; basé sur &lt;code&gt;numpy.timedelta64&lt;/code&gt;.&lt;br&gt;
-La structure d'index associée est le &lt;code&gt;TimedeltaIndex&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Les plus importantes de ces structures date/time sont les objets &lt;code&gt;Timestamp&lt;/code&gt; et &lt;code&gt;DatetimeIndex&lt;/code&gt;.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Nous allons maintenant introduire les structures de données fondamentales de &lt;code&gt;pandas&lt;/code&gt; pour travailler avec les séries temporelles :&lt;br&gt;
+1. pour les &lt;em&gt;timestamps&lt;/em&gt;, il y a le type &lt;code&gt;Timestamp&lt;/code&gt; : l'idée est que ça remplace le type natif de Python &lt;code&gt;datetime&lt;/code&gt; tout en étant construit sur le type &lt;code&gt;numpy.datetime64&lt;/code&gt; qui est plus efficace&lt;br&gt;
+2. pour les &lt;em&gt;time Periods&lt;/em&gt;, il y a le type &lt;code&gt;Period&lt;/code&gt; : il permet d'encoder des durées de fréquences fixes basées sur &lt;code&gt;numpy.datetime64&lt;/code&gt;&lt;br&gt;
+3. pour les &lt;em&gt;time deltas&lt;/em&gt; ou &lt;em&gt;durations&lt;/em&gt;, il y a le type&lt;code&gt;Timedelta&lt;/code&gt; : c'est un remplaçant plus efficace du type natif de Python &lt;code&gt;datetime.timedelta&lt;/code&gt; basé sur &lt;code&gt;numpy.timedelta64&lt;/code&gt;  &lt;/p&gt;
+&lt;p&gt;Les structures d'index associées sont respectivement les &lt;code&gt;DatetimeIndex&lt;/code&gt;, &lt;code&gt;PeriodIndex&lt;/code&gt; et &lt;code&gt;TimedeltaIndex&lt;/code&gt;. On retiendra que parmi ces différents objets, les structures de date/time les plus utilisées sont les &lt;code&gt;Timestamp&lt;/code&gt; et &lt;code&gt;DatetimeIndex&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Même si on peut très bien appeler ces classes d'objets directement, généralement on passe par la fonction &lt;code&gt;pd.to_datetime()&lt;/code&gt; qui permet de lire une grande variété de formats de chaîne de caractères. Si on passe une seule date à &lt;code&gt;pd.to_datetime()&lt;/code&gt;, on obtient un &lt;code&gt;Timestamp&lt;/code&gt;. Si on lui passe une série de dates, on obtient un &lt;code&gt;DatetimeIndex&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;dates&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;to_datetime&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;datetime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2021&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;30&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;6th of May, 2021&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;2021-Jun-7&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;06-10-2021&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;20210429&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
 &lt;span class="n"&gt;dates&lt;/span&gt;
@@ -359,12 +338,11 @@ La structure d'index associée est le &lt;code&gt;TimedeltaIndex&lt;/code&gt;&lt
 &lt;p&gt;Pour pouvoir créer des séquences régulières de dates, &lt;code&gt;pandas&lt;/code&gt; contient un certain nombre de fonctions : &lt;code&gt;pd.date_range()&lt;/code&gt;, &lt;code&gt;pd.period_range()&lt;/code&gt; et &lt;code&gt;pd.timedelta_range()&lt;/code&gt;.
 Les &lt;code&gt;range()&lt;/code&gt; de Python et &lt;code&gt;arange()&lt;/code&gt; de numpy prennent comme paramètres un premier élément, un dernier élément (non-inclus) et éventuellement un pas.&lt;br&gt;
 De la même manière, &lt;code&gt;pd.date_range()&lt;/code&gt; prend une date de départ, une date de fin (qui elle est inclue !) et éventuellement une fréquence (qui vaut 1 jour par défaut).&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;date_range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2021-04-30&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;2021-05-10&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;date_range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2021-04-30&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;2021-05-06&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;DatetimeIndex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;&amp;#39;2021-04-30&amp;#39;, &amp;#39;2021-05-01&amp;#39;, &amp;#39;2021-05-02&amp;#39;, &amp;#39;2021-05-03&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-05-04&amp;#39;, &amp;#39;2021-05-05&amp;#39;, &amp;#39;2021-05-06&amp;#39;, &amp;#39;2021-05-07&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-05-08&amp;#39;, &amp;#39;2021-05-09&amp;#39;, &amp;#39;2021-05-10&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;               &amp;#39;2021-05-04&amp;#39;, &amp;#39;2021-05-05&amp;#39;, &amp;#39;2021-05-06&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="n"&gt;dtype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;datetime64[ns]&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;freq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;D&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -378,13 +356,12 @@ De la même manière, &lt;code&gt;pd.date_range()&lt;/code&gt; prend une date de
 &lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="n"&gt;dtype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;datetime64[ns]&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;freq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;D&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# pour avoir 6 timestamps chacune correspondant à un décalage de 2 heures à partir d&amp;#39;aujourd&amp;#39;hui 14h&lt;/span&gt;
-&lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;date_range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2021-04-30 14h&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;periods&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;freq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# pour avoir 4 timestamps chacune correspondant à un décalage de 2 heures à partir d&amp;#39;aujourd&amp;#39;hui 14h&lt;/span&gt;
+&lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;date_range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2021-04-30 14h&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;periods&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;freq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;DatetimeIndex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;&amp;#39;2021-04-30 14:00:00&amp;#39;, &amp;#39;2021-04-30 16:00:00&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-04-30 18:00:00&amp;#39;, &amp;#39;2021-04-30 20:00:00&amp;#39;,&lt;/span&gt;
-&lt;span class="n"&gt;               &amp;#39;2021-04-30 22:00:00&amp;#39;, &amp;#39;2021-05-01 00:00:00&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;               &amp;#39;2021-04-30 18:00:00&amp;#39;, &amp;#39;2021-04-30 20:00:00&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="n"&gt;dtype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;datetime64[ns]&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;freq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2H&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -415,9 +392,6 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;th&gt;Code&lt;/th&gt;
 &lt;th&gt;Description EN&lt;/th&gt;
 &lt;th&gt;Description     FR&lt;/th&gt;
-&lt;th&gt;Code&lt;/th&gt;
-&lt;th&gt;Description EN&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
@@ -425,89 +399,81 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;td&gt;&lt;code&gt;D&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Calendar day&lt;/td&gt;
 &lt;td&gt;Jour de la semaine&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;B&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Business day&lt;/td&gt;
-&lt;td&gt;Jour ouvrable&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;W&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Weekly&lt;/td&gt;
 &lt;td&gt;Semaine&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;M&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Month end&lt;/td&gt;
 &lt;td&gt;Fin du mois&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;BM&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Business month end&lt;/td&gt;
-&lt;td&gt;Fin ouvrable de mois&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;Q&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Quarter end&lt;/td&gt;
 &lt;td&gt;Fin du trimestre&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;BQ&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Business quarter end&lt;/td&gt;
-&lt;td&gt;Fin ouvrable de trimestre&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;A&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Year end&lt;/td&gt;
 &lt;td&gt;Fin de l'année&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;BA&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Business year end&lt;/td&gt;
-&lt;td&gt;Fin ouvrable d'année&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;H&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Hours&lt;/td&gt;
 &lt;td&gt;Heures&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;BH&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Business hours&lt;/td&gt;
-&lt;td&gt;Heures ouvrables&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;T&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Minutes&lt;/td&gt;
 &lt;td&gt;Minutes&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;S&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Seconds&lt;/td&gt;
 &lt;td&gt;Secondes&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;L&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Milliseonds&lt;/td&gt;
 &lt;td&gt;Milliseondes&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;U&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Microseconds&lt;/td&gt;
 &lt;td&gt;Microsecondes&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;N&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;nanoseconds&lt;/td&gt;
 &lt;td&gt;nanosecondes&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;B&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Business day&lt;/td&gt;
+&lt;td&gt;Jour ouvrable&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;BM&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Business month end&lt;/td&gt;
+&lt;td&gt;Fin ouvrable de mois&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;BQ&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Business quarter end&lt;/td&gt;
+&lt;td&gt;Fin ouvrable de trimestre&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;BA&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Business year end&lt;/td&gt;
+&lt;td&gt;Fin ouvrable d'année&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;BH&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Business hours&lt;/td&gt;
+&lt;td&gt;Heures ouvrables&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -518,9 +484,6 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;th&gt;Code&lt;/th&gt;
 &lt;th&gt;Description EN&lt;/th&gt;
 &lt;th&gt;Description FR&lt;/th&gt;
-&lt;th&gt;Code&lt;/th&gt;
-&lt;th&gt;Description EN&lt;/th&gt;
-&lt;th&gt;Description FR&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
@@ -528,33 +491,38 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;td&gt;&lt;code&gt;MS&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Month start&lt;/td&gt;
 &lt;td&gt;Début de mois&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;BMS&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Business month start&lt;/td&gt;
-&lt;td&gt;Début ouvrable de mois&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;QS&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Quarter start&lt;/td&gt;
 &lt;td&gt;Début de trimestre&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;BQS&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Business quarter start&lt;/td&gt;
-&lt;td&gt;Début ouvrable de trimestre&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;AS&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Year start&lt;/td&gt;
 &lt;td&gt;Début d'année&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;BMS&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Business month start&lt;/td&gt;
+&lt;td&gt;Début ouvrable de mois&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;BQS&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Business quarter start&lt;/td&gt;
+&lt;td&gt;Début ouvrable de trimestre&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;code&gt;BAS&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Business year start&lt;/td&gt;
 &lt;td&gt;Début ouvrable d'année&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;On peut aussi modifier le mois utilisé pour marquer un code trimestriel ou annuel en ajoutant les 3 lettres du mois en suffixes:
-- &lt;code&gt;Q-JAN&lt;/code&gt;, &lt;code&gt;BQ-FEB&lt;/code&gt;, &lt;code&gt;QS-MAR&lt;/code&gt;, &lt;code&gt;BQS-APR&lt;/code&gt;, etc.
-- &lt;code&gt;A-JAN&lt;/code&gt;, &lt;code&gt;BA-FEB&lt;/code&gt;, &lt;code&gt;AS-MAR&lt;/code&gt;, &lt;code&gt;BAS-APR&lt;/code&gt;, etc.&lt;/p&gt;
-&lt;p&gt;De la même manière, le "jour seuil" d'une fréquence hebdomadaire peut être modifié en ajoutant en suffixes les 3 lettres du jour:
-- &lt;code&gt;W-SUN&lt;/code&gt;, &lt;code&gt;W-MON&lt;/code&gt;, &lt;code&gt;W-TUE&lt;/code&gt;, &lt;code&gt;W-WED&lt;/code&gt;, etc.&lt;/p&gt;
+&lt;p&gt;On peut aussi modifier le mois utilisé pour marquer un code trimestriel ou annuel en ajoutant les 3 lettres du mois en suffixes:&lt;br&gt;
+- &lt;code&gt;Q-JAN&lt;/code&gt;, &lt;code&gt;BQ-FEB&lt;/code&gt;, &lt;code&gt;QS-MAR&lt;/code&gt;, &lt;code&gt;BQS-APR&lt;/code&gt;, ...&lt;br&gt;
+- &lt;code&gt;A-JAN&lt;/code&gt;, &lt;code&gt;BA-FEB&lt;/code&gt;, &lt;code&gt;AS-MAR&lt;/code&gt;, &lt;code&gt;BAS-APR&lt;/code&gt;, ...  &lt;/p&gt;
+&lt;p&gt;De la même manière, le "jour seuil" d'une fréquence hebdomadaire peut être modifié en ajoutant en suffixes les 3 lettres du jour:&lt;code&gt;W-SUN&lt;/code&gt;, &lt;code&gt;W-MON&lt;/code&gt;, &lt;code&gt;W-TUE&lt;/code&gt;, &lt;code&gt;W-WED&lt;/code&gt;, etc.&lt;/p&gt;
 &lt;p&gt;Enfin, comme vu un peu plus haut, les codes peuvent être combinés avec des valeurs numériques pour spécifier d'autres fréquences. Par exemple, pour une fréquence de 2h30min, on peut faire:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;timedelta_range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;periods&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;freq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;2H30T&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
