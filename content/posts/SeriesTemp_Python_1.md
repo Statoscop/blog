@@ -7,12 +7,11 @@ Tags: Python, Machine Learning, Statistiques, Data Science, Séries temporelles,
 Cover: images/cover_3.png
 Summary: Introduction à la manipulation de données temporelles avec Python
 
-# Les séries temporelles avec Python (1/4)
 
->1. **Introduction à la manipulation de données temporelles avec Python**
->2. Visualisation et opérations sur les séries temporelles
->3. Éléments théoriques et exemples
->4. Analyse, modélisation et prédiction
+1. **Introduction à la manipulation de données temporelles avec Python**
+2. Visualisation et opérations sur les séries temporelles
+3. Éléments théoriques et exemples
+4. Analyse, modélisation et prédiction
 
 Cet article introductif est le premier d'une séquence de 4 posts sur les séries temporelles. Avant d'entrer dans le vif du sujet, nous allons donc nous pencher sur le fonctionnement, le stockage et la manipulation des données temporelles avec Python.
 
@@ -25,10 +24,10 @@ La libraire `Pandas` a été développée dans un contexte de données financiè
 
 Une série temporelle peut être vue comme un cas très particulier des données panel puisqu'il s'agit de l'évolution d'une seule observation au cours du temps.
 
-Nous allons donc nous intéresser à ces données temporelles et pour commencer, un peu de vocabulaire et d'anglicisme :
-- **Timestamps** correspond à un moment précis (par exemple *03 juin 2020, 14:15:16*)
-- **Time intervals** et **periods** correspondent à une durée ayant des dates de début et de fin précises (par exemple, *l'année 2020*)
-- **Time deltas** ou **durations** correspondent à une durée exacte (par exemple *123.45 secondes*)
+Nous allons donc nous intéresser à ces données temporelles et pour commencer, un peu de vocabulaire et d'anglicisme :  
+>- **Timestamps** correspond à un moment précis (par exemple *03 juin 2020, 14:15:16*)  
+>- **Time intervals** et **periods** correspondent à une durée ayant des dates de début et de fin précises (par exemple, *l'année 2020*)  
+>- **Time deltas** ou **durations** correspondent à une durée exacte (par exemple *123.45 secondes*)  
 
 On va voir comment utiliser et manipuler ces objets date/time avec Python d'une part, puis avec `Pandas` plus particulièrement.
 
@@ -38,7 +37,7 @@ Python a de nombreuses représentations et formats possibles des dates, heures, 
 
 ### 1.1. Les packages`datetime` and `dateutil`
 
-Les objet natifs Python pour les dates/times sont dans le module built-in `datetime`. En utilisant également le package `dateutil`, on peut facilement et rapidement effecture bon nombre d'opérations sur objets temporels.
+Les objet natifs Python pour les dates/times sont dans le module built-in `datetime`. En utilisant également le package `dateutil`, on peut facilement et rapidement effectuer bon nombre d'opérations sur objets temporels.
 
 Par exemple, on peut construire une date manuellement.
 
@@ -120,20 +119,14 @@ Une fois qu'on a une date dans le bon format, on peut facilement effectuer des o
 
 
 ```python
-date + np.arange(31)
+date + np.arange(7)
 ```
 
 
 
 
     array(['2021-04-30', '2021-05-01', '2021-05-02', '2021-05-03',
-           '2021-05-04', '2021-05-05', '2021-05-06', '2021-05-07',
-           '2021-05-08', '2021-05-09', '2021-05-10', '2021-05-11',
-           '2021-05-12', '2021-05-13', '2021-05-14', '2021-05-15',
-           '2021-05-16', '2021-05-17', '2021-05-18', '2021-05-19',
-           '2021-05-20', '2021-05-21', '2021-05-22', '2021-05-23',
-           '2021-05-24', '2021-05-25', '2021-05-26', '2021-05-27',
-           '2021-05-28', '2021-05-29', '2021-05-30'], dtype='datetime64[D]')
+           '2021-05-04', '2021-05-05', '2021-05-06'], dtype='datetime64[D]')
 
 
 
@@ -255,7 +248,7 @@ print(date.month, date.month_name())
 
 
 ```python
-date + pd.to_timedelta(np.arange(31), 'D')
+date + pd.to_timedelta(np.arange(7), 'D')
 # à noter ici l'utilisation de to_timedelta pour transformer 
 # le tableau d'entiers en tableau de durées
 ```
@@ -264,23 +257,17 @@ date + pd.to_timedelta(np.arange(31), 'D')
 
 
     DatetimeIndex(['2021-04-30', '2021-05-01', '2021-05-02', '2021-05-03',
-                   '2021-05-04', '2021-05-05', '2021-05-06', '2021-05-07',
-                   '2021-05-08', '2021-05-09', '2021-05-10', '2021-05-11',
-                   '2021-05-12', '2021-05-13', '2021-05-14', '2021-05-15',
-                   '2021-05-16', '2021-05-17', '2021-05-18', '2021-05-19',
-                   '2021-05-20', '2021-05-21', '2021-05-22', '2021-05-23',
-                   '2021-05-24', '2021-05-25', '2021-05-26', '2021-05-27',
-                   '2021-05-28', '2021-05-29', '2021-05-30'],
+                   '2021-05-04', '2021-05-05', '2021-05-06'],
                   dtype='datetime64[ns]', freq=None)
 
 
 
 
 ```python
-# ici on crée un liste d'entier entre 0 et 72 avec un intervalle de 6 
+# ici on crée une liste d'entier entre 0 et 24 avec un intervalle de 6 
 # que l'on transforme en durée en heures avant de les ajouter à notre timestamp
 d = pd.to_datetime("30 of April, 2021, 14:00")
-d + pd.to_timedelta(np.arange(0,73,6), 'h')
+d + pd.to_timedelta(np.arange(0,25,6), 'h')
 ```
 
 
@@ -288,11 +275,7 @@ d + pd.to_timedelta(np.arange(0,73,6), 'h')
 
     DatetimeIndex(['2021-04-30 14:00:00', '2021-04-30 20:00:00',
                    '2021-05-01 02:00:00', '2021-05-01 08:00:00',
-                   '2021-05-01 14:00:00', '2021-05-01 20:00:00',
-                   '2021-05-02 02:00:00', '2021-05-02 08:00:00',
-                   '2021-05-02 14:00:00', '2021-05-02 20:00:00',
-                   '2021-05-03 02:00:00', '2021-05-03 08:00:00',
-                   '2021-05-03 14:00:00'],
+                   '2021-05-01 14:00:00'],
                   dtype='datetime64[ns]', freq=None)
 
 
@@ -301,18 +284,15 @@ d + pd.to_timedelta(np.arange(0,73,6), 'h')
 ```python
 # un dernier exemple avant le suivant
 d = pd.to_datetime("30 of April, 2021, 14:00")
-d + pd.to_timedelta(np.arange(0, 101, 10), 'm')
+d + pd.to_timedelta(np.arange(20, 71, 10), 'm')
 ```
 
 
 
 
-    DatetimeIndex(['2021-04-30 14:00:00', '2021-04-30 14:10:00',
-                   '2021-04-30 14:20:00', '2021-04-30 14:30:00',
+    DatetimeIndex(['2021-04-30 14:20:00', '2021-04-30 14:30:00',
                    '2021-04-30 14:40:00', '2021-04-30 14:50:00',
-                   '2021-04-30 15:00:00', '2021-04-30 15:10:00',
-                   '2021-04-30 15:20:00', '2021-04-30 15:30:00',
-                   '2021-04-30 15:40:00'],
+                   '2021-04-30 15:00:00', '2021-04-30 15:10:00'],
                   dtype='datetime64[ns]', freq=None)
 
 
@@ -382,15 +362,12 @@ data['2020'], data['2020-04'], data['2020-05-01':]
 
 ### 2.2. Les structures de données `pandas` pour les séries temporelles
 
-Nous allons maintenant introduire les structures de données fondamentales de `pandas` pour travailler avec les séries temporelles :
-- pour les *timestamps*, il y a le type `Timestamp` : l'idée est que ça remplace le type natif de Python `datetime` tout en étant construit sur le type `numpy.datetime64` qui est plus efficace.  
-La structure d'index associée est le `DatetimeIndex`
-- pour les *time Periods*, il y a le type `Period` : il permet d'encoder des durées de fréquences fixes basées sur `numpy.datetime64`.  
-La structure d'index associée est le `PeriodIndex`
-- pour les *time deltas* ou *durations*, il y a le type`Timedelta` : c'est un remplaçant plus efficace du type natif de Python `datetime.timedelta` basé sur `numpy.timedelta64`.  
-La structure d'index associée est le `TimedeltaIndex`
+Nous allons maintenant introduire les structures de données fondamentales de `pandas` pour travailler avec les séries temporelles :  
+1. pour les *timestamps*, il y a le type `Timestamp` : l'idée est que ça remplace le type natif de Python `datetime` tout en étant construit sur le type `numpy.datetime64` qui est plus efficace  
+2. pour les *time Periods*, il y a le type `Period` : il permet d'encoder des durées de fréquences fixes basées sur `numpy.datetime64`  
+3. pour les *time deltas* ou *durations*, il y a le type`Timedelta` : c'est un remplaçant plus efficace du type natif de Python `datetime.timedelta` basé sur `numpy.timedelta64`  
 
-**Les plus importantes de ces structures date/time sont les objets `Timestamp` et `DatetimeIndex`.**
+Les structures d'index associées sont respectivement les `DatetimeIndex`, `PeriodIndex` et `TimedeltaIndex`. On retiendra que parmi ces différents objets, les structures de date/time les plus utilisées sont les `Timestamp` et `DatetimeIndex`.
 
 Même si on peut très bien appeler ces classes d'objets directement, généralement on passe par la fonction `pd.to_datetime()` qui permet de lire une grande variété de formats de chaîne de caractères. Si on passe une seule date à `pd.to_datetime()`, on obtient un `Timestamp`. Si on lui passe une série de dates, on obtient un `DatetimeIndex`.
 
@@ -459,15 +436,14 @@ De la même manière, `pd.date_range()` prend une date de départ, une date de f
 
 
 ```python
-pd.date_range('2021-04-30', '2021-05-10')
+pd.date_range('2021-04-30', '2021-05-06')
 ```
 
 
 
 
     DatetimeIndex(['2021-04-30', '2021-05-01', '2021-05-02', '2021-05-03',
-                   '2021-05-04', '2021-05-05', '2021-05-06', '2021-05-07',
-                   '2021-05-08', '2021-05-09', '2021-05-10'],
+                   '2021-05-04', '2021-05-05', '2021-05-06'],
                   dtype='datetime64[ns]', freq='D')
 
 
@@ -491,16 +467,15 @@ pd.date_range('2021-04-30', periods=8)
 
 
 ```python
-# pour avoir 6 timestamps chacune correspondant à un décalage de 2 heures à partir d'aujourd'hui 14h
-pd.date_range('2021-04-30 14h', periods=6, freq='2H')
+# pour avoir 4 timestamps chacune correspondant à un décalage de 2 heures à partir d'aujourd'hui 14h
+pd.date_range('2021-04-30 14h', periods=4, freq='2H')
 ```
 
 
 
 
     DatetimeIndex(['2021-04-30 14:00:00', '2021-04-30 16:00:00',
-                   '2021-04-30 18:00:00', '2021-04-30 20:00:00',
-                   '2021-04-30 22:00:00', '2021-05-01 00:00:00'],
+                   '2021-04-30 18:00:00', '2021-04-30 20:00:00'],
                   dtype='datetime64[ns]', freq='2H')
 
 
@@ -542,34 +517,41 @@ Vous l'aurez compris, pour bien comprendre ce qu'il se passe et toutes les possi
 Le concept de fréquence ou de décalage (on parlera généralement d'offset)  est fondamental pour les outils `pandas` de séries temporelles.
 On a déjà croisé les codes `M` (month), `D` (day) et `H` (hour) pour définir des fréquences, on va résumé les codes Pandas dans le tableau suivant.
 
-| Code   | Description EN        | Description     FR    | Code   | Description EN        | Description               |
-|--------|-----------------------|-----------------------|--------|-----------------------|---------------------------|
-| ``D``  | Calendar day          | Jour de la semaine    | ``B``  | Business day          | Jour ouvrable             |
-| ``W``  | Weekly                | Semaine               |        |                       |                           |
-| ``M``  | Month end             | Fin du mois           | ``BM`` | Business month end    | Fin ouvrable de mois      |
-| ``Q``  | Quarter end           | Fin du trimestre      | ``BQ`` | Business quarter end  | Fin ouvrable de trimestre |
-| ``A``  | Year end              | Fin de l'année        | ``BA`` | Business year end     | Fin ouvrable d'année      |
-| ``H``  | Hours                 | Heures                | ``BH`` | Business hours        | Heures ouvrables          |
-| ``T``  | Minutes               | Minutes               |        |                       |                           |
-| ``S``  | Seconds               | Secondes              |        |                       |                           |
-| ``L``  | Milliseonds           | Milliseondes          |        |                       |                           |
-| ``U``  | Microseconds          | Microsecondes         |        |                       |                           |
-| ``N``  | nanoseconds           | nanosecondes          |        |                       |                           |
+| Code   | Description EN        | Description     FR        |
+|--------|-----------------------|---------------------------|
+| ``D``  | Calendar day          | Jour de la semaine        |
+| ``W``  | Weekly                | Semaine                   |
+| ``M``  | Month end             | Fin du mois               |
+| ``Q``  | Quarter end           | Fin du trimestre          |
+| ``A``  | Year end              | Fin de l'année            |
+| ``H``  | Hours                 | Heures                    |
+| ``T``  | Minutes               | Minutes                   |
+| ``S``  | Seconds               | Secondes                  |
+| ``L``  | Milliseonds           | Milliseondes              |
+| ``U``  | Microseconds          | Microsecondes             |
+| ``N``  | nanoseconds           | nanosecondes              |
+| ``B``  | Business day          | Jour ouvrable             |
+| ``BM`` | Business month end    | Fin ouvrable de mois      |
+| ``BQ`` | Business quarter end  | Fin ouvrable de trimestre |
+| ``BA`` | Business year end     | Fin ouvrable d'année      |
+| ``BH`` | Business hours        | Heures ouvrables          |
 
 Les fréquences mensuelles, trimestrielles et annuelles pointent à la fin de la période par défaut. En ajoutant un suffixe `S` à la fin du nom, elles pointeront à la place au début de la période.
 
-| Code    | Description EN         | Description FR         | Code    | Description EN         | Description FR              |
-|---------|------------------------|------------------------|---------|------------------------|-----------------------------|
-| ``MS``  | Month start            | Début de mois          |``BMS``  | Business month start   | Début ouvrable de mois      |
-| ``QS``  | Quarter start          | Début de trimestre     |``BQS``  | Business quarter start | Début ouvrable de trimestre |
-| ``AS``  | Year start             | Début d'année          |``BAS``  | Business year start    | Début ouvrable d'année      |
+| Code    | Description EN         | Description FR              |
+|---------|------------------------|-----------------------------|
+| ``MS``  | Month start            | Début de mois               |
+| ``QS``  | Quarter start          | Début de trimestre          |
+| ``AS``  | Year start             | Début d'année               |
+|``BMS``  | Business month start   | Début ouvrable de mois      |
+|``BQS``  | Business quarter start | Début ouvrable de trimestre |
+|``BAS``  | Business year start    | Début ouvrable d'année      |
 
-On peut aussi modifier le mois utilisé pour marquer un code trimestriel ou annuel en ajoutant les 3 lettres du mois en suffixes:
-- ``Q-JAN``, ``BQ-FEB``, ``QS-MAR``, ``BQS-APR``, etc.
-- ``A-JAN``, ``BA-FEB``, ``AS-MAR``, ``BAS-APR``, etc.
+On peut aussi modifier le mois utilisé pour marquer un code trimestriel ou annuel en ajoutant les 3 lettres du mois en suffixes:  
+- ``Q-JAN``, ``BQ-FEB``, ``QS-MAR``, ``BQS-APR``, ...  
+- ``A-JAN``, ``BA-FEB``, ``AS-MAR``, ``BAS-APR``, ...  
 
-De la même manière, le "jour seuil" d'une fréquence hebdomadaire peut être modifié en ajoutant en suffixes les 3 lettres du jour:
-- ``W-SUN``, ``W-MON``, ``W-TUE``, ``W-WED``, etc.
+De la même manière, le "jour seuil" d'une fréquence hebdomadaire peut être modifié en ajoutant en suffixes les 3 lettres du jour:``W-SUN``, ``W-MON``, ``W-TUE``, ``W-WED``, etc.
 
 Enfin, comme vu un peu plus haut, les codes peuvent être combinés avec des valeurs numériques pour spécifier d'autres fréquences. Par exemple, pour une fréquence de 2h30min, on peut faire:
 

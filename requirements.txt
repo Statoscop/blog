@@ -2,7 +2,7 @@
 # $ conda create --name <env> --file <this file>
 # platform: linux-64
 # autre création d'un environnement pelican similaire : 
-# $ conda create --name env_pelican -c conda-forge python=3.8 jupyter pelican markdown
+# $ conda create --name env_pelican -c conda-forge python=3.8 jupyter pelican markdown ghp-import
 _libgcc_mutex=0.1=main
 argon2-cffi=20.1.0=pypi_0
 async-generator=1.10=pypi_0
