@@ -405,8 +405,8 @@ velo.head(3)
 
 
 
-En important le jeu de données, on voit ce "+02:00" qui définit en fait la timezone. Plusieurs solutions possibles pour gérer ce problème :
-- on peut utiliser les méthodes de manipulation de timezone avec `tz_convert` et `tz_localize`
+En important le jeu de données, on voit ce "+02:00" qui définit en fait la timezone. Plusieurs solutions possibles pour gérer ce problème :  
+- on peut utiliser les méthodes de manipulation de timezone avec `tz_convert` et `tz_localize`  
 - on peut définir notre propre parser de date au moment de l'import en supprimant le "+02:00" avec un `split` par exemple.
 
 Ci-dessous, ces 2 approches mises en oeuvre.
