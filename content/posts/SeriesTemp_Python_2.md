@@ -24,10 +24,11 @@ Il s'intéresse dans un premier temps à la visualisation et aux opérations que
 - *Shifting* = déplacement
 - *Windowing* = fenêtrage
 
-La capacité à utiliser les dates/times comme indices pour organiser et accéder aux données est une point important des outils de séries temporelles sur Pandas. Les avantages de l'indexation (alignement, slicing, etc...) sont conservés et Pandas fournit par ailleurs plusieurs opérations spécifiques aux séries temporelles. Petite reprécision, le terme "séries temporelles" désigne en général, dans le contexte `Pandas`, un objet `Series` indexé par un `DatetimeIndex`.
+La capacité à utiliser les dates/times comme indices pour organiser et accéder aux données est le fondement des outils de séries temporelles sur Pandas. Les avantages de l'indexation (alignement, slicing, etc...) sont conservés et Pandas fournit par ailleurs plusieurs opérations spécifiques aux séries temporelles.
 
 On va donc développer ici quelques unes de ces opérations merveilleuses en utilisant comme premier exemple le cours de l'action Google en bourse (données récupérées sur [Yahoo finance](https://fr.finance.yahoo.com/quote/GOOG/history?p=GOOG)).
 
+Petite précision en passant, le terme "séries temporelles" désigne en général, dans le contexte `Pandas`, un objet `Series` indexé par un `DatetimeIndex`.
 
 ```python
 import pandas as pd
@@ -167,7 +168,7 @@ goog.tail(2)
 
 
 
-Ces données recensent donc un certain nombre d'information sur l'action Google du 19 août 2004 au 24 mai 2021 : les prix à l'ouverture et à la clôture, le maximum et le minimum sur la journée, les prix ajustés et les volumes. On va s'intéresser  à la série temporelle des prix à la clôture.
+Ces données recensent certaines informations sur l'action Google du 19 août 2004 au 24 mai 2021 : les prix à l'ouverture et à la clôture, le maximum et le minimum sur la journée, les prix ajustés et les volumes. On étudie ici la série temporelle des prix à la clôture.
 
 
 ```python
@@ -189,7 +190,7 @@ goog.index
 
 
 
-C'est bien une série temporelle indexée par un `DatetimeIndex` que l'on affiche élégamment en fixant les paramètres d'affichage par défaut comme étant ceux de `seaborn` : 
+C'est bien une série indexée par un `DatetimeIndex` que l'on affiche avec style en fixant les paramètres d'affichage par défaut comme étant ceux de `seaborn` : 
 
 
 ```python
@@ -211,8 +212,8 @@ goog.plot();
 
 ## Rééchantillonage et conversion de fréquences
 
-Une manipulation classique des séries temporelles est le rééchantionnage (resampling) à une fréquence plus ou moins haute. Cela consiste à augmenter ou diminuer la fréquence des observations. Il y a donc 2 possibilités : 
-- si on augmente la fréquence cela veut dire ajouter des points et dans ce cas il faut définir quelle stratégie utiliser pour interpoler les nouveaux points (un exemple de stratégie basique est de répéter la dernière valeur).
+Une manipulation classique des séries temporelles est le rééchantionnage (resampling) à une fréquence plus ou moins haute. Cela consiste à augmenter ou diminuer la fréquence des observations. Il y a donc 2 possibilités :  
+- si on augmente la fréquence cela veut dire ajouter des points et dans ce cas il faut définir quelle stratégie utiliser pour interpoler les nouveaux points (un exemple de stratégie basique est de répéter la dernière valeur) ;  
 - si on diminue la fréquence, ce qui est le cas le plus classique, on va supprimer des points et il faut là aussi déterminer la stratégie à utiliser. Deux options sont possibles : on sélectionne uniquement les points correspondants à la nouvelle fréquence plus faible ou bien on agrège les points entre 2 fréquences en utilisant une fonction d'aggrégation comme par exemple une moyenne, une médiane, un max, etc...
 
 Pour ce faire, `pandas` dispose de deux méthodes qui sont `resample()` ou `asfreq()`. La différence entre les deux est que `resample` consiste à agréger toutes les données comprises entre 2 multiples de la fréquence alors que `asfreq` sélectionne la valeur correspondant à la fréquence. Aussi, `resample` renvoie un objet particulier qui est un `DatetimeIndexResampler` sur lequel il faut appliquer une méthode d'aggrégation ou d'imputation pour récupérer une série. La méthode `asfreq` retourne directement une série.
@@ -237,12 +238,14 @@ plt.legend(['close', 'resample', 'asfreq'], loc='upper left');
 
 Pour un resampling avec une fréquence plus importante, `resample()` et `asfreq()` sont équivalentes. Par défaut, les 2 méthodes laissent les valeurs non existantes vides. Toutefois, `asfreq()` accepte un paramètre `method` dans lequel on peut spécifier comment imputer les valeurs manquantes générées par l'augmentation de la fréquence. C'est faisable aussi avec `resample` en utilisant les méthodes `bfill` ou `ffill` des objets `pandas.core.resample.Resampler`.
 
-Dans la cellule de code ci-dessous on selectionne uniquement les 14 derniers jours et on fait un resampling de la série avec une fréquence quotidienne (cela inclue donc les weekends !). Ensuite on affiche pour chaque méthode (`resample()` et `asfreq()`) les courbes rééchantillonnées sans imputer les valeurs manquantes, avec une imputation de type `bfill` qui impute la première valeur qui suit (donc dans ce cas la valeur du lundi) et de type `ffill` qui impute la dernière valeur (donc ici, celle du vendredi).
+Le petit bout de code ci-dessous selectionne uniquement les 14 derniers jours et effectue un resampling de la série avec une fréquence quotidienne (cela inclue donc les weekends !). Ensuite on affiche pour chaque méthode (`resample()` et `asfreq()`) les courbes rééchantillonnées sans imputer les valeurs manquantes, avec une imputation de type `bfill` qui impute la première valeur suivante non manquante (donc dans ce cas celle du lundi) et de type `ffill` qui impute la dernière valeur (donc ici, celle du vendredi).
 
 
 ```python
-fig, ax = plt.subplots(2,2, sharex=True, sharey=True, figsize=(14,9))
 data = goog.iloc[-14:]
+
+#visualisation
+fig, ax = plt.subplots(2,2, sharex=True, sharey=True, figsize=(14,9))
 
 #avec asfreq
 data.asfreq('D').plot(ax=ax[0,0], marker='o')
@@ -269,9 +272,9 @@ ax[1,1].legend(["back-fill", "forward-fill"]);
 
 ## Déplacements
 
-Une autre opération classique sur les séries temporelles est le déplacement ou décalage (on parle plus souvent de *time-shifts* ou *shifting*)
+Une autre opération fondamentale de l'analyse des données temporelles est le déplacement ou décalage (on parle plus souvent de *time-shifts* ou *shifting*)
 
-On utilise pour cette opération la méthode `shift()` qui déplace les valeurs par rapport aux index. Le décalage doit bien sûr être un multiple de la fréquence !
+On utilise pour cette opération la méthode `shift()` dont le principe est de déplacer les valeurs par rapport aux indices. Le décalage doit bien sûr être un multiple de la fréquence !
 
 
 ```python
@@ -325,7 +328,7 @@ Qu'en conclure ? Pour les boursicoteurs, vous avez raté le coche, fallait achet
 
 ## Attention, fenêtres glissantes
 
-Enfin, la 3ème opération classique des séries temporelles consiste à calculer différentes statistiques sur une fenêtre d'une longueur donnée et qui se déplace. On parle plus de *rolling window* et que de fenêtres glissantes...et pour ce faire, Pandas a tout ce qu'il faut avec la méthode `rolling()` pour les objets `Series` et `DataFrame`. Pour illustrer, on va calculer avec la méthode rolling la moyenne annuelle centrée et l'écart-type annuel centré avant bien sûr de les afficher.
+Enfin, la 3ème opération classique des séries temporelles consiste à calculer différentes statistiques sur une fenêtre d'une longueur donnée et qui se déplace. On parle plus de *rolling window* que de fenêtres glissantes...et pour ce faire, Pandas a tout ce qu'il faut avec la méthode `rolling()` pour les objets `Series` et `DataFrame`. Regardons d'un peu plus près en calculant avec la méthode rolling la moyenne annuelle centrée et l'écart-type annuel centré.
 
 
 ```python
@@ -346,7 +349,7 @@ ax.lines[0].set_alpha(0.4)
 
 # Un exemple de visualisation : le nombre de vélos à Paris Montparnasse
 
-On va terminer sur un petit exemple un peu plus parlant, ou en tout cas, un peu moins financier, en regardant le nombre de vélo passés par un des compteurs de la ville de Paris, situé sur le boulevard Montparnasse. Le jeu de données vient [de là](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name). Le décompte horaire des vélos peut ainsi être récupéré.
+On va terminer sur un petit exemple un peu plus parlant, ou en tout cas, un peu moins financier, en regardant le nombre de vélos passés devant un des compteurs de la ville de Paris, situé sur le boulevard Montparnasse. Le jeu de données vient [de là](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name). On récupère ainsi le décompte horaire des vélos.
 
 ## Nettoyage des données 
 
@@ -473,7 +476,7 @@ plt.ylabel('Décompte horaire des vélos');
     
 
 
-On voit pas grand chose pour le moment mais on détecte déjà un problème de valeurs manquantes au niveau du mois de février 2021. On va donc prendre les données de 2020 uniquement pour s'épargner la gestion de ces manquants.
+On voit pas grand chose pour le moment mais on détecte déjà un problème de valeurs manquantes au niveau du mois de février 2021. On va donc prendre les données de 2020 uniquement pour s'épargner la gestion de ces données manquantes.
 
 
 ```python
@@ -535,7 +538,7 @@ plt.legend(loc='best');
     
 
 
-Le paramètre `win_type="gaussian"` permet d'appliquer une pondération au calcul de la moyenne. En l'occurence on applique des poids qui suivent une loi normale dont l'écart-type est défini dans la fonction d'aggrégation`mean`. Plus cet écart type est faible, plus les jours proches comptent et ceux éloignés ne comptent pas. C'est le cas de la courbe orange qui a donc tendance à suivre d'assez près la courbe initiale. En revanche, si l'on augmente l'écart-type, on prend en compte plus de jours autour et on lisse ainsi les résultats. Pour finir, si l'écart-type est très élevé, alors on pondère de manière quasi identique les 30 jours de la fenêtre et on retombe donc sur une moyenne non-pondérée.
+Le paramètre `win_type="gaussian"` permet d'appliquer une pondération au calcul de la moyenne. En l'occurence on applique des poids qui suivent une loi normale dont l'écart-type est défini dans la fonction d'aggrégation `mean`. Plus cet écart-type est faible, plus les jours proches comptent et ceux éloignés ne comptent pas. C'est le cas de la courbe orange qui a donc tendance à suivre d'assez près la courbe initiale. En revanche, si l'on augmente l'écart-type, on prend en compte plus de jours autour et on lisse ainsi les résultats. Pour finir, si l'écart-type est très élevé, alors on pondère de manière quasi identique les 30 jours de la fenêtre et on retombe donc sur une moyenne non-pondérée.
 
 On va regarder maintenant comment ça se passe au niveau hebdomadaire pour comprendre comment évolue la fréquentation selon les différents horaires d'une journée et selon les différents jours d'une semaine. Pour cela, on va pouvoir utiliser les attributs `time` et `dayofweek` des objets `DatetimeIndex` afin d'afficher les décomptes de vélos par heure de la journée et par jour de la semaine.
 
