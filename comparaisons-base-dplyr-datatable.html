@@ -137,10 +137,25 @@
         <article class="post">
         <div class="inner">
             <section class="post-content">
-                <p>Cet article est une mise à jour de l'article du <a href="https://antoinesir.rbind.io/post/comparaisons-base-r-dplyr-data-table/">blog d'Antoine</a> réalisé en 2018. L'idée est de comparer les performances de trois alternatives dans R pour l'analyse de données :<br>
+                <p>Cet article est une mise à jour de l'article du <a href="https://antoinesir.rbind.io/post/comparaisons-base-r-dplyr-data-table/">blog d'Antoine</a> réalisé en 2018. L'idée est de comparer les performances de trois alternatives dans R pour l'analyse de données : <br>
 - l'utilisation des seules fonctions de base R<br>
 - dplyr<br>
 - data.table  </p>
+<div class="toc"><span class="toctitle">Table des matières</span><ul>
+<li><a href="#rappels-sur-dplyr-et-datatable">Rappels sur dplyr et data.table</a><ul>
+<li><a href="#dplyr-et-le-tidyverse">dplyr et le tidyverse</a></li>
+<li><a href="#datatable">Data.table</a></li>
+<li><a href="#vitesses-dexecution">Vitesses d'exécution</a></li>
+</ul>
+</li>
+<li><a href="#comparaisons-sur-une-etude-de-cas-simple">Comparaisons sur une étude de cas simple</a><ul>
+<li><a href="#notre-etude-de-cas">Notre étude de cas</a></li>
+<li><a href="#moyenne-des-retards-et-fusion-des-tables">Moyenne des retards et fusion des tables</a></li>
+<li><a href="#comparaisons-des-vitesses-dexecution">Comparaisons des vitesses d'exécution</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <h1 id="rappels-sur-dplyr-et-datatable">Rappels sur dplyr et data.table</h1>
 <p>On rappelle ici les principales caractéristiques de ces packages mais pour se former à leur utilisation on peut se référer au <a href="https://teaching.slmc.fr/perf/presentation_handout.pdf">cours de perfectionnement de Martin Chevalier</a>. Pour une exploration de ce qu'englobe le <code>tidyverse</code> et notamment une présentation des commandes de <code>dplyr</code>, vous pouvez jeter un oeil à <a href="https://juba.github.io/tidyverse/index.html">l'introduction à R et au tidyverse</a> de J. Barnier. Enfin pour data.table, on trouve des informations utiles sur le cours <a href="http://larmarange.github.io/analyse-R/manipulations-avancees-avec-data-table.html">Manipulations avancée avec data.table</a> de J. Larmarange et on vous conseille l'excellent article <a href="https://atrebas.github.io/post/2020-06-17-datatable-introduction/">a gentle introduction to data.table</a>.  </p>
 <h2 id="dplyr-et-le-tidyverse">dplyr et le tidyverse</h2>
