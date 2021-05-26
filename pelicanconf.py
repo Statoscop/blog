@@ -54,6 +54,22 @@ COLOR_SCHEME_CSS = 'github.css'
 
 # PLUGIN_PATHS = ['pelican-plugins']
 # PLUGINS = ['pelican-toc']
+MARKDOWN = {
+    'extension_configs': {
+        # Needed for code syntax highlighting
+        'markdown.extensions.codehilite': {
+            'css_class': 'highlight'
+        },
+        'markdown.extensions.extra': {},
+        'markdown.extensions.meta': {},
+        # This is for enabling the TOC generation
+        'markdown.extensions.toc': {
+            'title': 'Table des matières',
+        },
+    },
+    
+  'output_format': 'html5',
+}
 
 
 SITEMAP = {

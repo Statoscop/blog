@@ -1,22 +1,24 @@
-Title: Les séries temporelles avec Python (2/4)
+Title: Les séries temporelles avec Python (2/4) - Visualisations et opérations sur les séries temporelles
 Author: Louis
-Date: '2021-05-26'
+Date: '2021-05-27'
 Slug: timeseries-2
 Category: Python
 Tags: Python, Machine Learning, Statistiques, Data Science, Séries temporelles, Datetime
 Cover: images/cover_4.png
-Summary: Quelques opérations sur les séries temporelles, le tout joliment illustré par une petite étude de cas à bicyclette.
+Summary: Quelques opérations sur les séries temporelles, illustré par une petite étude de cas à bicyclette.
+
+Cet article est le second de notre série sur les données temporelles :  
 
 1. Introduction à la manipulation de données temporelles avec Python
-2. **Visualisation et opérations sur les séries temporelles**
+2. **Visualisations et opérations sur les séries temporelles**
 3. Éléments théoriques et exemples
 4. Analyse, modélisation et prédiction
 
-On continue dans la série des séries temporelles avec un second article qui s'intéresse dans un premier temps à la visualisation et aux opérations que l'on peut effectuer sur ces objets avant de conclure sur un petit exemple en utilisant les outils présentés dans ces 2 premiers posts.
+Il s'intéresse dans un premier temps à la visualisation et aux opérations que l'on peut effectuer sur ces objets avant de conclure sur un petit exemple en utilisant les outils présentés dans ces 2 premiers posts.  
 
-# Visualisation et opérations sur les séries temporelles
+[TOC]
 
-## Un peu d'anglicisme : Resampling, Shifting, and Windowing
+# Un peu d'anglicisme : Resampling, Shifting, and Windowing
 
 - *Resampling* = rééchantillonnage
 - *Shifting* = déplacement
@@ -207,7 +209,7 @@ goog.plot();
     
 
 
-### Rééchantillonage et conversion de fréquences
+## Rééchantillonage et conversion de fréquences
 
 Une manipulation classique des séries temporelles est le rééchantionnage (resampling) à une fréquence plus ou moins haute. Cela consiste à augmenter ou diminuer la fréquence des observations. Il y a donc 2 possibilités : 
 - si on augmente la fréquence cela veut dire ajouter des points et dans ce cas il faut définir quelle stratégie utiliser pour interpoler les nouveaux points (un exemple de stratégie basique est de répéter la dernière valeur).
@@ -265,7 +267,7 @@ ax[1,1].legend(["back-fill", "forward-fill"]);
     
 
 
-### Déplacements
+## Déplacements
 
 Une autre opération classique sur les séries temporelles est le déplacement ou décalage (on parle plus souvent de *time-shifts* ou *shifting*)
 
@@ -321,7 +323,7 @@ plt.ylabel('ROI');
 
 Qu'en conclure ? Pour les boursicoteurs, vous avez raté le coche, fallait acheter en 2004 ou en 2009.
 
-### Attention, fenêtres glissantes
+## Attention, fenêtres glissantes
 
 Enfin, la 3ème opération classique des séries temporelles consiste à calculer différentes statistiques sur une fenêtre d'une longueur donnée et qui se déplace. On parle plus de *rolling window* et que de fenêtres glissantes...et pour ce faire, Pandas a tout ce qu'il faut avec la méthode `rolling()` pour les objets `Series` et `DataFrame`. Pour illustrer, on va calculer avec la méthode rolling la moyenne annuelle centrée et l'écart-type annuel centré avant bien sûr de les afficher.
 
@@ -342,10 +344,11 @@ ax.lines[0].set_alpha(0.4)
     
 
 
-## Un exemple de visualisation : le nombre de vélos à Paris Montparnasse
+# Un exemple de visualisation : le nombre de vélos à Paris Montparnasse
 
-On va terminer sur un petit exemple un peu plus parlant, ou en tout cas, un peu moins financier : on va regarder le nombre de vélo passés par un des compteurs de la ville de Paris, situé sur le boulevard Montparnasse. Le jeu de données vient [de là](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name). Le décompte horaire des vélos peut ainsi être récupéré.
+On va terminer sur un petit exemple un peu plus parlant, ou en tout cas, un peu moins financier, en regardant le nombre de vélo passés par un des compteurs de la ville de Paris, situé sur le boulevard Montparnasse. Le jeu de données vient [de là](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name). Le décompte horaire des vélos peut ainsi être récupéré.
 
+## Nettoyage des données 
 
 Un premier coup d'oeil sur les données nous permet de voir qu'il y a beaucoup de colonnes inutiles dans ce dataset. On va donc se contenter de ce qui nous intéresse : le timestamp et le nombre de vélos. Avec un petit peu de nettoyage directement au moment de l'import dans le `pandas.read_csv`, ça donne :
 
@@ -356,8 +359,6 @@ velo = pd.read_csv('data/comptage-velo-donnees-compteurs.csv', sep=';',
                    usecols=[4,5])
 velo.head(3)
 ```
-
-
 
 
 <div>
@@ -486,6 +487,7 @@ plt.ylabel('Décompte horaire des vélos');
 ![Pelican](../images/SeriesTemp2/output_34_0.png)
     
 
+## Analyse des données 
 
 La série par heure étant trop "dense" pour être clairement lisible, on va diminuer la fréquence avec un `resample` pour faire la somme des vélos sur une journée et sur une semaine.
 
@@ -510,11 +512,11 @@ ax[1].set_ylabel('Décompte hebdo des vélos');
     
 
 
-Avec ces rééchantillonages on veut une tendance annuelle qui se dégage avec notamment un pic de reprise d'activité au printemps, après le confinement et une baisse de fréquentation pendant l'été. De la même manière, la baisse significative visible au mois de novembre est certainement dûe ausecond confinement de 2020.
+Avec ces rééchantillonages on veut une tendance annuelle qui se dégage avec notamment un pic de reprise d'activité au printemps, après le confinement et une baisse de fréquentation pendant l'été. De la même manière, la baisse significative visible au mois de novembre est certainement dûe au second confinement de 2020.
 
 Une autre information visible sur le graphique des décomptes journaliers est la baisse du nombre de vélo environ 4 fois par mois, cela correspond certainement aux weekends mais ne nous avançons pas trop...
 
-On va regarder avec méthode `rolling`, la moyenne mobile mensuelle et faire jouer certains paramètres afin de voir ce qu'il en est.
+On va regarder avec la méthode `rolling`, la moyenne mobile mensuelle et faire jouer certains paramètres afin de voir ce qu'il en est.
 
 
 ```python
@@ -557,8 +559,8 @@ par_sem.plot(ax=ax[1], legend=False);
     
 
 
-On retrouve bien certaines informations qu'on avait évoquées :
-- baisse de la fréquentation le weekend et sur une journée,
+On retrouve bien certaines informations qu'on avait évoquées :   
+- baisse de la fréquentation le weekend et sur une journée,  
 - pics de fréquentation à 8h et à 18h et légère augmentation à l'heure du déjeuner.
 
 Cette 2ème information est certes logique pour les jours ouvrables mais c'est plus étonnant pour les jours de weekends...allons voir de plus près !
@@ -582,9 +584,4 @@ par_hr.loc['Weekend'].plot(ax=ax[1], title='Weekends', xticks=heures, legend=Fal
     
 
 
-C'est tout de suite plus clair : le weekend, les gens dorment et sortent se promener l'après-midi ! Nous voilà rassurés. Sur cette belle découverte, on se dit à très vite pour le poste numéro 3 de cette série ! Comme d'habitude, vous pouvez retrouver l'ensemble du notebook ayant servi à générer cette note sur le [github de Statoscop](https://github.com/Statoscop/notebooks-blog).
-
-
-```python
-
-```
+C'est tout de suite plus clair : le weekend, les gens dorment et sortent se promener l'après-midi ! Nous voilà rassurés. Sur cette belle découverte, on se dit à très vite pour le post numéro 3 de cette série ! Comme d'habitude, vous pouvez retrouver l'ensemble du notebook ayant servi à générer cette note sur le [github de Statoscop](https://github.com/Statoscop/notebooks-blog).
