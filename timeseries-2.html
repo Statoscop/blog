@@ -457,8 +457,8 @@
 </table>
 </div>
 
-<p>En important le jeu de données, on voit ce "+02:00" qui définit en fait la timezone. Plusieurs solutions possibles pour gérer ce problème :
-- on peut utiliser les méthodes de manipulation de timezone avec <code>tz_convert</code> et <code>tz_localize</code>
+<p>En important le jeu de données, on voit ce "+02:00" qui définit en fait la timezone. Plusieurs solutions possibles pour gérer ce problème :<br>
+- on peut utiliser les méthodes de manipulation de timezone avec <code>tz_convert</code> et <code>tz_localize</code><br>
 - on peut définir notre propre parser de date au moment de l'import en supprimant le "+02:00" avec un <code>split</code> par exemple.</p>
 <p>Ci-dessous, ces 2 approches mises en oeuvre.</p>
 <div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">velo</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">utc</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s1">&#39;Europe/Paris&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
