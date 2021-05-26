@@ -1,18 +1,18 @@
 Title: Les séries temporelles avec Python (2/4)
 Author: Louis
-Date: '2021-05-25'
+Date: '2021-05-26'
 Slug: timeseries-2
 Category: Python
 Tags: Python, Machine Learning, Statistiques, Data Science, Séries temporelles, Datetime
 Cover: images/cover_4.png
-Summary: Introduction à la manipulation de données temporelles avec Python
+Summary: Quelques opérations sur les séries temporelles, le tout joliment illustré par une petite étude de cas à bicyclette.
 
 1. Introduction à la manipulation de données temporelles avec Python
 2. **Visualisation et opérations sur les séries temporelles**
 3. Éléments théoriques et exemples
 4. Analyse, modélisation et prédiction
 
-On continue dans la série des séries temporelles avec un second article qui s'intéresse à la visualisation et aux opérations que l'on peut effectuer sur les objets séries temporelles avant de conclure sur un petit exemple en utilisant les outils présentés dans ces 2 premiers posts.
+On continue dans la série des séries temporelles avec un second article qui s'intéresse dans un premier temps à la visualisation et aux opérations que l'on peut effectuer sur ces objets avant de conclure sur un petit exemple en utilisant les outils présentés dans ces 2 premiers posts.
 
 # Visualisation et opérations sur les séries temporelles
 
@@ -221,60 +221,6 @@ Petit rappel, on utilise ci-dessous, le code de fréquence `BA` pour récupérer
 
 
 ```python
-goog.resample('BA')
-```
-
-
-
-
-    <pandas.core.resample.DatetimeIndexResampler object at 0x7fcfe8419460>
-
-
-
-
-```python
-goog.resample('BA').plot();
-# la coloration permet de voir quelles valeurs seront agrégées, ici, annuelles
-```
-
-
-    
-![Pelican](../images/SeriesTemp2/output_12_0.png)
-    
-
-
-
-```python
-goog.asfreq('BA')
-```
-
-
-
-
-    Date
-    2004-12-31      96.035034
-    2005-12-30     206.655411
-    2006-12-29     229.380234
-    2007-12-31     344.448914
-    2008-12-31     153.250580
-    2009-12-31     308.832428
-    2010-12-31     295.875977
-    2011-12-30     321.744019
-    2012-12-31     352.369232
-    2013-12-31     558.262512
-    2014-12-31     524.958740
-    2015-12-31     758.880005
-    2016-12-30     771.820007
-    2017-12-29    1046.400024
-    2018-12-31    1035.609985
-    2019-12-31    1337.020020
-    2020-12-31    1751.880005
-    Freq: BA-DEC, Name: Close, dtype: float64
-
-
-
-
-```python
 goog.plot(alpha=0.4)
 goog.resample('BA').mean().plot()
 goog.asfreq('BA').plot();
@@ -401,75 +347,7 @@ ax.lines[0].set_alpha(0.4)
 On va terminer sur un petit exemple un peu plus parlant, ou en tout cas, un peu moins financier : on va regarder le nombre de vélo passés par un des compteurs de la ville de Paris, situé sur le boulevard Montparnasse. Le jeu de données vient [de là](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name). Le décompte horaire des vélos peut ainsi être récupéré.
 
 
-```python
-velo = pd.read_csv('data/comptage-velo-donnees-compteurs.csv', sep=';')
-velo.head(2)
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Identifiant du compteur</th>
-      <th>Nom du compteur</th>
-      <th>Identifiant du site de comptage</th>
-      <th>Nom du site de comptage</th>
-      <th>Comptage horaire</th>
-      <th>Date et heure de comptage</th>
-      <th>Date d'installation du site de comptage</th>
-      <th>Lien vers photo du site de comptage</th>
-      <th>Coordonnées géographiques</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>100049407-353255860</td>
-      <td>152 boulevard du Montparnasse E-O</td>
-      <td>100049407</td>
-      <td>152 boulevard du Montparnasse</td>
-      <td>21.0</td>
-      <td>2020-04-01T07:00:00+02:00</td>
-      <td>2018-12-07</td>
-      <td>https://www.eco-visio.net/Photos/100049407/154...</td>
-      <td>48.840801,2.333233</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>100049407-353255860</td>
-      <td>152 boulevard du Montparnasse E-O</td>
-      <td>100049407</td>
-      <td>152 boulevard du Montparnasse</td>
-      <td>21.0</td>
-      <td>2020-04-01T09:00:00+02:00</td>
-      <td>2018-12-07</td>
-      <td>https://www.eco-visio.net/Photos/100049407/154...</td>
-      <td>48.840801,2.333233</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-Beaucoup de colonnes inutiles dans ces données donc on va se contenter de ce qui nous intéresse : le timestamp et le nombre de vélos. Avec un petit peu de nettoyage directement au moment de l'import, ça donne :
+Un premier coup d'oeil sur les données nous permet de voir qu'il y a beaucoup de colonnes inutiles dans ce dataset. On va donc se contenter de ce qui nous intéresse : le timestamp et le nombre de vélos. Avec un petit peu de nettoyage directement au moment de l'import dans le `pandas.read_csv`, ça donne :
 
 
 ```python
