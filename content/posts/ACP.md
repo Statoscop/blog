@@ -7,7 +7,8 @@ Tags: Python, Machine Learning, Statistiques, Data Science
 Cover: images/cover_2.png
 Summary: Présentation et exemples d'utilisation de l'ACP en statistiques et data science.
 
-Dans cet article, nous allons essayer de comprendre intuitivement comment fonctionne l'analyse en composantes principales. Nous présenterons ensuite à quoi celle-ci peut servir en prenant les exemples d'une analyse exploratoire des données et d'une problématique de réduction de dimension.  
+Dans cet article, nous allons essayer de comprendre intuitivement comment fonctionne l'analyse en composantes principales. Nous présenterons ensuite à quoi celle-ci peut servir en prenant les exemples d'une analyse exploratoire des données et d'une problématique de réduction de dimension.   
+
 [TOC]
 
 # Explication introductive
