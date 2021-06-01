@@ -110,7 +110,7 @@ penguins %>%
 À la sortie de la mise à jour de `dplyr`, il avait été signalé que la méthode `across()` impliquerait peut-être de légères pertes en termes de vitesse d'exécution par rapport aux anciennes méthodes `_at`, `_if` et `_all`. On a mis en évidence ce problème avec la version `1.0.2` de dplyr dans [la première version de cet article](https://antoinesir.rbind.io/post/fonctionnement-de-across-dans-dplyr/). Sur ce même modèle, on va comparer les instructions `_if` et `_at` d'un summarise groupé avec leurs équivalents dans `across()` pour différentes tailles d'échantillons et de groupes.   
 
 ## Instructions sur lesquelles on compare les méthodes 
-Le tibble utilisé a le format suivant, ici pour 100 lignes et deux groupes :  
+On crée un tibble comportant 4 variables numériques et une variable facteur, et on va comparer la vitesse d'exécution des moyennes de ces variables numériques groupées par modalité de la variable facteur en faisant varier le nombre de lignes du tibble et le nombre de groupes (de modalités distinctes de la variable facteur). Le tibble est créé par exemple ainsi, pour 100 lignes et deux groupes :  
 
 ```r
 nbrow <- 100
@@ -138,7 +138,7 @@ as_tibble(data.frame(x1 = rnorm(nbrow), x2 =  rnorm(nbrow),
 ```
 
 
-Les différentes instructions testées sont les suivantes :  
+Sur chaque tibble (chaque combinaison du nombre de lignes et de groupes), les différentes instructions testées sont les suivantes :  
 
 ```r
 # summarise_if  
@@ -154,18 +154,18 @@ data %>% group_by(y) %>% summarise_at(vars(starts_with("x")), mean)
 data %>% group_by(y) %>% summarise(across(starts_with("x"), mean))
 ```
 
+Toutes les instructions font la même chose : une moyenne groupée par `y` des 4 variables numériques. L'idée est de vérifier que l'option `across` n'est pas plus lente que les options `summarise_if` et `summarise_at`. 
+
 ## Résultats de la version 1.0.6   
 
 Les résultats du `microbenchmark()` pour les différentes combinaisons de nombres de groupes et de lignes sont présentés dans un graphique qui représente la distribution du temps d’exécution des 10 occurences testées pour chaque méthode :     
 
 
-
-
 ![Pelican](../images/across_files/unnamed-chunk-10-1.png)<!-- -->
 
-Sur nos exemples, il semblerait qu'`across` ait complètement rattrapé son retard sur ses équivalents `_at`, `_if` et `_all`. Il semble même légèrement plus performant dans certains cas de figure.  
+Sur nos exemples, il semblerait qu'`across` ait complètement rattrapé son retard sur ses équivalents `_at` et `_if`. Il semble même légèrement plus performant dans certains cas de figure.  
 
-## Résultats avec la version 1.0.0  
+## Résultats de la version 1.0.0  
 
 Pour illustrer le chemin parcouru, on peut refaire tourner cette même comparaison avec la version `1.0.0` de `dplyr` :  
 
