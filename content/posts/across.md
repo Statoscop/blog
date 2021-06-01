@@ -1,6 +1,6 @@
 Title: Fonctionnement et performances d'across dans dplyr
 Author: Antoine
-Date: '2021-06-01'
+Date: '2021-06-02'
 Category: R
 Tags: R, Rstats, dplyr, across, tidyverse
 Cover: images/cover_5.png
