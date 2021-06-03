@@ -2032,7 +2032,7 @@ code{
 
 
 /** pour la TOC sur mobile **/
-@media only screen and (max-width: 1500px) {
+@media only screen and (max-width: 1400px) {
     .toc {
         background: none;
         border: 1px solid #aaa;

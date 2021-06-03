@@ -145,7 +145,9 @@
                     | <time datetime="mar. 30 mars 2021">mar. 30 mars 2021</time>
                 </span>
 
-                <!--Table des matieres-->
+                <!--Table des matieres
+-->
+                
                 <div class="toc"><span class="toctitle">Table des matières</span><ul>
 <li><a href="#rappels-sur-dplyr-et-datatable">Rappels sur dplyr et data.table</a><ul>
 <li><a href="#dplyr-et-le-tidyverse">dplyr et le tidyverse</a></li>
@@ -161,11 +163,9 @@
 </li>
 </ul>
 </div>
-                
-                
-<p>Cet article est une mise à jour de l'article du <a href="https://antoinesir.rbind.io/post/comparaisons-base-r-dplyr-data-table/">blog d'Antoine</a> réalisé en 2018. L'idée est de comparer les performances de trois alternatives dans R pour l'analyse de données : <br/>
-- l'utilisation des seules fonctions de base R<br/>
-- dplyr<br/>
+<p>Cet article est une mise à jour de l'article du <a href="https://antoinesir.rbind.io/post/comparaisons-base-r-dplyr-data-table/">blog d'Antoine</a> réalisé en 2018. L'idée est de comparer les performances de trois alternatives dans R pour l'analyse de données : <br>
+- l'utilisation des seules fonctions de base R<br>
+- dplyr<br>
 - data.table  </p>
 <h1 id="rappels-sur-dplyr-et-datatable">Rappels sur dplyr et data.table</h1>
 <p>On rappelle ici les principales caractéristiques de ces packages mais pour se former à leur utilisation on peut se référer au <a href="https://teaching.slmc.fr/perf/presentation_handout.pdf">cours de perfectionnement de Martin Chevalier</a>. Pour une exploration de ce qu'englobe le <code>tidyverse</code> et notamment une présentation des commandes de <code>dplyr</code>, vous pouvez jeter un oeil à <a href="https://juba.github.io/tidyverse/index.html">l'introduction à R et au tidyverse</a> de J. Barnier. Enfin pour data.table, on trouve des informations utiles sur le cours <a href="http://larmarange.github.io/analyse-R/manipulations-avancees-avec-data-table.html">Manipulations avancée avec data.table</a> de J. Larmarange et on vous conseille l'excellent article <a href="https://atrebas.github.io/post/2020-06-17-datatable-introduction/">a gentle introduction to data.table</a>.  </p>
@@ -191,17 +191,19 @@
 <span class="n">df</span> <span class="o">%&gt;%</span> <span class="nf">as_tibble</span><span class="p">()</span> <span class="o">%&gt;%</span> <span class="nf">mutate</span><span class="p">(</span><span class="n">var</span> <span class="o">=</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">100</span><span class="p">))</span> <span class="o">%&gt;%</span> 
   <span class="nf">group_by</span><span class="p">(</span><span class="n">idgpe</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">summarise</span><span class="p">(</span><span class="n">var_mean</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">var</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">output_tibble</span>
 </code></pre></div>
+
 <p>Un regard peu habitué contesterait peut-être l'aspect très lisible de l'instruction, mais ça l'est réellement. Le déroulé est le suivant :  </p>
-<p>1) on transforme notre data.frame en tibble (pour rappel : format optimisé de data.frame pour dplyr) avec <code>as_tibble</code><br/>
-2) on crée une variable <code>var</code> avec <code>mutate</code><br/>
-3) on agrège par  <code>idgpe</code> avec <code>group_by</code> <br/>
+<p>1) on transforme notre data.frame en tibble (pour rappel : format optimisé de data.frame pour dplyr) avec <code>as_tibble</code><br>
+2) on crée une variable <code>var</code> avec <code>mutate</code><br>
+3) on agrège par  <code>idgpe</code> avec <code>group_by</code> <br>
 4) on calcule la moyenne de <code>var</code> avec <code>summarise</code>, que l'on stocke dans <code>var_mean</code>. Comme cette instruction suit un group_by, elle est réalisée à l'intérieur de chaque groupe (défini par <code>idgpe</code>), sinon elle aurait été réalisé sur l'ensemble de la table.    </p>
 <p>Tout cela est stocké dans une table output_tibble, qui est ainsi un tibble agrégé par <code>idgpe</code> et qui a donc 50 lignes. L'intérêt de ce chaînage est qu'il permet une économie de code et d'écriture d'éventuelles tables intermédiaires.  </p>
 <h2 id="datatable">Data.table</h2>
-<p>Le package <code>data.table</code> ne prétend pas, contrairement au <code>tidyverse</code>, proposer une syntaxe concurrente à base R mais enrichir celle-ci. Il est axé autour d'un nouveau format d'objet, le data.table, qui est un type de data.frame qui permet une utilisation optimisée de l'opérateur <code>[</code>.<br/>
+<p>Le package <code>data.table</code> ne prétend pas, contrairement au <code>tidyverse</code>, proposer une syntaxe concurrente à base R mais enrichir celle-ci. Il est axé autour d'un nouveau format d'objet, le data.table, qui est un type de data.frame qui permet une utilisation optimisée de l'opérateur <code>[</code>.<br>
 Tout data.frame peut être converti en data.table grâce à la fonction <code>as.data.table</code>, ou, de manière plus optimale pour l'utilisation de la mémoire, grâce à la fonction <code>setDT</code> qui permet de directement transformer la nature de l'objet sans avoir à en écrire un autre. Il est important d'avoir en tête qu'un data.frame converti en data.table conserve les caractéristiques d'un data.frame. Cependant, l'opérateur <code>[</code> appliqué au data.table change de signification et devient :  </p>
 <div class="highlight"><pre><span></span><code><span class="n">DT</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">by</span><span class="p">]</span>
 </code></pre></div>
+
 <p>Avec <code>i</code> qui permet de sélectionner des observations (sans avoir besoin de répéter le nom de la base dans laquelle on se trouve), <code>j</code> qui permet de créer ou sélectionner des variables et <code>by</code> de regrouper les traitement selon les modalités d'une variable définie. Comme dans <code>dplyr</code>, il est possible de chaîner les opérations réalisées comme le montre l'exemple suivant, qui reprend le même cas de figure que celui illustrant le package <code>dplyr</code> :  </p>
 <div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span> 
 <span class="c1"># on convertit notre data frame précédemment créé en data.table</span>
@@ -210,19 +212,21 @@ Tout data.frame peut être converti en data.table grâce à la fonction <code>as
 <span class="c1"># on y applique les même instructions</span>
 <span class="n">dt</span><span class="p">[,</span> <span class="nf">list</span><span class="p">(</span><span class="n">var_mean</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="m">100</span><span class="p">))),</span> <span class="n">by</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">idgpe</span> <span class="o">=</span> <span class="n">idgpe</span><span class="p">)]</span> <span class="o">-&gt;</span> <span class="n">output_dt</span>
 </code></pre></div>
+
 <p>Le fait de renseigner les variables au sein de <code>list()</code> permet d'avoir une table en sortie au niveau de <code>idgpe</code> (donc 50 observations), sans cela la variable est bien moyennée par groupe mais la table en sortie est toujours au niveau <code>id1</code> (100 observations).   </p>
 <h2 id="vitesses-dexecution">Vitesses d'exécution</h2>
 <p>Voilà donc pour les présentations! Allez, on montre le résultat d'un petit <code>microbenchmark</code> des deux juste pour voir : </p>
 <table class="dataframe">
 <caption>Temps d'exécution en microsecondes</caption>
 <thead>
-<tr><th scope="col">expr</th><th scope="col">lq</th><th scope="col">mean</th><th scope="col">uq</th><th scope="col">neval</th></tr>
+    <tr><th scope=col>expr</th><th scope=col>lq</th><th scope=col>mean</th><th scope=col>uq</th><th scope=col>neval</th></tr>
 </thead>
 <tbody>
-<tr><td>dplyr     </td><td>9.79270</td><td>13.23297</td><td>14.367579</td><td>100</td></tr>
-<tr><td>data.table</td><td>1.40644</td><td> 2.13729</td><td> 2.546176</td><td>100</td></tr>
+    <tr><td>dplyr     </td><td>9.79270</td><td>13.23297</td><td>14.367579</td><td>100</td></tr>
+    <tr><td>data.table</td><td>1.40644</td><td> 2.13729</td><td> 2.546176</td><td>100</td></tr>
 </tbody>
 </table>
+
 <p>Sur cet exemple, on voit un avantage clair à data.table! Mais on est sur une toute petite table en entrée. On va essayer de se rapprocher de cas plus concrets en s'intéressant à un exemple sur des bases plus importantes.  </p>
 <h1 id="comparaisons-sur-une-etude-de-cas-simple">Comparaisons sur une étude de cas simple</h1>
 <p>Les avantages et inconvénients de ces deux packages sont à l'origine de nombreux débats. Vous pouvez vous en convaincre en suivant <a href="https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly">cette discussion sur stackoverflow</a>. On peut quand même dégager deux compromis :   </p>
@@ -232,21 +236,22 @@ Tout data.frame peut être converti en data.table grâce à la fonction <code>as
 </ul>
 <p>Pour ce deuxième point, on va essayer de s'en convaincre ensemble avec ce petit exemple.</p>
 <h2 id="notre-etude-de-cas">Notre étude de cas</h2>
-<p>Pour cet exemple, on utilise les données du package de Hadley Wickham que l'on trouve dans <code>nycflights13</code>. En particulier, la base <code>flights</code> donne toutes les heures de départ et d'arrivée selon les aéroports de départ et d'arrivée ainsi que les retards au départ et à l'arrivée. La base <code>weather</code> donne elle des indications météo, heure par heure, dans chaque aéroport. <br/>
+<p>Pour cet exemple, on utilise les données du package de Hadley Wickham que l'on trouve dans <code>nycflights13</code>. En particulier, la base <code>flights</code> donne toutes les heures de départ et d'arrivée selon les aéroports de départ et d'arrivée ainsi que les retards au départ et à l'arrivée. La base <code>weather</code> donne elle des indications météo, heure par heure, dans chaque aéroport. <br>
 Commençons par charger nos packages (n'oubliez pas de faire <code>install.packages("nom_pck")</code> avant si vous ne l'avez jamais fait) et nos données : </p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Les packages nécessaires</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span> <span class="c1"># Regroupe différents packages, voir https://www.tidyverse.org/ </span>
 <span class="nf">library</span><span class="p">(</span><span class="n">data.table</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">microbenchmark</span><span class="p">)</span> <span class="c1"># Pour les calculs de vitesse d'exécution</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">microbenchmark</span><span class="p">)</span> <span class="c1"># Pour les calculs de vitesse d&#39;exécution</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">nycflights13</span><span class="p">)</span> <span class="c1"># Pour les données</span>
 
 <span class="c1"># data.table pour tests avec data.table</span>
 <span class="n">flightsdt</span> <span class="o">&lt;-</span> <span class="nf">as.data.table</span><span class="p">(</span><span class="n">flights</span><span class="p">)</span>
 <span class="n">weatherdt</span> <span class="o">&lt;-</span> <span class="nf">as.data.table</span><span class="p">(</span><span class="n">weather</span><span class="p">)</span>
 </code></pre></div>
+
 <h2 id="moyenne-des-retards-et-fusion-des-tables">Moyenne des retards et fusion des tables</h2>
 <p>Un rapide examen des bases vous montre que la première étape avant toute analyse est comme souvent de regrouper les éléments de flights par heure et aéroport de départ pour pouvoir les fusionner avec la table weather, qui donnent les indications météo minute par minute. On écrit cette instruction de  3 manières différentes :  </p>
-<p><strong>En base R</strong> </p>
+<p><strong>En base R</strong>  </p>
 <div class="highlight"><pre><span></span><code><span class="n">flights_time_hour</span> <span class="o">&lt;-</span> <span class="nf">aggregate.data.frame</span><span class="p">(</span>
     <span class="nf">list</span><span class="p">(</span><span class="n">arr_delay</span> <span class="o">=</span> <span class="n">flights</span><span class="o">$</span><span class="n">arr_delay</span><span class="p">,</span> 
          <span class="n">dep_delay</span> <span class="o">=</span> <span class="n">flights</span><span class="o">$</span><span class="n">dep_delay</span><span class="p">),</span> 
@@ -254,37 +259,41 @@ Commençons par charger nos packages (n'oubliez pas de faire <code>install.packa
          <span class="n">origin</span> <span class="o">=</span> <span class="n">flights</span><span class="o">$</span><span class="n">origin</span><span class="p">),</span> 
     <span class="n">mean</span><span class="p">)</span>
 <span class="n">output_base</span> <span class="o">&lt;-</span> <span class="nf">merge</span><span class="p">(</span><span class="n">weather</span><span class="p">,</span> <span class="n">flights_time_hour</span><span class="p">,</span> 
-                     <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">"time_hour"</span><span class="p">,</span> <span class="s">"origin"</span><span class="p">),</span> 
+                     <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;time_hour&quot;</span><span class="p">,</span> <span class="s">&quot;origin&quot;</span><span class="p">),</span> 
                      <span class="n">sort</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
 </code></pre></div>
-<p><strong>En dplyr</strong> </p>
+
+<p><strong>En dplyr</strong>  </p>
 <div class="highlight"><pre><span></span><code><span class="n">flights</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">time_hour</span><span class="p">,</span> <span class="n">origin</span><span class="p">)</span> <span class="o">%&gt;%</span> 
   <span class="nf">summarise</span><span class="p">(</span><span class="n">arr_delay</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">arr_delay</span><span class="p">),</span>
             <span class="n">dep_delay</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">dep_delay</span><span class="p">))</span> <span class="o">%&gt;%</span> 
   <span class="nf">ungroup</span><span class="p">()</span> <span class="o">%&gt;%</span> 
-  <span class="nf">inner_join</span><span class="p">(</span><span class="n">weather</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">"time_hour"</span><span class="p">,</span> <span class="s">"origin"</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">output_dplyr</span> 
+  <span class="nf">inner_join</span><span class="p">(</span><span class="n">weather</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;time_hour&quot;</span><span class="p">,</span> <span class="s">&quot;origin&quot;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">output_dplyr</span> 
 </code></pre></div>
-<p><strong>En data.table</strong> </p>
+
+<p><strong>En data.table</strong>  </p>
 <div class="highlight"><pre><span></span><code><span class="n">output_DT</span> <span class="o">&lt;-</span> <span class="nf">merge</span><span class="p">(</span><span class="n">flightsdt</span><span class="p">[,</span> <span class="nf">list</span><span class="p">(</span><span class="n">arr_perc_delay</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">arr_delay</span><span class="p">),</span>
                                     <span class="n">dep_perc_delay</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="n">dep_delay</span><span class="p">)),</span> 
-                             <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">"time_hour"</span><span class="p">,</span> <span class="s">"origin"</span><span class="p">)],</span> 
+                             <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;time_hour&quot;</span><span class="p">,</span> <span class="s">&quot;origin&quot;</span><span class="p">)],</span> 
                    <span class="n">weatherdt</span><span class="p">,</span> 
-                   <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">"time_hour"</span><span class="p">,</span> <span class="s">"origin"</span><span class="p">))</span>
+                   <span class="n">by</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;time_hour&quot;</span><span class="p">,</span> <span class="s">&quot;origin&quot;</span><span class="p">))</span>
 </code></pre></div>
+
 <p>On utilise la fonction <code>merge</code> plutôt que <code>DT1[DT2, on = c("time_hour", "origin"), nomatch = 0]</code> car on a constaté qu'elle était plus rapide, conformément à ce que montre bien cet <a href="https://jozefhajnala.gitlab.io/r/r006-merge/">article du Jozef's Rblog</a>.  </p>
 <h2 id="comparaisons-des-vitesses-dexecution">Comparaisons des vitesses d'exécution</h2>
 <p>Chacun jugera de la lisibilité de chacune de ces instructions, qui font toutes la même chose, car c'est finalement assez subjectif. On donne ici les résultats d'un <code>microbenchmark</code> de ces instructions : </p>
 <table class="dataframe">
 <caption>Temps d'exécution en millisecondes</caption>
 <thead>
-<tr><th scope="col">expr</th><th scope="col">lq</th><th scope="col">mean</th><th scope="col">uq</th><th scope="col">neval</th></tr>
+    <tr><th scope=col>expr</th><th scope=col>lq</th><th scope=col>mean</th><th scope=col>uq</th><th scope=col>neval</th></tr>
 </thead>
 <tbody>
-<tr><td>Base </td><td>1182.33161</td><td>1396.52780</td><td>1559.42968</td><td>10</td></tr>
-<tr><td>dplyr</td><td> 223.45642</td><td> 313.16457</td><td> 360.95388</td><td>10</td></tr>
-<tr><td>DT   </td><td>  22.83487</td><td>  24.68264</td><td>  26.32068</td><td>10</td></tr>
+    <tr><td>Base </td><td>1182.33161</td><td>1396.52780</td><td>1559.42968</td><td>10</td></tr>
+    <tr><td>dplyr</td><td> 223.45642</td><td> 313.16457</td><td> 360.95388</td><td>10</td></tr>
+    <tr><td>DT   </td><td>  22.83487</td><td>  24.68264</td><td>  26.32068</td><td>10</td></tr>
 </tbody>
 </table>
+
 <p>Les résultats sont très nettement en faveur des packages <code>dplyr</code> et <code>data.table</code>. Ce dernier est même assez largement le plus rapide, son avantage s'étant accru depuis la première version de cette article. Sans doute existe-t-il des moyens de plus optimiser l'instruction en base R, mais là n'est pas vraiment la question. On voit qu'avec une syntaxe simple et lisible, <code>dplyr</code> et <code>data.table</code> font beaucoup mieux en termes de vitesse d'exécution que les fonctions de base R. </p>
             </section>
 
