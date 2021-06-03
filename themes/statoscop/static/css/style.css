@@ -2008,6 +2008,7 @@ code{
     padding: 0em;
     position: fixed;
     width: 20em;
+    text-align: none !important;
 }
   
 .toc .toctitle {
@@ -2024,7 +2025,7 @@ code{
 .toc a {
     text-decoration: none;
     display: block;
-    padding: 0em 0.5em;
+    padding: 0em 1em 0em 0em;
     color: rgb(119, 118, 118);
     transition: all 50ms ease-in-out;
     border-bottom: none;
@@ -2050,7 +2051,7 @@ code{
         display: table;
         font-size: 95%;
         margin-bottom: 0em;
-        padding: 20px;
+        padding: 2em 1em 0em 0em;
         width: auto;
         position:sticky;
     }
