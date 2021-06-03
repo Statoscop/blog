@@ -153,7 +153,7 @@ jQuery(function($) {
 	Pour rendre les titres "active" dans la TOC quand on scroll
 	========================================================================== */
 $(window).scroll(function() {
-	var margeTop = 50 ;
+	var margeTop = 80 ;
 	var scrollPosition = $(window).scrollTop();
 	var firstTop = $("h1").eq(1).offset().top - margeTop;
 

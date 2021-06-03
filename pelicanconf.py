@@ -52,8 +52,9 @@ MARKDOWN = {
 
 COLOR_SCHEME_CSS = 'github.css'
 
-# PLUGIN_PATHS = ['pelican-plugins']
-# PLUGINS = ['pelican-toc']
+PLUGIN_PATHS = ['pelican-plugins']
+PLUGINS = ['extract_toc']
+
 MARKDOWN = {
     'extension_configs': {
         # Needed for code syntax highlighting
