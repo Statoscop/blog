@@ -729,7 +729,8 @@ pre tt {
     white-space: pre;
     background: transparent;
     border: none;
-    vertical-align: inherit
+    vertical-align: inherit;
+    text-align : none !important;
 }
 
 
@@ -849,7 +850,7 @@ img {
 
 #post-header {
     position: relative;
-    padding-top: 2em
+    padding-top: 3em
 }
 
 #post-header.has-cover {
@@ -883,7 +884,7 @@ img {
 
 .blog-logo {
     position: fixed;
-    max-width: 8em;
+    max-width: 14em;
     left: 0;
     top: 0;
     margin: 2em;
@@ -972,7 +973,7 @@ img {
 }
 
 .inner {
-    max-width: 45em;
+    max-width: 40em;
     margin: 0 auto;
     padding: 0 2em
 }
@@ -1445,6 +1446,10 @@ img {
     margin: 0
 }
 
+.post-content {
+    text-align : justify;
+}
+
 .post-content a {
     border-bottom: 1px solid rgb(52,107,179)
 }
@@ -1457,8 +1462,8 @@ img {
 .post-content img,
 .post-content .fluid-width-video-wrapper {
     max-width: none;
-    width: 110%;
-    margin-left: -5%
+    width: 105%;
+    margin-left: -2.5%
 }
 
 .post-info {
@@ -1851,7 +1856,7 @@ img {
 .tag-weight-9  { font-size: 260%; }
 .tag-weight-10 { font-size: 280%; }
 
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 1470px) {
     #wrapper, #blog-header, #post-header {
         transform: translate3d(0, 0, 0)
     }
@@ -2002,7 +2007,7 @@ code{
     font-size: 95%;
     padding: 0em;
     position: fixed;
-    width: 15em;
+    width: 20em;
 }
   
 .toc .toctitle {
@@ -2019,12 +2024,17 @@ code{
 .toc a {
     text-decoration: none;
     display: block;
-    padding: 0em;
+    padding: 0em 0.5em;
     color: rgb(119, 118, 118);
     transition: all 50ms ease-in-out;
     border-bottom: none;
-    margin-bottom 0em;
+    margin-bottom: 0em;
 }
+
+
+.toc li>ul {
+    list-style: circle;
+    }
 
 .toc a:hover,
 .toc a:focus {
@@ -2033,7 +2043,7 @@ code{
 
 
 /** pour la TOC sur mobile **/
-@media only screen and (max-width: 1500px) {
+@media only screen and (max-width: 1600px) {
     .toc {
         background: none;
         border: 1px solid #aaa;
@@ -2049,8 +2059,12 @@ code{
         font-weight: bold;
         color: rgb(0,152,117);
     }
-    
+
     .toc ul>li {
-        margin: 0 0 .6em 0;
+      margin: 0 0 .6em 0;
+    }
+  
+    .toc li>ul {
+        list-style: circle;
         }
 }
