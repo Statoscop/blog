@@ -73,25 +73,6 @@
             <a href="{{ SITEURL }}">Retour à l'accueil du blog</a>
           </span>
         </nav>
-        <h1 class="post-title">{{ article.title }}</h1>
-        <!-- TODO : Proper class for headline -->
-        {% if article.headline %}
-            <span class="blog-description">{{ article.headline }}</span>
-        {% endif %}
-        <span class="post-meta">
-            {% for author in article.authors %}
-                {% set author_name = author.name | title %}
-                {% if AUTHORS_BIO and author.name.lower() in AUTHORS_BIO %}
-                    {% set author_name = AUTHORS_BIO[author.name.lower()].name or author.name %}
-                {% endif %}
-                <a href="{{ SITEURL }}/{{ author.url }}">{{ author_name }}</a>
-            {% endfor %}
-            | <time datetime="{{ article.locale_date }}">{{ article.locale_date }}</time>
-        </span>
-        <!-- TODO : Modified check -->
-        {% if article.modified %}
-            <span class="post-meta"> | Updated on {{ article.locale_modified }}</span>
-        {% endif %}
       </div>
     </header>
 {% endblock header %}
@@ -100,9 +81,41 @@
 
     <!-- Post content -->
     <main class="content" role="main">
-        <article class="post">
+      
+      <div>
+      </div>
+
+      <article class="post">
         <div class="inner">
+
+
+
+
             <section class="post-content">
+              <h1 class="post-title">{{ article.title }}</h1>
+                <!-- Le titres et meta infos-->
+                {% if article.headline %}
+                    <span class="blog-description">{{ article.headline }}</span>
+                {% endif %}
+                <span class="post-meta">
+                    {% for author in article.authors %}
+                        {% set author_name = author.name | title %}
+                        {% if AUTHORS_BIO and author.name.lower() in AUTHORS_BIO %}
+                            {% set author_name = AUTHORS_BIO[author.name.lower()].name or author.name %}
+                        {% endif %}
+                        <a href="{{ SITEURL }}/{{ author.url }}">{{ author_name }}</a>
+                    {% endfor %}
+                    | <time datetime="{{ article.locale_date }}">{{ article.locale_date }}</time>
+                </span>
+                {% if article.modified %}
+                    <span class="post-meta"> | Updated on {{ article.locale_modified }}</span>
+                {% endif %}
+
+                <!--Table des matieres-->
+                {% if article.toc %}
+                {{ article.toc }}
+                {% endif %}
+                
                 {{article.content}}
             </section>
 

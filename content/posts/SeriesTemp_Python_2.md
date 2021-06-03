@@ -7,6 +7,8 @@ Tags: Python, Machine Learning, Statistiques, Data Science, Séries temporelles,
 Cover: images/cover_4.png
 Summary: Quelques opérations sur les séries temporelles, illustré par une petite étude de cas à bicyclette.
 
+[TOC]
+
 Cet article est le second de notre série sur les données temporelles :  
 
 1. Introduction à la manipulation de données temporelles avec Python
@@ -15,8 +17,6 @@ Cet article est le second de notre série sur les données temporelles :
 4. Analyse, modélisation et prédiction
 
 Il s'intéresse dans un premier temps à la visualisation et aux opérations que l'on peut effectuer sur ces objets avant de conclure sur un petit exemple en utilisant les outils présentés dans ces 2 premiers posts.  
-
-[TOC]
 
 # Un peu d'anglicisme : Resampling, Shifting, and Windowing
 

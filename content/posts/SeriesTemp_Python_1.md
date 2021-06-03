@@ -7,6 +7,8 @@ Tags: Python, Machine Learning, Statistiques, Data Science, Séries temporelles,
 Cover: images/cover_3.png
 Summary: Introduction à la manipulation de données temporelles avec Python
 
+[TOC]
+
 Cet article introductif est le premier d'une séquence de 4 posts sur les séries temporelles.   
 
 1. **Introduction à la manipulation de données temporelles avec Python**
@@ -15,8 +17,6 @@ Cet article introductif est le premier d'une séquence de 4 posts sur les série
 4. Analyse, modélisation et prédiction
 
 Avant d'entrer dans le vif du sujet, nous allons donc nous pencher sur le fonctionnement, le stockage et la manipulation des données temporelles avec Python.  
-
-[TOC]
 
 La libraire `Pandas` a été développée dans un contexte de données financières et son nom est une contraction de *Panel Datas* (données de panel), c'est-à-dire des données pour lesquelles on a, pour un même individu, des observations au cours du temps. `Pandas` contient donc par essence de nombreux outils pour travailler avec les dates, le temps et des données indexées en fonction du temps.
 
@@ -32,11 +32,11 @@ Nous allons donc nous intéresser à ces données temporelles et pour commencer,
 
 On va voir comment utiliser et manipuler ces objets date/time avec Python d'une part, puis avec `Pandas` plus particulièrement.
 
-# 1. Les dates (et heures) avec Python
+# Les dates (et heures) avec Python
 
 Python a de nombreuses représentations et formats possibles des dates, heures, durées...un petit tour d'horizon s'impose.
 
-## 1.1. Les packages`datetime` and `dateutil`
+## Les packages `datetime` and `dateutil`
 
 Les objet natifs Python pour les dates/times sont dans le module built-in `datetime`. En utilisant également le package `dateutil`, on peut facilement et rapidement effectuer bon nombre d'opérations sur objets temporels.
 
@@ -96,7 +96,7 @@ L'intérêt de `datetime` et `dateutil` est leur flexibilité et leur facilité 
 
 Un bémol c'est la gestion des grandes quantités de données : de la même manière que les listes numériques ne sont pas optimales comparées à des arrays `numpy` de type numérique, les listes d'objets `datetime` ne sont pas optimales comparées à des tableaux ayant un type date/time.
 
-## 1.2. Le type de données date des tableaux numpy : `datetime64`
+## Le type de données date des tableaux numpy : `datetime64`
 
 Pour pallier cet écueil, un type de données temporelles natif a été ajouté à `numpy`. Le dtype `datetime64` encode les dates sous forme d'entiers 64-bits et par conséquent les tableaux ayant des données de ce type sont très compacts (pour rappel, un tableau numpy ne peut contenir qu'un seul type de données).
 
@@ -201,7 +201,7 @@ Dans la "vraie vie", on utilise généralement `datetime64[ns]` car cela permet 
 
 Finalement, on retiendra que le type `datetime64` règle certains défauts du type built-in de Python `datetime`, cependant il manque plusieurs des méthodes et fonctions bien utiles fournies par `datetime` et surtout `dateutil`.
 
-## 1.3. Dates et times avec `pandas`: le meilleur des 2 mondes
+## Dates et times avec `pandas`: le meilleur des 2 mondes
 
 `Pandas` se base sur les outils vus à l'instant pour fournir un objet `Timestamp` qui combine la facilité d'utilisation de `datetime`/`dateutil` avec l'efficacité de stockage et de calcul vectoriel de``numpy.datetime64``.
 
@@ -298,9 +298,9 @@ d + pd.to_timedelta(np.arange(20, 71, 10), 'm')
 
 
 
-# 2. Séries temporelles avec `pandas`
+# Séries temporelles avec `pandas`
 
-## 2.1. L'indexation par le temps
+## L'indexation par le temps
 
 L'intérêt des time series de `pandas` réside dans l'utilisation d'une indexation des données par des *timestamps*. On crée donc un objet `DatetimeIndex` pour ensuite indexer la série.
 
@@ -361,7 +361,7 @@ data['2020'], data['2020-04'], data['2020-05-01':]
 
 
 
-## 2.2. Les structures de données `pandas` pour les séries temporelles
+## Les structures de données `pandas` pour les séries temporelles
 
 Nous allons maintenant introduire les structures de données fondamentales de `pandas` pour travailler avec les séries temporelles :  
 1. pour les *timestamps*, il y a le type `Timestamp` : l'idée est que ça remplace le type natif de Python `datetime` tout en étant construit sur le type `numpy.datetime64` qui est plus efficace  
@@ -429,7 +429,7 @@ dates - dates[1]
 
 
 
-## 2.3. Les séquences avec `pd.date_range()`
+## Les séquences avec `pd.date_range()`
 
 Pour pouvoir créer des séquences régulières de dates, `pandas` contient un certain nombre de fonctions : `pd.date_range()`, `pd.period_range()` et `pd.timedelta_range()`.
 Les `range()` de Python et `arange()` de numpy prennent comme paramètres un premier élément, un dernier élément (non-inclus) et éventuellement un pas.  
@@ -513,7 +513,7 @@ pd.timedelta_range(0, periods=10, freq='H')
 
 Vous l'aurez compris, pour bien comprendre ce qu'il se passe et toutes les possibilités, il faut avoir une idée des codes de fréquences...
 
-## 2.4. Fréquences et décalages (offset)
+## Fréquences et décalages (offset)
 
 Le concept de fréquence ou de décalage (on parlera généralement d'offset)  est fondamental pour les outils `pandas` de séries temporelles.
 On a déjà croisé les codes `M` (month), `D` (day) et `H` (hour) pour définir des fréquences, on va résumé les codes Pandas dans le tableau suivant.

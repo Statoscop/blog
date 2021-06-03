@@ -8,9 +8,9 @@ twitter_image: images/cover_5.png
 Summary: Mise à jour de l'évaluation des performances du verbe `across` dans dplyr version 1.0.6
 
 
-A la sortie de l'été dernier, j'ai réalisé une [note sur mon blog personnel](https://antoinesir.rbind.io/post/fonctionnement-de-across-dans-dplyr/) sur un élément important d'une mise à jour majeure de dplyr : `across()`, un nouveau verbe pour réaliser des opérations sur plusieurs colonnes. Dans cette note, on utilisait la version `1.0.2` de `dplyr` et on comparait `across` aux verbes équivalents que cela devait remplacer (fonctions indexées par `_at`, `_if` et `_all`) . On constatait une moins bonne performance d' `across` en termes de temps d'exécution. Cet élément était bien connu des développeurs de RStudio et a été constamment pris en compte dans les différentes mises à jour. On reprend ici cette note en la mettant à jour avec la version `1.0.6` de `dplyr` disponible à ce jour pour voir où se place désormais `across` en termes de temps d'exécution.
-
 [TOC]
+
+A la sortie de l'été dernier, j'ai réalisé une [note sur mon blog personnel](https://antoinesir.rbind.io/post/fonctionnement-de-across-dans-dplyr/) sur un élément important d'une mise à jour majeure de dplyr : `across()`, un nouveau verbe pour réaliser des opérations sur plusieurs colonnes. Dans cette note, on utilisait la version `1.0.2` de `dplyr` et on comparait `across` aux verbes équivalents que cela devait remplacer (fonctions indexées par `_at`, `_if` et `_all`) . On constatait une moins bonne performance d' `across` en termes de temps d'exécution. Cet élément était bien connu des développeurs de RStudio et a été constamment pris en compte dans les différentes mises à jour. On reprend ici cette note en la mettant à jour avec la version `1.0.6` de `dplyr` disponible à ce jour pour voir où se place désormais `across` en termes de temps d'exécution.
 
 Si vous voulez balayer plus largement les différents éléments de la mise à jour de `dplyr`, vous pouvez vous rendre sur [le site du tidyverse](https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/) (en anglais) ou sur [cet article du blog de ThinkR](https://thinkr.fr/hey-quoi-de-neuf-dplyr-le-point-sur-la-v1/#La_fonction_de_calcul_avec_conditions_sur_les_variables_across()) (en français) qui en présentent les changements majeurs. 
 

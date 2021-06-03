@@ -8,12 +8,12 @@ Cover: images/cover_1.png
 twitter_image: images/cover_1.png
 Summary: Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude
 
+[TOC]  
+
 Cet article est une mise à jour de l'article du [blog d'Antoine](https://antoinesir.rbind.io/post/comparaisons-base-r-dplyr-data-table/) réalisé en 2018. L'idée est de comparer les performances de trois alternatives dans R pour l'analyse de données :   
 - l'utilisation des seules fonctions de base R  
 - dplyr  
 - data.table  
-
-[TOC]  
 
 # Rappels sur dplyr et data.table
 On rappelle ici les principales caractéristiques de ces packages mais pour se former à leur utilisation on peut se référer au [cours de perfectionnement de Martin Chevalier](https://teaching.slmc.fr/perf/presentation_handout.pdf). Pour une exploration de ce qu'englobe le `tidyverse` et notamment une présentation des commandes de `dplyr`, vous pouvez jeter un oeil à [l'introduction à R et au tidyverse](https://juba.github.io/tidyverse/index.html) de J. Barnier. Enfin pour data.table, on trouve des informations utiles sur le cours [Manipulations avancée avec data.table](http://larmarange.github.io/analyse-R/manipulations-avancees-avec-data-table.html) de J. Larmarange et on vous conseille l'excellent article [a gentle introduction to data.table](https://atrebas.github.io/post/2020-06-17-datatable-introduction/).  
