@@ -117,13 +117,6 @@
             <a href="https://blog.statoscop.fr">Retour à l'accueil du blog</a>
           </span>
         </nav>
-        <h1 class="post-title">Analyse en composantes principales avec Python</h1>
-        <!-- TODO : Proper class for headline -->
-        <span class="post-meta">
-                <a href="https://blog.statoscop.fr/author/antoine.html">Antoine</a>
-            | <time datetime="ven. 16 avril 2021">ven. 16 avril 2021</time>
-        </span>
-        <!-- TODO : Modified check -->
       </div>
     </header>
 
@@ -132,11 +125,26 @@
 
     <!-- Post content -->
     <main class="content" role="main">
-        <article class="post">
+      
+      <div>
+      </div>
+
+      <article class="post">
         <div class="inner">
+
+
+
+
             <section class="post-content">
-                <p>Dans cet article, nous allons essayer de comprendre intuitivement comment fonctionne l'analyse en composantes principales. Nous présenterons ensuite à quoi celle-ci peut servir en prenant les exemples d'une analyse exploratoire des données et d'une problématique de réduction de dimension.   </p>
-<div class="toc"><span class="toctitle">Table des matières</span><ul>
+              <h1 class="post-title">Analyse en composantes principales avec Python</h1>
+                <!-- Le titres et meta infos-->
+                <span class="post-meta">
+                        <a href="https://blog.statoscop.fr/author/antoine.html">Antoine</a>
+                    | <time datetime="ven. 16 avril 2021">ven. 16 avril 2021</time>
+                </span>
+
+                <!--Table des matieres-->
+                <div class="toc"><span class="toctitle">Table des matières</span><ul>
 <li><a href="#explication-introductive">Explication introductive</a></li>
 <li><a href="#mise-en-oeuvre-dune-acp">Mise en oeuvre d'une ACP</a><ul>
 <li><a href="#analyse-exploratoire-de-nos-donnees">Analyse exploratoire de nos données</a></li>
@@ -145,17 +153,20 @@
 </li>
 </ul>
 </div>
+                
+                
+<p>Dans cet article, nous allons essayer de comprendre intuitivement comment fonctionne l'analyse en composantes principales. Nous présenterons ensuite à quoi celle-ci peut servir en prenant les exemples d'une analyse exploratoire des données et d'une problématique de réduction de dimension.   </p>
 <h1 id="explication-introductive">Explication introductive</h1>
 <p>L'analyse en composantes principales est une méthode consistant à transformer des variables corrélées entre elles en nouvelles variables. Chacune de ces nouvelles variables est le résultat d'une combinaison linéaire des anciennes variables. </p>
-<p><em>Note : une combinaison linéaire de 3 variables <span class="math">\(V_1\)</span>, <span class="math">\(V_2\)</span> et <span class="math">\(V_3\)</span> s'écrit <span class="math">\(\alpha_1.V_1 + \alpha_2.V_2 + \alpha_3.V_3\)</span> où les <span class="math">\(\alpha_i\)</span> sont des coefficients réels.</em></p>
+<p><em>Note : une combinaison linéaire de 3 variables $V_1$, $V_2$ et $V_3$ s'écrit $\alpha_1.V_1 + \alpha_2.V_2 + \alpha_3.V_3$ où les $\alpha_i$ sont des coefficients réels.</em></p>
 <p>Ces nouvelles variables sont appelées <strong>composantes principales</strong> et sont, par contruction, décorrélées les unes des autres.  </p>
 <p>Autrement dit, l'ACP projette vos données dans un nouvel espace. La première composante principale est construite de manière à capter la plus grande variance possible de vos données, la seconde la part la plus importante de la variance possible <strong>restant à expliquer</strong>, et ainsi de suite.  </p>
 <p>Une illustration brillante de ce processus est proposée par <a href="https://www.allisonhorst.com/">Allison Horst</a>. Elle <a href="https://twitter.com/allison_horst/status/1288904459490213888">représente</a> un jeu de données à deux dimensions avec des crevettes et l'analyse en composantes principales comme les passages d'un requin-baleine affamé :  </p>
-<p><img alt="Pelican" src="../images/acp/output_3_0.png"></p>
-<p><img alt="Pelican" src="../images/acp/output_4_0.png"></p>
+<p><img alt="Pelican" src="../images/acp/output_3_0.png"/></p>
+<p><img alt="Pelican" src="../images/acp/output_4_0.png"/></p>
 <p>La problématique du requin-baleine est en effet la même que celle de la création d'une première composante principale : quel axe choisir pour avaler un maximum de crevettes dès le premier passage? L'axe choisi va ressembler à celui-ci :  </p>
-<p><img alt="Pelican" src="../images/acp/output_6_0.png"></p>
-<p>Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient le plus proche possible de cette droite. Mathématiquement, la première composante principale est la combinaison linéaire des deux axes <span class="math">\(x\)</span> et <span class="math">\(y\)</span> qui maximise l'inertie projetée ce qui revient à minimiser les écarts entre les points et cette droite.</p>
+<p><img alt="Pelican" src="../images/acp/output_6_0.png"/></p>
+<p>Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient le plus proche possible de cette droite. Mathématiquement, la première composante principale est la combinaison linéaire des deux axes $x$ et $y$ qui maximise l'inertie projetée ce qui revient à minimiser les écarts entre les points et cette droite.</p>
 <p>Dans cet exemple, la seconde composante principale sera l'axe perpendiculaire à ce premier axe.</p>
 <p>Si les points étaient parfaitement alignés sur une ligne, l'ensemble de la variance serait expliqué par la première composante et on serait parvenus à réduire le nombre de dimensions de notre problème sans perte d'information.</p>
 <h1 id="mise-en-oeuvre-dune-acp">Mise en oeuvre d'une ACP</h1>
@@ -186,26 +197,22 @@
 <span class="c1"># conservées</span>
 <span class="n">pca_wine</span><span class="o">.</span><span class="n">shape</span>
 </code></pre></div>
-
 <div class="highlight"><pre><span></span><code><span class="err">(178, 2)</span>
 </code></pre></div>
-
 <p>En sortie, nous obtenons les vecteurs des deux premières composantes dans l'objet <code>pca_wine</code>. Notons que nous aurions pu paramétrer la fonction <code>PCA</code> de manière à ce qu'elle nous renvoie le nombre de composantes nécessaire à expliquer <code>X</code>% de la variance, comme nous le ferons par la suite. Depuis l'objet <code>pca</code>, on peut voir le vecteur de la variance expliquée par chaque composante avec <code>pca.explained_variance_ratio_</code> et donc la variance totale expliquée par nos deux composantes en sommant les éléments de ce vecteur :  </p>
 <div class="highlight"><pre><span></span><code><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </code></pre></div>
-
 <div class="highlight"><pre><span></span><code><span class="err">0.554063383569353</span>
 </code></pre></div>
-
 <p>On explique donc 55 % de la variance totale de nos données avec 2 composantes, alors que celle-ci contient 13 variables. Voyons si cela suffit à discriminer nos 3 producteurs visuellement :  </p>
-<p><img alt="Pelican" src="../images/acp/output_13_0.png"></p>
+<p><img alt="Pelican" src="../images/acp/output_13_0.png"/></p>
 <p>On constate ici que les 3 producteurs sont bien répartis dans des zones distinctes du plan et ce résultat semble montrer que chacun produit des types de vin caractéristiques.</p>
 <p>On peut se convaincre que l'ACP a bien joué son rôle en produisant le même type de schéma avec deux autres variables originales du jeu de données (sans transformation linéaire), disons le degré d'alcool et l'intensité de la couleur. On s'attend bien sûr à ce que les classes soient moins discriminées qu'avec les deux premières composantes principales :  </p>
-<p><img alt="Pelican" src="../images/acp/output_15_0.png"></p>
+<p><img alt="Pelican" src="../images/acp/output_15_0.png"/></p>
 <p>Ces variables permettent de distinguer des tendances, comme le fait que le producteur 1 produit des vins plutôt moins alcoolisés et dont la couleur est peu intense alors que le producteur 0 produit des vins plus alcoolisés. Mais ces variables seules ne permettent pas de partitionner nos classes aussi clairement qu'avec les deux premières composantes de notre ACP.   </p>
 <p>L'ACP ne permet certes pas au premier coup d'oeil de proposer une interprétation des résultats, mais il est néanmoins possible d'étudier comment chaque variable contribue aux composantes avec l'instruction <code>pca.components_</code> :  </p>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -219,111 +226,110 @@
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Noms des variables</th>
-      <th>Composante 1</th>
-      <th>Composante 2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>alcohol</td>
-      <td>0.144329</td>
-      <td>-0.483652</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>malic_acid</td>
-      <td>-0.245188</td>
-      <td>-0.224931</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>ash</td>
-      <td>-0.002051</td>
-      <td>-0.316069</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>alcalinity_of_ash</td>
-      <td>-0.239320</td>
-      <td>0.010591</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>magnesium</td>
-      <td>0.141992</td>
-      <td>-0.299634</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>total_phenols</td>
-      <td>0.394661</td>
-      <td>-0.065040</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>flavanoids</td>
-      <td>0.422934</td>
-      <td>0.003360</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>nonflavanoid_phenols</td>
-      <td>-0.298533</td>
-      <td>-0.028779</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>proanthocyanins</td>
-      <td>0.313429</td>
-      <td>-0.039302</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>color_intensity</td>
-      <td>-0.088617</td>
-      <td>-0.529996</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>hue</td>
-      <td>0.296715</td>
-      <td>0.279235</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>od280/od315_of_diluted_wines</td>
-      <td>0.376167</td>
-      <td>0.164496</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>proline</td>
-      <td>0.286752</td>
-      <td>-0.364903</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Noms des variables</th>
+<th>Composante 1</th>
+<th>Composante 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>alcohol</td>
+<td>0.144329</td>
+<td>-0.483652</td>
+</tr>
+<tr>
+<th>1</th>
+<td>malic_acid</td>
+<td>-0.245188</td>
+<td>-0.224931</td>
+</tr>
+<tr>
+<th>2</th>
+<td>ash</td>
+<td>-0.002051</td>
+<td>-0.316069</td>
+</tr>
+<tr>
+<th>3</th>
+<td>alcalinity_of_ash</td>
+<td>-0.239320</td>
+<td>0.010591</td>
+</tr>
+<tr>
+<th>4</th>
+<td>magnesium</td>
+<td>0.141992</td>
+<td>-0.299634</td>
+</tr>
+<tr>
+<th>5</th>
+<td>total_phenols</td>
+<td>0.394661</td>
+<td>-0.065040</td>
+</tr>
+<tr>
+<th>6</th>
+<td>flavanoids</td>
+<td>0.422934</td>
+<td>0.003360</td>
+</tr>
+<tr>
+<th>7</th>
+<td>nonflavanoid_phenols</td>
+<td>-0.298533</td>
+<td>-0.028779</td>
+</tr>
+<tr>
+<th>8</th>
+<td>proanthocyanins</td>
+<td>0.313429</td>
+<td>-0.039302</td>
+</tr>
+<tr>
+<th>9</th>
+<td>color_intensity</td>
+<td>-0.088617</td>
+<td>-0.529996</td>
+</tr>
+<tr>
+<th>10</th>
+<td>hue</td>
+<td>0.296715</td>
+<td>0.279235</td>
+</tr>
+<tr>
+<th>11</th>
+<td>od280/od315_of_diluted_wines</td>
+<td>0.376167</td>
+<td>0.164496</td>
+</tr>
+<tr>
+<th>12</th>
+<td>proline</td>
+<td>0.286752</td>
+<td>-0.364903</td>
+</tr>
+</tbody>
 </table>
 </div>
-
 <p>Ce tableau représente les coefficients de la combinaison linéaire des variables pour chaque composante. Il nous permet par exemple de constater que l'intensité de la couleur et l'alcool jouent fortement et négativement sur la seconde composante. Cela correspond à ce que l'on observait dans les deux graphiques précédents puisque les vins des producteurs 0 et 2 ont des valeurs négatives sur l'axe de la seconde composante (1er graphique) et ce sont bien ceux dont le taux en alcool et l'intensité de la couleur sont les plus importants (2e graphique)</p>
 <h2 id="utilisation-de-lacp-pour-la-reduction-de-dimensions">Utilisation de l'ACP pour la réduction de dimensions</h2>
-<p>La propriété de l'ACP de capter une partie importante de la variance des données à partir de moins de variables est particulièrement intéressante dans le domaine du Machine Learning pour être capable de fournir des prédictions avec des modèles plus légers (car utilisant moins de variables) et des résultats au moins aussi performants.<br>
-Pour notre exemple, même si la réduction de dimensions n'est pas un enjeu fondamental vu le faible nombre de variables, nous pouvons tester si nous parvenons à faire un modèle de prédiction de l'origine du vin (producteur 0, 1 ou 2) en réduisant le nombre de dimensions.<br>
+<p>La propriété de l'ACP de capter une partie importante de la variance des données à partir de moins de variables est particulièrement intéressante dans le domaine du Machine Learning pour être capable de fournir des prédictions avec des modèles plus légers (car utilisant moins de variables) et des résultats au moins aussi performants.<br/>
+Pour notre exemple, même si la réduction de dimensions n'est pas un enjeu fondamental vu le faible nombre de variables, nous pouvons tester si nous parvenons à faire un modèle de prédiction de l'origine du vin (producteur 0, 1 ou 2) en réduisant le nombre de dimensions.<br/>
 Tout d'abord, commençons par déterminer ce nombre de dimensions. Le graphique suivant nous donne l'évolution de la variance expliquée en fonction du nombre de composantes :   </p>
-<p><img alt="Pelican" src="../images/acp/output_20_0.png"></p>
+<p><img alt="Pelican" src="../images/acp/output_20_0.png"/></p>
 <p>L'ACP permettrait d'expliquer plus de 70% de la variance totale dès 4 composantes. Pour voir si cela est suffisant pour entraîner un modèle de prédiction, on peut comparer les performances d'un arbre de classification sur les données transformées après PCA et sur les données brutes. On utilise une méthode de validation croisée pour estimer les performances du modèle qui consiste à partitionner les données en 5 groupes et à entraîner les données sur 4 groupes et les tester sur celui restant. On fait cela 5 fois pour parcourir le champ des possibles et on évalue la précision globale du modèle en faisant la moyenne de ces 5 résultats. Cette méthode doit permettre d'estimer la qualité du modèle sur des données sur lesquelles il n'a pas été entraîné et de ne pas prendre en compte le surapprentissage dans son évaluation. Le tableau suivant donne les taux de précision obtenus pour chaque méthode, c'est à dire le nombre de vins correctement classifiés sur le nombre de vins total.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Plutôt que de renseigner le nombre de composantes </span>
 <span class="c1"># on renseigne la valeur minimum de la variance </span>
-<span class="c1"># expliquée totale que l&#39;on souhaite</span>
+<span class="c1"># expliquée totale que l'on souhaite</span>
 <span class="n">pca</span><span class="o">=</span><span class="n">PCA</span><span class="p">(</span><span class="mf">0.70</span><span class="p">)</span> 
 <span class="n">wine_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">values_cr</span><span class="p">)</span>
 
-<span class="c1"># On entraîne notre modèle et on l&#39;évalue avec une </span>
+<span class="c1"># On entraîne notre modèle et on l'évalue avec une </span>
 <span class="c1"># méthode de validation croisée </span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
 <span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
@@ -331,13 +337,12 @@ Tout d'abord, commençons par déterminer ce nombre de dimensions. Le graphique 
 <span class="n">mean_pca</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">wine_pca</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="n">mean_all</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Précision moyenne après ACP&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="n">mean_pca</span><span class="p">],</span> 
-              <span class="s2">&quot;Précision moyenne sans ACP&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="n">mean_all</span><span class="p">],</span> 
-              <span class="s2">&quot;Nombre de composantes&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="n">wine_pca</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]})</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"Précision moyenne après ACP"</span> <span class="p">:</span> <span class="p">[</span><span class="n">mean_pca</span><span class="p">],</span> 
+              <span class="s2">"Précision moyenne sans ACP"</span> <span class="p">:</span> <span class="p">[</span><span class="n">mean_all</span><span class="p">],</span> 
+              <span class="s2">"Nombre de composantes"</span> <span class="p">:</span> <span class="p">[</span><span class="n">wine_pca</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]})</span>
 </code></pre></div>
-
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -351,89 +356,26 @@ Tout d'abord, commençons par déterminer ce nombre de dimensions. Le graphique 
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Précision moyenne après ACP</th>
-      <th>Précision moyenne sans ACP</th>
-      <th>Nombre de composantes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0.933175</td>
-      <td>0.887619</td>
-      <td>4</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Précision moyenne après ACP</th>
+<th>Précision moyenne sans ACP</th>
+<th>Nombre de composantes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>0.933175</td>
+<td>0.887619</td>
+<td>4</td>
+</tr>
+</tbody>
 </table>
 </div>
-
 <p>On constate que l'ACP n'a pas seulement permis de réduire le nombre de dimensions de notre problème, elle nous offre aussi une précision globale du modèle supérieure. Cela n'est pas toujours le cas - puisque ça dépend de votre problématique, des variables explicatives dont vous disposez et du nombre de composantes que vous retenez - mais ici c'est dû au fait qu'elle permet de réduire le bruit associé aux données en ne conservant qu'une partie de l'information totale. Cela permet ainsi de prévenir les problèmes de surapprentissage, c'est à dire le fait que le modèle explique parfaitement les données d'entraînement mais se généralise mal à de nouvelles données. Ce sujet fera sans doute l'objet d'une note de blog dédiée prochainement!  </p>
 <p>C'est tout pour aujourd'hui! Si vous voulez voir d'autres exemples d'utilisation de l'ACP, je vous conseille <a href="https://jakevdp.github.io/PythonDataScienceHandbook/05.09-principal-component-analysis.html">cet article</a> qui aborde notamment le cas du traitement des images, pour lequel il est particulièrement intéressant de réduire le nombre de dimensions. Vous pouvez trouver le notebook avec l'ensemble du code ayant servi à générer cette note sur le <a href="https://github.com/Statoscop/notebooks-blog">github de Statoscop</a>.   </p>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>
             </section>
 
             <section class="post-info">

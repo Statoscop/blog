@@ -148,3 +148,23 @@ jQuery(function($) {
 		});
 	}
 });
+
+/* ==========================================================================
+	Pour rendre les titres "active" dans la TOC quand on scroll
+	========================================================================== */
+$(window).scroll(function() {
+	var margeTop = 80 ;
+	var scrollPosition = $(window).scrollTop();
+	var firstTop = $("h1").eq(1).offset().top - margeTop;
+
+	$("h1, h2, h3, h4, h5").slice(1).each(function(idx,elem) {
+		var elemTop = $(elem).offset().top - margeTop;
+			if (scrollPosition <= firstTop) {
+					$('.toc li.active').removeClass('active');
+			}
+			else if (scrollPosition > elemTop) {
+					$('.toc li.active').removeClass('active');
+					$('.toc li').eq(idx).addClass('active');
+			}
+	});
+}).scroll();
