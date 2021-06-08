@@ -661,8 +661,8 @@ Une autre aide utile sur les manipulation de dates est la &lt;a href="http://lab
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Grâce au type de données uniforme dans les tableaux &lt;code&gt;datetime64&lt;/code&gt;, ce genre d'opérations vectorielles peut être effectué bien plus rapidement qu'en travaillant directement avec les objets &lt;code&gt;datetime&lt;/code&gt; de Python, particulièrement pour de grands tableaux.&lt;/p&gt;
-&lt;p&gt;Une particularité des objets &lt;code&gt;datetime64&lt;/code&gt; et &lt;code&gt;timedelta64&lt;/code&gt; est qu'ils sont construits sur une &lt;em&gt;unité fondamentale de temps (UFT)&lt;/em&gt;. Comme le &lt;code&gt;datetime64&lt;/code&gt; est limité à une précision de 64-bit, le nombre de datetime qu'on peut encoder est $2^{64}$ fois l'UFT. En d'autres termes, &lt;code&gt;datetime64&lt;/code&gt; nécessite un arbitrage entre &lt;em&gt;résolution temporelle&lt;/em&gt; et &lt;em&gt;intervalle maximal de temps&lt;/em&gt; .&lt;br&gt;
-Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir la place pour encoder $2^{64}$ nanosecondes, soit un peu moins de 600 ans.&lt;/p&gt;
+&lt;p&gt;Une particularité des objets &lt;code&gt;datetime64&lt;/code&gt; et &lt;code&gt;timedelta64&lt;/code&gt; est qu'ils sont construits sur une &lt;em&gt;unité fondamentale de temps (UFT)&lt;/em&gt;. Comme le &lt;code&gt;datetime64&lt;/code&gt; est limité à une précision de 64-bit, le nombre de datetime qu'on peut encoder est &lt;span class="math"&gt;\(2^{64}\)&lt;/span&gt; fois l'UFT. En d'autres termes, &lt;code&gt;datetime64&lt;/code&gt; nécessite un arbitrage entre &lt;em&gt;résolution temporelle&lt;/em&gt; et &lt;em&gt;intervalle maximal de temps&lt;/em&gt; .&lt;br&gt;
+Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir la place pour encoder &lt;span class="math"&gt;\(2^{64}\)&lt;/span&gt; nanosecondes, soit un peu moins de 600 ans.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;numpy&lt;/code&gt; déduit l'UFT désirée à partir de l'input mais on peut bien sûr aussi le spécifier.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# un datetime basé sur le jour&lt;/span&gt;
 &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;datetime64&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2021-04-30&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -1138,7 +1138,69 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Pour en savoir plus, il y a la &lt;a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects"&gt;section "DateOffset"&lt;/a&gt; de la documentation &lt;code&gt;pandas&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Vous trouverez, comme pour l'ensemble de nos posts, le code de ce notebook sur &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;le github de Statoscop&lt;/a&gt;. Dans le prochain article, nous commencerons à manipuler, visualiser et effectuer certains opérations classiques sur les séries temporelles avant de conclure sur une petite étude de cas. À très vite !&lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Analyse en composantes principales avec Python</title><link href="https://blog.statoscop.fr/acp-python.html" rel="alternate"></link><published>2021-04-16T00:00:00+02:00</published><updated>2021-04-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-04-16:/acp-python.html</id><summary type="html">&lt;p&gt;Présentation et exemples d'utilisation de l'ACP en statistiques et data science.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;Vous trouverez, comme pour l'ensemble de nos posts, le code de ce notebook sur &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;le github de Statoscop&lt;/a&gt;. Dans le prochain article, nous commencerons à manipuler, visualiser et effectuer certains opérations classiques sur les séries temporelles avant de conclure sur une petite étude de cas. À très vite !&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Analyse en composantes principales avec Python</title><link href="https://blog.statoscop.fr/acp-python.html" rel="alternate"></link><published>2021-04-16T00:00:00+02:00</published><updated>2021-04-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-04-16:/acp-python.html</id><summary type="html">&lt;p&gt;Présentation et exemples d'utilisation de l'ACP en statistiques et data science.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#explication-introductive"&gt;Explication introductive&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#mise-en-oeuvre-dune-acp"&gt;Mise en oeuvre d'une ACP&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#analyse-exploratoire-de-nos-donnees"&gt;Analyse exploratoire de nos données&lt;/a&gt;&lt;/li&gt;
@@ -1150,7 +1212,7 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;p&gt;Dans cet article, nous allons essayer de comprendre intuitivement comment fonctionne l'analyse en composantes principales. Nous présenterons ensuite à quoi celle-ci peut servir en prenant les exemples d'une analyse exploratoire des données et d'une problématique de réduction de dimension.   &lt;/p&gt;
 &lt;h1 id="explication-introductive"&gt;Explication introductive&lt;/h1&gt;
 &lt;p&gt;L'analyse en composantes principales est une méthode consistant à transformer des variables corrélées entre elles en nouvelles variables. Chacune de ces nouvelles variables est le résultat d'une combinaison linéaire des anciennes variables. &lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Note : une combinaison linéaire de 3 variables $V_1$, $V_2$ et $V_3$ s'écrit $\alpha_1.V_1 + \alpha_2.V_2 + \alpha_3.V_3$ où les $\alpha_i$ sont des coefficients réels.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note : une combinaison linéaire de 3 variables &lt;span class="math"&gt;\(V_1\)&lt;/span&gt;, &lt;span class="math"&gt;\(V_2\)&lt;/span&gt; et &lt;span class="math"&gt;\(V_3\)&lt;/span&gt; s'écrit &lt;span class="math"&gt;\(\alpha_1.V_1 + \alpha_2.V_2 + \alpha_3.V_3\)&lt;/span&gt; où les &lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt; sont des coefficients réels.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Ces nouvelles variables sont appelées &lt;strong&gt;composantes principales&lt;/strong&gt; et sont, par contruction, décorrélées les unes des autres.  &lt;/p&gt;
 &lt;p&gt;Autrement dit, l'ACP projette vos données dans un nouvel espace. La première composante principale est construite de manière à capter la plus grande variance possible de vos données, la seconde la part la plus importante de la variance possible &lt;strong&gt;restant à expliquer&lt;/strong&gt;, et ainsi de suite.  &lt;/p&gt;
 &lt;p&gt;Une illustration brillante de ce processus est proposée par &lt;a href="https://www.allisonhorst.com/"&gt;Allison Horst&lt;/a&gt;. Elle &lt;a href="https://twitter.com/allison_horst/status/1288904459490213888"&gt;représente&lt;/a&gt; un jeu de données à deux dimensions avec des crevettes et l'analyse en composantes principales comme les passages d'un requin-baleine affamé :  &lt;/p&gt;
@@ -1158,7 +1220,7 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_4_0.png"&gt;&lt;/p&gt;
 &lt;p&gt;La problématique du requin-baleine est en effet la même que celle de la création d'une première composante principale : quel axe choisir pour avaler un maximum de crevettes dès le premier passage? L'axe choisi va ressembler à celui-ci :  &lt;/p&gt;
 &lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_6_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient le plus proche possible de cette droite. Mathématiquement, la première composante principale est la combinaison linéaire des deux axes $x$ et $y$ qui maximise l'inertie projetée ce qui revient à minimiser les écarts entre les points et cette droite.&lt;/p&gt;
+&lt;p&gt;Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient le plus proche possible de cette droite. Mathématiquement, la première composante principale est la combinaison linéaire des deux axes &lt;span class="math"&gt;\(x\)&lt;/span&gt; et &lt;span class="math"&gt;\(y\)&lt;/span&gt; qui maximise l'inertie projetée ce qui revient à minimiser les écarts entre les points et cette droite.&lt;/p&gt;
 &lt;p&gt;Dans cet exemple, la seconde composante principale sera l'axe perpendiculaire à ce premier axe.&lt;/p&gt;
 &lt;p&gt;Si les points étaient parfaitement alignés sur une ligne, l'ensemble de la variance serait expliqué par la première composante et on serait parvenus à réduire le nombre de dimensions de notre problème sans perte d'information.&lt;/p&gt;
 &lt;h1 id="mise-en-oeuvre-dune-acp"&gt;Mise en oeuvre d'une ACP&lt;/h1&gt;
@@ -1374,7 +1436,69 @@ Tout d'abord, commençons par déterminer ce nombre de dimensions. Le graphique 
 &lt;/div&gt;
 
 &lt;p&gt;On constate que l'ACP n'a pas seulement permis de réduire le nombre de dimensions de notre problème, elle nous offre aussi une précision globale du modèle supérieure. Cela n'est pas toujours le cas - puisque ça dépend de votre problématique, des variables explicatives dont vous disposez et du nombre de composantes que vous retenez - mais ici c'est dû au fait qu'elle permet de réduire le bruit associé aux données en ne conservant qu'une partie de l'information totale. Cela permet ainsi de prévenir les problèmes de surapprentissage, c'est à dire le fait que le modèle explique parfaitement les données d'entraînement mais se généralise mal à de nouvelles données. Ce sujet fera sans doute l'objet d'une note de blog dédiée prochainement!  &lt;/p&gt;
-&lt;p&gt;C'est tout pour aujourd'hui! Si vous voulez voir d'autres exemples d'utilisation de l'ACP, je vous conseille &lt;a href="https://jakevdp.github.io/PythonDataScienceHandbook/05.09-principal-component-analysis.html"&gt;cet article&lt;/a&gt; qui aborde notamment le cas du traitement des images, pour lequel il est particulièrement intéressant de réduire le nombre de dimensions. Vous pouvez trouver le notebook avec l'ensemble du code ayant servi à générer cette note sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.   &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category></entry><entry><title>Comparaisons base R, dplyr et data.table</title><link href="https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html" rel="alternate"></link><published>2021-03-30T00:00:00+02:00</published><updated>2021-03-30T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-03-30:/comparaisons-base-dplyr-datatable.html</id><summary type="html">&lt;p&gt;Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;C'est tout pour aujourd'hui! Si vous voulez voir d'autres exemples d'utilisation de l'ACP, je vous conseille &lt;a href="https://jakevdp.github.io/PythonDataScienceHandbook/05.09-principal-component-analysis.html"&gt;cet article&lt;/a&gt; qui aborde notamment le cas du traitement des images, pour lequel il est particulièrement intéressant de réduire le nombre de dimensions. Vous pouvez trouver le notebook avec l'ensemble du code ayant servi à générer cette note sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.   &lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category></entry><entry><title>Comparaisons base R, dplyr et data.table</title><link href="https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html" rel="alternate"></link><published>2021-03-30T00:00:00+02:00</published><updated>2021-03-30T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-03-30:/comparaisons-base-dplyr-datatable.html</id><summary type="html">&lt;p&gt;Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#rappels-sur-dplyr-et-datatable"&gt;Rappels sur dplyr et data.table&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#dplyr-et-le-tidyverse"&gt;dplyr et le tidyverse&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#datatable"&gt;Data.table&lt;/a&gt;&lt;/li&gt;
