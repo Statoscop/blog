@@ -12,7 +12,12 @@
 &lt;li&gt;&lt;a href="#modele-autoregressif-et-moyenne-mobile"&gt;Modèle autorégressif et moyenne mobile&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;a href="#des-exemples-de-series-temporelles"&gt;Des exemples de séries temporelles&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#des-exemples-de-series-temporelles"&gt;Des exemples de séries temporelles&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#des-taches-solaires"&gt;Des tâches solaires&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#des-americains"&gt;Des américains&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#de-la-biere-australienne"&gt;De la bière australienne&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;blockquote&gt;
@@ -23,69 +28,69 @@
 &lt;li&gt;Analyse, modélisation et prédiction&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Dans ce troisième post, nous entrons dans le coeur du sujet avec l'introduction des notions fondamentales des séries temporelles puis nous illustrerons ces concepts par de "vraies" données.&lt;/p&gt;
-&lt;h2 id="notions-de-bases"&gt;Notions de bases&lt;/h2&gt;
-&lt;h3 id="definition"&gt;Définition&lt;/h3&gt;
-&lt;p&gt;Une série temporelle (ou chronologique), est une suite de valeurs numériques représentant l’évolution d’une quantité au cours du temps. On la note généralement ${y_t}&lt;em T-1&gt;{t=1}^{T}$ c'est-à-dire l'ensemble des $T$ valeurs $y_1, y_2, y_3,..., y&lt;/em&gt;, y_T$.  &lt;/p&gt;
+&lt;p&gt;Dans ce troisième post, nous entrons dans le coeur du sujet avec l'introduction des notions fondamentales des séries temporelles puis nous illustrerons ces concepts par quelques "vraies" séries de données.&lt;/p&gt;
+&lt;h1 id="notions-de-bases"&gt;Notions de bases&lt;/h1&gt;
+&lt;h2 id="definition"&gt;Définition&lt;/h2&gt;
+&lt;p&gt;Une série temporelle (ou chronologique), est une suite de valeurs numériques représentant l’évolution d’une quantité au cours du temps. On la note généralement &lt;span class="math"&gt;\(\{y_t\}_{t=1}^{T}\)&lt;/span&gt; c'est-à-dire l'ensemble des &lt;span class="math"&gt;\(T\)&lt;/span&gt; valeurs &lt;span class="math"&gt;\(y_1, y_2, y_3,..., y_{T-1}, y_T\)&lt;/span&gt;.  &lt;/p&gt;
 &lt;p&gt;On rencontre parfois les termes "processus" ou "processus stochastique". Cela fait référence au mécanisme, &lt;strong&gt;inconnu et non observable&lt;/strong&gt;, qui a entraîné ces observations.&lt;/p&gt;
-&lt;h3 id="les-composantes-dune-serie-temporelle"&gt;Les composantes d'une série temporelle&lt;/h3&gt;
-&lt;p&gt;Une série temporelle peut se décomposer en 4 composantes :
-- &lt;strong&gt;Tendance&lt;/strong&gt; : orientation générale de la série (vers le haut ou vers le bas)
-- &lt;strong&gt;Saisonnalité&lt;/strong&gt; : tendances hebdomadaires, mensuelles, trismestrielles ou annuelles
-- &lt;strong&gt;Cycle&lt;/strong&gt; : cycles économiques à long terme, sur plusieurs années
-- &lt;strong&gt;Bruit&lt;/strong&gt; : ce qui reste après avoir extrait les composants précédents&lt;/p&gt;
-&lt;h3 id="la-stationnarite"&gt;La stationnarité&lt;/h3&gt;
-&lt;p&gt;Un processus ${y_t}_{t=1}^{T}$ est dit stationnaire lorsque : 
-- $E(y_t) = \mu$
-- $V(y_t) = \sigma^2$
-- $\gamma(t,s) = \gamma(t-s)$ où $\gamma$ est la fonction d'autocorrélation qu'on va découvrir de suite&lt;/p&gt;
-&lt;p&gt;Ok c'est joli les formules, mais concrètement ça veut dire quoi qu'une série est stationnaire ?&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Premièrement, la moyenne de la série est constante et ne dépend donc pas du temps. La courbe rouge ci-dessous n'est dès lors pas stationnaire puisque sa moyenne augmente en fonction du temps&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img src='../images/SeriesTemp3/station1.png' width=700&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Deuxièmement, la variance de la série est constante et ne dépend donc pas du temps. On parle &lt;strong&gt;d'homoscédasticité&lt;/strong&gt;. La courbe rouge ci-dessous n'est dès lors pas stationnaire puisque l'écart des points à leur moyenne (représentée par la droite bleue) varie au cours du temps.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img src='../images/SeriesTemp3/station2.png' width=700&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Troisièmement, la covariance entre 2 points ne dépend pas du temps mais uniquement de l'écart entre ces points. La courbe rouge ci-dessous n'est dès lors pas stationnaire puisque l'espacement entre les points varie au cours du temps (ceux du milieu sont beaucoup plus proches entre eux que ceux aux extremités).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img src='../images/SeriesTemp3/station3.png' width=700&gt;&lt;/p&gt;
-&lt;h3 id="lautocorrelation-et-lautocorrelation-partielle"&gt;L'autocorrélation et l'autocorrélation partielle&lt;/h3&gt;
-&lt;p&gt;L'autocorrélation est un indicateur montrant comment les observations d'une série temporelle sont liées entre elles. C'est la corrélation entre la série et cette même série décalée dans le temps :
-$$\gamma(t,s) = \frac{1}{\sigma²} Cov(y_t,y_s) = \frac{1}{\sigma²} E[(y_t-\mu)(y_s-\mu)]$$&lt;/p&gt;
-&lt;p&gt;Une autre notation qui peut paraître plus claire et qui fait justement intervenir le décalage $k$ considéré entre les 2 séries ${y}$ :
-$$\gamma(k) = \frac{1}{\sigma²} Cov(y_t,y_{t+k}) = \frac{1}{\sigma²} E[(y_t-\mu)(y_{t+k}-\mu)]$$&lt;/p&gt;
-&lt;p&gt;Si on ne normalise pas par $\sigma²$ on retrouve l'autocovariance. Dans le cadre des séries temporelles (et plus largement du traitement du signal) on utilise un peu indistinctement les 2 termes.&lt;/p&gt;
-&lt;p&gt;Comme la corrélation, l'autocorrélation prend ses valeurs entre $[-1,1]$. Une valeur de $1$ signifie que la série et la série décalée se superposent parfaitement.&lt;/p&gt;
-&lt;p&gt;La &lt;strong&gt;fonction d'autocorrélation (ACF)&lt;/strong&gt; et la &lt;strong&gt;fonction d'autocorrélation partielle (PACF)&lt;/strong&gt; permettent de mesurer l'association entre des valeurs actuelles et passées. Elles indiquent les valeurs passées les plus corrélées aux valeurs suivantes et donc les plus utiles à la prévision de valeurs futures. Pour parler &lt;em&gt;"avec les mains"&lt;/em&gt;, la fonction ACF mesure la similitude entre 2 observations en fonction du décalage temporel entre les 2.&lt;/p&gt;
-&lt;p&gt;Concrètement :
-- ACF au décalage k = corrélation entre les valeurs séparées par k intervalles
-- PACF au décalage k = corrélation entre les valeurs séparées par k intervalles, compte tenu des valeurs des intervalles intermédiaires&lt;/p&gt;
-&lt;p&gt;&lt;img src='../images/SeriesTemp3/acf_pacf.png'&gt;&lt;/p&gt;
-&lt;p&gt;Ces graphiques, qui répondent au doux nom de corrélogramme, interviennent dans la détermination de l'ordre des processus d'un modèle ARIMA qu'on ne présente plus mais qu'on aura l'occasion de croiser prochainement c'est promis.&lt;/p&gt;
-&lt;h3 id="bruit-blanc"&gt;Bruit blanc&lt;/h3&gt;
-&lt;p&gt;Un &lt;strong&gt;bruit blanc&lt;/strong&gt; est un processus ${\epsilon_t}_{t=1}^{T}$ qui vérifie :&lt;/p&gt;
+&lt;h2 id="les-composantes-dune-serie-temporelle"&gt;Les composantes d'une série temporelle&lt;/h2&gt;
+&lt;p&gt;Une série temporelle peut se décomposer en 4 composantes :&lt;br&gt;
+- &lt;strong&gt;Tendance&lt;/strong&gt; : orientation générale de la série (vers le haut ou vers le bas)&lt;br&gt;
+- &lt;strong&gt;Saisonnalité&lt;/strong&gt; : tendances hebdomadaires, mensuelles, trismestrielles ou annuelles&lt;br&gt;
+- &lt;strong&gt;Cycle&lt;/strong&gt; : cycles économiques à long terme, sur plusieurs années&lt;br&gt;
+- &lt;strong&gt;Bruit&lt;/strong&gt; : ce qui reste après avoir extrait les composants précédents  &lt;/p&gt;
+&lt;h2 id="la-stationnarite"&gt;La stationnarité&lt;/h2&gt;
+&lt;p&gt;Un processus &lt;span class="math"&gt;\(\{y_t\}_{t=1}^{T}\)&lt;/span&gt; est dit stationnaire lorsque :  &lt;/p&gt;
 &lt;blockquote&gt;
 &lt;ul&gt;
-&lt;li&gt;$E[\epsilon_t] = 0$&lt;/li&gt;
-&lt;li&gt;$E[\epsilon_t^2] = \sigma^2$&lt;/li&gt;
-&lt;li&gt;$E[\epsilon_t\epsilon_s] = 0$ pour $s \neq t$&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(E(y_t) = \mu\)&lt;/span&gt;  &lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(V(y_t) = \sigma²\)&lt;/span&gt;  &lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\gamma(t,s) = \gamma(t-s)\)&lt;/span&gt; où &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; est la fonction d'autocorrélation qu'on va découvrir de suite  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Ok c'est joli les formules, mais concrètement ça veut dire quoi qu'une série est stationnaire ?&lt;/p&gt;
+&lt;p&gt;Premièrement, la moyenne de la série est constante et ne dépend donc pas du temps. La courbe rouge ci-dessous n'est dès lors pas stationnaire puisque sa moyenne augmente en fonction du temps&lt;/p&gt;
+&lt;p&gt;&lt;img src='../images/SeriesTemp3/station1.png' width=700&gt;&lt;/p&gt;
+&lt;p&gt;Deuxièmement, la variance de la série est constante et ne dépend donc pas du temps. On parle &lt;strong&gt;d'homoscédasticité&lt;/strong&gt;. La courbe rouge ci-dessous n'est dès lors pas stationnaire puisque l'écart des points à leur moyenne (représentée par la droite bleue) varie au cours du temps.&lt;/p&gt;
+&lt;p&gt;&lt;img src='../images/SeriesTemp3/station2.png' width=700&gt;&lt;/p&gt;
+&lt;p&gt;Troisièmement, la covariance entre 2 points ne dépend pas du temps mais uniquement de l'écart entre ces points. La courbe rouge ci-dessous n'est dès lors pas stationnaire puisque l'espacement entre les points varie au cours du temps (ceux du milieu sont beaucoup plus proches entre eux que ceux aux extremités).&lt;/p&gt;
+&lt;p&gt;&lt;img src='../images/SeriesTemp3/station3.png' width=700&gt;&lt;/p&gt;
+&lt;h2 id="lautocorrelation-et-lautocorrelation-partielle"&gt;L'autocorrélation et l'autocorrélation partielle&lt;/h2&gt;
+&lt;p&gt;L'autocorrélation est un indicateur montrant comment les observations d'une série temporelle sont liées entre elles. Il s'agit de la corrélation entre la série et cette même série décalée dans le temps :
+&lt;/p&gt;
+&lt;div class="math"&gt;$$\gamma(t,s) = \frac{1}{\sigma²} Cov(y_t,y_s) = \frac{1}{\sigma²} E[(y_t-\mu)(y_s-\mu)]$$&lt;/div&gt;
+&lt;p&gt;Une autre notation qui peut paraître plus claire et qui fait justement intervenir le décalage &lt;span class="math"&gt;\(k\)&lt;/span&gt; considéré entre les 2 séries &lt;span class="math"&gt;\(\{y\}\)&lt;/span&gt; :
+&lt;/p&gt;
+&lt;div class="math"&gt;$$\gamma(k) = \frac{1}{\sigma²} Cov(y_t,y_{t+k}) = \frac{1}{\sigma²} E[(y_t-\mu)(y_{t+k}-\mu)]$$&lt;/div&gt;
+&lt;p&gt;Si on ne normalise pas par &lt;span class="math"&gt;\(\sigma²\)&lt;/span&gt; on retrouve l'autocovariance. Dans le cadre des séries temporelles (et plus largement du traitement du signal) on utilise un peu indistinctement les 2 termes.&lt;/p&gt;
+&lt;p&gt;Comme la corrélation, l'autocorrélation prend ses valeurs entre &lt;span class="math"&gt;\([-1,1]\)&lt;/span&gt;. Une valeur de &lt;span class="math"&gt;\(1\)&lt;/span&gt; signifie que la série et la série décalée se superposent parfaitement.&lt;/p&gt;
+&lt;p&gt;La &lt;strong&gt;fonction d'autocorrélation (ACF)&lt;/strong&gt; et la &lt;strong&gt;fonction d'autocorrélation partielle (PACF)&lt;/strong&gt; permettent de mesurer l'association entre des valeurs actuelles et passées. Elles indiquent les valeurs passées les plus corrélées aux valeurs suivantes et donc les plus utiles à la prévision de valeurs futures. Pour parler &lt;em&gt;"avec les mains"&lt;/em&gt;, la fonction ACF mesure la similitude entre 2 observations en fonction du décalage temporel entre les 2.&lt;/p&gt;
+&lt;p&gt;Concrètement :&lt;br&gt;
+- ACF au décalage k = corrélation entre les valeurs séparées par k intervalles&lt;br&gt;
+- PACF au décalage k = corrélation entre les valeurs séparées par k intervalles, compte tenu des valeurs des intervalles intermédiaires  &lt;/p&gt;
+&lt;p&gt;&lt;img src='../images/SeriesTemp3/acf_pacf.png'&gt;&lt;/p&gt;
+&lt;p&gt;Ces graphiques, qui répondent au doux nom de corrélogramme, interviennent dans la détermination de l'ordre des processus d'un modèle ARIMA qu'on ne présente plus mais qu'on aura l'occasion de croiser prochainement c'est promis.&lt;/p&gt;
+&lt;h2 id="bruit-blanc"&gt;Bruit blanc&lt;/h2&gt;
+&lt;p&gt;Un &lt;strong&gt;bruit blanc&lt;/strong&gt; est un processus &lt;span class="math"&gt;\(\{\epsilon_t\}_{t=1}^{T}\)&lt;/span&gt; qui vérifie :  &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(E[\epsilon_t] = 0\)&lt;/span&gt;  &lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(E[\epsilon_t²] = \sigma²\)&lt;/span&gt;  &lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(E[\epsilon_t\epsilon_s] = 0\)&lt;/span&gt; pour &lt;span class="math"&gt;\(s \neq t\)&lt;/span&gt;  &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;C'est donc, comme les processus stationnaires, une série de moyenne constante et nulle, de variance constante et de covariance nulle entre 2 observations (indépendamment du décalage entre les 2). Ce dernier point signifie donc que les observations sont &lt;strong&gt;non corrélées&lt;/strong&gt; entre elles.&lt;/p&gt;
-&lt;p&gt;Un &lt;strong&gt;bruit blanc indépendant&lt;/strong&gt; est un processus ${\epsilon_t}_{t=1}^{T}$ qui vérifie :&lt;/p&gt;
+&lt;p&gt;Un &lt;strong&gt;bruit blanc indépendant&lt;/strong&gt; est un processus &lt;span class="math"&gt;\(\{\epsilon_t\}_{t=1}^{T}\)&lt;/span&gt; qui vérifie :  &lt;/p&gt;
 &lt;blockquote&gt;
 &lt;ul&gt;
-&lt;li&gt;$E[\epsilon_t] = 0$&lt;/li&gt;
-&lt;li&gt;$E[\epsilon_t^2] = \sigma^2$&lt;/li&gt;
-&lt;li&gt;$\epsilon_t$ et $\epsilon_s$ indépendants pour $s \neq t$&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(E[\epsilon_t] = 0\)&lt;/span&gt;  &lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(E[\epsilon_t²] = \sigma²\)&lt;/span&gt;  &lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; et &lt;span class="math"&gt;\(\epsilon_s\)&lt;/span&gt; indépendants pour &lt;span class="math"&gt;\(s \neq t\)&lt;/span&gt;  &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;Les deux premières hypothèses sont identiques. En revanche, la 3ème hypothèse est plus forte puisque l'indépendance implique que la covariance soit nulle mais la réciproque n'est pas vraie (&lt;a href="https://fr.wikipedia.org/wiki/Ind%C3%A9pendance_(probabilit%C3%A9s)#Ind%C3%A9pendance_et_corr%C3%A9lation"&gt;Maître Wiki&lt;/a&gt; vous fournira un contre-exemple avec des variables aléatoires discrètes ; un autre contre-exemple classique avec des variables aléatoires continues $X \hookrightarrow \mathcal{N}(0,1)$ et $Y=X²$ sont dépendantes et de covariance nulle).  &lt;/p&gt;
-&lt;p&gt;Un &lt;strong&gt;bruit blanc gaussien&lt;/strong&gt; ${\epsilon_t}_{t=1}^{T}$ est un bruit blanc indépendant qui suit une loi normale centrée : $\epsilon_t \hookrightarrow \mathcal{N}(0,\sigma²)$&lt;br&gt;
-On ajoute donc une hypothèse supplémentaire sur la distribution qui doit être une loi normale de moyenne nulle.&lt;/p&gt;
+&lt;p&gt;Les deux premières hypothèses sont identiques. En revanche, la 3ème hypothèse est plus forte puisque l'indépendance implique que la covariance soit nulle mais la réciproque n'est pas vraie (&lt;a href="https://fr.wikipedia.org/wiki/Ind%C3%A9pendance_(probabilit%C3%A9s)#Ind%C3%A9pendance_et_corr%C3%A9lation"&gt;Maître Wiki&lt;/a&gt; vous fournira un contre-exemple avec des variables aléatoires discrètes ; un autre contre-exemple classique avec des variables aléatoires continues &lt;span class="math"&gt;\(X \hookrightarrow \mathcal{N}(0,1)\)&lt;/span&gt; et &lt;span class="math"&gt;\(Y=X²\)&lt;/span&gt; sont dépendantes et de covariance nulle).  &lt;/p&gt;
+&lt;p&gt;Un &lt;strong&gt;bruit blanc gaussien&lt;/strong&gt; &lt;span class="math"&gt;\(\{\epsilon_t\}_{t=1}^{T}\)&lt;/span&gt; est un bruit blanc indépendant qui suit une loi normale centrée : &lt;span class="math"&gt;\(\epsilon_t \hookrightarrow \mathcal{N}(0,\sigma²)\)&lt;/span&gt;  &lt;/p&gt;
+&lt;p&gt;On ajoute donc une hypothèse supplémentaire sur la distribution qui doit être une loi normale de moyenne nulle.&lt;/p&gt;
 &lt;p&gt;Intuitivement, un bruit blanc dans le cadre des séries temporelles, c'est &lt;strong&gt;la partie purement aléatoire du processus&lt;/strong&gt;. Effectivement, j'imagine bien ce que vous pensez et vous avez tout à fait raison, les bruits blancs sont des séries stationnaires (moyenne, variance et covariance constantes).&lt;/p&gt;
 &lt;p&gt;Dans les lignes de code ci-dessous, on génère un bruit blanc gaussien qu'on visualise ensuite en utilisant la fonction &lt;code&gt;ts_plot&lt;/code&gt; qui est disponible sur le github de Statoscop, &lt;a href="https://github.com/Statoscop/notebooks-blog/blob/main/Series%20temporelles/fonctions.py"&gt;ici précisément&lt;/a&gt; dans le fichier &lt;code&gt;fonction.py&lt;/code&gt; du dossier Séries Temporelles.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
@@ -96,13 +101,16 @@ On ajoute donc une hypothèse supplémentaire sur la distribution qui doit être
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp3/output_3_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; les graphiques ci-dessus ressemblent à la structure souhaitée d'une série chronologique d'erreurs :
-- pas de pics dans les graphes ACF et PACF 
-- le QQ-plot et l'histogramme indiquent un comportement normal&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; les graphiques ci-dessus ressemblent à la structure souhaitée d'une série chronologique d'erreurs :&lt;br&gt;
+- pas de pics dans les graphes ACF et PACF &lt;br&gt;
+- le QQ-plot et l'histogramme indiquent un comportement normal  &lt;/p&gt;
 &lt;p&gt;Petite parenthèse, on essaiera de faire prochainement un post sur la normalité des résidus, l'interprétation des QQ-plot ou encore les différents tests de normalité.&lt;/p&gt;
-&lt;h3 id="la-marche-aleatoire"&gt;La marche aléatoire&lt;/h3&gt;
-&lt;p&gt;Un processus de marche aléatoire ${x_t}&lt;em t-1&gt;{t=1}^{T}$ est une série qui vérifie :&lt;br&gt;
-$x_t = x&lt;/em&gt; + \epsilon_t$ avec $\epsilon_t$ un bruit blanc&lt;/p&gt;
+&lt;h2 id="la-marche-aleatoire"&gt;La marche aléatoire&lt;/h2&gt;
+&lt;p&gt;Un processus de marche aléatoire &lt;span class="math"&gt;\(\{x_t\}_{t=1}^{T}\)&lt;/span&gt; est une série qui vérifie :&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$x_t = x_{t-1} + \epsilon_t$$&lt;/div&gt;
+&lt;p&gt;
+avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&gt;
 &lt;p&gt;Ci-dessous, on simule et visualise une marche aléatoire.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#paramètres&lt;/span&gt;
 &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
@@ -116,17 +124,20 @@ $x_t = x&lt;/em&gt; + \epsilon_t$ avec $\epsilon_t$ un bruit blanc&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp3/output_5_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; on voit la ressemblance entre ce processus de marche aléatoire et les cours d'actifs en bourse qui sont caractérisés par : 
-- un ACF élevé pour toute longueur de décalage et un PACF élevé pour le premier décalage uniquement 
-- un QQ-plot et un histogramme indiquant que la série n'est pas un bruit blanc&lt;/p&gt;
-&lt;p&gt;La marche aléatoire n'est clairement pas une série stationnaire. Par contre, la série différenciée $(x_t - x_{t-1})$ est stationnaire puisqu'elle vaut $(\epsilon_t)$ qui est un bruit blanc gaussien. &lt;/p&gt;
-&lt;h3 id="modele-autoregressif"&gt;Modèle autorégressif&lt;/h3&gt;
-&lt;p&gt;Une série temporelle ${x_t}&lt;em i="1"&gt;{t=1}^{T}$ qui suit un modèle autorégressif d'ordre $p$ (et noté $AR(p)$) est telle que :&lt;br&gt;
-$x_t = \mu + \Sigma&lt;/em&gt;^{p}\phi_i x_{t-i} + \epsilon_t$ avec $\mu$ une constante et $\epsilon_t$ un bruit blanc&lt;/p&gt;
-&lt;p&gt;Concrètement, cela signifie que la valeur de la série au temps $t$ est une combinaison linéaire des $p$ valeurs précédentes (à un terme d'erreur $\epsilon_t$ près).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; on voit la ressemblance entre ce processus de marche aléatoire et les cours d'actifs en bourse qui sont caractérisés par : &lt;br&gt;
+- un ACF élevé pour toute longueur de décalage et un PACF élevé pour le premier décalage uniquement &lt;br&gt;
+- un QQ-plot et un histogramme indiquant que la série n'est pas un bruit blanc  &lt;/p&gt;
+&lt;p&gt;La marche aléatoire n'est clairement pas une série stationnaire. Par contre, la série différenciée &lt;span class="math"&gt;\((x_t - x_{t-1})\)&lt;/span&gt; est stationnaire puisqu'elle vaut &lt;span class="math"&gt;\((\epsilon_t)\)&lt;/span&gt; qui est un bruit blanc gaussien. &lt;/p&gt;
+&lt;h2 id="modele-autoregressif"&gt;Modèle autorégressif&lt;/h2&gt;
+&lt;p&gt;Une série temporelle &lt;span class="math"&gt;\(\{x_t\}_{t=1}^{T}\)&lt;/span&gt; qui suit un modèle autorégressif d'ordre &lt;span class="math"&gt;\(p\)&lt;/span&gt; (et noté &lt;span class="math"&gt;\(AR(p)\)&lt;/span&gt;) est telle que :&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$x_t = \mu + \Sigma_{i=1}^{p}\phi_i x_{t-i} + \epsilon_t$$&lt;/div&gt;
+&lt;p&gt;
+avec &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; une constante et &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&gt;
+&lt;p&gt;Concrètement, cela signifie que la valeur de la série au temps &lt;span class="math"&gt;\(t\)&lt;/span&gt; est une combinaison linéaire des &lt;span class="math"&gt;\(p\)&lt;/span&gt; valeurs précédentes (à un terme d'erreur &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; près).&lt;/p&gt;
 &lt;p&gt;Un processus autorégressif d'ordre 1 est donc donné par :
-$AR(1)$ : $x_t = \mu + \phi x_{t-1} + \epsilon_t$ &lt;/p&gt;
-&lt;p&gt;On simule et visualise un processus $AR(1)$ ci-dessous.&lt;/p&gt;
+&lt;span class="math"&gt;\(AR(1)\)&lt;/span&gt; : &lt;span class="math"&gt;\(x_t = \mu + \phi x_{t-1} + \epsilon_t\)&lt;/span&gt; &lt;/p&gt;
+&lt;p&gt;On simule et visualise un processus &lt;span class="math"&gt;\(AR(1)\)&lt;/span&gt; ci-dessous.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#paramètres&lt;/span&gt;
 &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
 &lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;normal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -140,14 +151,16 @@ $AR(1)$ : $x_t = \mu + \phi x_{t-1} + \epsilon_t$ &lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp3/output_7_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt;
-- pour un processus AR(1) avec $\phi=0.3$,on voit sur les graphiques ACF et PACF, un pic au premier décalage qui tend tout de suite vers 0.
-- l'histogramme et le QQ-plot indiquent des résidus presque aléatoires.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Remarque pas anodine&lt;/em&gt; : la marche aléatoire introduite précédemment est un processus AR(1) avec $\phi=1$ et n'est pas stationnaire. Or ici, on peut voir qu'avec $\phi=0.3$, le processus AR(1) semble stationnaire. Bizarre...vous avez dit bizarre ? En fait, la stationnarité d'un processus $AR(1)$ dépend de si $|\phi|&amp;lt;1$. On peut généraliser cette propriété aux processus $AR(p)$.&lt;/p&gt;
-&lt;h3 id="modele-moyenne-mobile"&gt;Modèle moyenne mobile&lt;/h3&gt;
-&lt;p&gt;Le modèle de moyenne mobile d'ordre $q$ noté $MA(q)$ (pour &lt;em&gt;moving-average&lt;/em&gt;) suppose que la série temporelle observée peut être représentée par une combinaison linéaire de termes d'erreur de bruit blanc. Cela s'écrit donc :&lt;br&gt;
-$x_t = \epsilon_t + \Sigma_{i=1}^{q}\theta_i\epsilon_{t-i}$ avec $\epsilon_t$ un bruit blanc&lt;/p&gt;
-&lt;p&gt;Et c'est parti pour la simulation et la visualisation d'un processus $MA(2)$.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt;&lt;br&gt;
+- pour un processus AR(1) avec &lt;span class="math"&gt;\(\phi=0.3\)&lt;/span&gt;,on voit sur les graphiques ACF et PACF, un pic au premier décalage qui tend tout de suite vers 0.&lt;br&gt;
+- l'histogramme et le QQ-plot indiquent des résidus presque aléatoires.  &lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Remarque pas anodine&lt;/em&gt; : la marche aléatoire introduite précédemment est un processus AR(1) avec &lt;span class="math"&gt;\(\phi=1\)&lt;/span&gt; et n'est pas stationnaire. Or ici, on peut voir qu'avec &lt;span class="math"&gt;\(\phi=0.3\)&lt;/span&gt;, le processus AR(1) semble stationnaire. Bizarre...vous avez dit bizarre ? En fait, la stationnarité d'un processus &lt;span class="math"&gt;\(AR(1)\)&lt;/span&gt; dépend de si &lt;span class="math"&gt;\(|\phi|&amp;lt;1\)&lt;/span&gt;. On peut généraliser cette propriété aux processus &lt;span class="math"&gt;\(AR(p)\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h2 id="modele-moyenne-mobile"&gt;Modèle moyenne mobile&lt;/h2&gt;
+&lt;p&gt;Le modèle de moyenne mobile d'ordre &lt;span class="math"&gt;\(q\)&lt;/span&gt; noté &lt;span class="math"&gt;\(MA(q)\)&lt;/span&gt; (pour &lt;em&gt;moving-average&lt;/em&gt;) suppose que la série temporelle observée peut être représentée par une combinaison linéaire de termes d'erreur de bruit blanc. Cela s'écrit donc :&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$x_t = \epsilon_t + \Sigma_{i=1}^{q}\theta_i\epsilon_{t-i}$$&lt;/div&gt;
+&lt;p&gt; avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&gt;
+&lt;p&gt;Et c'est parti pour la simulation et la visualisation d'un processus &lt;span class="math"&gt;\(MA(2)\)&lt;/span&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#paramètres&lt;/span&gt;
 &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
 &lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;normal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -162,13 +175,16 @@ $x_t = \epsilon_t + \Sigma_{i=1}^{q}\theta_i\epsilon_{t-i}$ avec $\epsilon_t$ un
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp3/output_9_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; pour le processus $MA(2)$ avec les paramètres choisis, on voit un pic plus important pour le deuxième décalage dans les tracés ACF et PACF. 
+&lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; pour le processus &lt;span class="math"&gt;\(MA(2)\)&lt;/span&gt; avec les paramètres choisis, on voit un pic plus important pour le deuxième décalage dans les tracés ACF et PACF. 
 On peut observer également que le pic dans le graphique PACF ne décroît pas immédiatement mais prend quelques périodes pour se "désintégrer".&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Remarque toujours pas anodine&lt;/em&gt; : en tant que combinaison linéaire de processus stationnaires, un processus $MA(q)$ est toujours stationnaire.&lt;/p&gt;
-&lt;h3 id="modele-autoregressif-et-moyenne-mobile"&gt;Modèle autorégressif et moyenne mobile&lt;/h3&gt;
-&lt;p&gt;Ça va commencer à se corser un peu avec le processus $ARMA(p,q)$ qui est une combinaison des deux modèles précédents et s'écrit donc :&lt;br&gt;
-$x_t = \epsilon_t + \Sigma_{i=1}^{p}\phi_i x_{t-i} + \Sigma_{i=1}^{q}\theta_i\epsilon_{t-i}$ avec $\epsilon_t$ un bruit blanc&lt;/p&gt;
-&lt;p&gt;Regardons à quoi ressemble un $ARMA(2,3)$.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Remarque toujours pas anodine&lt;/em&gt; : en tant que combinaison linéaire de processus stationnaires, un processus &lt;span class="math"&gt;\(MA(q)\)&lt;/span&gt; est toujours stationnaire.&lt;/p&gt;
+&lt;h2 id="modele-autoregressif-et-moyenne-mobile"&gt;Modèle autorégressif et moyenne mobile&lt;/h2&gt;
+&lt;p&gt;Ça va commencer à se corser un peu avec le processus &lt;span class="math"&gt;\(ARMA(p,q)\)&lt;/span&gt; qui est une combinaison des deux modèles précédents et s'écrit donc :&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$x_t = \epsilon_t + \Sigma_{i=1}^{p}\phi_i x_{t-i} + \Sigma_{i=1}^{q}\theta_i\epsilon_{t-i}$$&lt;/div&gt;
+&lt;p&gt;
+avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&gt;
+&lt;p&gt;Regardons à quoi ressemble un &lt;span class="math"&gt;\(ARMA(2,3)\)&lt;/span&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#paramètres&lt;/span&gt;
 &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
 &lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;normal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -188,8 +204,9 @@ $x_t = \epsilon_t + \Sigma_{i=1}^{p}\phi_i x_{t-i} + \Sigma_{i=1}^{q}\theta_i\ep
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp3/output_11_0.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; on voit clairement que la série n'est pas stationnaire et que les résidus ont l'air de suivre une loi normale mais on n'ira pas plus loin pour l'interprétation...&lt;/p&gt;
 &lt;p&gt;Maintenant qu'on a fait un bon petit tour d'horizon théoriques des propriétés des séries temporelles, allons en voir des vraies dans leur milieu naturel !&lt;/p&gt;
-&lt;h2 id="des-exemples-de-series-temporelles"&gt;Des exemples de séries temporelles&lt;/h2&gt;
+&lt;h1 id="des-exemples-de-series-temporelles"&gt;Des exemples de séries temporelles&lt;/h1&gt;
 &lt;p&gt;On va simplement regarder quelques séries temporelles et les commenter graphiquement.&lt;/p&gt;
+&lt;h2 id="des-taches-solaires"&gt;Des tâches solaires&lt;/h2&gt;
 &lt;p&gt;La série "sunspot" ci-dessous recense le nombre annuel de &lt;a href="https://fr.wikipedia.org/wiki/Tache_solaire"&gt;tâches solaires&lt;/a&gt; de 1790 à 1970.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
@@ -199,33 +216,97 @@ $x_t = \epsilon_t + \Sigma_{i=1}^{p}\phi_i x_{t-i} + \Sigma_{i=1}^{q}\theta_i\ep
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp3/output_15_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;Quelques remarques :
-- cette série n'est clairement pas stationnaire
-- il ne semble pas y avoir de saisonnalité
-- par contre, elle semble présenter des cycles avec un pic plus ou moins tous les 10 ans dont l'amplitude semble légèrement augmenter au cours du temps
-- cette série ne semble pas très bruitée (c'est-à-dire qu'il n'y a pas une forte variabilité d'un point à l'autre qui se traduirait par des pics très rapprochés comme pour les séries d'actifs financiers par exemple). Attention toutefois, avant de conclure là-dessus il faut s'assurer de la fréquence de la série (annuelle).&lt;/p&gt;
+&lt;p&gt;Quelques remarques :&lt;br&gt;
+- cette série n'est clairement pas stationnaire&lt;br&gt;
+- il ne semble pas y avoir de saisonnalité&lt;br&gt;
+- par contre, elle semble présenter des cycles avec un pic plus ou moins tous les 10 ans dont l'amplitude semble légèrement augmenter au cours du temps&lt;br&gt;
+- cette série ne semble pas très bruitée (c'est-à-dire qu'il n'y a pas une forte variabilité d'un point à l'autre qui se traduirait par des pics très rapprochés comme pour les séries d'actifs financiers par exemple). Attention toutefois, avant de conclure là-dessus il faut s'assurer de la fréquence de la série (annuelle).  &lt;/p&gt;
+&lt;h2 id="des-americains"&gt;Des américains&lt;/h2&gt;
 &lt;p&gt;La série "uspop" ci-dessous recense la population des Etats-Unis, en millions, de 1790 à 1990 (avec une fréquence décennale).&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;uspop&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;data/uspop.csv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;index_col&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;t&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;uspop&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;uspop&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;figsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;14&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp3/output_17_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;Quelques remarques :
-- cette série n'est pas stationnaire
-- cette série est très lisse puisqu'elle ne présente ni saisonnalité, ni cycle, ni bruit
-- on identifie donc uniquement une tendance&lt;/p&gt;
+&lt;p&gt;Quelques remarques :&lt;br&gt;
+- cette série n'est pas stationnaire&lt;br&gt;
+- cette série est très lisse puisqu'elle ne présente ni saisonnalité, ni cycle, ni bruit&lt;br&gt;
+- on identifie donc uniquement une tendance  &lt;/p&gt;
+&lt;h2 id="de-la-biere-australienne"&gt;De la bière australienne&lt;/h2&gt;
 &lt;p&gt;La série "beer" ci-dessous mesure la production mensuelle de bière en Australie, en mégalitres, de janvier 1956 à août 1995.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;beer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;data/beer.csv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;names&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;t&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Beer&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;parse_dates&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dayfirst&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;index_col&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;t&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;beer&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Beer&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;figsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;14&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp3/output_19_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;Quelques remarques :
-- cette série n'est pas stationnaire
-- il y a une tendance à la hausse jusqu'à la fin des années 70 puis une légère baisse et une stabilisation
-- il ne semble pas y avoir de cycles
-- en revanche, il y a bien une saisonnalité avec un "motif" annuel qui se répète contenant un pic haut (parfois un 2ème identifiable) et un creux&lt;/p&gt;
-&lt;p&gt;Voilà quelques exemples d'analyse graphique, et rapide, de séries temporelles. Comme toujours, le code ayant généré ce notebook est disponible sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;. Maintenant, la question est de savoir comment on va pouvoir identifier les différents éléments composant une série avant de s'intéresser à leur modélisation et leur prédiction. Alors, impatients de savoir comment décomposer une série temporelle ? La suite dans le prochain post !&lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Fonctionnement et performances d'across dans dplyr</title><link href="https://blog.statoscop.fr/fonctionnement-et-performances-dacross-dans-dplyr.html" rel="alternate"></link><published>2021-06-02T00:00:00+02:00</published><updated>2021-06-02T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-06-02:/fonctionnement-et-performances-dacross-dans-dplyr.html</id><summary type="html">&lt;p&gt;Mise à jour de l'évaluation des performances du verbe &lt;code&gt;across&lt;/code&gt; dans dplyr version 1.0.6&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;Quelques remarques :&lt;br&gt;
+- cette série n'est pas stationnaire&lt;br&gt;
+- il y a une tendance à la hausse jusqu'à la fin des années 70 puis une légère baisse et une stabilisation&lt;br&gt;
+- il ne semble pas y avoir de cycles&lt;br&gt;
+- en revanche, il y a bien une saisonnalité avec un "motif" annuel qui se répète contenant un pic haut (parfois un 2ème identifiable) et un creux  &lt;/p&gt;
+&lt;p&gt;Voilà quelques exemples d'analyse graphique, et rapide, de séries temporelles. Comme toujours, le code ayant généré ce notebook est disponible sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;. Maintenant, la question est de savoir comment on va pouvoir identifier les différents éléments composant une série avant de s'intéresser à leur modélisation et leur prédiction. Alors, impatients de savoir comment décomposer une série temporelle ? La suite dans le prochain post !&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Fonctionnement et performances d'across dans dplyr</title><link href="https://blog.statoscop.fr/fonctionnement-et-performances-dacross-dans-dplyr.html" rel="alternate"></link><published>2021-06-02T00:00:00+02:00</published><updated>2021-06-02T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-06-02:/fonctionnement-et-performances-dacross-dans-dplyr.html</id><summary type="html">&lt;p&gt;Mise à jour de l'évaluation des performances du verbe &lt;code&gt;across&lt;/code&gt; dans dplyr version 1.0.6&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#across-ca-marche-comment"&gt;across(), ça marche comment?&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#syntaxe-de-base"&gt;Syntaxe de base&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#selection-avec-des-conditions"&gt;Sélection avec des conditions&lt;/a&gt;&lt;/li&gt;
@@ -887,8 +968,8 @@ Une autre aide utile sur les manipulation de dates est la &lt;a href="http://lab
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Grâce au type de données uniforme dans les tableaux &lt;code&gt;datetime64&lt;/code&gt;, ce genre d'opérations vectorielles peut être effectué bien plus rapidement qu'en travaillant directement avec les objets &lt;code&gt;datetime&lt;/code&gt; de Python, particulièrement pour de grands tableaux.&lt;/p&gt;
-&lt;p&gt;Une particularité des objets &lt;code&gt;datetime64&lt;/code&gt; et &lt;code&gt;timedelta64&lt;/code&gt; est qu'ils sont construits sur une &lt;em&gt;unité fondamentale de temps (UFT)&lt;/em&gt;. Comme le &lt;code&gt;datetime64&lt;/code&gt; est limité à une précision de 64-bit, le nombre de datetime qu'on peut encoder est $2^{64}$ fois l'UFT. En d'autres termes, &lt;code&gt;datetime64&lt;/code&gt; nécessite un arbitrage entre &lt;em&gt;résolution temporelle&lt;/em&gt; et &lt;em&gt;intervalle maximal de temps&lt;/em&gt; .&lt;br&gt;
-Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir la place pour encoder $2^{64}$ nanosecondes, soit un peu moins de 600 ans.&lt;/p&gt;
+&lt;p&gt;Une particularité des objets &lt;code&gt;datetime64&lt;/code&gt; et &lt;code&gt;timedelta64&lt;/code&gt; est qu'ils sont construits sur une &lt;em&gt;unité fondamentale de temps (UFT)&lt;/em&gt;. Comme le &lt;code&gt;datetime64&lt;/code&gt; est limité à une précision de 64-bit, le nombre de datetime qu'on peut encoder est &lt;span class="math"&gt;\(2^{64}\)&lt;/span&gt; fois l'UFT. En d'autres termes, &lt;code&gt;datetime64&lt;/code&gt; nécessite un arbitrage entre &lt;em&gt;résolution temporelle&lt;/em&gt; et &lt;em&gt;intervalle maximal de temps&lt;/em&gt; .&lt;br&gt;
+Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir la place pour encoder &lt;span class="math"&gt;\(2^{64}\)&lt;/span&gt; nanosecondes, soit un peu moins de 600 ans.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;numpy&lt;/code&gt; déduit l'UFT désirée à partir de l'input mais on peut bien sûr aussi le spécifier.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# un datetime basé sur le jour&lt;/span&gt;
 &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;datetime64&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2021-04-30&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -1364,7 +1445,69 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Pour en savoir plus, il y a la &lt;a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects"&gt;section "DateOffset"&lt;/a&gt; de la documentation &lt;code&gt;pandas&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Vous trouverez, comme pour l'ensemble de nos posts, le code de ce notebook sur &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;le github de Statoscop&lt;/a&gt;. Dans le prochain article, nous commencerons à manipuler, visualiser et effectuer certains opérations classiques sur les séries temporelles avant de conclure sur une petite étude de cas. À très vite !&lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Analyse en composantes principales avec Python</title><link href="https://blog.statoscop.fr/acp-python.html" rel="alternate"></link><published>2021-04-16T00:00:00+02:00</published><updated>2021-04-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-04-16:/acp-python.html</id><summary type="html">&lt;p&gt;Présentation et exemples d'utilisation de l'ACP en statistiques et data science.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;Vous trouverez, comme pour l'ensemble de nos posts, le code de ce notebook sur &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;le github de Statoscop&lt;/a&gt;. Dans le prochain article, nous commencerons à manipuler, visualiser et effectuer certains opérations classiques sur les séries temporelles avant de conclure sur une petite étude de cas. À très vite !&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Analyse en composantes principales avec Python</title><link href="https://blog.statoscop.fr/acp-python.html" rel="alternate"></link><published>2021-04-16T00:00:00+02:00</published><updated>2021-04-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-04-16:/acp-python.html</id><summary type="html">&lt;p&gt;Présentation et exemples d'utilisation de l'ACP en statistiques et data science.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#explication-introductive"&gt;Explication introductive&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#mise-en-oeuvre-dune-acp"&gt;Mise en oeuvre d'une ACP&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#analyse-exploratoire-de-nos-donnees"&gt;Analyse exploratoire de nos données&lt;/a&gt;&lt;/li&gt;
@@ -1376,7 +1519,7 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;p&gt;Dans cet article, nous allons essayer de comprendre intuitivement comment fonctionne l'analyse en composantes principales. Nous présenterons ensuite à quoi celle-ci peut servir en prenant les exemples d'une analyse exploratoire des données et d'une problématique de réduction de dimension.   &lt;/p&gt;
 &lt;h1 id="explication-introductive"&gt;Explication introductive&lt;/h1&gt;
 &lt;p&gt;L'analyse en composantes principales est une méthode consistant à transformer des variables corrélées entre elles en nouvelles variables. Chacune de ces nouvelles variables est le résultat d'une combinaison linéaire des anciennes variables. &lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Note : une combinaison linéaire de 3 variables $V_1$, $V_2$ et $V_3$ s'écrit $\alpha_1.V_1 + \alpha_2.V_2 + \alpha_3.V_3$ où les $\alpha_i$ sont des coefficients réels.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note : une combinaison linéaire de 3 variables &lt;span class="math"&gt;\(V_1\)&lt;/span&gt;, &lt;span class="math"&gt;\(V_2\)&lt;/span&gt; et &lt;span class="math"&gt;\(V_3\)&lt;/span&gt; s'écrit &lt;span class="math"&gt;\(\alpha_1.V_1 + \alpha_2.V_2 + \alpha_3.V_3\)&lt;/span&gt; où les &lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt; sont des coefficients réels.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Ces nouvelles variables sont appelées &lt;strong&gt;composantes principales&lt;/strong&gt; et sont, par contruction, décorrélées les unes des autres.  &lt;/p&gt;
 &lt;p&gt;Autrement dit, l'ACP projette vos données dans un nouvel espace. La première composante principale est construite de manière à capter la plus grande variance possible de vos données, la seconde la part la plus importante de la variance possible &lt;strong&gt;restant à expliquer&lt;/strong&gt;, et ainsi de suite.  &lt;/p&gt;
 &lt;p&gt;Une illustration brillante de ce processus est proposée par &lt;a href="https://www.allisonhorst.com/"&gt;Allison Horst&lt;/a&gt;. Elle &lt;a href="https://twitter.com/allison_horst/status/1288904459490213888"&gt;représente&lt;/a&gt; un jeu de données à deux dimensions avec des crevettes et l'analyse en composantes principales comme les passages d'un requin-baleine affamé :  &lt;/p&gt;
@@ -1384,7 +1527,7 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_4_0.png"&gt;&lt;/p&gt;
 &lt;p&gt;La problématique du requin-baleine est en effet la même que celle de la création d'une première composante principale : quel axe choisir pour avaler un maximum de crevettes dès le premier passage? L'axe choisi va ressembler à celui-ci :  &lt;/p&gt;
 &lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_6_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient le plus proche possible de cette droite. Mathématiquement, la première composante principale est la combinaison linéaire des deux axes $x$ et $y$ qui maximise l'inertie projetée ce qui revient à minimiser les écarts entre les points et cette droite.&lt;/p&gt;
+&lt;p&gt;Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient le plus proche possible de cette droite. Mathématiquement, la première composante principale est la combinaison linéaire des deux axes &lt;span class="math"&gt;\(x\)&lt;/span&gt; et &lt;span class="math"&gt;\(y\)&lt;/span&gt; qui maximise l'inertie projetée ce qui revient à minimiser les écarts entre les points et cette droite.&lt;/p&gt;
 &lt;p&gt;Dans cet exemple, la seconde composante principale sera l'axe perpendiculaire à ce premier axe.&lt;/p&gt;
 &lt;p&gt;Si les points étaient parfaitement alignés sur une ligne, l'ensemble de la variance serait expliqué par la première composante et on serait parvenus à réduire le nombre de dimensions de notre problème sans perte d'information.&lt;/p&gt;
 &lt;h1 id="mise-en-oeuvre-dune-acp"&gt;Mise en oeuvre d'une ACP&lt;/h1&gt;
@@ -1600,7 +1743,69 @@ Tout d'abord, commençons par déterminer ce nombre de dimensions. Le graphique 
 &lt;/div&gt;
 
 &lt;p&gt;On constate que l'ACP n'a pas seulement permis de réduire le nombre de dimensions de notre problème, elle nous offre aussi une précision globale du modèle supérieure. Cela n'est pas toujours le cas - puisque ça dépend de votre problématique, des variables explicatives dont vous disposez et du nombre de composantes que vous retenez - mais ici c'est dû au fait qu'elle permet de réduire le bruit associé aux données en ne conservant qu'une partie de l'information totale. Cela permet ainsi de prévenir les problèmes de surapprentissage, c'est à dire le fait que le modèle explique parfaitement les données d'entraînement mais se généralise mal à de nouvelles données. Ce sujet fera sans doute l'objet d'une note de blog dédiée prochainement!  &lt;/p&gt;
-&lt;p&gt;C'est tout pour aujourd'hui! Si vous voulez voir d'autres exemples d'utilisation de l'ACP, je vous conseille &lt;a href="https://jakevdp.github.io/PythonDataScienceHandbook/05.09-principal-component-analysis.html"&gt;cet article&lt;/a&gt; qui aborde notamment le cas du traitement des images, pour lequel il est particulièrement intéressant de réduire le nombre de dimensions. Vous pouvez trouver le notebook avec l'ensemble du code ayant servi à générer cette note sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.   &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category></entry><entry><title>Comparaisons base R, dplyr et data.table</title><link href="https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html" rel="alternate"></link><published>2021-03-30T00:00:00+02:00</published><updated>2021-03-30T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-03-30:/comparaisons-base-dplyr-datatable.html</id><summary type="html">&lt;p&gt;Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;C'est tout pour aujourd'hui! Si vous voulez voir d'autres exemples d'utilisation de l'ACP, je vous conseille &lt;a href="https://jakevdp.github.io/PythonDataScienceHandbook/05.09-principal-component-analysis.html"&gt;cet article&lt;/a&gt; qui aborde notamment le cas du traitement des images, pour lequel il est particulièrement intéressant de réduire le nombre de dimensions. Vous pouvez trouver le notebook avec l'ensemble du code ayant servi à générer cette note sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.   &lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category></entry><entry><title>Comparaisons base R, dplyr et data.table</title><link href="https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html" rel="alternate"></link><published>2021-03-30T00:00:00+02:00</published><updated>2021-03-30T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-03-30:/comparaisons-base-dplyr-datatable.html</id><summary type="html">&lt;p&gt;Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#rappels-sur-dplyr-et-datatable"&gt;Rappels sur dplyr et data.table&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#dplyr-et-le-tidyverse"&gt;dplyr et le tidyverse&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#datatable"&gt;Data.table&lt;/a&gt;&lt;/li&gt;
