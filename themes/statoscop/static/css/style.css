@@ -2008,7 +2008,7 @@ code{
     padding: 0em;
     position: fixed;
     width: 20em;
-    text-align: none !important;
+    text-align: left !important;
 }
   
 .toc .toctitle {
