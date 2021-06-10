@@ -83,14 +83,14 @@ Un **bruit blanc** est un processus $\{\epsilon_t\}_{t=1}^{T}$ qui vérifie :
 >- $E[\epsilon_t²] = \sigma²$  
 >- $E[\epsilon_t\epsilon_s] = 0$ pour $s \neq t$  
 
-C'est donc, comme les processus stationnaires, une série de moyenne constante et nulle, de variance constante et de covariance nulle entre 2 observations (indépendamment du décalage entre les 2). Ce dernier point signifie donc que les observations sont **non corrélées** entre elles.
+C'est donc une série de moyenne constante et nulle, de variance constante et de covariance nulle entre 2 observations (indépendamment du décalage entre les 2). Ce dernier point signifie donc que les observations sont **non corrélées** entre elles.
 
 Un **bruit blanc indépendant** est un processus $\{\epsilon_t\}_{t=1}^{T}$ qui vérifie :  
 >- $E[\epsilon_t] = 0$  
 >- $E[\epsilon_t²] = \sigma²$  
 >- $\epsilon_t$ et $\epsilon_s$ indépendants pour $s \neq t$  
 
-Les deux premières hypothèses sont identiques. En revanche, la 3ème hypothèse est plus forte puisque l'indépendance implique que la covariance soit nulle mais la réciproque n'est pas vraie ([Maître Wiki](https://fr.wikipedia.org/wiki/Ind%C3%A9pendance_(probabilit%C3%A9s)#Ind%C3%A9pendance_et_corr%C3%A9lation) vous fournira un contre-exemple avec des variables aléatoires discrètes ; un autre contre-exemple classique avec des variables aléatoires continues $X \hookrightarrow \mathcal{N}(0,1)$ et $Y=X²$ sont dépendantes et de covariance nulle).  
+Les deux premières hypothèses sont identiques. En revanche, la 3ème hypothèse est plus forte puisque l'indépendance implique que la covariance soit nulle mais la réciproque n'est pas vraie (<a href="https://fr.wikipedia.org/wiki/Ind%C3%A9pendance_(probabilit%C3%A9s)#Ind%C3%A9pendance_et_corr%C3%A9lation" target="_blank">Maître Wiki</a>) vous fournira un contre-exemple avec des variables aléatoires discrètes ; un autre contre-exemple classique avec des variables aléatoires continues $X \hookrightarrow \mathcal{N}(0,1)$ et $Y=X²$ sont dépendantes et de covariance nulle).  
 
 Un **bruit blanc gaussien** $\{\epsilon_t\}_{t=1}^{T}$ est un bruit blanc indépendant qui suit une loi normale centrée : $\epsilon_t \hookrightarrow \mathcal{N}(0,\sigma²)$  
 
@@ -98,7 +98,7 @@ On ajoute donc une hypothèse supplémentaire sur la distribution qui doit être
 
 Intuitivement, un bruit blanc dans le cadre des séries temporelles, c'est **la partie purement aléatoire du processus**. Effectivement, j'imagine bien ce que vous pensez et vous avez tout à fait raison, les bruits blancs sont des séries stationnaires (moyenne, variance et covariance constantes).
 
-Dans les lignes de code ci-dessous, on génère un bruit blanc gaussien qu'on visualise ensuite en utilisant la fonction `ts_plot` qui est disponible sur le github de Statoscop, [ici précisément](https://github.com/Statoscop/notebooks-blog/blob/main/Series%20temporelles/fonctions.py) dans le fichier `fonction.py` du dossier Séries Temporelles.
+Dans les lignes de code ci-dessous, on génère un bruit blanc gaussien qu'on visualise ensuite en utilisant la fonction `ts_plot` qui est disponible sur le github de Statoscop, <a href="https://github.com/Statoscop/notebooks-blog/blob/main/Series%20temporelles/fonctions.py" target="_blank">ici précisément</a> dans le fichier `fonction.py` du dossier Séries Temporelles.
 
 
 ```python
@@ -152,7 +152,7 @@ fct.ts_plot(x)
 - un ACF élevé pour toute longueur de décalage et un PACF élevé pour le premier décalage uniquement   
 - un QQ-plot et un histogramme indiquant que la série n'est pas un bruit blanc  
 
-La marche aléatoire n'est clairement pas une série stationnaire. Par contre, la série différenciée $(x_t - x_{t-1})$ est stationnaire puisqu'elle vaut $(\epsilon_t)$ qui est un bruit blanc gaussien. 
+La marche aléatoire n'est clairement pas une série stationnaire. Par contre, la série différenciée $(x_t - x_{t-1})$ est stationnaire puisqu'elle vaut $(\epsilon_t)$ qui est un bruit blanc. 
 
 ## Modèle autorégressif
 
@@ -268,7 +268,7 @@ On va simplement regarder quelques séries temporelles et les commenter graphiqu
 
 ## Des tâches solaires
 
-La série "sunspot" ci-dessous recense le nombre annuel de [tâches solaires](https://fr.wikipedia.org/wiki/Tache_solaire) de 1790 à 1970.
+La série "sunspot" ci-dessous recense le nombre annuel de <a href="https://fr.wikipedia.org/wiki/Tache_solaire" target="_blank">tâches solaires</a> de 1790 à 1970.
 
 
 ```python
@@ -334,4 +334,4 @@ Quelques remarques :
 - il ne semble pas y avoir de cycles  
 - en revanche, il y a bien une saisonnalité avec un "motif" annuel qui se répète contenant un pic haut (parfois un 2ème identifiable) et un creux  
 
-Voilà quelques exemples d'analyse graphique, et rapide, de séries temporelles. Comme toujours, le code ayant généré ce notebook est disponible sur le [github de Statoscop](https://github.com/Statoscop/notebooks-blog). Maintenant, la question est de savoir comment on va pouvoir identifier les différents éléments composant une série avant de s'intéresser à leur modélisation et leur prédiction. Alors, impatients de savoir comment décomposer une série temporelle ? La suite dans le prochain post !
+Voilà quelques exemples d'analyse graphique, et rapide, de séries temporelles. Comme toujours, le code ayant généré ce notebook est disponible sur le <a href="https://github.com/Statoscop/notebooks-blog" target="_blank">github de Statoscop</a>. Maintenant, la question est de savoir comment on va pouvoir identifier les différents éléments composant une série avant de s'intéresser à leur modélisation et leur prédiction. Alors, impatients de savoir comment décomposer une série temporelle ? La suite dans le prochain post !

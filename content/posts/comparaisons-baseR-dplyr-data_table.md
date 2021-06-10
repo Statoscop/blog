@@ -10,17 +10,17 @@ Summary: Comparaisons des temps d'exécution de base R, dplyr et data.table sur 
 
 [TOC]  
 
-Cet article est une mise à jour de l'article du [blog d'Antoine](https://antoinesir.rbind.io/post/comparaisons-base-r-dplyr-data-table/) réalisé en 2018. L'idée est de comparer les performances de trois alternatives dans R pour l'analyse de données :   
+Cet article est une mise à jour de l'article du <a href="https://antoinesir.rbind.io/post/comparaisons-base-r-dplyr-data-table/" target="_blank">blog d'Antoine</a> réalisé en 2018. L'idée est de comparer les performances de trois alternatives dans R pour l'analyse de données :   
 - l'utilisation des seules fonctions de base R  
 - dplyr  
 - data.table  
 
 # Rappels sur dplyr et data.table
-On rappelle ici les principales caractéristiques de ces packages mais pour se former à leur utilisation on peut se référer au [cours de perfectionnement de Martin Chevalier](https://teaching.slmc.fr/perf/presentation_handout.pdf). Pour une exploration de ce qu'englobe le `tidyverse` et notamment une présentation des commandes de `dplyr`, vous pouvez jeter un oeil à [l'introduction à R et au tidyverse](https://juba.github.io/tidyverse/index.html) de J. Barnier. Enfin pour data.table, on trouve des informations utiles sur le cours [Manipulations avancée avec data.table](http://larmarange.github.io/analyse-R/manipulations-avancees-avec-data-table.html) de J. Larmarange et on vous conseille l'excellent article [a gentle introduction to data.table](https://atrebas.github.io/post/2020-06-17-datatable-introduction/).  
+On rappelle ici les principales caractéristiques de ces packages mais pour se former à leur utilisation on peut se référer au <a href="https://teaching.slmc.fr/perf/presentation_handout.pdf" target="_blank">cours de perfectionnement de Martin Chevalier</a>. Pour une exploration de ce qu'englobe le `tidyverse` et notamment une présentation des commandes de `dplyr`, vous pouvez jeter un oeil à <a href="https://juba.github.io/tidyverse/index.html" target="_blank">l'introduction à R et au tidyverse</a> de J. Barnier. Enfin pour data.table, on trouve des informations utiles sur le cours <a href="http://larmarange.github.io/analyse-R/manipulations-avancees-avec-data-table.html" target="_blank">Manipulations avancée avec data.table</a> de J. Larmarange et on vous conseille l'excellent article <a href="https://atrebas.github.io/post/2020-06-17-datatable-introduction/" target="_blank">a gentle introduction to data.table</a>.  
 
 ## dplyr et le tidyverse  
 
-Le `tidyverse` (contraction de "tidy" et "universe") est un concept initié par Hadley Wickham, chef statisticien de RStudio. Il regroupe un ensemble de packages utiles au traitement statistique et au nettoyage de bases de données. On va s'intéresser ici presque seulement au package `dplyr` (dont les instructions seront appliquées aux `tibbles`, un format de data.frame issu du `tidyverse`), mais vous pouvez parcourir les packages proposés dans le tidyverse sur [le site officiel](https://www.tidyverse.org/).  
+Le `tidyverse` (contraction de "tidy" et "universe") est un concept initié par Hadley Wickham, chef statisticien de RStudio. Il regroupe un ensemble de packages utiles au traitement statistique et au nettoyage de bases de données. On va s'intéresser ici presque seulement au package `dplyr` (dont les instructions seront appliquées aux `tibbles`, un format de data.frame issu du `tidyverse`), mais vous pouvez parcourir les packages proposés dans le tidyverse sur <a href="https://www.tidyverse.org/" target="_blank">le site officiel</a>.  
   
 `dplyr` propose un ensemble d'opérations de traitement de données sous une syntaxe différente de celle utilisée dans les fonctions de base de R. Ce langage présente le double avantage d'être à la fois lisible pour quelqu'un habitué aux langages tels que SAS ou SQL et de proposer des fonctions optimisées qui présentent de bonnes performances en termes de temps d'exécution. La grammaire `dplyr` s'appuie en effet sur des fonctions au nom explicite :  
 
@@ -94,7 +94,8 @@ Voilà donc pour les présentations! Allez, on montre le résultat d'un petit `m
 Sur cet exemple, on voit un avantage clair à data.table! Mais on est sur une toute petite table en entrée. On va essayer de se rapprocher de cas plus concrets en s'intéressant à un exemple sur des bases plus importantes.  
 
 # Comparaisons sur une étude de cas simple
-Les avantages et inconvénients de ces deux packages sont à l'origine de nombreux débats. Vous pouvez vous en convaincre en suivant [cette discussion sur stackoverflow](https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly). On peut quand même dégager deux compromis :   
+
+Les avantages et inconvénients de ces deux packages sont à l'origine de nombreux débats. Vous pouvez vous en convaincre en suivant <a href="https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly" target="_blank">cette discussion sur stackoverflow</a>. On peut quand même dégager deux compromis :   
 
 * Le choix de l'un ou l'autre des packages dépend beaucoup de ce que l'on va en faire (types d'analyses, taille des données, profils des utilisateurs du code...).   
 * Les deux packages sont plus intéressants que base R pour l'analyse de données, que ce soit en termes de facilité d'écriture ou de performances.   
@@ -102,6 +103,7 @@ Les avantages et inconvénients de ces deux packages sont à l'origine de nombre
 Pour ce deuxième point, on va essayer de s'en convaincre ensemble avec ce petit exemple.
 
 ## Notre étude de cas
+
 Pour cet exemple, on utilise les données du package de Hadley Wickham que l'on trouve dans `nycflights13`. En particulier, la base `flights` donne toutes les heures de départ et d'arrivée selon les aéroports de départ et d'arrivée ainsi que les retards au départ et à l'arrivée. La base `weather` donne elle des indications météo, heure par heure, dans chaque aéroport.   
 Commençons par charger nos packages (n'oubliez pas de faire `install.packages("nom_pck")` avant si vous ne l'avez jamais fait) et nos données : 
 
@@ -156,9 +158,10 @@ output_DT <- merge(flightsdt[, list(arr_perc_delay = mean(arr_delay),
                    by = c("time_hour", "origin"))
 ```
 
-On utilise la fonction `merge` plutôt que `DT1[DT2, on = c("time_hour", "origin"), nomatch = 0]` car on a constaté qu'elle était plus rapide, conformément à ce que montre bien cet [article du Jozef's Rblog](https://jozefhajnala.gitlab.io/r/r006-merge/).  
+On utilise la fonction `merge` plutôt que `DT1[DT2, on = c("time_hour", "origin"), nomatch = 0]` car on a constaté qu'elle était plus rapide, conformément à ce que montre bien cet <a href="https://jozefhajnala.gitlab.io/r/r006-merge/" target="_blank">article du Jozef's Rblog</a>.  
 
 ## Comparaisons des vitesses d'exécution
+
 Chacun jugera de la lisibilité de chacune de ces instructions, qui font toutes la même chose, car c'est finalement assez subjectif. On donne ici les résultats d'un `microbenchmark` de ces instructions : 
 
 <table class="dataframe">

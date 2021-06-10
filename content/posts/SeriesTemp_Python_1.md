@@ -21,7 +21,7 @@ Avant d'entrer dans le vif du sujet, nous allons donc nous pencher sur le foncti
 La libraire `Pandas` a été développée dans un contexte de données financières et son nom est une contraction de *Panel Datas* (données de panel), c'est-à-dire des données pour lesquelles on a, pour un même individu, des observations au cours du temps. `Pandas` contient donc par essence de nombreux outils pour travailler avec les dates, le temps et des données indexées en fonction du temps.
 
 > *"Une série temporelle, ou série chronologique, est une suite de valeurs numériques représentant l'évolution d'une quantité spécifique au cours du temps."*  
-> [Maître Wiki](https://fr.wikipedia.org/wiki/S%C3%A9rie_temporelle)
+> <a href="https://fr.wikipedia.org/wiki/S%C3%A9rie_temporelle" target="_blank">Maître Wiki</a>
 
 Une série temporelle peut être vue comme un cas très particulier des données panel puisqu'il s'agit de l'évolution d'une seule observation au cours du temps.
 
@@ -75,8 +75,8 @@ d1, d2
 
 Une fois qu'on manipule un objet `datetime`, on peut facilement effectuer des opérations sur cet objet. Par exemple, récupérer en chaîne de caractères le jour de la semaine correspondant, le mois, l'année, etc...
 
-Pour en savoir plus sur `strftime` et les codes standards de format de string pour afficher les dates ce sera dans la [section strftime](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior) de la doc Python [datetime](https://docs.python.org/3/library/datetime.html).
-Une autre aide utile sur les manipulation de dates est la [documentation en ligne de dateutil](http://labix.org/python-dateutil).
+Pour en savoir plus sur `strftime` et les codes standards de format de string pour afficher les dates ce sera dans la <a href="https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior" target="_blank">section strftime</a> de la doc Python <a href="https://docs.python.org/3/library/datetime.html" target="_blank">datetime</a>.
+Une autre aide utile sur les manipulation de dates est la <a href="http://labix.org/python-dateutil" target="_blank">documentation en ligne de dateutil</a>.
 
 
 ```python
@@ -90,7 +90,7 @@ d1.strftime("%A"), d1.strftime("%a"), d1.strftime("%d"), d1.strftime("%B"), d1.s
 
 
 
-__À savoir__ : il existe un package utile [`pytz`](http://pytz.sourceforge.net/) contenant des outils pour pouvoir travailler avec les *timezones*.
+__À savoir__ : il existe un package utile <a href="http://pytz.sourceforge.net/" target="_blank">`pytz`</a> contenant des outils pour pouvoir travailler avec les *timezones*.
 
 L'intérêt de `datetime` et `dateutil` est leur flexibilité et leur facilité d'utilisation/syntaxe : on peut faire plus ou moins tout ce qu'on veut en utilisant les objets `datetime` et leurs méthodes built-in.
 
@@ -100,7 +100,7 @@ Un bémol c'est la gestion des grandes quantités de données : de la même mani
 
 Pour pallier cet écueil, un type de données temporelles natif a été ajouté à `numpy`. Le dtype `datetime64` encode les dates sous forme d'entiers 64-bits et par conséquent les tableaux ayant des données de ce type sont très compacts (pour rappel, un tableau numpy ne peut contenir qu'un seul type de données).
 
-Le dtype `datetime64` nécessite toutefois un format particulier comme par exemple `"YYYY-MM-DD"` ou `"YYYY-MM"`. D'autre éléments peuvent être précisés et pour en savoir plus, c'est [sur la documentation numpy](https://numpy.org/doc/stable/reference/arrays.datetime.html).
+Le dtype `datetime64` nécessite toutefois un format particulier comme par exemple `"YYYY-MM-DD"` ou `"YYYY-MM"`. D'autre éléments peuvent être précisés et pour en savoir plus, c'est <a href="https://numpy.org/doc/stable/reference/arrays.datetime.html" target="_blank">sur la documentation numpy</a>.
 
 
 ```python
@@ -179,7 +179,7 @@ np.datetime64('2021-04-30 14:15:16', 'ns')
 
 À noter aussi, la timezone est par défaut celle de l'ordinateur qui exécute le code.
 
-Le tableau suivant issu de [la documentation numpy de datetime64](http://docs.scipy.org/doc/numpy/reference/arrays.datetime.html) liste les codes disponibles ainsi que les échelles relatives et absolues qu'ils permettent d'encoder.
+Le tableau suivant issu de <a href="http://docs.scipy.org/doc/numpy/reference/arrays.datetime.html" target="_blank">la documentation numpy de datetime64</a> liste les codes disponibles ainsi que les échelles relatives et absolues qu'ils permettent d'encoder.
 
 |Code  | Signification | Durée relative | Durée absolue           |
 |------|---------------|----------------|-------------------------|
@@ -604,6 +604,6 @@ pd.date_range('2021-04-30', periods=8, freq=BMonthEnd())
 
 
 
-Pour en savoir plus, il y a la [section "DateOffset"](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects) de la documentation `pandas`.
+Pour en savoir plus, il y a la <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects" target="_blank">section "DateOffset"</a> de la documentation `pandas`.
 
-Vous trouverez, comme pour l'ensemble de nos posts, le code de ce notebook sur [le github de Statoscop](https://github.com/Statoscop/notebooks-blog). Dans le prochain article, nous commencerons à manipuler, visualiser et effectuer certains opérations classiques sur les séries temporelles avant de conclure sur une petite étude de cas. À très vite !
+Vous trouverez, comme pour l'ensemble de nos posts, le code de ce notebook sur le <a href="https://github.com/Statoscop/notebooks-blog" target="_blank">github de Statoscop</a>. Dans le prochain article, nous commencerons à manipuler, visualiser et effectuer certaines opérations classiques sur les séries temporelles avant de conclure sur une petite étude de cas. À très vite !

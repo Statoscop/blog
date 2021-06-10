@@ -10,9 +10,9 @@ Summary: Mise à jour de l'évaluation des performances du verbe `across` dans d
 
 [TOC]
 
-A la sortie de l'été dernier, j'ai réalisé une [note sur mon blog personnel](https://antoinesir.rbind.io/post/fonctionnement-de-across-dans-dplyr/) sur un élément important d'une mise à jour majeure de dplyr : `across()`, un nouveau verbe pour réaliser des opérations sur plusieurs colonnes. Dans cette note, on utilisait la version `1.0.2` de `dplyr` et on comparait `across` aux verbes équivalents que cela devait remplacer (fonctions indexées par `_at`, `_if` et `_all`) . On constatait une moins bonne performance d' `across` en termes de temps d'exécution. Cet élément était bien connu des développeurs de RStudio et a été constamment pris en compte dans les différentes mises à jour. On reprend ici cette note en la mettant à jour avec la version `1.0.6` de `dplyr` disponible à ce jour pour voir où se place désormais `across` en termes de temps d'exécution.
+A la sortie de l'été dernier, j'ai réalisé une <a href="https://antoinesir.rbind.io/post/fonctionnement-de-across-dans-dplyr/" target="_blank">note sur mon blog personnel</a> sur un élément important d'une mise à jour majeure de dplyr : `across()`, un nouveau verbe pour réaliser des opérations sur plusieurs colonnes. Dans cette note, on utilisait la version `1.0.2` de `dplyr` et on comparait `across` aux verbes équivalents que cela devait remplacer (fonctions indexées par `_at`, `_if` et `_all`) . On constatait une moins bonne performance d' `across` en termes de temps d'exécution. Cet élément était bien connu des développeurs de RStudio et a été constamment pris en compte dans les différentes mises à jour. On reprend ici cette note en la mettant à jour avec la version `1.0.6` de `dplyr` disponible à ce jour pour voir où se place désormais `across` en termes de temps d'exécution.
 
-Si vous voulez balayer plus largement les différents éléments de la mise à jour de `dplyr`, vous pouvez vous rendre sur [le site du tidyverse](https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/) (en anglais) ou sur [cet article du blog de ThinkR](https://thinkr.fr/hey-quoi-de-neuf-dplyr-le-point-sur-la-v1/#La_fonction_de_calcul_avec_conditions_sur_les_variables_across()) (en français) qui en présentent les changements majeurs. 
+Si vous voulez balayer plus largement les différents éléments de la mise à jour de `dplyr`, vous pouvez vous rendre sur <a href="https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/" target="_blank">le site du tidyverse</a> (en anglais) ou sur <a href="https://thinkr.fr/hey-quoi-de-neuf-dplyr-le-point-sur-la-v1/#La_fonction_de_calcul_avec_conditions_sur_les_variables_across()" target="_blank">cet article du blog de ThinkR</a> (en français) qui en présentent les changements majeurs. 
 
 # `across()`, ça marche comment?  
 
@@ -29,7 +29,7 @@ across(.cols, .fns)
  - La fonction `.fns` est définie comme auparavant (le nom de la fonction ou sa définition "à la volée" avec `~ my_fun(.)`).  
  
 
-On présente quelques exemples en utilisant la table `penguins` promue par [Allison Horst](https://github.com/allisonhorst/palmerpenguins) pour remplacer l'usage de la table iris. Vous pouvez l'obtenir depuis le package `palmerpenguins` sur le CRAN.  
+On présente quelques exemples en utilisant la table `penguins` promue par <a href="https://github.com/allisonhorst/palmerpenguins" target="_blank">Allison Horst</a> pour remplacer l'usage de la table iris. Vous pouvez l'obtenir depuis le package `palmerpenguins` sur le CRAN.  
 
 ## Sélection avec des conditions  
 
@@ -107,7 +107,7 @@ penguins %>%
 ```
 
 # `across()`, ça tourne comment?  
-À la sortie de la mise à jour de `dplyr`, il avait été signalé que la méthode `across()` impliquerait peut-être de légères pertes en termes de vitesse d'exécution par rapport aux anciennes méthodes `_at`, `_if` et `_all`. On a mis en évidence ce problème avec la version `1.0.2` de dplyr dans [la première version de cet article](https://antoinesir.rbind.io/post/fonctionnement-de-across-dans-dplyr/). Sur ce même modèle, on va comparer les instructions `_if` et `_at` d'un summarise groupé avec leurs équivalents dans `across()` pour différentes tailles d'échantillons et de groupes.   
+À la sortie de la mise à jour de `dplyr`, il avait été signalé que la méthode `across()` impliquerait peut-être de légères pertes en termes de vitesse d'exécution par rapport aux anciennes méthodes `_at`, `_if` et `_all`. On a mis en évidence ce problème avec la version `1.0.2` de dplyr dans <a href="https://antoinesir.rbind.io/post/fonctionnement-de-across-dans-dplyr/" target="_blank">la première version de cet article</a>. Sur ce même modèle, on va comparer les instructions `_if` et `_at` d'un summarise groupé avec leurs équivalents dans `across()` pour différentes tailles d'échantillons et de groupes.   
 
 ## Instructions sur lesquelles on compare les méthodes 
 On crée un tibble comportant 4 variables numériques et une variable facteur, et on va comparer la vitesse d'exécution des moyennes de ces variables numériques groupées par modalité de la variable facteur en faisant varier le nombre de lignes du tibble et le nombre de groupes (de modalités distinctes de la variable facteur). Le tibble est créé par exemple ainsi, pour 100 lignes et deux groupes :  
@@ -174,4 +174,4 @@ Pour illustrer le chemin parcouru, on peut refaire tourner cette même comparais
 
 On constate bien que dans sa première version, `across` connaissait de bien moins bonnes performances, en particulier sur les dataframes avec beaucoup de lignes et/ou beaucoup de groupes. Les mises à jour successives ont donc bien permis de combler ces problèmes de performance et c'est une excellente nouvelle car au niveau de la syntaxe, nous, on adore!  
 
-C'est tout pour aujourd'hui! Comme d'habitude vous pouvez retrouver le fichier Rmarkdown ayant servi à générer cette note sur le [github de Statoscop](https://github.com/Statoscop/notebooks-blog).
+C'est tout pour aujourd'hui ! Comme d'habitude vous pouvez retrouver le fichier Rmarkdown ayant servi à générer cette note sur le <a href="https://github.com/Statoscop/notebooks-blog" target="_blank">github de Statoscop</a>.

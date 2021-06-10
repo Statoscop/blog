@@ -26,7 +26,7 @@ Il s'intéresse dans un premier temps à la visualisation et aux opérations que
 
 La capacité à utiliser les dates/times comme indices pour organiser et accéder aux données est le fondement des outils de séries temporelles sur Pandas. Les avantages de l'indexation (alignement, slicing, etc...) sont conservés et Pandas fournit par ailleurs plusieurs opérations spécifiques aux séries temporelles.
 
-On va donc développer ici quelques unes de ces opérations merveilleuses en utilisant comme premier exemple le cours de l'action Google en bourse (données récupérées sur [Yahoo finance](https://fr.finance.yahoo.com/quote/GOOG/history?p=GOOG)).
+On va donc développer ici quelques unes de ces opérations merveilleuses en utilisant comme premier exemple le cours de l'action Google en bourse (données récupérées sur <a href="https://fr.finance.yahoo.com/quote/GOOG/history?p=GOOG" target="_blank">Yahoo finance</a>).
 
 Petite précision en passant, le terme "séries temporelles" désigne en général, dans le contexte `Pandas`, un objet `Series` indexé par un `DatetimeIndex`.
 
@@ -220,7 +220,7 @@ Pour ce faire, `pandas` dispose de deux méthodes qui sont `resample()` ou `asfr
 
 On va de ce pas illustrer avec la série Google en diminuant la fréquence afin de n'avoir qu'un point par année. On va prendre le dernier jour ouvrable de l'année (jour ouvrable car la série prend des valeurs uniquement pour les jours ouvrables).
 
-Petit rappel, on utilise ci-dessous, le code de fréquence `BA` pour récupérer le dernier jour ouvrable de l'année mais pour en savoir plus sur les fréquences, [l'épisode 1 de cette série](https://blog.statoscop.fr/timeseries-1.html) vous en apprendra davantage.
+Petit rappel, on utilise ci-dessous, le code de fréquence `BA` pour récupérer le dernier jour ouvrable de l'année mais pour en savoir plus sur les fréquences, <a href="https://blog.statoscop.fr/timeseries-1.html" target="_blank">l'épisode 1 de cette série</a> vous en apprendra davantage.
 
 
 ```python
@@ -309,7 +309,7 @@ ax[2].axvline(local_max + offset2, alpha=0.3, color='red');
     
 
 
-Une utilisation possible du *shifting* est par exemple de calculer le retour sur investissement à 1 an de l'action de Google (ROI - *return on investment*, par ici [Wiki](https://en.wikipedia.org/wiki/Return_on_investment)).
+Une utilisation possible du *shifting* est par exemple de calculer le retour sur investissement à 1 an de l'action de Google (ROI - *return on investment*, par ici <a href="https://en.wikipedia.org/wiki/Return_on_investment" target="_blank">Wiki</a>).
 
 
 ```python
@@ -349,7 +349,7 @@ ax.lines[0].set_alpha(0.4)
 
 # Un exemple de visualisation : le nombre de vélos à Paris Montparnasse
 
-On va terminer sur un petit exemple un peu plus parlant, ou en tout cas, un peu moins financier, en regardant le nombre de vélos passés devant un des compteurs de la ville de Paris, situé sur le boulevard Montparnasse. Le jeu de données vient [de là](https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name). On récupère ainsi le décompte horaire des vélos.
+On va terminer sur un petit exemple un peu plus parlant, ou en tout cas, un peu moins financier, en regardant le nombre de vélos passés devant un des compteurs de la ville de Paris, situé sur le boulevard Montparnasse. Le jeu de données vient <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name" target="_blank">de là</a>. On récupère ainsi le décompte horaire des vélos.
 
 ## Nettoyage des données 
 
@@ -587,4 +587,4 @@ par_hr.loc['Weekend'].plot(ax=ax[1], title='Weekends', xticks=heures, legend=Fal
     
 
 
-C'est tout de suite plus clair : le weekend, les gens dorment et sortent se promener l'après-midi ! Nous voilà rassurés. Sur cette belle découverte, on se dit à très vite pour le post numéro 3 de cette série ! Comme d'habitude, vous pouvez retrouver l'ensemble du notebook ayant servi à générer cette note sur le [github de Statoscop](https://github.com/Statoscop/notebooks-blog).
+C'est tout de suite plus clair : le weekend, les gens dorment et sortent se promener l'après-midi ! Nous voilà rassurés. Sur cette belle découverte, on se dit à très vite pour le post numéro 3 de cette série ! Comme d'habitude, vous pouvez retrouver l'ensemble du notebook ayant servi à générer cette note sur le <a href="https://github.com/Statoscop/notebooks-blog" target="_blank">github de Statoscop</a>.
