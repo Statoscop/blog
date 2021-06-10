@@ -230,7 +230,7 @@
 <li><span class="math">\(E[\epsilon_t\epsilon_s] = 0\)</span> pour <span class="math">\(s \neq t\)</span>  </li>
 </ul>
 </blockquote>
-<p>C'est donc, comme les processus stationnaires, une série de moyenne constante et nulle, de variance constante et de covariance nulle entre 2 observations (indépendamment du décalage entre les 2). Ce dernier point signifie donc que les observations sont <strong>non corrélées</strong> entre elles.</p>
+<p>C'est donc une série de moyenne constante et nulle, de variance constante et de covariance nulle entre 2 observations (indépendamment du décalage entre les 2). Ce dernier point signifie donc que les observations sont <strong>non corrélées</strong> entre elles.</p>
 <p>Un <strong>bruit blanc indépendant</strong> est un processus <span class="math">\(\{\epsilon_t\}_{t=1}^{T}\)</span> qui vérifie :  </p>
 <blockquote>
 <ul>
@@ -239,11 +239,11 @@
 <li><span class="math">\(\epsilon_t\)</span> et <span class="math">\(\epsilon_s\)</span> indépendants pour <span class="math">\(s \neq t\)</span>  </li>
 </ul>
 </blockquote>
-<p>Les deux premières hypothèses sont identiques. En revanche, la 3ème hypothèse est plus forte puisque l'indépendance implique que la covariance soit nulle mais la réciproque n'est pas vraie (<a href="https://fr.wikipedia.org/wiki/Ind%C3%A9pendance_(probabilit%C3%A9s)#Ind%C3%A9pendance_et_corr%C3%A9lation">Maître Wiki</a> vous fournira un contre-exemple avec des variables aléatoires discrètes ; un autre contre-exemple classique avec des variables aléatoires continues <span class="math">\(X \hookrightarrow \mathcal{N}(0,1)\)</span> et <span class="math">\(Y=X²\)</span> sont dépendantes et de covariance nulle).  </p>
+<p>Les deux premières hypothèses sont identiques. En revanche, la 3ème hypothèse est plus forte puisque l'indépendance implique que la covariance soit nulle mais la réciproque n'est pas vraie (<a href="https://fr.wikipedia.org/wiki/Ind%C3%A9pendance_(probabilit%C3%A9s)#Ind%C3%A9pendance_et_corr%C3%A9lation" target="_blank">Maître Wiki</a>) vous fournira un contre-exemple avec des variables aléatoires discrètes ; un autre contre-exemple classique avec des variables aléatoires continues <span class="math">\(X \hookrightarrow \mathcal{N}(0,1)\)</span> et <span class="math">\(Y=X²\)</span> sont dépendantes et de covariance nulle).  </p>
 <p>Un <strong>bruit blanc gaussien</strong> <span class="math">\(\{\epsilon_t\}_{t=1}^{T}\)</span> est un bruit blanc indépendant qui suit une loi normale centrée : <span class="math">\(\epsilon_t \hookrightarrow \mathcal{N}(0,\sigma²)\)</span>  </p>
 <p>On ajoute donc une hypothèse supplémentaire sur la distribution qui doit être une loi normale de moyenne nulle.</p>
 <p>Intuitivement, un bruit blanc dans le cadre des séries temporelles, c'est <strong>la partie purement aléatoire du processus</strong>. Effectivement, j'imagine bien ce que vous pensez et vous avez tout à fait raison, les bruits blancs sont des séries stationnaires (moyenne, variance et covariance constantes).</p>
-<p>Dans les lignes de code ci-dessous, on génère un bruit blanc gaussien qu'on visualise ensuite en utilisant la fonction <code>ts_plot</code> qui est disponible sur le github de Statoscop, <a href="https://github.com/Statoscop/notebooks-blog/blob/main/Series%20temporelles/fonctions.py">ici précisément</a> dans le fichier <code>fonction.py</code> du dossier Séries Temporelles.</p>
+<p>Dans les lignes de code ci-dessous, on génère un bruit blanc gaussien qu'on visualise ensuite en utilisant la fonction <code>ts_plot</code> qui est disponible sur le github de Statoscop, <a href="https://github.com/Statoscop/notebooks-blog/blob/main/Series%20temporelles/fonctions.py" target="_blank">ici précisément</a> dans le fichier <code>fonction.py</code> du dossier Séries Temporelles.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 
@@ -278,7 +278,7 @@ avec <span class="math">\(\epsilon_t\)</span> un bruit blanc</p>
 <p><strong>Interprétation :</strong> on voit la ressemblance entre ce processus de marche aléatoire et les cours d'actifs en bourse qui sont caractérisés par : <br>
 - un ACF élevé pour toute longueur de décalage et un PACF élevé pour le premier décalage uniquement <br>
 - un QQ-plot et un histogramme indiquant que la série n'est pas un bruit blanc  </p>
-<p>La marche aléatoire n'est clairement pas une série stationnaire. Par contre, la série différenciée <span class="math">\((x_t - x_{t-1})\)</span> est stationnaire puisqu'elle vaut <span class="math">\((\epsilon_t)\)</span> qui est un bruit blanc gaussien. </p>
+<p>La marche aléatoire n'est clairement pas une série stationnaire. Par contre, la série différenciée <span class="math">\((x_t - x_{t-1})\)</span> est stationnaire puisqu'elle vaut <span class="math">\((\epsilon_t)\)</span> qui est un bruit blanc. </p>
 <h2 id="modele-autoregressif">Modèle autorégressif</h2>
 <p>Une série temporelle <span class="math">\(\{x_t\}_{t=1}^{T}\)</span> qui suit un modèle autorégressif d'ordre <span class="math">\(p\)</span> (et noté <span class="math">\(AR(p)\)</span>) est telle que :<br>
 </p>
@@ -358,7 +358,7 @@ avec <span class="math">\(\epsilon_t\)</span> un bruit blanc</p>
 <h1 id="des-exemples-de-series-temporelles">Des exemples de séries temporelles</h1>
 <p>On va simplement regarder quelques séries temporelles et les commenter graphiquement.</p>
 <h2 id="des-taches-solaires">Des tâches solaires</h2>
-<p>La série "sunspot" ci-dessous recense le nombre annuel de <a href="https://fr.wikipedia.org/wiki/Tache_solaire">tâches solaires</a> de 1790 à 1970.</p>
+<p>La série "sunspot" ci-dessous recense le nombre annuel de <a href="https://fr.wikipedia.org/wiki/Tache_solaire" target="_blank">tâches solaires</a> de 1790 à 1970.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
@@ -395,7 +395,7 @@ avec <span class="math">\(\epsilon_t\)</span> un bruit blanc</p>
 - il y a une tendance à la hausse jusqu'à la fin des années 70 puis une légère baisse et une stabilisation<br>
 - il ne semble pas y avoir de cycles<br>
 - en revanche, il y a bien une saisonnalité avec un "motif" annuel qui se répète contenant un pic haut (parfois un 2ème identifiable) et un creux  </p>
-<p>Voilà quelques exemples d'analyse graphique, et rapide, de séries temporelles. Comme toujours, le code ayant généré ce notebook est disponible sur le <a href="https://github.com/Statoscop/notebooks-blog">github de Statoscop</a>. Maintenant, la question est de savoir comment on va pouvoir identifier les différents éléments composant une série avant de s'intéresser à leur modélisation et leur prédiction. Alors, impatients de savoir comment décomposer une série temporelle ? La suite dans le prochain post !</p>
+<p>Voilà quelques exemples d'analyse graphique, et rapide, de séries temporelles. Comme toujours, le code ayant généré ce notebook est disponible sur le <a href="https://github.com/Statoscop/notebooks-blog" target="_blank">github de Statoscop</a>. Maintenant, la question est de savoir comment on va pouvoir identifier les différents éléments composant une série avant de s'intéresser à leur modélisation et leur prédiction. Alors, impatients de savoir comment décomposer une série temporelle ? La suite dans le prochain post !</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

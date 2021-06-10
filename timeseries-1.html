@@ -177,7 +177,7 @@
 <p>La libraire <code>Pandas</code> a été développée dans un contexte de données financières et son nom est une contraction de <em>Panel Datas</em> (données de panel), c'est-à-dire des données pour lesquelles on a, pour un même individu, des observations au cours du temps. <code>Pandas</code> contient donc par essence de nombreux outils pour travailler avec les dates, le temps et des données indexées en fonction du temps.</p>
 <blockquote>
 <p><em>"Une série temporelle, ou série chronologique, est une suite de valeurs numériques représentant l'évolution d'une quantité spécifique au cours du temps."</em><br>
-<a href="https://fr.wikipedia.org/wiki/S%C3%A9rie_temporelle">Maître Wiki</a></p>
+<a href="https://fr.wikipedia.org/wiki/S%C3%A9rie_temporelle" target="_blank">Maître Wiki</a></p>
 </blockquote>
 <p>Une série temporelle peut être vue comme un cas très particulier des données panel puisqu'il s'agit de l'évolution d'une seule observation au cours du temps.</p>
 <p>Nous allons donc nous intéresser à ces données temporelles et pour commencer, un peu de vocabulaire et d'anglicisme :  </p>
@@ -213,20 +213,20 @@
 </code></pre></div>
 
 <p>Une fois qu'on manipule un objet <code>datetime</code>, on peut facilement effectuer des opérations sur cet objet. Par exemple, récupérer en chaîne de caractères le jour de la semaine correspondant, le mois, l'année, etc...</p>
-<p>Pour en savoir plus sur <code>strftime</code> et les codes standards de format de string pour afficher les dates ce sera dans la <a href="https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior">section strftime</a> de la doc Python <a href="https://docs.python.org/3/library/datetime.html">datetime</a>.
-Une autre aide utile sur les manipulation de dates est la <a href="http://labix.org/python-dateutil">documentation en ligne de dateutil</a>.</p>
+<p>Pour en savoir plus sur <code>strftime</code> et les codes standards de format de string pour afficher les dates ce sera dans la <a href="https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior" target="_blank">section strftime</a> de la doc Python <a href="https://docs.python.org/3/library/datetime.html" target="_blank">datetime</a>.
+Une autre aide utile sur les manipulation de dates est la <a href="http://labix.org/python-dateutil" target="_blank">documentation en ligne de dateutil</a>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">d1</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A&quot;</span><span class="p">),</span> <span class="n">d1</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%a</span><span class="s2">&quot;</span><span class="p">),</span> <span class="n">d1</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">),</span> <span class="n">d1</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%B&quot;</span><span class="p">),</span> <span class="n">d1</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y&quot;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="err">(&#39;Friday&#39;, &#39;Fri&#39;, &#39;30&#39;, &#39;April&#39;, &#39;2021&#39;)</span>
 </code></pre></div>
 
-<p><strong>À savoir</strong> : il existe un package utile <a href="http://pytz.sourceforge.net/"><code>pytz</code></a> contenant des outils pour pouvoir travailler avec les <em>timezones</em>.</p>
+<p><strong>À savoir</strong> : il existe un package utile <a href="http://pytz.sourceforge.net/" target="_blank"><code>pytz</code></a> contenant des outils pour pouvoir travailler avec les <em>timezones</em>.</p>
 <p>L'intérêt de <code>datetime</code> et <code>dateutil</code> est leur flexibilité et leur facilité d'utilisation/syntaxe : on peut faire plus ou moins tout ce qu'on veut en utilisant les objets <code>datetime</code> et leurs méthodes built-in.</p>
 <p>Un bémol c'est la gestion des grandes quantités de données : de la même manière que les listes numériques ne sont pas optimales comparées à des arrays <code>numpy</code> de type numérique, les listes d'objets <code>datetime</code> ne sont pas optimales comparées à des tableaux ayant un type date/time.</p>
 <h2 id="le-type-de-donnees-date-des-tableaux-numpy-datetime64">Le type de données date des tableaux numpy : <code>datetime64</code></h2>
 <p>Pour pallier cet écueil, un type de données temporelles natif a été ajouté à <code>numpy</code>. Le dtype <code>datetime64</code> encode les dates sous forme d'entiers 64-bits et par conséquent les tableaux ayant des données de ce type sont très compacts (pour rappel, un tableau numpy ne peut contenir qu'un seul type de données).</p>
-<p>Le dtype <code>datetime64</code> nécessite toutefois un format particulier comme par exemple <code>"YYYY-MM-DD"</code> ou <code>"YYYY-MM"</code>. D'autre éléments peuvent être précisés et pour en savoir plus, c'est <a href="https://numpy.org/doc/stable/reference/arrays.datetime.html">sur la documentation numpy</a>.</p>
+<p>Le dtype <code>datetime64</code> nécessite toutefois un format particulier comme par exemple <code>"YYYY-MM-DD"</code> ou <code>"YYYY-MM"</code>. D'autre éléments peuvent être précisés et pour en savoir plus, c'est <a href="https://numpy.org/doc/stable/reference/arrays.datetime.html" target="_blank">sur la documentation numpy</a>.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="n">date</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;2021-04-30&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)</span>
 <span class="n">date</span>
@@ -269,7 +269,7 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 </code></pre></div>
 
 <p>À noter aussi, la timezone est par défaut celle de l'ordinateur qui exécute le code.</p>
-<p>Le tableau suivant issu de <a href="http://docs.scipy.org/doc/numpy/reference/arrays.datetime.html">la documentation numpy de datetime64</a> liste les codes disponibles ainsi que les échelles relatives et absolues qu'ils permettent d'encoder.</p>
+<p>Le tableau suivant issu de <a href="http://docs.scipy.org/doc/numpy/reference/arrays.datetime.html" target="_blank">la documentation numpy de datetime64</a> liste les codes disponibles ainsi que les échelles relatives et absolues qu'ils permettent d'encoder.</p>
 <table>
 <thead>
 <tr>
@@ -720,8 +720,8 @@ On a déjà croisé les codes <code>M</code> (month), <code>D</code> (day) et <c
 <span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;BM&#39;</span><span class="p">)</span><span class="w"></span>
 </code></pre></div>
 
-<p>Pour en savoir plus, il y a la <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects">section "DateOffset"</a> de la documentation <code>pandas</code>.</p>
-<p>Vous trouverez, comme pour l'ensemble de nos posts, le code de ce notebook sur <a href="https://github.com/Statoscop/notebooks-blog">le github de Statoscop</a>. Dans le prochain article, nous commencerons à manipuler, visualiser et effectuer certains opérations classiques sur les séries temporelles avant de conclure sur une petite étude de cas. À très vite !</p>
+<p>Pour en savoir plus, il y a la <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects" target="_blank">section "DateOffset"</a> de la documentation <code>pandas</code>.</p>
+<p>Vous trouverez, comme pour l'ensemble de nos posts, le code de ce notebook sur le <a href="https://github.com/Statoscop/notebooks-blog" target="_blank">github de Statoscop</a>. Dans le prochain article, nous commencerons à manipuler, visualiser et effectuer certaines opérations classiques sur les séries temporelles avant de conclure sur une petite étude de cas. À très vite !</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

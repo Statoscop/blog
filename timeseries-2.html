@@ -179,7 +179,7 @@
 <li><em>Windowing</em> = fenêtrage</li>
 </ul>
 <p>La capacité à utiliser les dates/times comme indices pour organiser et accéder aux données est le fondement des outils de séries temporelles sur Pandas. Les avantages de l'indexation (alignement, slicing, etc...) sont conservés et Pandas fournit par ailleurs plusieurs opérations spécifiques aux séries temporelles.</p>
-<p>On va donc développer ici quelques unes de ces opérations merveilleuses en utilisant comme premier exemple le cours de l'action Google en bourse (données récupérées sur <a href="https://fr.finance.yahoo.com/quote/GOOG/history?p=GOOG">Yahoo finance</a>).</p>
+<p>On va donc développer ici quelques unes de ces opérations merveilleuses en utilisant comme premier exemple le cours de l'action Google en bourse (données récupérées sur <a href="https://fr.finance.yahoo.com/quote/GOOG/history?p=GOOG" target="_blank">Yahoo finance</a>).</p>
 <p>Petite précision en passant, le terme "séries temporelles" désigne en général, dans le contexte <code>Pandas</code>, un objet <code>Series</code> indexé par un <code>DatetimeIndex</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="c1"># parse_dates=True permet à pandas de repérer les dates sous différents formats</span>
@@ -337,7 +337,7 @@
 - si on diminue la fréquence, ce qui est le cas le plus classique, on va supprimer des points et il faut là aussi déterminer la stratégie à utiliser. Deux options sont possibles : on sélectionne uniquement les points correspondants à la nouvelle fréquence plus faible ou bien on agrège les points entre 2 fréquences en utilisant une fonction d'aggrégation comme par exemple une moyenne, une médiane, un max, etc...</p>
 <p>Pour ce faire, <code>pandas</code> dispose de deux méthodes qui sont <code>resample()</code> ou <code>asfreq()</code>. La différence entre les deux est que <code>resample</code> consiste à agréger toutes les données comprises entre 2 multiples de la fréquence alors que <code>asfreq</code> sélectionne la valeur correspondant à la fréquence. Aussi, <code>resample</code> renvoie un objet particulier qui est un <code>DatetimeIndexResampler</code> sur lequel il faut appliquer une méthode d'aggrégation ou d'imputation pour récupérer une série. La méthode <code>asfreq</code> retourne directement une série.</p>
 <p>On va de ce pas illustrer avec la série Google en diminuant la fréquence afin de n'avoir qu'un point par année. On va prendre le dernier jour ouvrable de l'année (jour ouvrable car la série prend des valeurs uniquement pour les jours ouvrables).</p>
-<p>Petit rappel, on utilise ci-dessous, le code de fréquence <code>BA</code> pour récupérer le dernier jour ouvrable de l'année mais pour en savoir plus sur les fréquences, <a href="https://blog.statoscop.fr/timeseries-1.html">l'épisode 1 de cette série</a> vous en apprendra davantage.</p>
+<p>Petit rappel, on utilise ci-dessous, le code de fréquence <code>BA</code> pour récupérer le dernier jour ouvrable de l'année mais pour en savoir plus sur les fréquences, <a href="https://blog.statoscop.fr/timeseries-1.html" target="_blank">l'épisode 1 de cette série</a> vous en apprendra davantage.</p>
 <div class="highlight"><pre><span></span><code><span class="n">goog</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 <span class="n">goog</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s1">&#39;BA&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 <span class="n">goog</span><span class="o">.</span><span class="n">asfreq</span><span class="p">(</span><span class="s1">&#39;BA&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
@@ -399,7 +399,7 @@
 </code></pre></div>
 
 <p><img alt="Pelican" src="../images/SeriesTemp2/output_18_0.png"></p>
-<p>Une utilisation possible du <em>shifting</em> est par exemple de calculer le retour sur investissement à 1 an de l'action de Google (ROI - <em>return on investment</em>, par ici <a href="https://en.wikipedia.org/wiki/Return_on_investment">Wiki</a>).</p>
+<p>Une utilisation possible du <em>shifting</em> est par exemple de calculer le retour sur investissement à 1 an de l'action de Google (ROI - <em>return on investment</em>, par ici <a href="https://en.wikipedia.org/wiki/Return_on_investment" target="_blank">Wiki</a>).</p>
 <div class="highlight"><pre><span></span><code><span class="n">ROI_1</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">goog</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">365</span><span class="p">)</span> <span class="o">/</span> <span class="n">goog</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">ROI_1</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="o">-</span><span class="mi">365</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;ROI&#39;</span><span class="p">);</span>
@@ -420,7 +420,7 @@
 
 <p><img alt="Pelican" src="../images/SeriesTemp2/output_23_0.png"></p>
 <h1 id="un-exemple-de-visualisation-le-nombre-de-velos-a-paris-montparnasse">Un exemple de visualisation : le nombre de vélos à Paris Montparnasse</h1>
-<p>On va terminer sur un petit exemple un peu plus parlant, ou en tout cas, un peu moins financier, en regardant le nombre de vélos passés devant un des compteurs de la ville de Paris, situé sur le boulevard Montparnasse. Le jeu de données vient <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name">de là</a>. On récupère ainsi le décompte horaire des vélos.</p>
+<p>On va terminer sur un petit exemple un peu plus parlant, ou en tout cas, un peu moins financier, en regardant le nombre de vélos passés devant un des compteurs de la ville de Paris, situé sur le boulevard Montparnasse. Le jeu de données vient <a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&disjunctive.nom_compteur&disjunctive.id&disjunctive.name" target="_blank">de là</a>. On récupère ainsi le décompte horaire des vélos.</p>
 <h2 id="nettoyage-des-donnees">Nettoyage des données</h2>
 <p>Un premier coup d'oeil sur les données nous permet de voir qu'il y a beaucoup de colonnes inutiles dans ce dataset. On va donc se contenter de ce qui nous intéresse : le timestamp et le nombre de vélos. Avec un petit peu de nettoyage directement au moment de l'import dans le <code>pandas.read_csv</code>, ça donne :</p>
 <div class="highlight"><pre><span></span><code><span class="n">velo</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/comptage-velo-donnees-compteurs.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">,</span>
@@ -582,7 +582,7 @@
 </code></pre></div>
 
 <p><img alt="Pelican" src="../images/SeriesTemp2/output_43_0.png"></p>
-<p>C'est tout de suite plus clair : le weekend, les gens dorment et sortent se promener l'après-midi ! Nous voilà rassurés. Sur cette belle découverte, on se dit à très vite pour le post numéro 3 de cette série ! Comme d'habitude, vous pouvez retrouver l'ensemble du notebook ayant servi à générer cette note sur le <a href="https://github.com/Statoscop/notebooks-blog">github de Statoscop</a>.</p>
+<p>C'est tout de suite plus clair : le weekend, les gens dorment et sortent se promener l'après-midi ! Nous voilà rassurés. Sur cette belle découverte, on se dit à très vite pour le post numéro 3 de cette série ! Comme d'habitude, vous pouvez retrouver l'ensemble du notebook ayant servi à générer cette note sur le <a href="https://github.com/Statoscop/notebooks-blog" target="_blank">github de Statoscop</a>.</p>
             </section>
 
             <section class="post-info">
