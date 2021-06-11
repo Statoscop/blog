@@ -53,7 +53,7 @@ MARKDOWN = {
 COLOR_SCHEME_CSS = 'github.css'
 
 PLUGIN_PATHS = ['pelican-plugins']
-PLUGINS = ['render_math'] #'extract_toc'
+PLUGINS = ['render_math', 'sitemap'] #'extract_toc'
 
 MARKDOWN = {
     'extension_configs': {
