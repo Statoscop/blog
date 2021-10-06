@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Le blog de Statoscop</title>
+  <link rel="icon" type="image/x-icon" href="https://blog.statoscop.fr/themes/statoscop/static/images/favicon-v1.ico" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://blog.statoscop.fr/gestion-des-packages-sur-r-avec-renv.html" rel="canonical" />
+  <!-- Feed -->
+        <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
+          <link href="https://blog.statoscop.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
+
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://blog.statoscop.fr/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Présentation du gestionnaire de packages de R">
+
+    <meta name="author" content="Antoine">
+
+    <meta name="tags" content="R">
+    <meta name="tags" content="Rstats">
+    <meta name="tags" content="renv">
+    <meta name="tags" content="packages">
+    <meta name="tags" content="CRAN">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="Gestion des packages sur R avec renv"/>
+<meta property="og:description" content="Présentation du gestionnaire de packages de R"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.statoscop.fr/gestion-des-packages-sur-r-avec-renv.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2021-10-07 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://blog.statoscop.fr/author/antoine.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="R"/>
+<meta property="article:tag" content="Rstats"/>
+<meta property="article:tag" content="renv"/>
+<meta property="article:tag" content="packages"/>
+<meta property="article:tag" content="CRAN"/>
+<meta property="og:image" content="https://blog.statoscop.fr/images/cover_7.png">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Gestion des packages sur R avec renv",
+  "headline": "Gestion des packages sur R avec renv",
+  "datePublished": "2021-10-07 00:00:00+02:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Antoine",
+    "url": "https://blog.statoscop.fr/author/antoine.html"
+  },
+  "image": "https://blog.statoscop.fr/images/cover_7.png",
+  "url": "https://blog.statoscop.fr/gestion-des-packages-sur-r-avec-renv.html",
+  "description": "Présentation du gestionnaire de packages de R"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header">
+      <div class="inner">
+        <nav id="navigation">
+          <span class="blog-logo">
+            <a href="https://statoscop.fr"><img src="https://blog.statoscop.fr/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Blog Logo" /></a>
+          </span>
+          <span id="menu-button" class="nav-button">
+            <a href="https://blog.statoscop.fr">Retour à l'accueil du blog</a>
+          </span>
+        </nav>
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+      
+      <div>
+      </div>
+
+      <article class="post">
+        <div class="inner">
+
+
+
+
+            <section class="post-content">
+              <h1 class="post-title">Gestion des packages sur R avec renv</h1>
+                <!-- Le titres et meta infos-->
+                <span class="post-meta">
+                        <a href="https://blog.statoscop.fr/author/antoine.html">Antoine</a>
+                    | <time datetime="jeu. 07 octobre 2021">jeu. 07 octobre 2021</time>
+                </span>
+
+                <!--Table des matieres
+-->
+                
+                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+<li><a href="#interet-dun-gestionnaire-de-packages-dans-un-projet-avec-r">Intérêt d'un gestionnaire de packages dans un projet avec R</a><ul>
+<li><a href="#organisation-du-projet">Organisation du projet</a></li>
+<li><a href="#avantages-dun-gestionnaire-de-packages-dans-un-projet-r">Avantages d'un gestionnaire de packages dans un projet R</a><ul>
+<li><a href="#votre-projet-sera-isole">Votre projet sera isolé</a></li>
+<li><a href="#votre-projet-sera-portable-et-reproductible">Votre projet sera portable et reproductible</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#utilisation-de-renv">Utilisation de renv</a><ul>
+<li><a href="#initialisation-de-renv">Initialisation de renv</a></li>
+<li><a href="#mettre-a-jour-les-dependances-avec-le-fichier-lock">Mettre à jour les dépendances avec le fichier lock</a><ul>
+<li><a href="#utilisation-de-renvrestore">Utilisation de renv::restore()</a></li>
+<li><a href="#utilisation-de-renvsnapshot">Utilisation de renv::snapshot()</a></li>
+</ul>
+</li>
+<li><a href="#petite-note-sur-git">Petite note sur git</a></li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+<p>En 2019, je présentais brièvement le package <code>packrat</code> dans <a href="https://antoinesir.rbind.io/post/gestion-des-packages-sur-r-pr%C3%A9sentation-de-packrat/">un article de blog</a>. Ce package R permettait de gérer les dépendances aux packages d'un projet R à la manière des environnements de Python. Il comportait cependant un certain nombre d'inconvénients, dont celui d'un temps long de téléchargement des packages. Depuis 2020, il a été remplacé par <code>renv</code> qui gomme la plupart de ces défauts, et c'est l'occasion de vous montrer pourquoi et comment vous devriez vous servir d'un gestionnaire de packages pour vos projets R à partir d'un exemple concret!</p>
+<p>On commence cet article par la présentation du projet dont on se sert comme exemple et de l'intérêt d'un gestionnaire de packages avant d'illustrer l'utilisation de <code>renv</code> dans ce contexte. Cet article a pour but de présenter un cas concret d'utilisation de <code>renv</code> mais ne se substitue pas à la <a href="https://rstudio.github.io/renv/articles/renv.html">documentation officielle du package</a>.  </p>
+<h1 id="interet-dun-gestionnaire-de-packages-dans-un-projet-avec-r">Intérêt d'un gestionnaire de packages dans un projet avec R</h1>
+<p>La première étape pour aller vers plus de reproductibilité sur R est de connaître le fonctionnement des projets (fichiers .Rproj), qui permettent d'ouvrir R à la racine de votre projet et de proposer un code avec seulement des chemins relatifs. Si vous n'êtes pas du tout familiers avec ce fonctionnement, je vous conseille de lire <a href="http://larmarange.github.io/analyse-R/organiser-ses-fichiers.html">cet article</a> de l'excellent blog de Joseph Larmarange.  </p>
+<h2 id="organisation-du-projet">Organisation du projet</h2>
+<p>On propose pour illustrer le propos un projet tout simple dont l'organisation est présentée ci-dessous :  </p>
+<p><img alt="Pelican" src="../images/renv/orga_dossier.png"><!-- --></p>
+<p>Ce projet contient un dossier <code>data</code> dans lequel se trouve notre base de données et un dossier <code>scripts</code> avec un code R contenant quelques traitements basiques. À la racine du dossier, on remarque également notre fichier <code>Presentation renv.Rproj</code> qui définit donc l'emplacement de notre répertoire de travail. Le script R contient les instructions suivantes :  </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Chargement des packages</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+
+<span class="c1"># Import des données</span>
+<span class="n">mon_iris</span> <span class="o">&lt;-</span> <span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="s">&quot;data/iris.csv&quot;</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">&lt;-</span> <span class="n">mon_iris</span> <span class="o">%&gt;%</span> 
+  <span class="nf">summarise</span><span class="p">(</span><span class="nf">across</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;Sepal&quot;</span><span class="p">),</span> <span class="n">mean</span><span class="p">))</span> 
+</code></pre></div>
+
+<p>Ce code tout simple permet donc de calculer la moyenne des largeur et longueur des sépales de la base de données <code>iris</code>. L'utilisation d'un fichier .Rproj, d'un chemin relatif pour importer les données et le fait que les deux packages utilisés (<code>dplyr</code> et <code>data.table</code>) soient chargés explicitement semblent rendre la reproductibilité des résultats aisée : il me suffit de récupérer l'ensemble du dossier, d'installer les deux packages s'ils ne sont pas déjà installés et de faire tourner le code. Seulement, je pourrais avoir sur mon poste une version de dplyr installée trop ancienne et dans laquelle <code>across</code> n'existerait pas encore. Bien sûr il suffirait ici de mettre à jour mon package, mais peut-être que la version la plus récente de <code>dplyr</code> ne correspond pas non plus à la version du code utilisé par la personne ayant écrit le code, et que cela peut causer de nouveaux problèmes...</p>
+<h2 id="avantages-dun-gestionnaire-de-packages-dans-un-projet-r">Avantages d'un gestionnaire de packages dans un projet R</h2>
+<p>Tout d'abord, sachez qu'en général les développeurs de package R, et en particulier ceux ayant un très grand nombre d'utilisateurs, portent une attention particulière à faire en sorte que les mises à jour ne "cassent" pas les codes existants, en d'autres termes que ce qui a été codé dans une ancienne version du package tourne toujours avec la nouvelle version. Ceci étant dit, une mise à jour peut toujours avoir des conséquences sur vos résultats (anticipés ou non par les développeurs) et il est bien plus facile d'utiliser un gestionnaire de packages, et nous allons vous expliquer pourquoi.  </p>
+<h3 id="votre-projet-sera-isole">Votre projet sera isolé</h3>
+<p>Avec le système classique de packages R, tous les packages installés le sont dans un répertoire commun à votre ordinateur. Quand vous mettez à jour un package, l'ancienne version est écrasée et ce pour <strong>tous</strong> vos projets. Ce que va permettre un gestionnaire de packages, c'est de faire dépendre une version d'un package à un projet en particulier. C'est ce qui va permettre à chacun de vos projets d'être <strong>isolés</strong> les uns des autres. En plus, <code>renv</code> fonctionne sur un système de caches qui lui permet malgré tout de ne pas avoir à téléchargé deux fois la même version du même package si elle est utilisée dans deux projets différents. Cette propriété est particulièrement importante pour des gros projets pour lesquels vous n'auriez pas le temps d'adapter le code à une mise à jour d'un package, tout en voulant bénéficier de cette mise à jour pour vos autres travaux.  </p>
+<h3 id="votre-projet-sera-portable-et-reproductible">Votre projet sera portable et reproductible</h3>
+<p>La portabilité d'un projet, c'est sa capacité à pouvoir tourner sur n'importe quelle machine, n'importe quel OS, etc... C'est ce qui permet sa reproductibilité, c'est-à-dire la capacité à reproduire les résultats dans des conditions identiques. C'est extrêmement précieux pour les projets en équipe mais aussi pour soi : en effet rien ne nous assure que notre projet codé il y a deux ans va tourner après les nombreuses mises à jour qu'ont dû subir les packages utilisés. <code>renv</code> permet de répondre à cette problématique en vous renvoyant 2 ans en arrière dans le même environnement de packages, à condition bien sûr que les versions utilisées alors soient encore disponibles sur le CRAN ou sur la source de laquelle vous les avez téléchargés.  </p>
+<h1 id="utilisation-de-renv">Utilisation de renv</h1>
+<p>Après, je l'espère, vous avoir convaincus de l'utilité d'un gestionnaire de packages, je vais vous présenter rapidement comment utiliser <code>renv</code> dans le petit projet que je vous ai présenté.  </p>
+<h2 id="initialisation-de-renv">Initialisation de <code>renv</code></h2>
+<p>Pour commencer à utiliser le gestionnaire de packages, vous ouvrez votre projet dans RStudio et vous lancez dans la console <code>renv::init()</code>. Votre projet va maintenant ressembler à ça :  </p>
+<p><img alt="Pelican" src="../images/renv/orga_dossier_renv.png"><!-- --></p>
+<p>On constate l'apparition d'un dossier <code>renv</code>, qui contient les fichiers de lancement et de paramétrage du gestionnaire ainsi que les liens vers les packages à charger. Contrairement à <code>packrat</code>, renv utilise en effet un cache dans lequel il installe les packages, ce qui permet de ne pas dupliquer l'installation de la même version du même package pour deux projets différents. Mais ce qui nous intéresse plus, c'est l'apparition à la racine du projet du fichier <code>renv.lock</code>, qui ressemble à ça :  </p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="s">&quot;R&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">&quot;Version&quot;</span><span class="o">:</span> <span class="s">&quot;4.1.1&quot;</span><span class="p">,</span>
+    <span class="s">&quot;Repositories&quot;</span><span class="o">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="s">&quot;Name&quot;</span><span class="o">:</span> <span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
+        <span class="s">&quot;URL&quot;</span><span class="o">:</span> <span class="s">&quot;https://cloud.r-project.org&quot;</span>
+      <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="s">&quot;Packages&quot;</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s">&quot;R6&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s">&quot;Package&quot;</span><span class="o">:</span> <span class="s">&quot;R6&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Version&quot;</span><span class="o">:</span> <span class="s">&quot;2.5.0&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Source&quot;</span><span class="o">:</span> <span class="s">&quot;Repository&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Repository&quot;</span><span class="o">:</span> <span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Hash&quot;</span><span class="o">:</span> <span class="s">&quot;b203113193e70978a696b2809525649d&quot;</span>
+    <span class="p">},</span>
+    <span class="s">&quot;cli&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s">&quot;Package&quot;</span><span class="o">:</span> <span class="s">&quot;cli&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Version&quot;</span><span class="o">:</span> <span class="s">&quot;2.5.0&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Source&quot;</span><span class="o">:</span> <span class="s">&quot;Repository&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Repository&quot;</span><span class="o">:</span> <span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Hash&quot;</span><span class="o">:</span> <span class="s">&quot;a94ba44cee3ea571e813721e64184172&quot;</span>
+    <span class="p">},</span>
+    <span class="s">&quot;crayon&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s">&quot;Package&quot;</span><span class="o">:</span> <span class="s">&quot;crayon&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Version&quot;</span><span class="o">:</span> <span class="s">&quot;1.4.1&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Source&quot;</span><span class="o">:</span> <span class="s">&quot;Repository&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Repository&quot;</span><span class="o">:</span> <span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Hash&quot;</span><span class="o">:</span> <span class="s">&quot;e75525c55c70e5f4f78c9960a4b402e9&quot;</span>
+    <span class="p">},</span>
+    <span class="s">&quot;data.table&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s">&quot;Package&quot;</span><span class="o">:</span> <span class="s">&quot;data.table&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Version&quot;</span><span class="o">:</span> <span class="s">&quot;1.14.0&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Source&quot;</span><span class="o">:</span> <span class="s">&quot;Repository&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Repository&quot;</span><span class="o">:</span> <span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
+      <span class="s">&quot;Hash&quot;</span><span class="o">:</span> <span class="s">&quot;d1b8b1a821ee564a3515fa6c6d5c52dc&quot;</span>
+    <span class="p">},</span><span class="kc">...</span>
+</code></pre></div>
+
+<p>Le gestionnaire a repéré les packages utilisés dans mon script et a recensé toutes leurs informations utiles ainsi que celles de leurs dépendances : nom, version, source d'installation... Il renseigne aussi les caractéristiques du logiciel R installé sur mon poste. C'est à partir de ce fichier que le gestionnaire va ensuite être capable de vérifier l'adéquation de l'environnement de packages de l'utilisateur et celui enregistré le plus récemment. C'est aussi là qu'il va écrire les références des packages que j'installerai après avoir commencé à travailler sur le poste.  </p>
+<p>À noter que <strong><code>renv</code> peut aussi bien être utilisé au lancement de votre projet qu'au cours de celui-ci</strong>. S'il est utilisé au lancement, vous enregistrerez dans le fichier lock les informations des packages au fur et à mesure de votre utilisation. Si le projet est déjà bien avancé comme dans notre exemple, il va partir d'un fichier lock contenant déjà les références des packages installés et utilisés. </p>
+<h2 id="mettre-a-jour-les-dependances-avec-le-fichier-lock">Mettre à jour les dépendances avec le fichier lock</h2>
+<p>On présente les deux instructions les plus utiles de <code>renv</code> : <code>restore()</code> et <code>snapshot()</code>. C'est elles qui permettent de raccorder l'état de votre environnement de packages en local par rapport à celui qui sera proposé à l'ouverture de votre projet <code>renv</code>. C'est la fonction <code>status()</code> qui permet de vérifier que votre environnement de packages utilisé à un moment T correspond bien à celui enregistré dans le fichier lock.   </p>
+<h3 id="utilisation-de-renvrestore">Utilisation de <code>renv::restore()</code></h3>
+<p>Imaginons que j'ouvre ce même projet sur un autre poste sur lequel <code>data.table</code> n'est pas installé. En ouvrant le projet RStudio je vais avoir un message d'avertissement m'indiquant que mon environnement pourrait ne pas être à jour du projet. Je lance alors <code>renv::status()</code>, qui me renvoie en effet :  </p>
+<p><img alt="Pelican" src="../images/renv/warning_renv.png"><!-- --></p>
+<p>L'absence d'installation de <code>data.table</code> a bien été repérée. Comme suggéré, il suffit de lancer <code>renv::restore()</code> pour que mon environnement de packages soit de nouveau à jour avec celui décrit dans le fichier lock. Il aurait fallu aussi envoyer cette instruction si la version de <code>data.table</code> enregistrée sur votre poste ne correspondait plus à celle enregistrée dans le fichier lock. Cette instruction sert donc à rendre mon environnement de packages en local cohérent avec celui renseigné dans le fichier lock.     </p>
+<h3 id="utilisation-de-renvsnapshot">Utilisation de <code>renv::snapshot()</code></h3>
+<p>Je peux aussi vouloir changer le fichier lock suite à une évolution du code. Imaginons par exemple que je n'utilise plus <code>data.table</code> pour importer mes données mais directement la fonction <code>read.csv()</code>, qui fait partie des fonctions chargées automatiquement au lancement de RStudio. Cette modification des dépendances va être repérée et <code>renv::status()</code> va renvoyer le message suivant :  </p>
+<p><img alt="Pelican" src="../images/renv/warning_renv2.png"><!-- --></p>
+<p>Si au contraire j'avais installé et utilisé un nouveau package, c'est la même instruction qui m'aurait permis d'ajouter ses références au fichier lock. <code>renv::snapshot()</code> permet donc de mettre à jour le fichier lock afin que mes modifications dans l'utilisation des packages soient prises en compte. Avant d'avoir lancé cette instruction, <strong>les modifications dans mon utilisation des packages ne seront pas prises en compte par le gestionnaire de packages</strong>.   </p>
+<h2 id="petite-note-sur-git">Petite note sur git</h2>
+<p>Comme on l'a vu, l'utilisation de <code>renv</code> est particulièrement intéressante dans le cadre d'un travail collaboratif. C'est donc naturellement qu'on l'utilisera avec git. Il est important de noter qu'il n'est pas nécessaire de versionner tout le dossier <code>renv</code>, mais seulement le fichier lock, le script <code>renv/activate.R</code> et le fichier <code>.Rprofile</code> de la personne ayant initialisé le projet. Le reste du dossier <code>renv</code> contient en effet des informations spécifiques à chaque poste, comme les liens vers le cache ayant stocké les packages installés. Pensez à vous <a href="https://rstudio.github.io/renv/articles/collaborating.html">référer à la documentation avant de vous lancer</a>.  </p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Vous l'avez compris, <code>renv</code> est un outil très précieux pour s'assurer que d'autres personnes ou vous-même pourront refaire tourner votre code sans difficultés. Il est sans doute nécessaire, mais pas suffisant : certains packages ont des dépendances externes comme javascript, il faut bien sûr veiller à ce que les données soient accessibles et identiques pour tous et que les scripts ne contiennent pas de paramètres spécifiques à un utilisateur. <br>
+En plus des qualités présentées dans l'article, <code>renv</code> vous permettra aussi de vous rendre compte du nombre de packages sur lequel repose votre projet, qui ne se limitent pas qu'aux packages installés mais aussi à leurs dépendances. Cela peut être une bonne occasion d'essayer de les réduire dans la mesure du possible. Récemment, un frisson a parcouru les quelques milliers de développeurs de packages R dépendant du package <code>lubridate</code> quand ils ont reçu un mail du CRAN leur annonçant que ce dernier risquait d'être supprimé et qu'ils devaient ajuster leurs packages en conséquence. Naturellement, au vu de la popularité de <code>lubridate</code>, cela <a href="https://twitter.com/dvaughan32/status/1445459240718458881">n'arrivera finalement pas</a>, mais c'est un rappel utile de la fragilité relative d'un projet avec de trop nombreuses dépendances.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Gestion des packages sur R avec renv&amp;url=https://blog.statoscop.fr/gestion-des-packages-sur-r-avec-renv.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://blog.statoscop.fr/tag/r.html">R</a><a href="https://blog.statoscop.fr/tag/rstats.html">Rstats</a><a href="https://blog.statoscop.fr/tag/renv.html">renv</a><a href="https://blog.statoscop.fr/tag/packages.html">packages</a><a href="https://blog.statoscop.fr/tag/cran.html">CRAN</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+          <span class="credits-theme">Blog réalisé par les fondateurs de Statoscop et publié avec
+            <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a>
+          </span>
+          <span class="credits-software">
+            Thème <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a>
+          </span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
+
+</body>
+</html>
