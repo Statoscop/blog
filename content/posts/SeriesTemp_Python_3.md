@@ -2,7 +2,7 @@ Title: Les séries temporelles avec Python (3/4) - Éléments théoriques et exe
 Author: Louis
 Date: '2021-06-10'
 Slug: timeseries-3
-Category: Python
+Category: Python, Séries Temporelles
 Tags: Python, Machine Learning, Statistiques, Data Science, Séries temporelles, Datetime
 Cover: images/cover_6.png
 Summary: Éléments théoriques généraux sur les séries temporelles et quelques exemples classiques.

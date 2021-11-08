@@ -2,7 +2,7 @@ Title: Les séries temporelles avec Python (1/4) - Introduction
 Author: Louis
 Date: '2021-05-04'
 Slug: timeseries-1
-Category: Python
+Category: Python, Séries Temporelles
 Tags: Python, Machine Learning, Statistiques, Data Science, Séries temporelles, Datetime
 Cover: images/cover_3.png
 Summary: Introduction à la manipulation de données temporelles avec Python

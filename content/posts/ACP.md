@@ -2,7 +2,7 @@ Title: Analyse en composantes principales avec Python
 Author: Antoine
 Date: '2021-04-16'
 Slug: acp-python
-Category: Python
+Category: Python, Stats & ML
 Tags: Python, Machine Learning, Statistiques, Data Science  
 Cover: images/cover_2.png
 Summary: Présentation et exemples d'utilisation de l'ACP en statistiques et data science.

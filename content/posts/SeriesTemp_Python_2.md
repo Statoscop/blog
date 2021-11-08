@@ -2,7 +2,7 @@ Title: Les séries temporelles avec Python (2/4) - Visualisations et opérations
 Author: Louis
 Date: '2021-05-27'
 Slug: timeseries-2
-Category: Python
+Category: Python, Séries Temporelles
 Tags: Python, Machine Learning, Statistiques, Data Science, Séries temporelles, Datetime
 Cover: images/cover_4.png
 Summary: Quelques opérations sur les séries temporelles, illustré par une petite étude de cas à bicyclette.
