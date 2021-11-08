@@ -1,4 +1,4 @@
-Title: L'abitrage biais/variance dans la modélisation de données   
+Title: L'arbitrage biais/variance dans la modélisation de données   
 Author: Antoine
 Date: '2021-11-08'
 Category: R, Stats & ML
