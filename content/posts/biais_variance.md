@@ -21,7 +21,7 @@ Une manière de jouer sur le biais d'un modèle c'est de modifier sa variance. L
 
 Pour chaque modèle, la courbe du modèle est celle qui apparaît en rouge et on a mis en évidence en vert la projection de chaque point sur sa valeur prédite par le modèle. Voyons comment interpréter ces graphiques :  
   
-- Le 1er modèle est un modèle naïf qui se contente de prédire que pour chaque valeur de `X`, `Y` sera égale à sa moyenne. Par définition donc, sa variance est nulle et sa capacité prédictive faible.  
+- Le premier modèle est un modèle naïf qui se contente de prédire que pour chaque valeur de `X`, `Y` sera égale à sa moyenne. Par définition donc, sa variance est nulle et sa capacité prédictive faible.  
 - Le second modèle est une régression linéaire simple qui a un R2 d'environ 50%. Il a donc une meilleure qualité prédictive que le premier modèle du fait qu'il capte une partie de la variance des données, ici à travers une corrélation positive entre `X` et `Y`.  
 - Le troisième modèle est un modèle polynomial dont on voit qu'il est plus ajusté que le second. Les points prédits (en vert) par la courbe sont en effet plus proche des points que pour le précédent modèle et mécaniquement cela fait augmenter le R2. Le fait d'utiliser un modèle polynomial a donné au modèle une plus grande souplesse ce qui lui a permis de se rapprocher de certains points extrêmes qui étaient éloignés de la droite de régression du second modèle.  
 
