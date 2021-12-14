@@ -1,15 +1,15 @@
-Title: L'arbitrage biais/variance dans la modélisation de données   
+Title: Le dilemme biais variance dans la modélisation de données   
 Author: Antoine
 Date: '2021-11-08'
 Category: R, Stats & ML
 Tags: R, Rstats, data science, statistiques, Machine Learning 
 Cover: images/cover_8.png
 twitter_image: images/cover_8.png
-Summary: Présentation des enjeux théoriques et pratiques de l'arbitrage biais/variance dans la construction d'un modèle de prédiction.
+Summary: Présentation des enjeux théoriques et pratiques de l'arbitrage biais variance dans la construction d'un modèle de prédiction.
 
 [TOC]  
 
-L'arbitrage biais/variance est souvent évoqué pour caractériser les enjeux de la construction d'un modèle de prédiction performant. L'idée de cet article est d'essayer de donner au lecteur les outils théoriques de cette question en essayant de privilégier une approche intuitive et pratique du problème. Après avoir défini ce que sont le biais et la variance, on présente les enjeux de cet arbitrage puis l'application concrète dans le cas de l'entraînement d'un modèle de Machine Learning.
+L'arbitrage biais variance est souvent évoqué pour caractériser les enjeux de la construction d'un modèle de prédiction performant. L'idée de cet article est d'essayer de donner au lecteur les outils théoriques de cette question en essayant de privilégier une approche intuitive et pratique du problème. Après avoir défini ce que sont le biais et la variance, on présente les enjeux de cet arbitrage puis l'application concrète dans le cas de l'entraînement d'un modèle de Machine Learning.
 
 # Que sont le biais et la variance?
 
@@ -28,11 +28,11 @@ Pour chaque modèle, la courbe du modèle est celle qui apparaît en rouge et on
 Ainsi, plus la variance augmente, plus le modèle prédit en moyenne des valeurs proches de leurs vraies valeurs, ce qui fait diminuer le biais, puisqu'il est défini comme l'écart entre notre fonction de prédiction et une fonction qui permettrait de prédire parfaitement les données observées.  
 
 
-# Enjeux de l'arbitrage biais/variance
+# Enjeux de l'arbitrage biais variance
 
 D'après ce qu'on a vu, pourquoi alors ne pas simplement chercher à maximiser la variance pour minimiser le biais, c'est-à-dire son écart aux vraies valeurs? Tout simplement parce que dans le cas de la construction d'un modèle de prédiction, nous modélisons des relations entre des données à partir d'un échantillon pour prédire un résultat sur une nouvelle population. C'est donc la performance de ce modèle sur de nouvelles données qui va nous intéresser. Or, comme vous avez pu le pressentir en observant les graphiques précédents, __un modèle avec une variance très élevée se généralise mal à de nouvelles données__. D'un autre côté, __un modèle avec une faible variance aura lui aussi une qualité prédictive très faible__ car il captera mal une éventuelle relation entre les variables.
 
-Tout le problème de cet arbitrage (ou dilemme) biais-variance est donc de **trouver un modèle qui ait une variance suffisamment forte pour limiter le biais mais suffisamment faible pour qu'il soit généralisable**. Les modèles précédents avaient été entraînés sur une base de données qui était un échantillon aléatoire correspondant à 10% des données d'un échantillon plus important. Pour mesurer la qualité prédictive de ces modèles on les applique donc aux données entières et on calcule l'écart moyen au carré de la prédiction à la vraie valeur, c'est-à-dire l'erreur quadratique moyenne ou en anglais **MSE** pour *Mean Squared Error* :
+Tout le problème de cet arbitrage (ou dilemme) biais variance est donc de **trouver un modèle qui ait une variance suffisamment forte pour limiter le biais mais suffisamment faible pour qu'il soit généralisable**. Les modèles précédents avaient été entraînés sur une base de données qui était un échantillon aléatoire correspondant à 10% des données d'un échantillon plus important. Pour mesurer la qualité prédictive de ces modèles on les applique donc aux données entières et on calcule l'écart moyen au carré de la prédiction à la vraie valeur, c'est-à-dire l'erreur quadratique moyenne ou en anglais **MSE** pour *Mean Squared Error* :
 
 ![Pelican](../images/biais_variance/unnamed-chunk-2-1.png)<!-- -->
 
