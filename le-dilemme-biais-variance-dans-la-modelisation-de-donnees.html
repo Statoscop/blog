@@ -14,7 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="origin" />
   <meta name="generator" content="Pelican" />
-<link href="https://blog.statoscop.fr/larbitrage-biaisvariance-dans-la-modelisation-de-donnees.html" rel="canonical" />
+<link href="https://blog.statoscop.fr/le-dilemme-biais-variance-dans-la-modelisation-de-donnees.html" rel="canonical" />
   <!-- Feed -->
         <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
           <link href="https://blog.statoscop.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
@@ -37,7 +37,7 @@
 
 
 
-    <meta name="description" content="Présentation des enjeux théoriques et pratiques de l'arbitrage biais/variance dans la construction d'un modèle de prédiction.">
+    <meta name="description" content="Présentation des enjeux théoriques et pratiques de l'arbitrage biais variance dans la construction d'un modèle de prédiction.">
 
     <meta name="author" content="Antoine">
 
@@ -52,10 +52,10 @@
 
 <!-- Open Graph -->
 <meta property="og:site_name" content="Le blog"/>
-<meta property="og:title" content="L'arbitrage biais/variance dans la modélisation de données"/>
-<meta property="og:description" content="Présentation des enjeux théoriques et pratiques de l'arbitrage biais/variance dans la construction d'un modèle de prédiction."/>
+<meta property="og:title" content="Le dilemme biais variance dans la modélisation de données"/>
+<meta property="og:description" content="Présentation des enjeux théoriques et pratiques de l'arbitrage biais variance dans la construction d'un modèle de prédiction."/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="https://blog.statoscop.fr/larbitrage-biaisvariance-dans-la-modelisation-de-donnees.html"/>
+<meta property="og:url" content="https://blog.statoscop.fr/le-dilemme-biais-variance-dans-la-modelisation-de-donnees.html"/>
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2021-11-08 00:00:00+01:00"/>
 <meta property="article:modified_time" content=""/>
@@ -74,8 +74,8 @@
 {
   "@context": "http://schema.org",
   "@type": "Article",
-  "name": "L'arbitrage biais/variance dans la modélisation de données",
-  "headline": "L'arbitrage biais/variance dans la modélisation de données",
+  "name": "Le dilemme biais variance dans la modélisation de données",
+  "headline": "Le dilemme biais variance dans la modélisation de données",
   "datePublished": "2021-11-08 00:00:00+01:00",
   "dateModified": "",
   "author": {
@@ -84,8 +84,8 @@
     "url": "https://blog.statoscop.fr/author/antoine.html"
   },
   "image": "https://blog.statoscop.fr/images/cover_8.png",
-  "url": "https://blog.statoscop.fr/larbitrage-biaisvariance-dans-la-modelisation-de-donnees.html",
-  "description": "Présentation des enjeux théoriques et pratiques de l'arbitrage biais/variance dans la construction d'un modèle de prédiction."
+  "url": "https://blog.statoscop.fr/le-dilemme-biais-variance-dans-la-modelisation-de-donnees.html",
+  "description": "Présentation des enjeux théoriques et pratiques de l'arbitrage biais variance dans la construction d'un modèle de prédiction."
 }
 </script>
 </head>
@@ -138,7 +138,7 @@
 
 
             <section class="post-content">
-              <h1 class="post-title">L'arbitrage biais/variance dans la modélisation de données</h1>
+              <h1 class="post-title">Le dilemme biais variance dans la modélisation de données</h1>
                 <!-- Le titres et meta infos-->
                 <span class="post-meta">
                         <a href="https://blog.statoscop.fr/author/antoine.html">Antoine</a>
@@ -150,7 +150,7 @@
                 
                 <div class="toc"><span class="toctitle">Table des matières</span><ul>
 <li><a href="#que-sont-le-biais-et-la-variance">Que sont le biais et la variance?</a></li>
-<li><a href="#enjeux-de-larbitrage-biaisvariance">Enjeux de l'arbitrage biais/variance</a></li>
+<li><a href="#enjeux-de-larbitrage-biais-variance">Enjeux de l'arbitrage biais variance</a></li>
 <li><a href="#liens-avec-loverfitting-et-lunderfitting-dans-les-modeles-de-machine-learning">Liens avec l'overfitting et l'underfitting dans les modèles de Machine Learning</a><ul>
 <li><a href="#appelons-un-chat-un-chat">Appelons un chat un chat</a></li>
 <li><a href="#courbe-dapprentissage-dun-modele">Courbe d'apprentissage d'un modèle</a></li>
@@ -159,7 +159,7 @@
 <li><a href="#conclusion">Conclusion</a></li>
 </ul>
 </div>
-<p>L'arbitrage biais/variance est souvent évoqué pour caractériser les enjeux de la construction d'un modèle de prédiction performant. L'idée de cet article est d'essayer de donner au lecteur les outils théoriques de cette question en essayant de privilégier une approche intuitive et pratique du problème. Après avoir défini ce que sont le biais et la variance, on présente les enjeux de cet arbitrage puis l'application concrète dans le cas de l'entraînement d'un modèle de Machine Learning.</p>
+<p>L'arbitrage biais variance est souvent évoqué pour caractériser les enjeux de la construction d'un modèle de prédiction performant. L'idée de cet article est d'essayer de donner au lecteur les outils théoriques de cette question en essayant de privilégier une approche intuitive et pratique du problème. Après avoir défini ce que sont le biais et la variance, on présente les enjeux de cet arbitrage puis l'application concrète dans le cas de l'entraînement d'un modèle de Machine Learning.</p>
 <h1 id="que-sont-le-biais-et-la-variance">Que sont le biais et la variance?</h1>
 <p>Pour expliquer le plus simplement possible ces concepts, on se place dans le contexte de l'observation de deux variables <code>Y</code> et <code>X</code>. Dans le cas d'une modélisation d'une relation entre <code>X</code> et <code>Y</code>, le biais d'un estimateur est son écart avec sa "vraie" valeur si on observait parfaitement la relation entre ces variables. On entend donc le biais comme <strong>l'écart entre la fonction modélisée et la fonction théorique</strong> qui permettrait de restituer le lien entre <code>X</code> et <code>Y</code>. </p>
 <p>Une manière de jouer sur le biais d'un modèle c'est de modifier sa variance. La variance est une mesure de dispersion de valeurs, qui donne une estimation de l'écart de celles-ci à leur moyenne. La variance d'un modèle estime <strong>à quel point celui-ci fluctue autour de sa moyenne pour coller aux données</strong>. Une mesure utilisée couramment dans le cas des régressions linéaires est le coefficient de détermination R2. Celui-ci calcule <strong>la part de la variance des données expliquée par la variance du modèle</strong>. Autrement dit, plus mon modèle sera proche des points de mes données, plus sa variance et donc le R2 seront élevés. Pour illustrer ce concept, on présente plusieurs modèles appliqués au même jeu de données avec une variance plus ou moins élevée :</p>
@@ -171,9 +171,9 @@
 <li>Le troisième modèle est un modèle polynomial dont on voit qu'il est plus ajusté que le second. Les points prédits (en vert) par la courbe sont en effet plus proche des points que pour le précédent modèle et mécaniquement cela fait augmenter le R2. Le fait d'utiliser un modèle polynomial a donné au modèle une plus grande souplesse ce qui lui a permis de se rapprocher de certains points extrêmes qui étaient éloignés de la droite de régression du second modèle.  </li>
 </ul>
 <p>Ainsi, plus la variance augmente, plus le modèle prédit en moyenne des valeurs proches de leurs vraies valeurs, ce qui fait diminuer le biais, puisqu'il est défini comme l'écart entre notre fonction de prédiction et une fonction qui permettrait de prédire parfaitement les données observées.  </p>
-<h1 id="enjeux-de-larbitrage-biaisvariance">Enjeux de l'arbitrage biais/variance</h1>
+<h1 id="enjeux-de-larbitrage-biais-variance">Enjeux de l'arbitrage biais variance</h1>
 <p>D'après ce qu'on a vu, pourquoi alors ne pas simplement chercher à maximiser la variance pour minimiser le biais, c'est-à-dire son écart aux vraies valeurs? Tout simplement parce que dans le cas de la construction d'un modèle de prédiction, nous modélisons des relations entre des données à partir d'un échantillon pour prédire un résultat sur une nouvelle population. C'est donc la performance de ce modèle sur de nouvelles données qui va nous intéresser. Or, comme vous avez pu le pressentir en observant les graphiques précédents, <strong>un modèle avec une variance très élevée se généralise mal à de nouvelles données</strong>. D'un autre côté, <strong>un modèle avec une faible variance aura lui aussi une qualité prédictive très faible</strong> car il captera mal une éventuelle relation entre les variables.</p>
-<p>Tout le problème de cet arbitrage (ou dilemme) biais-variance est donc de <strong>trouver un modèle qui ait une variance suffisamment forte pour limiter le biais mais suffisamment faible pour qu'il soit généralisable</strong>. Les modèles précédents avaient été entraînés sur une base de données qui était un échantillon aléatoire correspondant à 10% des données d'un échantillon plus important. Pour mesurer la qualité prédictive de ces modèles on les applique donc aux données entières et on calcule l'écart moyen au carré de la prédiction à la vraie valeur, c'est-à-dire l'erreur quadratique moyenne ou en anglais <strong>MSE</strong> pour <em>Mean Squared Error</em> :</p>
+<p>Tout le problème de cet arbitrage (ou dilemme) biais variance est donc de <strong>trouver un modèle qui ait une variance suffisamment forte pour limiter le biais mais suffisamment faible pour qu'il soit généralisable</strong>. Les modèles précédents avaient été entraînés sur une base de données qui était un échantillon aléatoire correspondant à 10% des données d'un échantillon plus important. Pour mesurer la qualité prédictive de ces modèles on les applique donc aux données entières et on calcule l'écart moyen au carré de la prédiction à la vraie valeur, c'est-à-dire l'erreur quadratique moyenne ou en anglais <strong>MSE</strong> pour <em>Mean Squared Error</em> :</p>
 <p><img alt="Pelican" src="../images/biais_variance/unnamed-chunk-2-1.png"><!-- --></p>
 <p>On constate que, comme attendu, le modèle avec le plus de variance se généralise mal à des données non connues et présente une erreur de prédiction supérieure à celle du modèle linéaire simple. En effet, les variations de la courbe polynomiale qui lui permettait de coller au plus près des données sur lesquelles elle a été construite entraîne beaucoup de prédictions très éloignées de la vraie valeur des nouvelles données.<br>
 L'erreur attendue d'un modèle de prédiction sur des données sur lesquelles il ne s'est pas entraîné peut en effet se décomposer en <strong>la somme du biais au carré et de la variance de ce modèle, c'est la décomposition biais-variance de l'erreur quadratique</strong>. Si vous préférez vous en convaincre avec la formule et la démonstration mathématique, vous pouvez vous référer à <a href="https://fr.wikipedia.org/wiki/Dilemme_biais-variance#Décomposition_biais-variance_de_l'erreur_quadratique">la page wikipédia qui en parle</a>. Comme le biais diminue avec la variance, il faut donc trouver un niveau de complexité du modèle qui permette à la fois de minimiser l'écart à la vraie valeur (faible biais en augmentant la variance) et d'être généralisable en dehors de son échantillon d'entraînement (faible variance).</p>
@@ -193,7 +193,7 @@ Il me reste à remercier <a href="https://twitter.com/EParoissien">Emmanuel Paro
 
             <section class="post-info">
                 <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=L'arbitrage biais/variance dans la modélisation de données&amp;url=https://blog.statoscop.fr/larbitrage-biaisvariance-dans-la-modelisation-de-donnees.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <a class="twitter" href="https://twitter.com/share?text=Le dilemme biais variance dans la modélisation de données&amp;url=https://blog.statoscop.fr/le-dilemme-biais-variance-dans-la-modelisation-de-donnees.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
                     <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
                     </a>
                     <div class="clear"></div>
