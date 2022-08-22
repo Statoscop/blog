@@ -11,7 +11,7 @@ Summary: Réalisation et mise en forme d'un graphique en colonnes avec ggplot2.
 
 Dans cette note nous proposons un petit cas pratique pour illustrer la mise en forme d'un graphique en colonnes, ou barplot, avec le package R `ggplot2`. On s'appuie pour cela sur les données de la [fondation Gapminder](https://www.gapminder.org/) en s'intéressant à la part des dépenses de santé financées par l'Etat dans les 30 pays les plus peuplés au monde.  
 
-# Créer notre premier graphe avec geom_col    
+# Créer notre premier graphique avec geom_col    
 
 Notre objectif dans cet exemple est d'afficher le taux de dépenses de santé financées par l'État pour chaque pays présent dans la base. Ce barplot se réalise avec `ggplot2` à l'aide de `geom_col`. En effet, nous voulons représenter la valeur d'une variable (ce taux de dépenses) pour chaque modalité donnée d'une variable catégorielle (le pays). Si nous avions voulu représenter le nombre de fois où une variable catégorielle apparaît dans la base, nous aurions utilisé `geom_bar`.  
 Avec ces éléments, le premier graphique qui nous viendrait à l'esprit en utilisant `ggplot2` serait le suivant :  
