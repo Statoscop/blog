@@ -5,8 +5,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/</loc>
-<lastmod>2022-03-18T11:55:35-00:00</lastmod>
+<lastmod>2022-08-22T11:05:07-00:00</lastmod>
 <changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/ggplot2-mise-en-forme-dun-barplot.html</loc>
+<lastmod>2022-08-22T00:00:00+02:00</lastmod>
+<changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
@@ -82,7 +89,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/category/r.html</loc>
-<lastmod>2021-11-08T00:00:00+00:09</lastmod>
+<lastmod>2022-08-22T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -97,6 +104,41 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://blog.statoscop.fr/category/stats-ml.html</loc>
 <lastmod>2022-03-04T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/r.html</loc>
+<lastmod>2022-08-22T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/ggplot2.html</loc>
+<lastmod>2022-08-22T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/dataviz.html</loc>
+<lastmod>2022-08-22T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/graphiques.html</loc>
+<lastmod>2022-08-22T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/barplot.html</loc>
+<lastmod>2022-08-22T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -125,13 +167,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://blog.statoscop.fr/tag/probabilites.html</loc>
 <lastmod>2022-03-04T00:00:00+00:09</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://blog.statoscop.fr/tag/r.html</loc>
-<lastmod>2021-11-08T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -236,7 +271,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/author/antoine.html</loc>
-<lastmod>2022-03-04T00:00:00+00:09</lastmod>
+<lastmod>2022-08-22T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
