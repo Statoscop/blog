@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog - R</title><link href="https://blog.statoscop.fr/" rel="alternate"></link><link href="https://blog.statoscop.fr/feeds/r.atom.xml" rel="self"></link><id>https://blog.statoscop.fr/</id><updated>2022-08-22T00:00:00+02:00</updated><entry><title>Ggplot2 : mise en forme d'un barplot</title><link href="https://blog.statoscop.fr/ggplot2-mise-en-forme-dun-barplot.html" rel="alternate"></link><published>2022-08-22T00:00:00+02:00</published><updated>2022-08-22T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2022-08-22:/ggplot2-mise-en-forme-dun-barplot.html</id><summary type="html">&lt;p&gt;Réalisation et mise en forme d'un graphique en colonnes avec ggplot2.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href="#creer-notre-premier-graphe-avec-geom_col"&gt;Créer notre premier graphe avec geom_col&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#creer-notre-premier-graphique-avec-geom_col"&gt;Créer notre premier graphique avec geom_col&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#mettre-en-forme-le-graphique"&gt;Mettre en forme le graphique&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#ordonner-laffichage-en-fonction-de-la-valeur-de-la-variable-dinteret"&gt;Ordonner l'affichage en fonction de la valeur de la variable d'intérêt&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#mise-en-forme-des-axes"&gt;Mise en forme des axes&lt;/a&gt;&lt;/li&gt;
@@ -10,7 +10,7 @@
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;p&gt;Dans cette note nous proposons un petit cas pratique pour illustrer la mise en forme d'un graphique en colonnes, ou barplot, avec le package R &lt;code&gt;ggplot2&lt;/code&gt;. On s'appuie pour cela sur les données de la &lt;a href="https://www.gapminder.org/"&gt;fondation Gapminder&lt;/a&gt; en s'intéressant à la part des dépenses de santé financées par l'Etat dans les 30 pays les plus peuplés au monde.  &lt;/p&gt;
-&lt;h1 id="creer-notre-premier-graphe-avec-geom_col"&gt;Créer notre premier graphe avec geom_col&lt;/h1&gt;
+&lt;h1 id="creer-notre-premier-graphique-avec-geom_col"&gt;Créer notre premier graphique avec geom_col&lt;/h1&gt;
 &lt;p&gt;Notre objectif dans cet exemple est d'afficher le taux de dépenses de santé financées par l'État pour chaque pays présent dans la base. Ce barplot se réalise avec &lt;code&gt;ggplot2&lt;/code&gt; à l'aide de &lt;code&gt;geom_col&lt;/code&gt;. En effet, nous voulons représenter la valeur d'une variable (ce taux de dépenses) pour chaque modalité donnée d'une variable catégorielle (le pays). Si nous avions voulu représenter le nombre de fois où une variable catégorielle apparaît dans la base, nous aurions utilisé &lt;code&gt;geom_bar&lt;/code&gt;.&lt;br&gt;
 Avec ces éléments, le premier graphique qui nous viendrait à l'esprit en utilisant &lt;code&gt;ggplot2&lt;/code&gt; serait le suivant :  &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;df_health&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 

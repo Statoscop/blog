@@ -149,7 +149,7 @@
 -->
                 
                 <div class="toc"><span class="toctitle">Table des matières</span><ul>
-<li><a href="#creer-notre-premier-graphe-avec-geom_col">Créer notre premier graphe avec geom_col</a></li>
+<li><a href="#creer-notre-premier-graphique-avec-geom_col">Créer notre premier graphique avec geom_col</a></li>
 <li><a href="#mettre-en-forme-le-graphique">Mettre en forme le graphique</a><ul>
 <li><a href="#ordonner-laffichage-en-fonction-de-la-valeur-de-la-variable-dinteret">Ordonner l'affichage en fonction de la valeur de la variable d'intérêt</a></li>
 <li><a href="#mise-en-forme-des-axes">Mise en forme des axes</a></li>
@@ -159,7 +159,7 @@
 </ul>
 </div>
 <p>Dans cette note nous proposons un petit cas pratique pour illustrer la mise en forme d'un graphique en colonnes, ou barplot, avec le package R <code>ggplot2</code>. On s'appuie pour cela sur les données de la <a href="https://www.gapminder.org/">fondation Gapminder</a> en s'intéressant à la part des dépenses de santé financées par l'Etat dans les 30 pays les plus peuplés au monde.  </p>
-<h1 id="creer-notre-premier-graphe-avec-geom_col">Créer notre premier graphe avec geom_col</h1>
+<h1 id="creer-notre-premier-graphique-avec-geom_col">Créer notre premier graphique avec geom_col</h1>
 <p>Notre objectif dans cet exemple est d'afficher le taux de dépenses de santé financées par l'État pour chaque pays présent dans la base. Ce barplot se réalise avec <code>ggplot2</code> à l'aide de <code>geom_col</code>. En effet, nous voulons représenter la valeur d'une variable (ce taux de dépenses) pour chaque modalité donnée d'une variable catégorielle (le pays). Si nous avions voulu représenter le nombre de fois où une variable catégorielle apparaît dans la base, nous aurions utilisé <code>geom_bar</code>.<br>
 Avec ces éléments, le premier graphique qui nous viendrait à l'esprit en utilisant <code>ggplot2</code> serait le suivant :  </p>
 <div class="highlight"><pre><span></span><code><span class="n">df_health</span> <span class="o">%&gt;%</span> 
