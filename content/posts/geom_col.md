@@ -96,7 +96,7 @@ plot_health  +
 
 ## Utilisation d'un thème
 
-Pour l'affichage graphique il est possible de régler chaque élément du graphique comme on le souhaite. Le plus facile reste cependant d'utiliser les nombreux thèmes existants disponibles, par défaut dans `ggplot2` ou en installant d'autres packages, comme `ggthemes`. Pour les utiliser il suffit d'ajouter l'instruction `+ theme_*()` à la suite de votre plot. Le thème par défaut dans ggplot2 est `theme_gray`. On vous présente le résultat donné par `theme_economist`, disponible dans la librairie `ggthemes`, qui reprend la charte graphique du magasine _The Economist_. On ajuste également la taille des labels à ce nouveau thème.  
+Pour l'affichage graphique il est possible de régler chaque élément du graphique comme on le souhaite. Le plus facile reste cependant d'utiliser les nombreux thèmes existants disponibles, par défaut dans `ggplot2` ou en installant d'autres packages, comme `ggthemes`. Pour les utiliser il suffit d'ajouter l'instruction `+ theme_*()` à la suite de votre plot. Le thème par défaut dans ggplot2 est `theme_gray`. On vous présente le résultat donné par `theme_economist`, disponible dans la librairie `ggthemes`, qui reprend la charte graphique du magazine _The Economist_. On ajuste également la taille des labels à ce nouveau thème.  
 
 
 ```r
