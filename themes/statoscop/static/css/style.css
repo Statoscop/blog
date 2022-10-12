@@ -760,15 +760,16 @@ table th,
 table td {
     position: relative;
     padding: 0.5em;
-    line-height: 0.95em;
+    line-height: 1.5em;
     text-align: left;
+    font-size: 0.6em;
     border: 1px solid #e5e4e1
 }
 
 table th {
     font-family: 'Fira Sans', sans-serif;
     font-weight: 500;
-    font-size: 0.75em;
+    font-size: 0.6em;
     line-height: 1.25em;
     padding: 0.666em;
     color: #000
