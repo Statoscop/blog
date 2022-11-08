@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Le blog de Statoscop - études de cas en R et Python</title>
+  <link rel="icon" type="image/x-icon" href="https://blog.statoscop.fr/themes/statoscop/static/images/favicon-v1.ico" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://blog.statoscop.fr/migration-de-sas-vers-r.html" rel="canonical" />
+  <!-- Feed -->
+        <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
+          <link href="https://blog.statoscop.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
+
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://blog.statoscop.fr/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Quelques conseils pour réussir sa transition de SAS vers R">
+
+    <meta name="author" content="Antoine">
+
+    <meta name="tags" content="R">
+    <meta name="tags" content="SAS">
+    <meta name="tags" content="recodage">
+    <meta name="tags" content="migration">
+    <meta name="tags" content="codes">
+    <meta name="tags" content="scripts">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="Migration de SAS vers R"/>
+<meta property="og:description" content="Quelques conseils pour réussir sa transition de SAS vers R"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.statoscop.fr/migration-de-sas-vers-r.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2022-11-08 00:00:00+01:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://blog.statoscop.fr/author/antoine.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="R"/>
+<meta property="article:tag" content="SAS"/>
+<meta property="article:tag" content="recodage"/>
+<meta property="article:tag" content="migration"/>
+<meta property="article:tag" content="codes"/>
+<meta property="article:tag" content="scripts"/>
+<meta property="og:image" content="https://blog.statoscop.fr/images/cover_12.png">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Migration de SAS vers R",
+  "headline": "Migration de SAS vers R",
+  "datePublished": "2022-11-08 00:00:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Antoine",
+    "url": "https://blog.statoscop.fr/author/antoine.html"
+  },
+  "image": "https://blog.statoscop.fr/images/cover_12.png",
+  "url": "https://blog.statoscop.fr/migration-de-sas-vers-r.html",
+  "description": "Quelques conseils pour réussir sa transition de SAS vers R"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header">
+      <div class="inner">
+        <nav id="navigation">
+          <span class="blog-logo">
+            <a href="https://statoscop.fr"><img src="https://blog.statoscop.fr/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Blog Logo" /></a>
+          </span>
+          <span id="menu-button" class="nav-button">
+            <a href="https://blog.statoscop.fr">Retour à l'accueil du blog</a>
+          </span>
+        </nav>
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+      
+      <div>
+      </div>
+
+      <article class="post">
+        <div class="inner">
+
+
+
+
+            <section class="post-content">
+              <h1 class="post-title">Migration de SAS vers R</h1>
+                <!-- Le titres et meta infos-->
+                <span class="post-meta">
+                        <a href="https://blog.statoscop.fr/author/antoine.html">Antoine</a>
+                    | <time datetime="mar. 08 novembre 2022">mar. 08 novembre 2022</time>
+                </span>
+
+                <!--Table des matieres
+-->
+                
+                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+<li><a href="#options-de-recodage-en-r">Options de recodage en R</a><ul>
+<li><a href="#base-r">Base R</a></li>
+<li><a href="#tidyverse">Tidyverse</a></li>
+<li><a href="#datatable">data.table</a></li>
+<li><a href="#notre-conseil">Notre conseil</a></li>
+</ul>
+</li>
+<li><a href="#organisation-du-travail-de-recodage-en-r">Organisation du travail de recodage en R</a><ul>
+<li><a href="#les-projets-rstudio">Les projets RStudio</a></li>
+<li><a href="#renv-pour-gerer-les-packages">Renv pour gérer les packages</a></li>
+<li><a href="#git-ou-un-autre-logiciel-de-gestion-de-versions">Git ou un autre logiciel de gestion de versions</a></li>
+</ul>
+</li>
+<li><a href="#accompagnement-de-la-migration-de-sas-vers-r">Accompagnement de la migration de SAS vers R</a><ul>
+<li><a href="#en-interne">En interne</a></li>
+<li><a href="#avec-un-prestataire">Avec un prestataire</a></li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+<p>L'utilisation du logiciel d'analyses statistiques SAS est encore assez ancrée dans certaines administrations publiques et grandes entreprises, malgré la concurrence de deux logiciels open-source offrant des performances souvent supérieures : R et Python. La <strong>migration vers un nouveau langage</strong> présente un certain nombre de difficultés, mais le jeu en vaut la chandelle! Nous proposons dans cet article quelques recommandations pour recoder ses scripts SAS en R et assurer une <strong>transition vers l'open-source</strong> la plus simple possible.  </p>
+<h1 id="options-de-recodage-en-r">Options de recodage en R</h1>
+<p>Une des difficultés de R est aussi une de ses forces : le grand nombre de possibilités qui s'offrent à vous pour coder. Le CRAN (pour <em>Comprehensive R Archive Network</em>) comprend un nombre impressionnant de packages (+ de 18000!). Dans ces conditions, il est important de se mettre d'accord a minima sur l'orientation que vous souhaitez prendre, afin d'assurer une certaine homogénéité entre les différents membres de vos équipes. Ces <em>règles</em> peuvent bien sûr varier d'une équipe à l'autre, en fonction de ses besoins spécifiques. On présente ici trois des options les plus couramment utilisées en statistiques : base R, le tidyverse et data.table. On ne rentre pas dans le détail de la syntaxe de chacune de ces options mais vous pouvez approfondir cet aspect en lisant notre <a href="https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html">article qui compare les performances de ces trois options</a>.  </p>
+<h2 id="base-r">Base R</h2>
+<p>Base R désigne toutes les fonctions natives de R, qui sont chargées par défaut au lancement du logiciel. Pour l'analyse de données, on s'appuiera notamment sur le format <code>data.frame</code>. L'utilisation exclusive de base R aurait l'avantage de ne pas faire dépendre votre code d'autres packages et donc de lui assurer une certaine stabilité. Cependant, pour l'analyse de données, la syntaxe sera vite verbeuse et peu lisible pour des non initiés. De plus, pour des traitements de données plus complexes, vous ne trouverez pas forcément ce qu'il vous faut dans ce que propose base R. Enfin, cette option est souvent <a href="https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html">bien moins performante</a> en termes de vitesse d'exécution que les deux que nous vous présentons ensuite.  </p>
+<h2 id="tidyverse">Tidyverse</h2>
+<p>Le tidyverse est un <a href="https://www.tidyverse.org/">ensemble de packages</a> destinés au traitement de données, du nettoyage à l'analyse et la datavisualisation. En particulier, le package <code>dplyr</code> propose des fonctions de haut niveau couvrant la très grande majorité des besoins lors de la manipulation des données. Ces fonctions, chaînées avec l'opérateur <em>pipe</em> (<code>%&gt;%</code> du package <code>magritr</code> ou <code>|&gt;</code> de base R depuis la version 4.1.0), offrent un <strong>code très lisible et intuitif</strong> à écrire. Enfin, elles sont optimisées et offrent de <a href="https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html">bonnes performances</a>. L'inconvénient du tidyverse est sans doute qu'il concerne beaucoup de packages qui ont chacun également un certain nombre de dépendances à d'autres packages. Cependant, le fait qu'il soit maintenu par les équipes de RStudio (la société s'appelle <a href="https://posit.co/">Posit</a> depuis peu) est de nature à rassurer sur la stabilité de cette solution. En général on ne recommande de toute façon pas de charger l'ensemble du tidyverse mais seulement les packages que vous utilisez.  </p>
+<h2 id="datatable">data.table</h2>
+<p>Des trois options, <code>data.table</code> est <a href="https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html">la plus performante</a>. Ce package utilise un format concurrent du <code>data.frame</code> de base R, le <code>data.table</code>, qui optimise la vitesse d'exécution des instructions. Ce package a aussi l'avantage de ne dépendre d'aucun autre package. En contrepartie, il offre une syntaxe sans doute moins lisible pour les non-initiés, en particulier pour des opérations plus complexes.  </p>
+<h2 id="notre-conseil">Notre conseil</h2>
+<p>Dans la majorité des cas, le <code>tidyverse</code> et en particulier <strong><code>dplyr</code> sera le choix le plus adapté</strong>. Pour des utilisateurs de SAS, en particulier pour ceux connaissant un peu de SQL, les fonctions à utiliser seront plus intuitives. Cette option bénéficie en outre d'une communauté d'utilisateurs très importante permettant de trouver facilement des réponses en ligne aux problèmes que vous pourrez rencontrer. De plus, la vitesse d'exécution sera souvent au moins aussi bonne que celle de SAS. Si l'activité concernée par le recodage a un gros enjeu de temps d'exécution et moins de lisibilité du code, c'est sans doute vers <code>data.table</code> qu'il sera intéressant de se tourner. Il peut aussi être possible de choisir le meilleur des deux mondes avec le package <a href="https://dtplyr.tidyverse.org/">dtplyr</a>, combinant la syntaxe de dplyr aux fonctions de data.table. Enfin, il va de soi qu'une certaine souplesse est de mise pour pouvoir utiliser les fonctions de base R quand elles n'ont pas d'équivalent dans l'écosystème choisi, ainsi que d'autres packages pour des besoins spécifiques.  </p>
+<h1 id="organisation-du-travail-de-recodage-en-r">Organisation du travail de recodage en R</h1>
+<p>Une fois que vous avez choisi comment vous souhaitez coder en R, vous pouvez spécifier vos recommandations dans un document <strong>listant les bonnes pratiques</strong> de codage en R. Cela pourra servir à encadrer et accompagner le travail des développeurs R et uniformiser autant que possible les différentes manières de coder. En plus de cela, nous recommandons quelques outils simples à adopter pour tirer le meilleur de l'éco-système R.    </p>
+<h2 id="les-projets-rstudio">Les projets RStudio</h2>
+<p>Les <a href="https://support.rstudio.com/hc/en-us/articles/200526207-Using-RStudio-Projects">projets RStudio</a> sont des fichiers associés à un dossier de travail que vous aurez créés. Ils permettent de spécifier les chemins vers vos données ou vers le dossier des sorties que vous voulez créer de manière <strong>relative à ce dossier parent</strong>. Leur utilisation permet de bannir de vos scripts l'utilisation de chemins spécifiques à votre machine. Ainsi, on remplacera avantageusement l'appel du chemin <code>C://Users/antoine/Documents/Mon_projet/data/ma_base.csv</code> par <code>data/ma_base.csv</code> dans les scripts.  C'est donc <strong>un premier pas</strong> vers la création d'un dossier de travail contenant des scripts réutilisables en l'état par vos collègues, que ce soit ceux qui travaillent dans votre équipe ou ceux qui vous succéderont.  </p>
+<h2 id="renv-pour-gerer-les-packages">Renv pour gérer les packages</h2>
+<p>Renv est un gestionnaire de packages R, dont nous parlons déjà dans <a href="https://blog.statoscop.fr/gestion-des-packages-sur-r-avec-renv.html">cet article</a>. Il vous permet de choisir un <strong>environnement stable de packages</strong> sur un projet donné. En particulier, il vous assure à un moment T que toute une équipe sur un même projet travaille bien avec les mêmes packages et les mêmes versions de ceux-ci. Il vous permet aussi de pouvoir refaire tourner un code avec le même système de packages qu'au moment où il a été créé. C'est donc un autre élément essentiel de la reproductibilité et de la stabilité de vos projets, en particulier si on l'utilise avec un logiciel de gestion de versions...  </p>
+<h2 id="git-ou-un-autre-logiciel-de-gestion-de-versions">Git ou un autre logiciel de gestion de versions</h2>
+<p>Même si ça n'est pas spécifique à R, il est important de profiter de cette migration pour adopter l'utilisation d'un logiciel de gestion de versions si cela n'est pas déjà fait. <a href="https://githowto.com/">Git</a> est sans doute le plus utilisé aujourd'hui. Il permet de tracer les modifications de votre code pas-à-pas, de revenir à une version antérieure de votre projet sans difficultés, de partager en temps réel avec votre équipe les modifications du code, de gérer aussi simplement que possible des modifications simultanées sur un même projet, et bien d'autres choses encore... La prise en main de Git peut prendre un peu de temps car cela n'est pas forcément intuitif pour qui n'est pas habitué à la gestion de versions mais c'est sans aucun doute absolument nécessaire pour assurer une bonne gestion de vos projets.    </p>
+<h1 id="accompagnement-de-la-migration-de-sas-vers-r">Accompagnement de la migration de SAS vers R</h1>
+<p>Enfin, un aspect important de la migration vers un nouveau langage est la <strong>gestion de la transition</strong> entre les deux. Que celle-ci soit prise en main en interne ou par un prestataire, il est indispensable de former les équipes en place et de libérer du temps de travail pour accompagner cette transition.  </p>
+<h2 id="en-interne">En interne</h2>
+<p>L'avantage de gérer la migration vers R en interne est qu'elle associe forcément à ce processus les équipes en place. L'inconvénient évident est qu'il est alors indispensable de libérer beaucoup de temps du travail effectif à consacrer à cette tâche. Il est très important en amont de se mettre d'accord sur les points évoqués plus haut afin d'établir une sorte de <em>charte</em> du code qui assurera un minimum de cohérence au sein des équipes. Enfin, il est évidemment indispensable d'accompagner chacun des membres des équipes en fonction de leur familiarité avec le nouveau langage. L'idéal est de proposer des <strong>formations sur mesure</strong> correspondant aux problématiques métier de chacun.  </p>
+<h2 id="avec-un-prestataire">Avec un prestataire</h2>
+<p>Si vous faites appel à un prestataire, cela ne signifie pas pour autant que vous ne devrez pas libérer du temps de vos équipes pour la migration. On recommande en effet des échanges étroits et réguliers avec le prestataire, et plusieurs livraisons à intervalles réguliers plutôt qu'une seule à la fin du travail. Ceci doit permettre de s'assurer d'une part que le prestataire ne va pas dans une mauvaise direction et d'autre part que le code apparaît lisible et compréhensible pour les chargés d'étude. C'est aussi l'occasion pour ces derniers de se former et d'échanger avec le prestataire sur ces choix lors du recodage. Il est aussi possible de faire appel à un prestataire simplement pour encadrer votre équipe dans le travail de recodage, optimiser le code à certains points bloquants, faire un audit du travail réalisé...</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Quitter SAS et aller vers R, ou un autre logiciel, c'est donc du travail et cela nécessite d'investir du temps et des moyens. Mais c'est aussi se libérer d'une <strong>licence beaucoup trop chère</strong>, et s'ouvrir les portes de nouvelles possibilités. Pourquoi ne pas en profiter pour <strong>automatiser vos rapports</strong> et vos publications avec <a href="https://rmarkdown.rstudio.com/">R Markdown</a>? Et si vous vous lanciez dans le développement d'une petite <a href="https://shiny.rstudio.com/gallery/">application interactive R Shiny</a> pour mettre en valeur vos résultats les plus marquants? <br>
+Quoiqu'il en soit, si cet article vous a donné envie d'aller plus loin, vous pouvez <a href="https://www.statoscop.fr/contact">nous contacter sur le site de Statoscop</a> pour discuter des prochaines étapes!  </p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Migration de SAS vers R&amp;url=https://blog.statoscop.fr/migration-de-sas-vers-r.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://blog.statoscop.fr/tag/r.html">R</a><a href="https://blog.statoscop.fr/tag/sas.html">SAS</a><a href="https://blog.statoscop.fr/tag/recodage.html">recodage</a><a href="https://blog.statoscop.fr/tag/migration.html">migration</a><a href="https://blog.statoscop.fr/tag/codes.html">codes</a><a href="https://blog.statoscop.fr/tag/scripts.html">scripts</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+          <span class="credits-theme">Blog réalisé par les fondateurs de Statoscop et publié avec
+            <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a>
+          </span>
+          <span class="credits-software">
+            Thème <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a>
+          </span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
+
+</body>
+</html>
