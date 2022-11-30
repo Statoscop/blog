@@ -270,7 +270,7 @@ titanic.iloc[0:3, :]
 
 
 
-On note que l'écriture `a:b` sélectionne les lignes de la position `a inclue` à la position `b exclue`. Les index négatifs partent de la fin de la base, ainsi l'index `-1` correspond à la dernière observation. Il est possible aussi de renseigner les positions souhaitées dans une liste, ou de faire des combinaisons plus complexes en utilisant `range` et la concaténation de listes avec `+`, ci-dessous les lignes 1 à 2, 10 à 12 et l'avant-dernière à la dernière  :  
+On note que l'écriture `a:b` sélectionne les lignes de la position `a` __inclue__ à la position `b` __exclue__. Les index négatifs partent de la fin de la base, ainsi l'index `-1` correspond à la dernière observation. Il est possible aussi de renseigner les positions souhaitées dans une liste, ou de faire des combinaisons plus complexes en utilisant `range` et la concaténation de listes avec `+`, ci-dessous les lignes 1 à 2, 10 à 12 et l'avant-dernière à la dernière  :  
 
 
 ```python
