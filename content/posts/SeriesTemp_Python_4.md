@@ -16,7 +16,7 @@ Summary: Analyse d'une série temporelle par décomposition et modélisations cl
 
 Après une toute petite ellipse temporelle de plus d'un an, ce quatrième post s'attaque au vrai problème à savoir la décomposition, la modélisation et la prédiction des séries temporelles à l'aide des modèles statistiques classiques.
 
-## Décomposition d'une série temporelle
+# Décomposition d'une série temporelle
 
 Le principe de la décomposition des séries temporelles est de découper les séries originales en plusieurs composants indépendants (vus dans le post précédent) : tendance, saisonnalité, cycle et bruit.
 
@@ -57,7 +57,7 @@ ax.legend(lns, labels);
 
 On voit sur la série initiale (en rouge) que l'amplitude des variations augmente chaque année de manière exponentielle. Or dans un cadre théorique parfait, on voudrait une variance constante au court du temps. Pour s'en approcher on peut passer par la fonction logarithme. En effet, comme $log(ab) = log(a) + log(b)$, le $log$ transforme un modèle **multiplicatif** en un modèle **additif**. Ainsi l'accroissement de l'amplitude des pics (donc de la variance) pour la série $X$ disparaît avec la transformation logarithmique. C'est visible sur la courbe bleue.  
 
-### La tendance
+## La tendance
 
 On a présenté dans le premier post une façon de visualiser la tendance en lissant la courbe à l'aide des moyennes mobiles sur une fenêtre glissante d'observations. Lorsqu'on choisit différentes tailles de fenêtres glissantes, on obtient les résultats suivants.
 
@@ -81,7 +81,7 @@ for i in range(len(win)):
 
 En prenant une fenêtre de 12, 24 ou 36 mois, une tendance linéaire et croissante est bien visible. Par ailleurs, le fait que cette tendance est identifiable pour des fenêtres glissantes dont la taille est un multiple de 12 mois suggère une notion de saisonnalité. On ne sait peut-être pas encore ce que c'est, mais en tout cas, il se passe quelque chose tous les 12 mois...
 
-### La saisonnalité
+## La saisonnalité
 
 La saisonnalité désigne les tendances hebdomadaires, mensuelles, trimestrielles ou annuelles. Ce sont les motifs qui se répètent sur une durée infra-annuelle. Il semble qu'on ait ici une saisonnalité annuelle. Une manière visuelle de vérifier l'effet saisonnier est de tracer une courbe pour chaque année en prenant les mois comme abscisses et visualiser ainsi la répartition des passagers au cours de chaque année.
 
@@ -106,7 +106,7 @@ for i in range(len(yrs)):
 
 Ça confirme bien l'intuition : les variations du nombre de passagers aériens sur une année sont similaires d'une année sur l'autre. C'est la saisonnalité. Et en plus c'est joli.
 
-### Le bruit
+## Le bruit
 
 Il ne reste plus qu'à identifier ce qu'il reste : le bruit. On l'obtient donc en soustrayant (dans un modèle additif !) à la série originale les tendance et saisonnalité. Au final, voilà une série décomposée.
 
@@ -128,7 +128,7 @@ plt.show()
     
 
 
-## Prévision avec un lissage exponentiel
+# Prévision avec un lissage exponentiel
 
 Le lissage exponentiel est une technique de lissage pas brésilien qui ressemble un peu aux moyennes mobiles. Cette méthode peut être utilisée pour prédire une série temporelle. C'est en fait un cas particulier des modèles ARMA déjà évoqués. On en distingue différents types (simple, double, triple...). On notera que les lissages exponentiels simple et double ne sont plus vraiment d'actualité donc on présente seulement le lissage exponentiel triple qui, lui, est parfois utilisé.
 
@@ -162,7 +162,7 @@ plt.show()
     
 
 
-## Prévision à l'aide d'un modèle ARIMA
+# Prévision à l'aide d'un modèle ARIMA
 
 Un modèle autoréfressif intégré à moyennes mobiles (ARIMA) est une généralisation du modèle ARMA, aperçu dans le post précédent. Ils sont utilisés dans certains cas où les données montrent une non-stationnarité. Une étape de différenciation initiale (correspondant à la partie "intégrée" du modèle) peut alors être appliquée une ou plusieurs fois afin d'éliminer la non-stationnarité. Dans le modèle de base, trois paramètres $(p,d,q)$ sont utilisés pour caractériser les modèles ARIMA. On les note donc $ARIMA(p,d,q)$ et ils sont définis par :
 $$
@@ -175,7 +175,7 @@ SARIMA, ou ARIMA saisonnier, est une généralisation du modèle ARIMA qui perme
 - $s$ est la période de la saisonnalité
 - $(P,D,Q)$ sont les ordres de la partie saisonnière
 
-### Stationnarisation de la série
+## Stationnarisation de la série
 
 Les séries ont généralement une tendance et une saisonnalité toutefois afin de pouvoir les modéliser par des processus stationnaires comme les ARMA, il faut qu'elles soient stationnaires. Or elles ne le sont que rarement, il faut donc les stationnariser.
 
@@ -209,7 +209,7 @@ fct.plot_acf_pacf(y_diff_12_1[13:], fig_size=(9,5))
 
 Avec cette double différenciation, on s'approche d'un autocorrélogramme simple empirique. On va donc modéliser la série $(1-L)(1-L^{12})ln(X_t)$ par un modèle ARMA.
 
-### Identification, estimation et validation de modèles
+## Identification, estimation et validation de modèles
 
 On va s'appuyer sur les sorties ACF et PACF donc on peut utiliser une des fonctions disponibles dans `fonctions.py`.
 
@@ -409,7 +409,7 @@ res3.plot_diagnostics(figsize=(10, 8));
     
 
 
-### Prévision de l’année 1961 avec le modèle retenu
+## Prévision de l’année 1961 avec le modèle retenu
 
 Maintenant qu'on a modélisé notre série, on peut se servir de ce modèle pour faire des prédictions avec la méthode `get_forecast()`
 
@@ -437,7 +437,7 @@ plt.show()
     
 
 
-### Évaluation de la qualité prédictive du modèle
+## Évaluation de la qualité prédictive du modèle
 
 On n'en a pas parlé jusqu'ici mais pour construire un modèle prédictif, il faut mettre en place, entraîner, tester et évaluer votre modèle. Pour cela, il est nécessaire de découper nos données en échantillons d'entraînement et de test. Pour des observations non chronologiques, on découpe de manière aléatoire mais pour des données temporelles, on est obligé de conserver la chronologie dans l'échantillon d'entraînement. Pour cela, on va tout simplement tronquer la série : les **données d'entraînement sont les observations jusqu'en 1958** et les **données de test sont celles des années 1959 et 1960**.
 
@@ -535,7 +535,7 @@ print("RMSE = {} et MAPE = {}".format(rmse, mape))
 
 Ainsi on obtient su les 2 années 1959 et 1960, une erreur moyenne de prédiction de 43,2 passagers (RMSE) et une erreur moyenne absolue en pourcentage de 8,5%.
 
-### Une autre approche pour la détermination du modèle
+## Une autre approche pour la détermination du modèle
 
 Pour ajuster un modèle SARIMA aux données d'une série temporelle, il faut déterminer le jeu de paramètres $(p,d,q)(P,D,Q)s$ optimaux. On peut faire de la recherche sur grille qui consiste à tester de manière itérative plusieurs valeurs possibles des paramètres et d'évaluer les modèles en utilisant des critères tels que AIC ou BIC.
 
@@ -691,7 +691,7 @@ print("RMSE = {} et MAPE = {}".format(rmse, mape))
 
 Le RMSE et le MAPE sont légèrement plus élevés qu'avec le précédent modèle mais restent dans les mêmes ordres de grandeur. On notera donc que dans ce cas précis, l'approche par critère d'information ne permet pas d'avoir les meilleurs résultats de prédiction sur les années 1959 et 1960. Toutefois l'approche étant plus exhaustive puisqu'on compare un grand nombre de modèle, elle mérite d'être conservée. Cette réflexion entre dans le cadre de la sélection de modèles si vous voulez en savoir plus.
 
-## Pour aller plus loin
+# Pour aller plus loin
 
 On va s'arrêter là pour cet article qui est déjà bien assez long mais si vous souhaitez creuser un peu sur les séries temporelles, voici quelques pistes de recherche :  
 - la **cointégration** : lorsqu'une relation de long terme semble exister entre deux séries  
