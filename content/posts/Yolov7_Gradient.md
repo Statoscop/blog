@@ -17,9 +17,9 @@ Le petite magicien qui rend l'entraînement des modèles de deep learning très 
 
 ## Le GPU
 
-Une unité de traitement graphique ou GPU (*Graphics Processing Unit*) est une puce informatique pour traiter les tâches de rendu graphique. Les GPU sont conçus pour effectuer de nombreux calculs simultanément, ce qui les rend particulièrement efficaces pour le rendu graphiques 2D/3D ou le traitement de vidéos mais pas seulement. Le GPU fonctionne conjointement avec le CPU et permet, en fonctionnant spécialement pour le rendu images, de libérer de la puissance de traitement pour le CPU qui peut se consacrer aux autres tâches sans limiter les performances de la carte graphique.
+Une unité de traitement graphique ou GPU (*Graphics Processing Unit*) est une puce informatique pour traiter les tâches de rendu graphique. Les GPU sont conçus pour effectuer de nombreux calculs simultanément, ce qui les rend particulièrement efficaces pour le rendu graphiques 2D/3D ou le traitement de vidéos mais pas seulement. Le GPU fonctionne conjointement avec le processeur (CPU) et permet, en fonctionnant spécialement pour le rendu images, de libérer de la puissance de traitement pour le CPU qui peut se consacrer aux autres tâches sans limiter les performances de la carte graphique.
 
-Le GPU est généralement disposé sur la carte graphique (d'où la confusion parfois entre les 2) mais pas nécessairement. En effet la puce GPU peut être intégrée à un CPU sur le même circuit, sur une carte graphique ou dans la carte mère d'un ordinateur ou d'un serveur. 
+Le GPU est généralement disposé sur la carte graphique (d'où la confusion parfois entre les 2), mais pas nécessairement. En effet la puce GPU peut être intégrée à un CPU sur le même circuit, sur une carte graphique ou dans la carte mère d'un ordinateur ou d'un serveur. 
 
 ## GPU, CPU, JSUIPERDU...
 
@@ -27,7 +27,7 @@ Un GPU est plus efficace qu'un CPU pour le rendu d'images grâce à son architec
 
 Pour résumer, le GPU est conçu pour le parallélisme des données et pour appliquer la même opération à plusieurs éléments de données (SIMD pour *Single Instruction to Multiple Data*) tandis qu'un CPU est conçu pour le parallélisme des tâches et l'exécution de différentes opérations non liées.
 
-Si votre ordinateur est forcément équipé d'un CPU, il n'a pas nécessairement de GPU puisque le chipset de la carte mère peut gérer le rendu graphique (beaucoup moins bien qu'une carte graphique certes).
+Si votre ordinateur est forcément équipé d'un CPU, il n'a pas nécessairement de GPU puisque le chipset de la carte mère peut gérer le rendu graphique (mais beaucoup moins bien qu'une carte graphique).
 
 ## GPU et *Deep Learning*
 
@@ -35,9 +35,9 @@ Si votre ordinateur est forcément équipé d'un CPU, il n'a pas nécessairement
 
 YoloV7 est un réseau de neurones à convolution qui a quasi 37 millions de paramètres...lorsque vous souhaitez utiliser le modèle déjà entraîné sur le jeu de données [COCO](https://cocodataset.org/#home), pas de problèmes de hardware, ça fonctionnera sans ressources supplémentaires. Si par contre vous voulez ré-entraîner le modèle sur vos données, là ça se complique et si vous n'avez pas de GPU, vous avez intérêt à avoir énormément de temps devant vous, et d'ailleurs ça ne suffira même pas, car alors c'est la mémoire qui vous manquera.
 
-Sans entrer dans les détails de l'optimisation de réseau de neurones, les opérations à effectuer sont des calculs matriciels pas tellement complexe mais répétitifs et surtout, extrêmement nombreux. La parallélisation de ces opérations sur un GPU est donc idéale et nécessaire pour optimiser le réseau dans un temps viable.
+Sans entrer dans les détails de l'optimisation de réseau de neurones, les opérations à effectuer sont des calculs matriciels pas tellement complexes mais répétitifs et surtout, extrêmement nombreux. La parallélisation de ces opérations sur un GPU est donc idéale et nécessaire pour optimiser le réseau dans un temps viable.
 
-## Les sevices de GPU cloud
+## Les services de GPU cloud
 
 *"On y voit un peu plus clair...mais comment on fait quand on en a pas ?"*
 
@@ -49,7 +49,7 @@ L'objectif est d'entraîner le modèle Yolo V7 à identifier et reconnaître des
 
 ## Gradient Paperspace
 
-Que ce soit clair, on pas de parts dans Paperspace, c'est juste un des fournisseurs de GPU cloud et que Gradient est bien pensé pour des problématiques Machine Learning. Évidemment, si vous souhaitez utiliser un autre fournisseur et y faire tourner ce notebook, c'est tout à fait possible, il faudra juste d'installer sur votre VM l'ensemble des dépendances nécessaires et notamment jupyter. Ceci étant dit, voilà comment faire avec Gradient :
+Que ce soit clair, on n'a pas de parts dans Paperspace. C'est juste que c'est un des fournisseurs de GPU cloud et que Gradient est bien pensé pour des problématiques Machine Learning. Évidemment, si vous souhaitez utiliser un autre fournisseur et y faire tourner ce notebook, c'est tout à fait possible, il faudra juste d'installer sur votre VM l'ensemble des dépendances nécessaires et notamment jupyter. Ceci étant dit, voilà comment faire avec Gradient :
 
 1. Créez un compte sur [Paperspace](https://console.paperspace.com/signup)  
 2. Créez un projet  
@@ -59,7 +59,7 @@ Que ce soit clair, on pas de parts dans Paperspace, c'est juste un des fournisse
 4. Bienvenus sur votre VM avec son GPU associé qui doit avoir le statut "Running", vous pouvez uploader un notebook par exemple celui-ci  
 <img src="../images/yolov7_gradient/gradient3.png" width="50%"/>
 
-On s'étendra pas plus sur cette partie qui est spécifique à Gradient et pas aux services de GPU cloud en général. On vous laisse creuser si vous le souhaitez mais considérons à partir de maintenant que tout le code qui suit est exécuté directement dans l'IDE Jupyter Lab de notre VM Gradient (Jupyter Lab est disponible dans le barre d'outils à gauche).
+On ne s'étendra pas plus sur cette partie qui est spécifique à Gradient et pas aux services de GPU cloud en général. On vous laisse creuser si vous le souhaitez mais considérons à partir de maintenant que tout le code qui suit est exécuté directement dans l'IDE Jupyter Lab de notre VM Gradient (Jupyter Lab est disponible dans le barre d'outils à gauche).
 
 ## Le dataset TACO
 
@@ -69,7 +69,7 @@ On ne détaillera pas ici le traitement du dataset car ce n'est pas l'objet de c
 2. installation du `requirements.txt`  
 3. récupération des images annotées au format YOLO
 4. exploration du dataset avec les fonctions disponibles dans le script [`cocoviz.py`](https://github.com/Statoscop/notebooks-blog/tree/main/Entrainer%20YoloV7/cocoviz.py)
-5. transformation des annotations du format COCO au format YOLO. Encore une fois, on explicite pas ici cette transformation mais quelques éléments toutefois : COCO utilise un seul fichier json dans lequel il stocke toutes les annotations de toutes les images avec des positions absolues alors que YOLO utilise des positions relatives et normalisées dans un fichier txt par image  
+5. transformation des annotations du format COCO au format YOLO. Encore une fois, on n'explicite pas ici cette transformation mais quelques éléments toutefois : COCO utilise un seul fichier json dans lequel il stocke toutes les annotations de toutes les images avec des positions absolues alors que YOLO utilise des positions relatives et normalisées dans un fichier txt par image  
 6. modification des classes pour ne garder que les super-catégories : ce n'est pas optimal pour la détection d'objets mais ça permet de simplifier un peu ce cas pratique théorique où le pouvoir prédictif de notre modèle n'a pas une grande importance
 
 Vous pouvez uploader ce notebook [TACO_dataset](https://github.com/Statoscop/notebooks-blog/tree/main/Entrainer%20YoloV7/TACO_dataset.ipynb) sur Gradient et l'exécuter directement pour télécharger les images, annotations et effectuer l'ensemble des prétraitements. À la fin de l'exécution, vous disposerez donc, sur votre VM, des données prêtes (ou presque) à être utilisées pour l'entraînement de YoloV7. On y vient.
@@ -78,7 +78,7 @@ Vous pouvez uploader ce notebook [TACO_dataset](https://github.com/Statoscop/not
 
 ### Récupération du code de YoloV7
 
-On clone directement le dépôt de [yolov7](https://github.com/WongKinYiu/yolov7.git) pour pouvoir réentrainer le modèle sur nos données. Bien noter que le repo sera cloné sur votre VM Gradient d'où vous exécuter ce notebook.
+On clone directement le dépôt de [yolov7](https://github.com/WongKinYiu/yolov7.git) pour pouvoir réentraîner le modèle sur nos données. Bien noter que le repo sera cloné sur votre VM Gradient d'où vous exécutez ce notebook.
 
 
 ```python
@@ -142,7 +142,7 @@ On installe ensuite les dépendances nécessaires de YoloV7. Selon la machine GP
 
 ### Train test split
 
-Si elle n'est pas au coeur de notre article, le *train test split* reste une étape fondamentale pour l'entraînement de tout modèle de machine learning. On présente donc la streatégie utilisée, une méthode "à la main" à partir des noms d'images en créant des dossiers associés à chaque sous-échantillons. On met directement les datasets `train`, `val`, `test` ainsi que le fichier .yaml associé dans le repo yolov7 pour l'entraînement puisque c'est à partir de ce repo, en utilisant le script `train.py` qu'on va réentrainer le modèle YoloV7.
+Si elle n'est pas au coeur de notre article, le *train test split* reste une étape fondamentale pour l'entraînement de tout modèle de machine learning. On présente donc la stratégie utilisée, une méthode "à la main" à partir des noms d'images en créant des dossiers associés à chaque sous-échantillon. On met directement les datasets `train`, `val`, `test` ainsi que le fichier .yaml associé dans le repo yolov7 pour l'entraînement puisque c'est à partir de ce repo, en utilisant le script `train.py` qu'on va réentrainer le modèle YoloV7.
 
 **Petite note en passant :** le fichier .yaml dont on parle est le fichier de configuration de l'entraînement. Il contient comme informations les chemins des différents datasets ainsi que le nombre de catégories à identifier et leur nom. On le crée directement dans la cellule ci-dessous.
 
@@ -244,7 +244,7 @@ else:
 
 La fonction `get_last_weights` ci-dessous n'est pas du tout nécessaire à l'entraînement de YoloV7 mais peut avoir son utilité. Je vous invite donc à regarder rapidement ce qu'elle fait sans pour autant vous y attarder.
 
-**Une petite explication quand même :** les machines Gradient s'arrête automatiquement au bout de 6 heures ce qui n'est pas mal mais pas assez pour atteindre de bonnes performances du modèle. Il faudra donc relancer l'entraînement plusieurs fois pour atteindre un nombre d'époques suffisant. Deux stratégies sont possibles :
+**Une petite explication quand même :** les machines Gradient s'arrêtent automatiquement au bout de 6 heures ce qui n'est pas mal mais pas assez pour atteindre de bonnes performances du modèle. Il faudra donc relancer l'entraînement plusieurs fois pour atteindre un nombre d'époques suffisant. Deux stratégies sont possibles :
 
 1. la plus évidente : on lance dès le départ un entraînement avec un grand d'époques et si la machine se stoppe, alors il suffira de relancer l'entraînement avec l'option `--resume` qui offre la possibilité de reprendre l'entraînement où il s'était arrêté (`!python train.py --resume`). Le problème de cette méthode est que `train.py` sauvegarde des poids intermédiaires tout au long de l'entraînement et que ces fichiers sont lourds. Il faudra donc supprimer en partie ces fichiers à la main avant de relancer l'entraînement pour éviter d'atteindre le plafond de stockage offert par Gradient.
 2. un approche plus maîtrisée : on fait un nombre d'époques plus restreint dont on sait qu'il sera terminé en moins de 6 heures et on repart à chaque fois du meilleur poids du dernier entraînement. La fonction `get_last_weights` récupère simplement ces meilleurs derniers poids. Cela va permettre de ne pas garder en mémoire les autres fichiers de poids en les supprimant dès la nouvelle série d'époques terminée.
