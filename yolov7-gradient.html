@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Le blog de Statoscop - études de cas en R et Python</title>
+  <link rel="icon" type="image/x-icon" href="https://blog.statoscop.fr/themes/statoscop/static/images/favicon-v1.ico" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://blog.statoscop.fr/yolov7-gradient.html" rel="canonical" />
+  <!-- Feed -->
+        <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
+          <link href="https://blog.statoscop.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
+
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://blog.statoscop.fr/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Entraînement de Yolo V7 sur des données personnelles et sans GPU hardware">
+
+    <meta name="author" content="Louis">
+
+    <meta name="tags" content="Python">
+    <meta name="tags" content="PyTorch">
+    <meta name="tags" content="Machine Learning">
+    <meta name="tags" content="Deep Learning">
+    <meta name="tags" content="Computer Vision">
+    <meta name="tags" content="Object Detection">
+    <meta name="tags" content="Image segmentation">
+    <meta name="tags" content="Yolo">
+    <meta name="tags" content="Paperspace">
+    <meta name="tags" content="Paperspace Gradient">
+    <meta name="tags" content="GPU training">
+    <meta name="tags" content="GPU cloud">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="Entraînement de Yolo V7 sur des données personnelles"/>
+<meta property="og:description" content="Entraînement de Yolo V7 sur des données personnelles et sans GPU hardware"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.statoscop.fr/yolov7-gradient.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2023-01-09 00:00:00+01:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://blog.statoscop.fr/author/louis.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="PyTorch"/>
+<meta property="article:tag" content="Machine Learning"/>
+<meta property="article:tag" content="Deep Learning"/>
+<meta property="article:tag" content="Computer Vision"/>
+<meta property="article:tag" content="Object Detection"/>
+<meta property="article:tag" content="Image segmentation"/>
+<meta property="article:tag" content="Yolo"/>
+<meta property="article:tag" content="Paperspace"/>
+<meta property="article:tag" content="Paperspace Gradient"/>
+<meta property="article:tag" content="GPU training"/>
+<meta property="article:tag" content="GPU cloud"/>
+<meta property="og:image" content="https://blog.statoscop.fr/images/cover_14.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Entraînement de Yolo V7 sur des données personnelles",
+  "headline": "Entraînement de Yolo V7 sur des données personnelles",
+  "datePublished": "2023-01-09 00:00:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Louis",
+    "url": "https://blog.statoscop.fr/author/louis.html"
+  },
+  "image": "https://blog.statoscop.fr/images/cover_14.jpg",
+  "url": "https://blog.statoscop.fr/yolov7-gradient.html",
+  "description": "Entraînement de Yolo V7 sur des données personnelles et sans GPU hardware"
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header">
+      <div class="inner">
+        <nav id="navigation">
+          <span class="blog-logo">
+            <a href="https://statoscop.fr"><img src="https://blog.statoscop.fr/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Blog Logo" /></a>
+          </span>
+          <span id="menu-button" class="nav-button">
+            <a href="https://blog.statoscop.fr">Retour à l'accueil du blog</a>
+          </span>
+        </nav>
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+      
+      <div>
+      </div>
+
+      <article class="post">
+        <div class="inner">
+
+
+
+
+            <section class="post-content">
+              <h1 class="post-title">Entraînement de Yolo V7 sur des données personnelles</h1>
+                <!-- Le titres et meta infos-->
+                <span class="post-meta">
+                        <a href="https://blog.statoscop.fr/author/louis.html">Louis</a>
+                    | <time datetime="lun. 09 janvier 2023">lun. 09 janvier 2023</time>
+                </span>
+
+                <!--Table des matieres
+-->
+                
+                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+<li><a href="#utilisation-du-gpu">Utilisation du GPU</a><ul>
+<li><a href="#le-gpu">Le GPU</a></li>
+<li><a href="#gpu-cpu-jsuiperdu">GPU, CPU, JSUIPERDU...</a></li>
+<li><a href="#gpu-et-deep-learning">GPU et Deep Learning</a></li>
+<li><a href="#les-services-de-gpu-cloud">Les services de GPU cloud</a></li>
+</ul>
+</li>
+<li><a href="#cas-pratique-la-reconnaissance-de-dechets">Cas pratique : la reconnaissance de déchets</a><ul>
+<li><a href="#gradient-paperspace">Gradient Paperspace</a></li>
+<li><a href="#le-dataset-taco">Le dataset TACO</a></li>
+<li><a href="#lentrainement-de-yolov7">L'entraînement de YoloV7</a><ul>
+<li><a href="#recuperation-du-code-de-yolov7">Récupération du code de YoloV7</a></li>
+<li><a href="#train-test-split">Train test split</a></li>
+<li><a href="#entrainement">Entraînement</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Vous avez très envie d'utiliser Yolo V7 sur votre problématique de reconnaissance d'objet ou de segmentation mais vous n'avez pas de gros ordinateur avec une groooosse carte graphique pour faire de grooooooooooos calculs d'optimisation de poids. Pas de panique, il y a des solutions et on vous en propose une ici.</p>
+<h1 id="utilisation-du-gpu">Utilisation du GPU</h1>
+<p>Le petite magicien qui rend possible l'entraînement des modèles de deep learning très profonds, c'est lui : le GPU. <em>Cool mais déjà c'est quoi ? Et puis comment je fais si j'en ai pas ?</em></p>
+<h2 id="le-gpu">Le GPU</h2>
+<p>Une unité de traitement graphique ou GPU (<em>Graphics Processing Unit</em>) est une puce informatique pour traiter les tâches de rendu graphique. Les GPU sont conçus pour effectuer de nombreux calculs simultanément, ce qui les rend particulièrement efficaces pour le rendu graphiques 2D/3D ou le traitement de vidéos mais pas seulement. Le GPU fonctionne conjointement avec le processeur (CPU) et permet, en tournant spécialement pour le rendu images, de libérer de la puissance de traitement pour le CPU qui peut se consacrer aux autres tâches sans limiter les performances de la carte graphique.</p>
+<p>Le GPU est généralement disposé sur la carte graphique (d'où la confusion parfois entre les 2), mais pas nécessairement. En effet la puce GPU peut être intégrée à un CPU sur le même circuit, sur une carte graphique ou dans la carte mère d'un ordinateur ou d'un serveur. </p>
+<h2 id="gpu-cpu-jsuiperdu">GPU, CPU, JSUIPERDU...</h2>
+<p>Un GPU est plus efficace qu'un CPU pour le rendu d'images grâce à son architecture de traitement parallèle lui permettant d'effectuer de nombreux calculs simultanément. Un seul CPU ne dispose pas de cette fonctionnalité (bien que ce soit possible avec des processeurs multicœurs). En revanche un CPU a une fréquence plus élevée et peut effectuer un calcul plus rapidement qu'un GPU.</p>
+<p>Pour résumer, le GPU est conçu pour le parallélisme des données et pour appliquer la même opération à plusieurs éléments de données (SIMD pour <em>Single Instruction to Multiple Data</em>) tandis qu'un CPU est conçu pour le parallélisme des tâches et l'exécution de différentes opérations non nécessairement liées.</p>
+<p>Si votre ordinateur est forcément équipé d'un CPU, il n'a pas nécessairement de GPU puisque le chipset de la carte mère peut gérer le rendu graphique (beaucoup moins bien qu'une carte graphique certes).</p>
+<h2 id="gpu-et-deep-learning">GPU et <em>Deep Learning</em></h2>
+<p><em>"Bon ok, je suis toujours pas spécialiste, mais je vois le principe. Par contre, on était pas sur YoloV7 nous ?"</em>  </p>
+<p>YoloV7 est un réseau de neurones à convolution qui a quasiment 37 millions de paramètres...lorsque vous souhaitez utiliser le modèle déjà entraîné sur le jeu de données <a href="https://cocodataset.org/#home">COCO</a>, pas de problèmes de hardware, ça fonctionnera sans ressources supplémentaires. Si par contre vous voulez ré-entraîner le modèle sur vos données, là ça se complique et si vous n'avez pas de GPU, vous avez intérêt à avoir énormément de temps devant vous, et d'ailleurs ça ne suffira même pas, car alors c'est la mémoire qui vous manquera.</p>
+<p>Sans entrer dans les détails de l'optimisation de réseau de neurones, les opérations à effectuer sont des calculs matriciels pas tellement complexes mais répétitifs et surtout, extrêmement nombreux. La parallélisation de ces opérations sur un GPU est donc idéale et nécessaire pour optimiser le réseau dans un temps viable.</p>
+<h2 id="les-services-de-gpu-cloud">Les services de GPU cloud</h2>
+<p><em>"On y voit un peu plus clair...mais comment on fait quand on en a pas ?"</em></p>
+<p>Puisqu'on a pas les capacités localement, on va le faire à distance grâce aux services Cloud qui proposent du GPU. Ils sont nombreux (Linode, Paperspace, Google Cloud GPUs, Elastic GPU Service, Azure N series, IBM Cloud, AWS and NVIDIA, OVHcloud, etc...) mais on va s'en tenir a un : <a href="https://www.paperspace.com/">Paperspace</a>. L'intérêt est d'utiliser <a href="https://www.paperspace.com/gradient">Paperspace Gradient</a> qui facilite la création de machine avec des templates intégrés (au hasard, PyTorch), l'utilisation et l'entraînement de modèles à parir de notebooks. Si on le souhaite, on peut louer directement du GPU avec Paperspace CORE.</p>
+<h1 id="cas-pratique-la-reconnaissance-de-dechets">Cas pratique : la reconnaissance de déchets</h1>
+<p>L'objectif est d'entraîner le modèle Yolo V7 à identifier et reconnaître des déchets. On utilisera pour cela le dataset <a href="http://tacodataset.org/">TACO</a> et on va faire l'entraînement sur Paperspace Gradient.</p>
+<h2 id="gradient-paperspace">Gradient Paperspace</h2>
+<p>Que ce soit clair, on n'a pas de parts dans Paperspace. C'est juste que c'est un des fournisseurs de GPU cloud et que Gradient est bien pensé pour des problématiques Machine Learning. Évidemment, si vous souhaitez utiliser un autre fournisseur et y faire tourner ce notebook, c'est tout à fait possible, il faudra juste installer sur votre VM l'ensemble des dépendances nécessaires et notamment <code>jupyter</code>. Ceci étant dit, voilà comment faire avec Gradient :</p>
+<ol>
+<li>Créez un compte sur <a href="https://console.paperspace.com/signup">Paperspace</a>  </li>
+<li>Créez un projet<br>
+<img src="../images/yolov7_gradient/gradient1.png" width="50%"/></li>
+<li>Dans votre projet, créez un notebook en choisissant un template (PyTorch par exemple ou bien From Scratch) et un type de GPU selon votre compte et la disponibilité<br>
+<img src="../images/yolov7_gradient/gradient2.png" width="50%"/></li>
+<li>Bienvenus sur votre VM avec son GPU associé qui doit avoir le statut "Running", vous pouvez uploader un notebook par exemple celui-ci<br>
+<img src="../images/yolov7_gradient/gradient3.png" width="50%"/></li>
+</ol>
+<p>On ne s'étendra pas plus sur cette partie qui est spécifique à Gradient et pas aux services de GPU cloud en général. On vous laisse creuser si vous le souhaitez mais considérons à partir de maintenant que tout le code qui suit est exécuté directement dans l'IDE Jupyter Lab de notre VM Gradient (Jupyter Lab est disponible dans le barre d'outils à gauche).</p>
+<h2 id="le-dataset-taco">Le dataset TACO</h2>
+<p>On ne détaillera pas ici le traitement du dataset car ce n'est pas l'objet de cette note. En revanche, le notebook <a href="https://github.com/Statoscop/notebooks-blog/tree/main/Entrainer%20YoloV7/TACO_dataset.ipynb">TACO_dataset</a> reprend l'ensemble des opérations concernant le jeu de données, à savoir :</p>
+<ol>
+<li>clonage du repo TACO  </li>
+<li>installation du <code>requirements.txt</code>  </li>
+<li>récupération des images annotées au format YOLO</li>
+<li>exploration du dataset avec les fonctions disponibles dans le script <a href="https://github.com/Statoscop/notebooks-blog/tree/main/Entrainer%20YoloV7/cocoviz.py"><code>cocoviz.py</code></a></li>
+<li>transformation des annotations du format COCO au format YOLO. Encore une fois, on n'explicite pas ici cette transformation mais quelques éléments toutefois : COCO utilise un seul fichier json dans lequel il stocke toutes les annotations de toutes les images avec des positions absolues sur les images alors que YOLO utilise des positions relatives et normalisées dans un fichier txt par image  </li>
+<li>modification des classes pour ne garder que les super-catégories : ce n'est pas optimal pour la détection d'objets mais ça permet de simplifier un peu ce cas pratique théorique où le pouvoir prédictif de notre modèle n'a pas une grande importance</li>
+</ol>
+<p>Vous pouvez uploader ce notebook <a href="https://github.com/Statoscop/notebooks-blog/tree/main/Entrainer%20YoloV7/TACO_dataset.ipynb">TACO_dataset</a> sur Gradient et l'exécuter directement pour télécharger les images, annotations et effectuer l'ensemble des prétraitements. À la fin de l'exécution, vous disposerez donc, <strong>sur votre VM</strong>, des données prêtes (ou presque) à être utilisées pour l'entraînement de YoloV7. On y vient.</p>
+<h2 id="lentrainement-de-yolov7">L'entraînement de YoloV7</h2>
+<h3 id="recuperation-du-code-de-yolov7">Récupération du code de YoloV7</h3>
+<p>On clone directement le dépôt de <a href="https://github.com/WongKinYiu/yolov7.git">yolov7</a> pour pouvoir réentraîner le modèle sur nos données. Bien noter que le repo sera cloné sur votre VM Gradient d'où vous exécutez ce notebook.</p>
+<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">WongKinYiu</span><span class="o">/</span><span class="n">yolov7</span><span class="o">.</span><span class="n">git</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">Clonage dans &#39;yolov7&#39;...</span>
+<span class="c">remote: Enumerating objects: 1127, done.</span>
+<span class="c">remote: Counting objects: 100% (29/29), done.</span>
+<span class="c">remote: Compressing objects: 100% (25/25), done.</span>
+<span class="c">remote: Total 1127 (delta 12), reused 14 (delta 4), pack-reused 1098</span>
+<span class="err">Réception d&#39;objets: 100% (1127/1127), 69.96 Mio | 16.98 Mio/s, fait.</span>
+<span class="err">Résolution des deltas: 100% (522/522), fait.</span>
+</code></pre></div>
+
+<p>On installe ensuite les dépendances nécessaires de YoloV7. Selon la machine GPU choisie sur Gradient, vous pourrez avoir besoin ou pas de downgrader les versions de <code>Torch</code> et <code>Torchvision</code>. Ici c'était le cas avec une VM A4000.</p>
+<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="o">./</span><span class="n">yolov7</span><span class="o">/</span><span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">setuptools</span><span class="o">==</span><span class="mf">59.5</span><span class="o">.</span><span class="mi">0</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">torchvision</span><span class="o">==</span><span class="mf">0.11</span><span class="o">.</span><span class="mi">3</span><span class="o">+</span><span class="n">cu111</span> <span class="o">-</span><span class="n">f</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">download</span><span class="o">.</span><span class="n">pytorch</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">whl</span><span class="o">/</span><span class="n">cu111</span><span class="o">/</span><span class="n">torch_stable</span><span class="o">.</span><span class="n">html</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">matplotlib</span><span class="o">&gt;=</span><span class="mi">3</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">2</span> <span class="k">in</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="p">.</span><span class="mi">9</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="k">from</span> <span class="o">-</span><span class="n">r</span> <span class="p">.</span><span class="o">/</span><span class="n">yolov7</span><span class="o">/</span><span class="n">requirements</span><span class="p">.</span><span class="n">txt</span> <span class="p">(</span><span class="n">line</span> <span class="mi">4</span><span class="p">))</span> <span class="p">(</span><span class="mi">3</span><span class="p">.</span><span class="mi">5</span><span class="p">.</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">numpy</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">.</span><span class="mi">18</span><span class="p">.</span><span class="mi">5</span> <span class="k">in</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="p">.</span><span class="mi">9</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="k">from</span> <span class="o">-</span><span class="n">r</span> <span class="p">.</span><span class="o">/</span><span class="n">yolov7</span><span class="o">/</span><span class="n">requirements</span><span class="p">.</span><span class="n">txt</span> <span class="p">(</span><span class="n">line</span> <span class="mi">5</span><span class="p">))</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">23</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">opencv</span><span class="o">-</span><span class="n">python</span><span class="o">&gt;=</span><span class="mi">4</span><span class="p">.</span><span class="mi">1</span><span class="p">.</span><span class="mi">1</span> <span class="k">in</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="p">.</span><span class="mi">9</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="k">from</span> <span class="o">-</span><span class="n">r</span> <span class="p">.</span><span class="o">/</span><span class="n">yolov7</span><span class="o">/</span><span class="n">requirements</span><span class="p">.</span><span class="n">txt</span> <span class="p">(</span><span class="n">line</span> <span class="mi">6</span><span class="p">))</span> <span class="p">(</span><span class="mi">4</span><span class="p">.</span><span class="mi">6</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">66</span><span class="p">)</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">Pillow</span><span class="o">&gt;=</span><span class="mi">7</span><span class="p">.</span><span class="mi">1</span><span class="p">.</span><span class="mi">2</span> <span class="k">in</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="p">.</span><span class="mi">9</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="k">from</span> <span class="o">-</span><span class="n">r</span> <span class="p">.</span><span class="o">/</span><span class="n">yolov7</span><span class="o">/</span><span class="n">requirements</span><span class="p">.</span><span class="n">txt</span> <span class="p">(</span><span class="n">line</span> <span class="mi">7</span><span class="p">))</span> <span class="p">(</span><span class="mi">9</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">PyYAML</span><span class="o">&gt;=</span><span class="mi">5</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">1</span> <span class="k">in</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="p">.</span><span class="mi">9</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="k">from</span> <span class="o">-</span><span class="n">r</span> <span class="p">.</span><span class="o">/</span><span class="n">yolov7</span><span class="o">/</span><span class="n">requirements</span><span class="p">.</span><span class="n">txt</span> <span class="p">(</span><span class="n">line</span> <span class="mi">8</span><span class="p">))</span> <span class="p">(</span><span class="mi">5</span><span class="p">.</span><span class="mi">4</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span>
+
+   <span class="p">[............]</span>
+
+<span class="n">WARNING</span><span class="p">:</span> <span class="n">Running</span> <span class="n">pip</span> <span class="k">as</span> <span class="n">the</span> <span class="s1">&#39;root&#39;</span> <span class="k">user</span> <span class="n">can</span> <span class="k">result</span> <span class="k">in</span> <span class="n">broken</span> <span class="n">permissions</span> <span class="k">and</span> <span class="n">conflicting</span> <span class="n">behaviour</span> <span class="k">with</span> <span class="n">the</span> <span class="k">system</span> <span class="n">package</span> <span class="n">manager</span><span class="p">.</span> <span class="n">It</span> <span class="k">is</span> <span class="n">recommended</span> <span class="k">to</span> <span class="n">use</span> <span class="n">a</span> <span class="n">virtual</span> <span class="n">environment</span> <span class="k">instead</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">pip</span><span class="p">.</span><span class="n">pypa</span><span class="p">.</span><span class="n">io</span><span class="o">/</span><span class="n">warnings</span><span class="o">/</span><span class="n">venv</span>
+<span class="n">Looking</span> <span class="k">in</span> <span class="n">links</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">download</span><span class="p">.</span><span class="n">pytorch</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">whl</span><span class="o">/</span><span class="n">cu111</span><span class="o">/</span><span class="n">torch_stable</span><span class="p">.</span><span class="n">html</span>
+<span class="n">Collecting</span> <span class="n">torchvision</span><span class="o">==</span><span class="mi">0</span><span class="p">.</span><span class="mi">11</span><span class="p">.</span><span class="mi">3</span><span class="o">+</span><span class="n">cu111</span>
+  <span class="n">Downloading</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">download</span><span class="p">.</span><span class="n">pytorch</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">whl</span><span class="o">/</span><span class="n">cu111</span><span class="o">/</span><span class="n">torchvision</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">11</span><span class="p">.</span><span class="mi">3</span><span class="o">%</span><span class="mi">2</span><span class="n">Bcu111</span><span class="o">-</span><span class="n">cp39</span><span class="o">-</span><span class="n">cp39</span><span class="o">-</span><span class="n">linux_x86_64</span><span class="p">.</span><span class="n">whl</span> <span class="p">(</span><span class="mi">24</span><span class="p">.</span><span class="mi">5</span> <span class="n">MB</span><span class="p">)</span>
+     <span class="err">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="mi">24</span><span class="p">.</span><span class="mi">5</span><span class="o">/</span><span class="mi">24</span><span class="p">.</span><span class="mi">5</span> <span class="n">MB</span> <span class="mi">63</span><span class="p">.</span><span class="mi">2</span> <span class="n">MB</span><span class="o">/</span><span class="n">s</span> <span class="n">eta</span> <span class="n">m0</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">0000</span><span class="p">:</span><span class="mi">0100</span><span class="p">:</span><span class="mi">01</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">pillow</span><span class="o">!=</span><span class="mi">8</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span><span class="o">&gt;=</span><span class="mi">5</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span> <span class="k">in</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="p">.</span><span class="mi">9</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="k">from</span> <span class="n">torchvision</span><span class="o">==</span><span class="mi">0</span><span class="p">.</span><span class="mi">11</span><span class="p">.</span><span class="mi">3</span><span class="o">+</span><span class="n">cu111</span><span class="p">)</span> <span class="p">(</span><span class="mi">9</span><span class="p">.</span><span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Collecting</span> <span class="n">torch</span><span class="o">==</span><span class="mi">1</span><span class="p">.</span><span class="mi">10</span><span class="p">.</span><span class="mi">2</span>
+  <span class="n">Downloading</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">download</span><span class="p">.</span><span class="n">pytorch</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">whl</span><span class="o">/</span><span class="n">cu111</span><span class="o">/</span><span class="n">torch</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">10</span><span class="p">.</span><span class="mi">2</span><span class="o">%</span><span class="mi">2</span><span class="n">Bcu111</span><span class="o">-</span><span class="n">cp39</span><span class="o">-</span><span class="n">cp39</span><span class="o">-</span><span class="n">linux_x86_64</span><span class="p">.</span><span class="n">whl</span> <span class="p">(</span><span class="mi">2137</span><span class="p">.</span><span class="mi">7</span> <span class="n">MB</span><span class="p">)</span>
+     <span class="err">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="mi">2</span><span class="p">.</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">.</span><span class="mi">1</span> <span class="n">GB</span> <span class="mi">1</span><span class="p">.</span><span class="mi">2</span> <span class="n">MB</span><span class="o">/</span><span class="n">s</span> <span class="n">eta</span> <span class="n">m0</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">0100</span><span class="p">:</span><span class="mi">02</span><span class="n">m</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">numpy</span> <span class="k">in</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="p">.</span><span class="mi">9</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="k">from</span> <span class="n">torchvision</span><span class="o">==</span><span class="mi">0</span><span class="p">.</span><span class="mi">11</span><span class="p">.</span><span class="mi">3</span><span class="o">+</span><span class="n">cu111</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">23</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">typing</span><span class="o">-</span><span class="n">extensions</span> <span class="k">in</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="p">.</span><span class="mi">9</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="k">from</span> <span class="n">torch</span><span class="o">==</span><span class="mi">1</span><span class="p">.</span><span class="mi">10</span><span class="p">.</span><span class="mi">2</span><span class="o">-&gt;</span><span class="n">torchvision</span><span class="o">==</span><span class="mi">0</span><span class="p">.</span><span class="mi">11</span><span class="p">.</span><span class="mi">3</span><span class="o">+</span><span class="n">cu111</span><span class="p">)</span> <span class="p">(</span><span class="mi">4</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Installing</span> <span class="n">collected</span> <span class="n">packages</span><span class="p">:</span> <span class="n">torch</span><span class="p">,</span> <span class="n">torchvision</span>
+  <span class="n">Attempting</span> <span class="n">uninstall</span><span class="p">:</span> <span class="n">torch</span>
+    <span class="k">Found</span> <span class="k">existing</span> <span class="n">installation</span><span class="p">:</span> <span class="n">torch</span> <span class="mi">1</span><span class="p">.</span><span class="mi">12</span><span class="p">.</span><span class="mi">1</span>
+    <span class="n">Uninstalling</span> <span class="n">torch</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">12</span><span class="p">.</span><span class="mi">1</span><span class="p">:</span>
+      <span class="n">Successfully</span> <span class="n">uninstalled</span> <span class="n">torch</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">12</span><span class="p">.</span><span class="mi">1</span>
+  <span class="n">Attempting</span> <span class="n">uninstall</span><span class="p">:</span> <span class="n">torchvision</span>
+    <span class="k">Found</span> <span class="k">existing</span> <span class="n">installation</span><span class="p">:</span> <span class="n">torchvision</span> <span class="mi">0</span><span class="p">.</span><span class="mi">13</span><span class="p">.</span><span class="mi">1</span>
+    <span class="n">Uninstalling</span> <span class="n">torchvision</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">13</span><span class="p">.</span><span class="mi">1</span><span class="p">:</span>
+      <span class="n">Successfully</span> <span class="n">uninstalled</span> <span class="n">torchvision</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">13</span><span class="p">.</span><span class="mi">1</span>
+<span class="n">ERROR</span><span class="p">:</span> <span class="n">pip</span><span class="s1">&#39;s dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.</span>
+<span class="s1">torchaudio 0.12.0+cu116 requires torch==1.12.0, but you have torch 1.10.2+cu111 which is incompatible.</span>
+<span class="s1">Successfully installed torch-1.10.2+cu111 torchvision-0.11.3+cu111</span>
+<span class="s1">WARNING: Running pip as the &#39;</span><span class="n">root</span><span class="err">&#39;</span> <span class="k">user</span> <span class="n">can</span> <span class="k">result</span> <span class="k">in</span> <span class="n">broken</span> <span class="n">permissions</span> <span class="k">and</span> <span class="n">conflicting</span> <span class="n">behaviour</span> <span class="k">with</span> <span class="n">the</span> <span class="k">system</span> <span class="n">package</span> <span class="n">manager</span><span class="p">.</span> <span class="n">It</span> <span class="k">is</span> <span class="n">recommended</span> <span class="k">to</span> <span class="n">use</span> <span class="n">a</span> <span class="n">virtual</span> <span class="n">environment</span> <span class="k">instead</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">pip</span><span class="p">.</span><span class="n">pypa</span><span class="p">.</span><span class="n">io</span><span class="o">/</span><span class="n">warnings</span><span class="o">/</span><span class="n">venv</span>
+</code></pre></div>
+
+<p>À ce stade, vous avez vos données ainsi que le code et les dépendances pour pouvoir l'utiliser. Il n'y donc plus qu'à entraîner.<br>
+<em>"Ah oui mais non mon petit bonhomme, on va pas entraîner un modèle sur toutes nos données, sans faire de découpage échantillons entraînement/validation/test"</em> me direz-vous...</p>
+<h3 id="train-test-split">Train test split</h3>
+<p>Si elle n'est pas au coeur de notre article, le <em>train test split</em> reste une étape fondamentale pour l'entraînement de tout modèle de machine learning. On présente donc la stratégie utilisée, une méthode "à la main" à partir des noms d'images en créant des dossiers associés à chaque sous-échantillon. On met directement les datasets <code>train</code>, <code>val</code>, <code>test</code> ainsi que le fichier .yaml associé dans le repo yolov7 pour l'entraînement puisque c'est à partir de ce repo, en utilisant le script <code>train.py</code> qu'on va réentrainer le modèle YoloV7.</p>
+<p><strong>Petite note en passant :</strong> le fichier .yaml dont on parle est le fichier de configuration de l'entraînement. Il contient comme informations les chemins des différents datasets ainsi que le nombre de catégories à identifier et leur nom. On le crée directement dans la cellule ci-dessous.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">re</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Split dataset</span>
+
+<span class="c1"># read json file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./TACO/data/images/annotations_wo_subdir.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">json_file</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+<span class="c1"># create directories (with replacement if exists)</span>
+<span class="k">for</span> <span class="n">dirname</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">]:</span>
+    <span class="n">dirpath</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;./yolov7/data/TACOpoly/</span><span class="si">{</span><span class="n">dirname</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dirpath</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dirpath</span> <span class="o">+</span> <span class="s1">&#39;/images&#39;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dirpath</span> <span class="o">+</span> <span class="s1">&#39;/labels&#39;</span><span class="p">)</span>
+
+<span class="c1"># create yaml file (with replacement if exists)</span>
+<span class="n">cats</span> <span class="o">=</span> <span class="p">[</span><span class="n">cat</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="n">json_file</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]]</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./yolov7/data/TACOpoly.yaml&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+<span class="sa">f</span><span class="s2">&quot;&quot;&quot;train: ./data/TACOpoly/train/images</span>
+<span class="s2">val: ./data/TACOpoly/val/images</span>
+<span class="s2">test: ./data/TACOpoly/test/images</span>
+
+<span class="s2">nc: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cats</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">names: </span><span class="si">{</span><span class="n">cats</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># read json annotations file</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./TACO/data/images/annotations_wo_subdir.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">json_file</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+<span class="c1"># get images names and shuffle</span>
+<span class="n">img_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">img</span><span class="p">[</span><span class="s1">&#39;file_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">json_file</span><span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">]]</span>
+<span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">img_names</span><span class="p">)</span>
+
+<span class="c1"># create a splitting dictionnary</span>
+<span class="n">split</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;train&#39;</span> <span class="p">:</span> <span class="n">img_names</span><span class="p">[:</span><span class="mi">1200</span><span class="p">],</span>
+    <span class="s1">&#39;val&#39;</span> <span class="p">:</span> <span class="n">img_names</span><span class="p">[</span><span class="mi">1200</span><span class="p">:</span><span class="mi">1400</span><span class="p">],</span>
+    <span class="s1">&#39;test&#39;</span> <span class="p">:</span> <span class="n">img_names</span><span class="p">[</span><span class="mi">1400</span><span class="p">:]</span>
+<span class="p">}</span>
+
+<span class="c1"># copy each image and its label in the right directory</span>
+<span class="k">for</span> <span class="n">setname</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">split</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Copying images to </span><span class="si">{</span><span class="n">setname</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2"> directory&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">imgname</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">sample</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./TACO/data/images/</span><span class="si">{</span><span class="n">imgname</span><span class="si">}</span><span class="s2">.jpg&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;./yolov7/data/TACOpoly/</span><span class="si">{</span><span class="n">setname</span><span class="si">}</span><span class="s2">/images/</span><span class="si">{</span><span class="n">imgname</span><span class="si">}</span><span class="s2">.jpg&quot;</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./TACO/data/labels_poly/</span><span class="si">{</span><span class="n">imgname</span><span class="si">}</span><span class="s2">.txt&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;./yolov7/data/TACOpoly/</span><span class="si">{</span><span class="n">setname</span><span class="si">}</span><span class="s2">/labels/</span><span class="si">{</span><span class="n">imgname</span><span class="si">}</span><span class="s2">.txt&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">Copying images to TRAIN directory</span>
+<span class="err">100%|██████████| 1200/1200 [01:50&lt;00:00, 10.84it/s]</span>
+<span class="err">Copying images to VAL directory</span>
+<span class="err">100%|██████████| 200/200 [00:17&lt;00:00, 11.56it/s]</span>
+<span class="err">Copying images to TEST directory</span>
+<span class="err">100%|██████████| 100/100 [00:08&lt;00:00, 11.31it/s]</span>
+</code></pre></div>
+
+<p>Voilà, cette fois plus de contretemps, on est paré pour l'entraînement.</p>
+<h3 id="entrainement">Entraînement</h3>
+<p>Pour gagner du temps, on ne va pas repartir de zéro avec des poids initiaux complétement aléatoires mais on va charger les poids d'un modèle pré-entraîné. On doit dans un premier temps télécharger ces poids puis lancer l'entraînement sur nos données. Pour cela, on se place dans le repo yolov7 et on télécharge les poids en question.</p>
+<div class="highlight"><pre><span></span><code><span class="o">%</span><span class="n">cd</span> <span class="o">/</span><span class="n">notebooks</span><span class="o">/</span><span class="n">yolov7</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">/notebooks/yolov7</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;yolov7_training.pt&#39;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Déjà téléchargé&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="err">!</span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">WongKinYiu</span><span class="o">/</span><span class="n">yolov7</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">v0</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">yolov7_training</span><span class="o">.</span><span class="n">pt</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">Déjà téléchargé</span>
+</code></pre></div>
+
+<p>La fonction <code>get_last_weights</code> ci-dessous n'est pas du tout nécessaire à l'entraînement de YoloV7 mais peut avoir son utilité. Je vous invite donc à regarder rapidement ce qu'elle fait sans pour autant vous y attarder.</p>
+<p><strong>Une petite explication quand même :</strong> les machines Gradient s'arrêtent automatiquement au bout de 6 heures ce qui n'est pas mal mais pas assez pour atteindre de bonnes performances du modèle. Il faudra donc relancer l'entraînement plusieurs fois pour atteindre un nombre d'époques suffisant. Deux stratégies sont possibles :</p>
+<ol>
+<li>la plus évidente : on lance dès le départ un entraînement avec un grand d'époques et si la machine se stoppe, alors il suffira de relancer l'entraînement avec l'option <code>--resume</code> qui offre la possibilité de reprendre l'entraînement où il s'était arrêté (<code>!python train.py --resume</code>). Le problème de cette méthode est que <code>train.py</code> sauvegarde des poids intermédiaires tout au long de l'entraînement et que ces fichiers sont lourds. Il faudra donc supprimer en partie ces fichiers à la main avant de relancer l'entraînement pour éviter d'atteindre le plafond de stockage offert par Gradient.</li>
+<li>un approche plus maîtrisée : on fait un nombre d'époques plus restreint dont on sait qu'il sera terminé en moins de 6 heures et on repart à chaque fois du meilleur poids du dernier entraînement. La fonction <code>get_last_weights</code> récupère simplement ces meilleurs derniers poids. Cela va permettre de ne pas garder en mémoire les autres fichiers de poids en les supprimant dès la nouvelle série d'époques terminée.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_last_weights</span><span class="p">(</span><span class="n">modelname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function retrieves the best weights from the last training in order to</span>
+<span class="sd">    restart new traing from those weights.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    modelname : str</span>
+<span class="sd">        Name of the model (such as --name argument from Yolov7 train.py script).</span>
+<span class="sd">        This is the name looked for in the yolov7/runs/train directory.</span>
+<span class="sd">    nb_epochs : int</span>
+<span class="sd">        Number of epochs done per each training.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str :</span>
+<span class="sd">        Path to weights used to initiate new training.</span>
+<span class="sd">    int :</span>
+<span class="sd">        Number of epochs already trained.  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># keep only directories containg modelname in their name</span>
+    <span class="n">train_dirs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">dirname</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;/notebooks/yolov7/runs/train/&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">modelname</span> <span class="ow">in</span> <span class="n">dirname</span><span class="p">:</span>
+            <span class="n">train_dirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span>
+    <span class="n">train_dirs</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+    <span class="c1"># returns yolov7_training weights and 0 epochs if never trained</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dirs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;yolov7_training.pt&#39;</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="c1"># else retrieve the last weights and compute number of epochs</span>
+    <span class="c1"># this assumes that the number of epochs is the same over each training</span>
+    <span class="n">nmax</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">dirname</span> <span class="ow">in</span> <span class="n">train_dirs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dirname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">modelname</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="p">:</span>
+            <span class="n">dirmax</span> <span class="o">=</span> <span class="n">dirname</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dirname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">modelname</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="n">nmax</span> <span class="p">:</span>
+                <span class="n">nmax</span> <span class="o">=</span> <span class="n">n</span>
+                <span class="n">dirmax</span> <span class="o">=</span> <span class="n">dirname</span>
+
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;runs/train/</span><span class="si">{</span><span class="n">dirmax</span><span class="si">}</span><span class="s2">/weights/best.pt&quot;</span>
+</code></pre></div>
+
+<p>Cette fois ça y est. C'est vraiment le moment de l'entraînement ! Pour ce qui concerne les différents paramètres passés en arguments de la commande <code>python train.py</code>, vous êtes cordialement conviés à regarder du côté de l'aide pour y voir plus clair. Allez, on arrête de bosser et on laisse le GPU transpirer un peu. </p>
+<iframe src="https://giphy.com/embed/l4FATJpd4LWgeruTK" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+
+<div class="highlight"><pre><span></span><code><span class="n">epochs_per_training</span> <span class="o">=</span> <span class="mi">150</span>
+<span class="n">init_weights</span> <span class="o">=</span> <span class="n">get_last_weights</span><span class="p">(</span><span class="s1">&#39;TACOpoly&#39;</span><span class="p">)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ENTRAÎNEMENT DÉBUTÉ À </span><span class="si">{</span><span class="n">start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> AVEC LES POIDS INITIAUX </span><span class="si">{</span><span class="n">init_weights</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;_________________________________________________________________&quot;</span><span class="p">)</span>
+
+
+<span class="err">!</span><span class="n">python</span> <span class="n">train</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">workers</span> <span class="mi">8</span> <span class="o">--</span><span class="n">device</span> <span class="mi">0</span> <span class="o">--</span><span class="n">batch</span><span class="o">-</span><span class="n">size</span> <span class="mi">16</span> <span class="o">--</span><span class="n">data</span> <span class="n">data</span><span class="o">/</span><span class="n">TACOpoly</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">img</span> <span class="mi">640</span> <span class="mi">640</span> \
+    <span class="o">--</span><span class="n">cfg</span> <span class="n">cfg</span><span class="o">/</span><span class="n">training</span><span class="o">/</span><span class="n">yolov7</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">weights</span> <span class="p">{</span><span class="n">init_weights</span><span class="p">}</span> <span class="o">--</span><span class="n">name</span> <span class="n">TACOpoly</span> \
+    <span class="o">--</span><span class="n">hyp</span> <span class="n">data</span><span class="o">/</span><span class="n">hyp</span><span class="o">.</span><span class="n">scratch</span><span class="o">.</span><span class="n">custom</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">epochs</span> <span class="p">{</span><span class="n">epochs_per_training</span><span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;_________________________________________________________________&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DURÉE DE L&#39;ENTRAÎNEMENT : </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">ENTRAÎNEMENT</span> <span class="n">DÉBUTÉ</span> <span class="n">À</span> <span class="mi">10</span><span class="p">:</span><span class="mi">24</span> <span class="n">AVEC</span> <span class="n">LES</span> <span class="n">POIDS</span> <span class="n">INITIAUX</span> <span class="n">runs</span><span class="o">/</span><span class="n">train</span><span class="o">/</span><span class="n">TACOpoly7</span><span class="o">/</span><span class="n">weights</span><span class="o">/</span><span class="n">best</span><span class="p">.</span><span class="n">pt</span>
+<span class="n">_________________________________________________________________</span>
+<span class="n">YOLOR</span> <span class="err">🚀</span> <span class="n">v0</span><span class="p">.</span><span class="mi">1</span><span class="o">-</span><span class="mi">115</span><span class="o">-</span><span class="n">g072f76c</span> <span class="n">torch</span> <span class="mf">1.10</span><span class="p">.</span><span class="mi">2</span><span class="o">+</span><span class="n">cu111</span> <span class="n">CUDA</span><span class="p">:</span><span class="mi">0</span> <span class="p">(</span><span class="n">NVIDIA</span> <span class="n">RTX</span> <span class="n">A4000</span><span class="p">,</span> <span class="mf">16117.3125</span><span class="n">MB</span><span class="p">)</span>
+
+<span class="n">Namespace</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="c">&#39;runs/train/TACOpoly7/weights/best.pt&#39;, cfg=&#39;cfg/training/yolov7.yaml&#39;, data=&#39;data/TACOpoly.yaml&#39;, hyp=&#39;data/hyp.scratch.custom.yaml&#39;, epochs=150, batch_size=16, img_size=[640, 640], rect=False, resume=False, nosave=False, notest=False, noautoanchor=False, evolve=False, bucket=&#39;&#39;, cache_images=False, image_weights=False, device=&#39;0&#39;, multi_scale=False, single_cls=False, adam=False, sync_bn=False, local_rank=-1, workers=8, project=&#39;runs/train&#39;, entity=None, name=&#39;TACOpoly&#39;, exist_ok=False, quad=False, linear_lr=False, label_smoothing=0.0, upload_dataset=False, bbox_interval=-1, save_period=-1, artifact_alias=&#39;latest&#39;, freeze=[0], v5_metric=False, world_size=1, global_rank=-1, save_dir=&#39;runs/train/TACOpoly8&#39;, total_batch_size=16)</span>
+
+   <span class="o">[</span><span class="p">............</span><span class="o">]</span>
+
+     <span class="n">Epoch</span>   <span class="n">gpu_mem</span>       <span class="n">box</span>       <span class="n">obj</span>       <span class="n">cls</span>     <span class="n">total</span>    <span class="n">labels</span>  <span class="n">img_size</span>
+   <span class="mi">145</span><span class="o">/</span><span class="mi">149</span>       <span class="mi">11</span><span class="n">G</span>  <span class="mf">0.008686</span>  <span class="mf">0.003024</span> <span class="mf">0.0004638</span>   <span class="mf">0.01217</span>        <span class="mi">82</span>       <span class="mi">640</span>
+               <span class="k">Class</span>      <span class="nc">Images</span>      <span class="n">Labels</span>           <span class="n">P</span>           <span class="n">R</span>      <span class="n">mAP@</span><span class="p">.</span><span class="mi">5</span>
+                 <span class="n">all</span>         <span class="mi">200</span>         <span class="mi">648</span>        <span class="mf">0.43</span>       <span class="mf">0.204</span>       <span class="mf">0.194</span>       <span class="mf">0.162</span>
+
+     <span class="n">Epoch</span>   <span class="n">gpu_mem</span>       <span class="n">box</span>       <span class="n">obj</span>       <span class="n">cls</span>     <span class="n">total</span>    <span class="n">labels</span>  <span class="n">img_size</span>
+   <span class="mi">146</span><span class="o">/</span><span class="mi">149</span>       <span class="mi">11</span><span class="n">G</span>  <span class="mf">0.008719</span>  <span class="mf">0.003078</span> <span class="mf">0.0004409</span>   <span class="mf">0.01224</span>        <span class="mi">52</span>       <span class="mi">640</span>
+               <span class="k">Class</span>      <span class="nc">Images</span>      <span class="n">Labels</span>           <span class="n">P</span>           <span class="n">R</span>      <span class="n">mAP@</span><span class="p">.</span><span class="mi">5</span>
+                 <span class="n">all</span>         <span class="mi">200</span>         <span class="mi">648</span>       <span class="mf">0.555</span>        <span class="mf">0.18</span>       <span class="mf">0.193</span>        <span class="mf">0.16</span>
+
+     <span class="n">Epoch</span>   <span class="n">gpu_mem</span>       <span class="n">box</span>       <span class="n">obj</span>       <span class="n">cls</span>     <span class="n">total</span>    <span class="n">labels</span>  <span class="n">img_size</span>
+   <span class="mi">147</span><span class="o">/</span><span class="mi">149</span>       <span class="mi">11</span><span class="n">G</span>  <span class="mf">0.008701</span>  <span class="mf">0.003087</span> <span class="mf">0.0005799</span>   <span class="mf">0.01237</span>        <span class="mi">89</span>       <span class="mi">640</span>
+               <span class="k">Class</span>      <span class="nc">Images</span>      <span class="n">Labels</span>           <span class="n">P</span>           <span class="n">R</span>      <span class="n">mAP@</span><span class="p">.</span><span class="mi">5</span>
+                 <span class="n">all</span>         <span class="mi">200</span>         <span class="mi">648</span>       <span class="mf">0.427</span>       <span class="mf">0.212</span>       <span class="mf">0.193</span>       <span class="mf">0.161</span>
+
+     <span class="n">Epoch</span>   <span class="n">gpu_mem</span>       <span class="n">box</span>       <span class="n">obj</span>       <span class="n">cls</span>     <span class="n">total</span>    <span class="n">labels</span>  <span class="n">img_size</span>
+   <span class="mi">148</span><span class="o">/</span><span class="mi">149</span>       <span class="mi">11</span><span class="n">G</span>   <span class="mf">0.00864</span>  <span class="mf">0.003092</span> <span class="mf">0.0004653</span>    <span class="mf">0.0122</span>        <span class="mi">73</span>       <span class="mi">640</span>
+               <span class="k">Class</span>      <span class="nc">Images</span>      <span class="n">Labels</span>           <span class="n">P</span>           <span class="n">R</span>      <span class="n">mAP@</span><span class="p">.</span><span class="mi">5</span>
+                 <span class="n">all</span>         <span class="mi">200</span>         <span class="mi">648</span>       <span class="mf">0.621</span>       <span class="mf">0.174</span>       <span class="mf">0.191</span>       <span class="mf">0.159</span>
+
+     <span class="n">Epoch</span>   <span class="n">gpu_mem</span>       <span class="n">box</span>       <span class="n">obj</span>       <span class="n">cls</span>     <span class="n">total</span>    <span class="n">labels</span>  <span class="n">img_size</span>
+   <span class="mi">149</span><span class="o">/</span><span class="mi">149</span>       <span class="mi">11</span><span class="n">G</span>  <span class="mf">0.008513</span>  <span class="mf">0.003076</span> <span class="mf">0.0005339</span>   <span class="mf">0.01212</span>        <span class="mi">70</span>       <span class="mi">640</span>
+               <span class="k">Class</span>      <span class="nc">Images</span>      <span class="n">Labels</span>           <span class="n">P</span>           <span class="n">R</span>      <span class="n">mAP@</span><span class="p">.</span><span class="mi">5</span>
+                 <span class="n">all</span>         <span class="mi">200</span>         <span class="mi">648</span>       <span class="mf">0.626</span>       <span class="mf">0.171</span>       <span class="mf">0.194</span>        <span class="mf">0.16</span>
+      <span class="n">Aluminium</span> <span class="n">foil</span>         <span class="mi">200</span>          <span class="mi">11</span>       <span class="mf">0.919</span>       <span class="mf">0.545</span>       <span class="mf">0.565</span>       <span class="mf">0.556</span>
+        <span class="n">Blister</span> <span class="n">pack</span>         <span class="mi">200</span>           <span class="mi">1</span>           <span class="mi">1</span>           <span class="mi">0</span>           <span class="mi">0</span>           <span class="mi">0</span>
+              <span class="n">Bottle</span>         <span class="mi">200</span>          <span class="mi">54</span>       <span class="mf">0.655</span>       <span class="mf">0.574</span>       <span class="mf">0.628</span>       <span class="mf">0.535</span>
+          <span class="n">Bottle</span> <span class="n">cap</span>         <span class="mi">200</span>          <span class="mi">32</span>       <span class="mf">0.579</span>       <span class="mf">0.281</span>       <span class="mf">0.416</span>       <span class="mf">0.317</span>
+        <span class="n">Broken</span> <span class="n">glass</span>         <span class="mi">200</span>          <span class="mi">15</span>           <span class="mi">1</span>           <span class="mi">0</span>           <span class="mi">0</span>           <span class="mi">0</span>
+                 <span class="n">Can</span>         <span class="mi">200</span>          <span class="mi">29</span>       <span class="mf">0.457</span>       <span class="mf">0.552</span>       <span class="mf">0.473</span>       <span class="mf">0.428</span>
+              <span class="n">Carton</span>         <span class="mi">200</span>          <span class="mi">35</span>       <span class="mf">0.454</span>         <span class="mf">0.2</span>        <span class="mf">0.22</span>        <span class="mf">0.16</span>
+                 <span class="n">Cup</span>         <span class="mi">200</span>          <span class="mi">26</span>        <span class="mf">0.53</span>       <span class="mf">0.269</span>       <span class="mf">0.294</span>       <span class="mf">0.215</span>
+          <span class="n">Food</span> <span class="n">waste</span>         <span class="mi">200</span>           <span class="mi">2</span>           <span class="mi">1</span>           <span class="mi">0</span>           <span class="mi">0</span>           <span class="mi">0</span>
+           <span class="n">Glass</span> <span class="n">jar</span>         <span class="mi">200</span>           <span class="mi">1</span>           <span class="mi">1</span>           <span class="mi">0</span>           <span class="mi">0</span>           <span class="mi">0</span>
+                 <span class="n">Lid</span>         <span class="mi">200</span>          <span class="mi">18</span>       <span class="mf">0.782</span>       <span class="mf">0.333</span>       <span class="mf">0.353</span>       <span class="mf">0.333</span>
+       <span class="n">Other</span> <span class="n">plastic</span>         <span class="mi">200</span>          <span class="mi">57</span>       <span class="mf">0.325</span>      <span class="mf">0.0702</span>      <span class="mf">0.0748</span>      <span class="mf">0.0585</span>
+               <span class="n">Paper</span>         <span class="mi">200</span>          <span class="mi">21</span>       <span class="mf">0.375</span>       <span class="mf">0.143</span>       <span class="mf">0.128</span>        <span class="mf">0.11</span>
+           <span class="n">Paper</span> <span class="n">bag</span>         <span class="mi">200</span>           <span class="mi">5</span>       <span class="mf">0.469</span>         <span class="mf">0.4</span>       <span class="mf">0.361</span>       <span class="mf">0.345</span>
+<span class="n">Plastic</span> <span class="n">bag</span> <span class="o">&amp;</span> <span class="n">wrapper</span>         <span class="mi">200</span>         <span class="mi">132</span>       <span class="mf">0.498</span>       <span class="mf">0.308</span>        <span class="mf">0.34</span>       <span class="mf">0.273</span>
+   <span class="n">Plastic</span> <span class="n">container</span>         <span class="mi">200</span>           <span class="mi">8</span>       <span class="mf">0.364</span>        <span class="mf">0.25</span>       <span class="mf">0.292</span>       <span class="mf">0.281</span>
+     <span class="n">Plastic</span> <span class="n">glooves</span>         <span class="mi">200</span>           <span class="mi">1</span>           <span class="mi">1</span>           <span class="mi">0</span>           <span class="mi">0</span>           <span class="mi">0</span>
+    <span class="n">Plastic</span> <span class="n">utensils</span>         <span class="mi">200</span>           <span class="mi">3</span>           <span class="mi">0</span>           <span class="mi">0</span>      <span class="mf">0.0198</span>      <span class="mf">0.0198</span>
+             <span class="n">Pop</span> <span class="n">tab</span>         <span class="mi">200</span>           <span class="mi">8</span>       <span class="mf">0.452</span>        <span class="mf">0.25</span>       <span class="mf">0.284</span>       <span class="mf">0.224</span>
+      <span class="n">Rope</span> <span class="o">&amp;</span> <span class="n">strings</span>         <span class="mi">200</span>           <span class="mi">3</span>           <span class="mi">0</span>           <span class="mi">0</span>      <span class="mf">0.0953</span>      <span class="mf">0.0695</span>
+         <span class="n">Scrap</span> <span class="n">metal</span>         <span class="mi">200</span>           <span class="mi">7</span>           <span class="mi">1</span>           <span class="mi">0</span>           <span class="mi">0</span>           <span class="mi">0</span>
+                <span class="n">Shoe</span>         <span class="mi">200</span>           <span class="mi">1</span>           <span class="mi">1</span>           <span class="mi">0</span>           <span class="mi">0</span>           <span class="mi">0</span>
+     <span class="n">Squeezable</span> <span class="n">tube</span>         <span class="mi">200</span>           <span class="mi">1</span>           <span class="mi">1</span>           <span class="mi">0</span>      <span class="mf">0.0476</span>      <span class="mf">0.0476</span>
+               <span class="n">Straw</span>         <span class="mi">200</span>          <span class="mi">41</span>       <span class="mf">0.697</span>      <span class="mf">0.0976</span>       <span class="mf">0.141</span>      <span class="mf">0.0793</span>
+     <span class="n">Styrofoam</span> <span class="n">piece</span>         <span class="mi">200</span>           <span class="mi">9</span>       <span class="mf">0.231</span>       <span class="mf">0.111</span>       <span class="mf">0.158</span>      <span class="mf">0.0891</span>
+    <span class="n">Unlabeled</span> <span class="n">litter</span>         <span class="mi">200</span>          <span class="mi">59</span>       <span class="mf">0.418</span>      <span class="mf">0.0735</span>       <span class="mf">0.113</span>      <span class="mf">0.0811</span>
+           <span class="n">Cigarette</span>         <span class="mi">200</span>          <span class="mi">68</span>       <span class="mf">0.694</span>       <span class="mf">0.162</span>       <span class="mf">0.236</span>        <span class="mf">0.11</span>
+<span class="mi">150</span> <span class="n">epochs</span> <span class="n">completed</span> <span class="ow">in</span> <span class="mf">4.421</span> <span class="n">hours</span><span class="p">.</span>
+
+<span class="n">Optimizer</span> <span class="n">stripped</span> <span class="n">from</span> <span class="n">runs</span><span class="o">/</span><span class="n">train</span><span class="o">/</span><span class="n">TACOpoly8</span><span class="o">/</span><span class="n">weights</span><span class="o">/</span><span class="n">last</span><span class="p">.</span><span class="n">pt</span><span class="p">,</span> <span class="mf">75.1</span><span class="n">MB</span>
+<span class="n">Optimizer</span> <span class="n">stripped</span> <span class="n">from</span> <span class="n">runs</span><span class="o">/</span><span class="n">train</span><span class="o">/</span><span class="n">TACOpoly8</span><span class="o">/</span><span class="n">weights</span><span class="o">/</span><span class="n">best</span><span class="p">.</span><span class="n">pt</span><span class="p">,</span> <span class="mf">75.1</span><span class="n">MB</span>
+<span class="n">_________________________________________________________________</span>
+<span class="n">DURÉE</span> <span class="n">DE</span> <span class="n">L</span><span class="c">&#39;ENTRAÎNEMENT : 4:26:29.827454</span>
+</code></pre></div>
+
+<p>Comme évoqué précédement, si l'entraînement s'est bien terminé sans erreur, on peut supprimer <strong>le contenu du dossier</strong> de l'entraînement précédent pour éviter de surcharger le stockage du compte Paperspace Gradient. Il faut en revanche <strong>conserver le dossier</strong>, même vide, car sinon les nouveaux entraînement seront stockés dans ces dossiers-là et on va se perdre dans quels sont les derniers poids (c'est dû à la méthode d'indentation des noms de dossiers dans le code source de yolov7).</p>
+<div class="highlight"><pre><span></span><code><span class="n">last_weights</span> <span class="o">=</span> <span class="n">get_last_weights</span><span class="p">(</span><span class="s1">&#39;TACOpoly&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">init_weights</span> <span class="o">!=</span> <span class="s1">&#39;yolov7_training.pt&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">last_weights</span><span class="p">):</span>
+    <span class="n">dir_to_empty</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">init_weights</span><span class="p">))</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">dir_to_empty</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dir_to_empty</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Ça y est, enfin, après un certain nombre d'époques (entre 600 et 1000 à la grosse louche), votre modèle devrait être suffisamment performant et vous n'avez plus qu'à récupérer les poids <code>best.pt</code> de votre dernier entraînement pour faire votre inférence. Bonne chance et amusez-vous bien !</p>
+<p>C'est la fin de cet article! N'hésitez pas à <a href="https://www.statoscop.fr">visiter notre site</a> et à nous suivre sur <a href="https://twitter.com/stato_scop">Twitter</a> et <a href="https://www.linkedin.com/company/statoscop">Linkedin</a>. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le <a href="https://github.com/Statoscop/notebooks-blog">github de Statoscop</a>.  </p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Entraînement de Yolo V7 sur des données personnelles&amp;url=https://blog.statoscop.fr/yolov7-gradient.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://blog.statoscop.fr/tag/python.html">Python</a><a href="https://blog.statoscop.fr/tag/pytorch.html">PyTorch</a><a href="https://blog.statoscop.fr/tag/machine-learning.html">Machine Learning</a><a href="https://blog.statoscop.fr/tag/deep-learning.html">Deep Learning</a><a href="https://blog.statoscop.fr/tag/computer-vision.html">Computer Vision</a><a href="https://blog.statoscop.fr/tag/object-detection.html">Object Detection</a><a href="https://blog.statoscop.fr/tag/image-segmentation.html">Image segmentation</a><a href="https://blog.statoscop.fr/tag/yolo.html">Yolo</a><a href="https://blog.statoscop.fr/tag/paperspace.html">Paperspace</a><a href="https://blog.statoscop.fr/tag/paperspace-gradient.html">Paperspace Gradient</a><a href="https://blog.statoscop.fr/tag/gpu-training.html">GPU training</a><a href="https://blog.statoscop.fr/tag/gpu-cloud.html">GPU cloud</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+          <span class="credits-theme">Blog réalisé par les fondateurs de Statoscop et publié avec
+            <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a>
+          </span>
+          <span class="credits-software">
+            Thème <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a>
+          </span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
+
+</body>
+</html>
