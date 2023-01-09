@@ -13,11 +13,11 @@ Vous avez très envie d'utiliser Yolo V7 sur votre problématique de reconnaissa
 
 # Utilisation du GPU
 
-Le petite magicien qui rend l'entraînement des modèles de deep learning très profonds, c'est lui : le GPU. *Cool mais déjà c'est quoi ? Et puis comment je fais si j'en ai pas ?*
+Le petite magicien qui rend possible l'entraînement des modèles de deep learning très profonds, c'est lui : le GPU. *Cool mais déjà c'est quoi ? Et puis comment je fais si j'en ai pas ?*
 
 ## Le GPU
 
-Une unité de traitement graphique ou GPU (*Graphics Processing Unit*) est une puce informatique pour traiter les tâches de rendu graphique. Les GPU sont conçus pour effectuer de nombreux calculs simultanément, ce qui les rend particulièrement efficaces pour le rendu graphiques 2D/3D ou le traitement de vidéos mais pas seulement. Le GPU fonctionne conjointement avec le processeur (CPU) et permet, en fonctionnant spécialement pour le rendu images, de libérer de la puissance de traitement pour le CPU qui peut se consacrer aux autres tâches sans limiter les performances de la carte graphique.
+Une unité de traitement graphique ou GPU (*Graphics Processing Unit*) est une puce informatique pour traiter les tâches de rendu graphique. Les GPU sont conçus pour effectuer de nombreux calculs simultanément, ce qui les rend particulièrement efficaces pour le rendu graphiques 2D/3D ou le traitement de vidéos mais pas seulement. Le GPU fonctionne conjointement avec le processeur (CPU) et permet, en tournant spécialement pour le rendu images, de libérer de la puissance de traitement pour le CPU qui peut se consacrer aux autres tâches sans limiter les performances de la carte graphique.
 
 Le GPU est généralement disposé sur la carte graphique (d'où la confusion parfois entre les 2), mais pas nécessairement. En effet la puce GPU peut être intégrée à un CPU sur le même circuit, sur une carte graphique ou dans la carte mère d'un ordinateur ou d'un serveur. 
 
@@ -25,15 +25,15 @@ Le GPU est généralement disposé sur la carte graphique (d'où la confusion pa
 
 Un GPU est plus efficace qu'un CPU pour le rendu d'images grâce à son architecture de traitement parallèle lui permettant d'effectuer de nombreux calculs simultanément. Un seul CPU ne dispose pas de cette fonctionnalité (bien que ce soit possible avec des processeurs multicœurs). En revanche un CPU a une fréquence plus élevée et peut effectuer un calcul plus rapidement qu'un GPU.
 
-Pour résumer, le GPU est conçu pour le parallélisme des données et pour appliquer la même opération à plusieurs éléments de données (SIMD pour *Single Instruction to Multiple Data*) tandis qu'un CPU est conçu pour le parallélisme des tâches et l'exécution de différentes opérations non liées.
+Pour résumer, le GPU est conçu pour le parallélisme des données et pour appliquer la même opération à plusieurs éléments de données (SIMD pour *Single Instruction to Multiple Data*) tandis qu'un CPU est conçu pour le parallélisme des tâches et l'exécution de différentes opérations non nécessairement liées.
 
-Si votre ordinateur est forcément équipé d'un CPU, il n'a pas nécessairement de GPU puisque le chipset de la carte mère peut gérer le rendu graphique (mais beaucoup moins bien qu'une carte graphique).
+Si votre ordinateur est forcément équipé d'un CPU, il n'a pas nécessairement de GPU puisque le chipset de la carte mère peut gérer le rendu graphique (beaucoup moins bien qu'une carte graphique certes).
 
 ## GPU et *Deep Learning*
 
 *"Bon ok, je suis toujours pas spécialiste, mais je vois le principe. Par contre, on était pas sur YoloV7 nous ?"*  
 
-YoloV7 est un réseau de neurones à convolution qui a quasi 37 millions de paramètres...lorsque vous souhaitez utiliser le modèle déjà entraîné sur le jeu de données [COCO](https://cocodataset.org/#home), pas de problèmes de hardware, ça fonctionnera sans ressources supplémentaires. Si par contre vous voulez ré-entraîner le modèle sur vos données, là ça se complique et si vous n'avez pas de GPU, vous avez intérêt à avoir énormément de temps devant vous, et d'ailleurs ça ne suffira même pas, car alors c'est la mémoire qui vous manquera.
+YoloV7 est un réseau de neurones à convolution qui a quasiment 37 millions de paramètres...lorsque vous souhaitez utiliser le modèle déjà entraîné sur le jeu de données [COCO](https://cocodataset.org/#home), pas de problèmes de hardware, ça fonctionnera sans ressources supplémentaires. Si par contre vous voulez ré-entraîner le modèle sur vos données, là ça se complique et si vous n'avez pas de GPU, vous avez intérêt à avoir énormément de temps devant vous, et d'ailleurs ça ne suffira même pas, car alors c'est la mémoire qui vous manquera.
 
 Sans entrer dans les détails de l'optimisation de réseau de neurones, les opérations à effectuer sont des calculs matriciels pas tellement complexes mais répétitifs et surtout, extrêmement nombreux. La parallélisation de ces opérations sur un GPU est donc idéale et nécessaire pour optimiser le réseau dans un temps viable.
 
@@ -49,7 +49,7 @@ L'objectif est d'entraîner le modèle Yolo V7 à identifier et reconnaître des
 
 ## Gradient Paperspace
 
-Que ce soit clair, on n'a pas de parts dans Paperspace. C'est juste que c'est un des fournisseurs de GPU cloud et que Gradient est bien pensé pour des problématiques Machine Learning. Évidemment, si vous souhaitez utiliser un autre fournisseur et y faire tourner ce notebook, c'est tout à fait possible, il faudra juste d'installer sur votre VM l'ensemble des dépendances nécessaires et notamment jupyter. Ceci étant dit, voilà comment faire avec Gradient :
+Que ce soit clair, on n'a pas de parts dans Paperspace. C'est juste que c'est un des fournisseurs de GPU cloud et que Gradient est bien pensé pour des problématiques Machine Learning. Évidemment, si vous souhaitez utiliser un autre fournisseur et y faire tourner ce notebook, c'est tout à fait possible, il faudra juste installer sur votre VM l'ensemble des dépendances nécessaires et notamment `jupyter`. Ceci étant dit, voilà comment faire avec Gradient :
 
 1. Créez un compte sur [Paperspace](https://console.paperspace.com/signup)  
 2. Créez un projet  
@@ -69,10 +69,10 @@ On ne détaillera pas ici le traitement du dataset car ce n'est pas l'objet de c
 2. installation du `requirements.txt`  
 3. récupération des images annotées au format YOLO
 4. exploration du dataset avec les fonctions disponibles dans le script [`cocoviz.py`](https://github.com/Statoscop/notebooks-blog/tree/main/Entrainer%20YoloV7/cocoviz.py)
-5. transformation des annotations du format COCO au format YOLO. Encore une fois, on n'explicite pas ici cette transformation mais quelques éléments toutefois : COCO utilise un seul fichier json dans lequel il stocke toutes les annotations de toutes les images avec des positions absolues alors que YOLO utilise des positions relatives et normalisées dans un fichier txt par image  
+5. transformation des annotations du format COCO au format YOLO. Encore une fois, on n'explicite pas ici cette transformation mais quelques éléments toutefois : COCO utilise un seul fichier json dans lequel il stocke toutes les annotations de toutes les images avec des positions absolues sur les images alors que YOLO utilise des positions relatives et normalisées dans un fichier txt par image  
 6. modification des classes pour ne garder que les super-catégories : ce n'est pas optimal pour la détection d'objets mais ça permet de simplifier un peu ce cas pratique théorique où le pouvoir prédictif de notre modèle n'a pas une grande importance
 
-Vous pouvez uploader ce notebook [TACO_dataset](https://github.com/Statoscop/notebooks-blog/tree/main/Entrainer%20YoloV7/TACO_dataset.ipynb) sur Gradient et l'exécuter directement pour télécharger les images, annotations et effectuer l'ensemble des prétraitements. À la fin de l'exécution, vous disposerez donc, sur votre VM, des données prêtes (ou presque) à être utilisées pour l'entraînement de YoloV7. On y vient.
+Vous pouvez uploader ce notebook [TACO_dataset](https://github.com/Statoscop/notebooks-blog/tree/main/Entrainer%20YoloV7/TACO_dataset.ipynb) sur Gradient et l'exécuter directement pour télécharger les images, annotations et effectuer l'ensemble des prétraitements. À la fin de l'exécution, vous disposerez donc, **sur votre VM**, des données prêtes (ou presque) à être utilisées pour l'entraînement de YoloV7. On y vient.
 
 ## L'entraînement de YoloV7
 
