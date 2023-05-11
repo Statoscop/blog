@@ -25,17 +25,20 @@ La première approche de cette question est bien sûr de calculer les taux de su
 
 ```r
 titanic_data %>% group_by(pclass) %>% 
-  summarise(tx_survie = sum(survived) / n())
-## # A tibble: 3 × 2
-##   pclass tx_survie
-##    <int>     <dbl>
-##       1     0.637
-##       2     0.441
-##       3     0.261
+  summarise(tx_survie = sum(survived) / n()) %>% 
+  knitr::kable()
 ```
+
+
+
+| pclass| tx_survie|
+|------:|---------:|
+|      1| 0.6373239|
+|      2| 0.4406130|
+|      3| 0.2614770| 
+
 On constate en effet une forte disparité des taux de survie en fonction de la classe économique, puisque les passagers de 1ere classe sont 63,7% à survivre, contre 44,1% des passagers de seconde classe et 26,1% des passagers de 3e classe.  
 Est-on bien sûr cependant que l'on observe __l'effet de la classe économique et pas d'un autre facteur de confusion__? On peut par exemple imaginer que l'âge a un effet important sur la chance de survie, et qu'il est également lié à la classe économique choisie pour le voyage. Vérifions ces hypothèses en croisant la répartition en tranches d'âge dans chaque classe :  
-
 
 ```r
 titanic_data %>% 
@@ -43,66 +46,70 @@ titanic_data %>%
   summarise(eff = n()) %>% 
   # À ce stade le df n'est plus groupé que par pclass
   mutate(Proportion = eff / sum(eff)) %>% 
-  select(-eff)
-
-## # A tibble: 12 × 3
-## # Groups:   pclass [3]
-##    pclass tr_age      Proportion
-##     <int> <fct>            <dbl>
-##        1 0 - 17 ans      0.0528
-##        1 18 - 34 ans     0.324 
-##        1 35 - 49 ans     0.370 
-##        1 50 ans ou +     0.254 
-##        2 0 - 17 ans      0.126 
-##        2 18 - 34 ans     0.582 
-##        2 35 - 49 ans     0.195 
-##        2 50 ans ou +     0.0958
-##        3 0 - 17 ans      0.212 
-##        3 18 - 34 ans     0.605 
-##        3 35 - 49 ans     0.158 
-##        3 50 ans ou +     0.0259
+  select(-eff) %>% 
+  knitr::kable()
 ```
+
+
+
+| pclass|tr_age      | Proportion|
+|------:|:-----------|----------:|
+|      1|0 - 17 ans  |  0.0528169|
+|      1|18 - 34 ans |  0.3239437|
+|      1|35 - 49 ans |  0.3697183|
+|      1|50 ans ou + |  0.2535211|
+|      2|0 - 17 ans  |  0.1264368|
+|      2|18 - 34 ans |  0.5823755|
+|      2|35 - 49 ans |  0.1954023|
+|      2|50 ans ou + |  0.0957854|
+|      3|0 - 17 ans  |  0.2115768|
+|      3|18 - 34 ans |  0.6047904|
+|      3|35 - 49 ans |  0.1576846|
+|      3|50 ans ou + |  0.0259481|
 
 On constate en effet que la classe 3 comporte bien plus de mineurs et bien moins de passagers de plus de cinquante ans que la première classe. Comme on s'y attendait, __plus la classe économique est aisée, plus les passagers ont un âge élevé__. Voyons maintenant si les taux de survie varient en fonction de l'âge :  
 
 
 ```r
 titanic_data %>% group_by(tr_age) %>% 
-  summarise(tx_survie = sum(survived) / n())
-## # A tibble: 4 × 2
-##   tr_age      tx_survie
-##   <fct>           <dbl>
-##  0 - 17 ans      0.526
-##  18 - 34 ans     0.377
-##  35 - 49 ans     0.409
-##  50 ans ou +     0.4
+  summarise(tx_survie = sum(survived) / n()) %>% 
+  knitr::kable()
 ```
+
+
+
+|tr_age      | tx_survie|
+|:-----------|---------:|
+|0 - 17 ans  | 0.5259740|
+|18 - 34 ans | 0.3765996|
+|35 - 49 ans | 0.4085106|
+|50 ans ou + | 0.4000000|
 
 Les taux de survie ne semblent pas beaucoup varier en fonction de l'âge, à part pour les mineurs qui ont un taux de survie bien supérieur aux autres. Croisons maintenant les taux de survie en fonction de la classe économique __et__ de la tranche d'âge :  
 
 
 ```r
 titanic_data %>% group_by(pclass, tr_age) %>% 
-  summarise(tx_survie = sum(survived) / n())
-## `summarise()` has grouped output by 'pclass'. You can override using the
-## `.groups` argument.
-## # A tibble: 12 × 3
-## # Groups:   pclass [3]
-##    pclass tr_age      tx_survie
-##     <int> <fct>           <dbl>
-##        1 0 - 17 ans     0.867 
-##        1 18 - 34 ans    0.707 
-##        1 35 - 49 ans    0.629 
-##        1 50 ans ou +    0.514 
-##        2 0 - 17 ans     0.879 
-##        2 18 - 34 ans    0.414 
-##        2 35 - 49 ans    0.333 
-##        2 50 ans ou +    0.24  
-##        3 0 - 17 ans     0.368 
-##        3 18 - 34 ans    0.257 
-##        3 35 - 49 ans    0.165 
-##        3 50 ans ou +    0.0769
+  summarise(tx_survie = sum(survived) / n()) %>% 
+  knitr::kable()
 ```
+
+
+
+| pclass|tr_age      | tx_survie|
+|------:|:-----------|---------:|
+|      1|0 - 17 ans  | 0.8666667|
+|      1|18 - 34 ans | 0.7065217|
+|      1|35 - 49 ans | 0.6285714|
+|      1|50 ans ou + | 0.5138889|
+|      2|0 - 17 ans  | 0.8787879|
+|      2|18 - 34 ans | 0.4144737|
+|      2|35 - 49 ans | 0.3333333|
+|      2|50 ans ou + | 0.2400000|
+|      3|0 - 17 ans  | 0.3679245|
+|      3|18 - 34 ans | 0.2574257|
+|      3|35 - 49 ans | 0.1645570|
+|      3|50 ans ou + | 0.0769231|
 
 On constate là plusieurs choses :  
 - Au sein de chaque classe économique il y a un lien très clair entre l'âge et le taux de survie : plus on vieillit pluys celui-ci baisse.  
@@ -121,18 +128,20 @@ La première étape est de récupérer les effectifs de classe d'âge de la popu
 titanic_data %>% group_by(tr_age) %>% 
   summarise(eff = n()) -> rep_age_ref
 
-rep_age_ref
-## # A tibble: 4 × 2
-##   tr_age        eff
-##   <fct>       <int>
-##  0 - 17 ans    154
-##  18 - 34 ans   547
-##  35 - 49 ans   235
-##  50 ans ou +   110
+knitr::kable(rep_age_ref)
 ```
 
-On calcule ensuite comme précédemment les taux de survie par tranche d'âge de chaque classe économique et on transforme la table pour avoir une colonne par classe économique  
 
+
+|tr_age      | eff|
+|:-----------|---:|
+|0 - 17 ans  | 154|
+|18 - 34 ans | 547|
+|35 - 49 ans | 235|
+|50 ans ou + | 110|
+
+
+On calcule ensuite comme précédemment les taux de survie par tranche d'âge de chaque classe économique et on transforme la table pour avoir une colonne par classe économique.  
 
 ```r
 titanic_data %>% group_by(pclass, tr_age) %>% 
@@ -143,18 +152,18 @@ titanic_data %>% group_by(pclass, tr_age) %>%
   tidyr::pivot_wider(names_from = pclass, values_from = survie,
                      # option names_glue pour spécifier le nom des variables créées
                      names_glue = "{.value}_{pclass}") -> survie_age_class
-## `summarise()` has grouped output by 'pclass'. You can override using the
-## `.groups` argument.
 
-survie_age_class
-## # A tibble: 4 × 4
-##   tr_age      survie_1 survie_2 survie_3
-##   <fct>          <dbl>    <dbl>    <dbl>
-##  0 - 17 ans     0.867    0.879   0.368 
-##  18 - 34 ans    0.707    0.414   0.257 
-##  35 - 49 ans    0.629    0.333   0.165 
-##  50 ans ou +    0.514    0.24    0.0769
+knitr::kable(survie_age_class)
 ```
+
+
+
+|tr_age      |  survie_1|  survie_2|  survie_3|
+|:-----------|---------:|---------:|---------:|
+|0 - 17 ans  | 0.8666667| 0.8787879| 0.3679245|
+|18 - 34 ans | 0.7065217| 0.4144737| 0.2574257|
+|35 - 49 ans | 0.6285714| 0.3333333| 0.1645570|
+|50 ans ou + | 0.5138889| 0.2400000| 0.0769231|
 
 Il ne reste plus qu'à fusionner les deux tables ainsi créées et à appliquer chacun des taux de survie aux effectifs par tranche d'âge de la population de référence :  
 
@@ -163,15 +172,17 @@ Il ne reste plus qu'à fusionner les deux tables ainsi créées et à appliquer 
 rep_age_ref %>% inner_join(survie_age_class, by = "tr_age") %>% 
   mutate(
     across(starts_with("survie_"), ~ . * eff)) -> eff_survie_age_class
-eff_survie_age_class
-## # A tibble: 4 × 5
-##   tr_age        eff survie_1 survie_2 survie_3
-##   <fct>       <int>    <dbl>    <dbl>    <dbl>
-##  0 - 17 ans    154    133.     135.     56.7 
-##  18 - 34 ans   547    386.     227.    141.  
-##  35 - 49 ans   235    148.      78.3    38.7 
-##  50 ans ou +   110     56.5     26.4     8.46
+knitr::kable(eff_survie_age_class)
 ```
+
+
+
+|tr_age      | eff|  survie_1|  survie_2|   survie_3|
+|:-----------|---:|---------:|---------:|----------:|
+|0 - 17 ans  | 154| 133.46667| 135.33333|  56.660377|
+|18 - 34 ans | 547| 386.46739| 226.71711| 140.811881|
+|35 - 49 ans | 235| 147.71429|  78.33333|  38.670886|
+|50 ans ou + | 110|  56.52778|  26.40000|   8.461538|
 
 > Si l'utilisation d'across ne vous semble pas claire, je ne saurais trop vous recommander [notre précédent article de blog](https://blog.statoscop.fr/fonctionnement-et-performances-dacross-dans-dplyr.html) sur ce verbe bien pratique de dplyr.  
 
@@ -180,12 +191,15 @@ On obtient finalement nos taux de survie standardisés en sommant les effectifs 
 
 ```r
 eff_survie_age_class %>% 
-  summarise(across(starts_with("survie_"), ~ sum(.) / sum(eff)))
-## # A tibble: 1 × 3
-##   survie_1 survie_2 survie_3
-##      <dbl>    <dbl>    <dbl>
-##     0.692    0.446    0.234
+  summarise(across(starts_with("survie_"), ~ sum(.) / sum(eff))) %>% 
+  knitr::kable()
 ```
+
+
+
+| survie_1| survie_2|  survie_3|
+|--------:|--------:|---------:|
+| 0.692329| 0.446256| 0.2338477|
 
 Par rapport aux taux de survie bruts présentés plus haut, on constate que __les inégalités économiques de survie s'aggravent après avoir contrôlé par l'âge__. Le taux de survie standardisés de la classe 1 et de la classe 3 sont en effet de 69,2% et 23,4 % contre 63,7% et 26,1% avant la correction. Cela correspond à ce que l'on pouvait pressentir après l'analyse exploratoire puisque les passagers de la classe 3 sont plus jeunes et que les jeunes ont une meilleure chance de survie au sein de chaque classe économique.   
 
