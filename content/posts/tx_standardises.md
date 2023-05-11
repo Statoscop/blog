@@ -3,9 +3,9 @@ Author: Antoine
 Date: '2023-05-11'
 Category: R, Stats & ML
 Tags: R, Rstats, data science, statistiques  
-Cover: images/cover_10.png
-twitter_image: images/cover_10.png
-Summary: Présentation de la méthode de standardisation directe des taux sur une étude de cas.  
+Cover: images/cover_15.png
+twitter_image: images/cover_15.png
+Summary: Présentation de la méthode de standardisation directe sur les taux de survie des passagers du Titanic.  
 
 
 Dans cette note nous présentons la méthode de standardisation directe des taux, qui permet de comparer des fréquences d'évènement entre différentes sous-populations en contrôlant par une ou plusieurs autres variables. Après avoir présenté le principe général de standardisation directe, on présente une mise en oeuvre pas-à-pas de la méthode sur une étude de cas à partir des données des passagers du Titanic.  
@@ -16,7 +16,7 @@ Les méthodes de standardisation des taux sont principalement étudiés en épid
 On peut lire par exemple sur le site des [données de la banque mondiale](https://donnees.banquemondiale.org) que le taux de mortalité en 2020 en Australie est de 6 pour 1000 habitants, contre 12 pour 1000 habitants en Allemagne. Or, cet indicateur est bien sûr fortement influencé par la structure d'âge de la population concernée. Pour correctement comparer cet indicateur entre l'Australie et l'Allemagne et éventuellement en tirer des conclusions sur des différences de qualité de vie entre les deux pays, il faudrait __comparer ces taux à structure d'âge constante__.   
 C'est précisément ce que permet de faire la standardisation directe. Il est nécessaire pour cela de disposer du détail de l'indicateur par tranche d'âge dans chacun des pays. Dans notre exemple, une fois qu'on dispose des taux de mortalité par tranche d'âge en Australie et en Allemagne, on les  applique à __une structure d'âge de référence__, qui peut être soit celle d'un des deux pays, soit celle du monde entier si on dispose de l'information. On peut alors obtenir un nouveaux taux de mortalité global __corrigé de l'effet lié à l'âge__ et permettant une comparaison plus pertinente entre les pays. Voyons concrètement comment on peut mettre en oeuvre cette méthode sur une étude de cas en R.  
 
-# Premières analyses exploratoires des données  
+# Analyses exploratoires des données  
 
 Pour notre petit exemple, on s'appuie sur un dataset très connu : les [données des passagers du Titanic](https://www.kaggle.com/c/titanic). Les informations qui nous intéressent ici sont la classe économique, l'âge et le fait d'avoir survécu ou non au naufrage. On ne garde que les observations ayant des valeurs renseignées pour ces 3 variables. On veut répondre à la question suivante : __le fait d'être dans une classe économique aisée augmente-t-elle les chances de survie au nauffrage?__  
 
