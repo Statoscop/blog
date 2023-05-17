@@ -1,6 +1,6 @@
 Title: Taux standardisés : calcul et interprétation avec R
 Author: Antoine
-Date: '2023-05-11'
+Date: '2023-05-17'
 Category: R, Stats & ML
 Tags: R, Rstats, data science, statistiques  
 Cover: images/cover_15.png
@@ -8,7 +8,7 @@ twitter_image: images/cover_15.png
 Summary: Présentation de la méthode de standardisation directe sur les taux de survie des passagers du Titanic.  
 
 
-Dans cette note nous présentons la méthode de standardisation directe des taux, qui permet de comparer des fréquences d'évènement entre différentes sous-populations en contrôlant par une ou plusieurs autres variables. Après avoir présenté le principe général de standardisation directe, on présente une mise en oeuvre pas-à-pas de la méthode sur une étude de cas à partir des données des passagers du Titanic.  
+Dans cette note nous présentons la méthode de standardisation directe des taux, qui permet de comparer des fréquences d'évènement entre différentes sous-populations en contrôlant par une ou plusieurs autres variables. Après avoir défini le principe général de standardisation directe, on présente une mise en oeuvre pas-à-pas de la méthode sur une étude de cas à partir des données des passagers du Titanic.  
 
 # Principe de la standardisation directe  
 
