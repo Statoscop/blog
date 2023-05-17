@@ -5,8 +5,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/</loc>
-<lastmod>2023-01-09T10:08:42-00:00</lastmod>
+<lastmod>2023-05-17T14:50:41-00:00</lastmod>
 <changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/taux-standardises-calcul-et-interpretation-avec-r.html</loc>
+<lastmod>2023-05-17T00:00:00+02:00</lastmod>
+<changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
@@ -124,7 +131,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/category/r.html</loc>
-<lastmod>2022-11-08T00:00:00+00:09</lastmod>
+<lastmod>2023-05-17T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -138,7 +145,35 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/category/stats-ml.html</loc>
-<lastmod>2022-03-04T00:00:00+00:09</lastmod>
+<lastmod>2023-05-17T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/r.html</loc>
+<lastmod>2023-05-17T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/rstats.html</loc>
+<lastmod>2023-05-17T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/data-science.html</loc>
+<lastmod>2023-05-17T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/statistiques.html</loc>
+<lastmod>2023-05-17T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -228,20 +263,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://blog.statoscop.fr/tag/statistiques.html</loc>
-<lastmod>2022-11-14T00:00:00+00:09</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://blog.statoscop.fr/tag/data-science.html</loc>
-<lastmod>2022-11-14T00:00:00+00:09</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
 <loc>https://blog.statoscop.fr/tag/series-temporelles.html</loc>
 <lastmod>2022-11-14T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
@@ -272,13 +293,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://blog.statoscop.fr/tag/time-series.html</loc>
 <lastmod>2022-11-14T00:00:00+00:09</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://blog.statoscop.fr/tag/r.html</loc>
-<lastmod>2022-11-08T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -403,13 +417,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://blog.statoscop.fr/tag/rstats.html</loc>
-<lastmod>2021-11-08T00:00:00+00:09</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
 <loc>https://blog.statoscop.fr/tag/renv.html</loc>
 <lastmod>2021-10-07T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
@@ -467,7 +474,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/author/antoine.html</loc>
-<lastmod>2022-11-08T00:00:00+00:09</lastmod>
+<lastmod>2023-05-17T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Le blog de Statoscop - études de cas en R et Python</title>
+  <link rel="icon" type="image/x-icon" href="https://blog.statoscop.fr/themes/statoscop/static/images/favicon-v1.ico" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://blog.statoscop.fr/taux-standardises-calcul-et-interpretation-avec-r.html" rel="canonical" />
+  <!-- Feed -->
+        <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
+          <link href="https://blog.statoscop.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
+
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://blog.statoscop.fr/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Présentation de la méthode de standardisation directe sur les taux de survie des passagers du Titanic.">
+
+    <meta name="author" content="Antoine">
+
+    <meta name="tags" content="R">
+    <meta name="tags" content="Rstats">
+    <meta name="tags" content="data science">
+    <meta name="tags" content="statistiques">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="Taux standardisés : calcul et interprétation avec R"/>
+<meta property="og:description" content="Présentation de la méthode de standardisation directe sur les taux de survie des passagers du Titanic."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.statoscop.fr/taux-standardises-calcul-et-interpretation-avec-r.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2023-05-17 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://blog.statoscop.fr/author/antoine.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="R"/>
+<meta property="article:tag" content="Rstats"/>
+<meta property="article:tag" content="data science"/>
+<meta property="article:tag" content="statistiques"/>
+<meta property="og:image" content="https://blog.statoscop.fr/images/cover_15.png">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Taux standardisés : calcul et interprétation avec R",
+  "headline": "Taux standardisés : calcul et interprétation avec R",
+  "datePublished": "2023-05-17 00:00:00+02:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Antoine",
+    "url": "https://blog.statoscop.fr/author/antoine.html"
+  },
+  "image": "https://blog.statoscop.fr/images/cover_15.png",
+  "url": "https://blog.statoscop.fr/taux-standardises-calcul-et-interpretation-avec-r.html",
+  "description": "Présentation de la méthode de standardisation directe sur les taux de survie des passagers du Titanic."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header">
+      <div class="inner">
+        <nav id="navigation">
+          <span class="blog-logo">
+            <a href="https://statoscop.fr"><img src="https://blog.statoscop.fr/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Blog Logo" /></a>
+          </span>
+          <span id="menu-button" class="nav-button">
+            <a href="https://blog.statoscop.fr">Retour à l'accueil du blog</a>
+          </span>
+        </nav>
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+      
+      <div>
+      </div>
+
+      <article class="post">
+        <div class="inner">
+
+
+
+
+            <section class="post-content">
+              <h1 class="post-title">Taux standardisés : calcul et interprétation avec R</h1>
+                <!-- Le titres et meta infos-->
+                <span class="post-meta">
+                        <a href="https://blog.statoscop.fr/author/antoine.html">Antoine</a>
+                    | <time datetime="mer. 17 mai 2023">mer. 17 mai 2023</time>
+                </span>
+
+                <!--Table des matieres
+-->
+                
+                <p>Dans cette note nous présentons la méthode de standardisation directe des taux, qui permet de comparer des fréquences d'évènement entre différentes sous-populations en contrôlant par une ou plusieurs autres variables. Après avoir défini le principe général de standardisation directe, on présente une mise en oeuvre pas-à-pas de la méthode sur une étude de cas à partir des données des passagers du Titanic.  </p>
+<h1 id="principe-de-la-standardisation-directe">Principe de la standardisation directe</h1>
+<p>Les méthodes de standardisation des taux sont principalement étudiées en épidémiologie. Elles permettent en effet de répondre au problème suivant : comment <strong>comparer des indicateurs épidémiologiques</strong> entre différents pays ayant leurs spécificités démographiques? <br>
+On peut lire par exemple sur le site des <a href="https://donnees.banquemondiale.org">données de la banque mondiale</a> que le taux de mortalité en 2020 en Australie est de 6 pour 1000 habitants, contre 12 pour 1000 habitants en Allemagne. Or, cet indicateur est bien sûr fortement influencé par la structure d'âge de la population concernée. Pour correctement comparer cet indicateur entre l'Australie et l'Allemagne et éventuellement en tirer des conclusions sur des différences de qualité de vie entre les deux pays, il faudrait <strong>comparer ces taux à structure d'âge constante</strong>. <br>
+C'est précisément ce que permet de faire la standardisation directe. Il est nécessaire pour cela de disposer du détail de l'indicateur par tranche d'âge dans chacun des pays. Dans notre exemple, une fois qu'on dispose des taux de mortalité par tranche d'âge en Australie et en Allemagne, on les  applique à <strong>une structure d'âge de référence</strong>, qui peut être soit celle d'un des deux pays, soit celle du monde entier si on dispose de l'information. On peut alors obtenir un nouveau taux de mortalité global <strong>corrigé de l'effet lié à l'âge</strong> et permettant une comparaison plus pertinente entre les pays. Voyons concrètement comment on peut mettre en oeuvre cette méthode sur une étude de cas en R.  </p>
+<h1 id="analyses-exploratoires-des-donnees">Analyses exploratoires des données</h1>
+<p>Pour notre petit exemple, on s'appuie sur un dataset très connu : les <a href="https://www.kaggle.com/c/titanic">données des passagers du Titanic</a>. Les informations qui nous intéressent ici sont la classe économique, l'âge et le fait d'avoir survécu ou non au naufrage. On ne garde que les observations ayant des valeurs renseignées pour ces 3 variables. On veut répondre à la question suivante : <strong>le fait d'être dans une classe économique aisée augmente-t-elle les chances de survie au nauffrage?</strong>  </p>
+<p>La première approche de cette question est bien sûr de calculer les taux de survie par classe économique. le résultat est le suivant :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">pclass</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+  <span class="nf">summarise</span><span class="p">(</span><span class="n">tx_survie</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span> <span class="o">/</span> <span class="nf">n</span><span class="p">())</span> <span class="o">%&gt;%</span> 
+  <span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th align="right">pclass</th>
+<th align="right">tx_survie</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">1</td>
+<td align="right">0.6373239</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="right">0.4406130</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="right">0.2614770</td>
+</tr>
+</tbody>
+</table>
+<p>On constate en effet une forte disparité des taux de survie en fonction de la classe économique, puisque les passagers de 1ere classe sont 63,7% à survivre, contre 44,1% des passagers de seconde classe et 26,1% des passagers de 3e classe.<br>
+Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économique et pas d'un autre facteur de confusion</strong>? On peut par exemple imaginer que l'âge a un effet important sur la chance de survie, et qu'il est également lié à la classe économique choisie pour le voyage. Vérifions ces hypothèses en croisant la répartition en tranches d'âge dans chaque classe :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span> <span class="o">%&gt;%</span> 
+  <span class="nf">group_by</span><span class="p">(</span><span class="n">pclass</span><span class="p">,</span> <span class="n">tr_age</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+  <span class="nf">summarise</span><span class="p">(</span><span class="n">eff</span> <span class="o">=</span> <span class="nf">n</span><span class="p">())</span> <span class="o">%&gt;%</span> 
+  <span class="c1"># À ce stade le df n&#39;est plus groupé que par pclass</span>
+  <span class="nf">mutate</span><span class="p">(</span><span class="n">Proportion</span> <span class="o">=</span> <span class="n">eff</span> <span class="o">/</span> <span class="nf">sum</span><span class="p">(</span><span class="n">eff</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+  <span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">eff</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+  <span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th align="right">pclass</th>
+<th align="left">tr_age</th>
+<th align="right">Proportion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">1</td>
+<td align="left">0 - 17 ans</td>
+<td align="right">0.0528169</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="left">18 - 34 ans</td>
+<td align="right">0.3239437</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="left">35 - 49 ans</td>
+<td align="right">0.3697183</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="left">50 ans ou +</td>
+<td align="right">0.2535211</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="left">0 - 17 ans</td>
+<td align="right">0.1264368</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="left">18 - 34 ans</td>
+<td align="right">0.5823755</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="left">35 - 49 ans</td>
+<td align="right">0.1954023</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="left">50 ans ou +</td>
+<td align="right">0.0957854</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="left">0 - 17 ans</td>
+<td align="right">0.2115768</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="left">18 - 34 ans</td>
+<td align="right">0.6047904</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="left">35 - 49 ans</td>
+<td align="right">0.1576846</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="left">50 ans ou +</td>
+<td align="right">0.0259481</td>
+</tr>
+</tbody>
+</table>
+<p>On constate en effet que la classe 3 comporte bien plus de mineurs et bien moins de passagers de plus de cinquante ans que la première classe. Comme on s'y attendait, <strong>plus la classe économique est aisée, plus les passagers ont un âge élevé</strong>. Voyons maintenant si les taux de survie varient en fonction de l'âge :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">tr_age</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+  <span class="nf">summarise</span><span class="p">(</span><span class="n">tx_survie</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span> <span class="o">/</span> <span class="nf">n</span><span class="p">())</span> <span class="o">%&gt;%</span> 
+  <span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th align="left">tr_age</th>
+<th align="right">tx_survie</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">0 - 17 ans</td>
+<td align="right">0.5259740</td>
+</tr>
+<tr>
+<td align="left">18 - 34 ans</td>
+<td align="right">0.3765996</td>
+</tr>
+<tr>
+<td align="left">35 - 49 ans</td>
+<td align="right">0.4085106</td>
+</tr>
+<tr>
+<td align="left">50 ans ou +</td>
+<td align="right">0.4000000</td>
+</tr>
+</tbody>
+</table>
+<p>Les taux de survie ne semblent pas beaucoup varier en fonction de l'âge, à part pour les mineurs qui ont un taux de survie bien supérieur aux autres. Croisons maintenant les taux de survie en fonction de la classe économique <strong>et</strong> de la tranche d'âge :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">pclass</span><span class="p">,</span> <span class="n">tr_age</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+  <span class="nf">summarise</span><span class="p">(</span><span class="n">tx_survie</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span> <span class="o">/</span> <span class="nf">n</span><span class="p">())</span> <span class="o">%&gt;%</span> 
+  <span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th align="right">pclass</th>
+<th align="left">tr_age</th>
+<th align="right">tx_survie</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">1</td>
+<td align="left">0 - 17 ans</td>
+<td align="right">0.8666667</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="left">18 - 34 ans</td>
+<td align="right">0.7065217</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="left">35 - 49 ans</td>
+<td align="right">0.6285714</td>
+</tr>
+<tr>
+<td align="right">1</td>
+<td align="left">50 ans ou +</td>
+<td align="right">0.5138889</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="left">0 - 17 ans</td>
+<td align="right">0.8787879</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="left">18 - 34 ans</td>
+<td align="right">0.4144737</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="left">35 - 49 ans</td>
+<td align="right">0.3333333</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="left">50 ans ou +</td>
+<td align="right">0.2400000</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="left">0 - 17 ans</td>
+<td align="right">0.3679245</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="left">18 - 34 ans</td>
+<td align="right">0.2574257</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="left">35 - 49 ans</td>
+<td align="right">0.1645570</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="left">50 ans ou +</td>
+<td align="right">0.0769231</td>
+</tr>
+</tbody>
+</table>
+<p>On constate là plusieurs choses :<br>
+- Au sein de chaque classe économique il y a un lien très clair entre l'âge et le taux de survie : plus on vieillit pluys celui-ci baisse.<br>
+- Au sein de chaque tranche d'âge, plus la classe économique est élevée plus la chance de survie augmente. La seule exception est la tranche d'âge 0 - 17 ans de la seconde classe qui a un taux de survie légèrement supérieur à la population du même âge de la 1ere classe (87,9% contre 86,7%).  </p>
+<p>Au vu de ces éléments il apparaît légitime de calculer des taux standardisés pour comparer des fréquences de survie au sein de chaque classe corrigées de l'effet de l'âge.  </p>
+<h1 id="calcul-pas-a-pas-des-taux-standardises-de-survie-au-naufrage-du-titanic">Calcul pas-à-pas des taux standardisés de survie au naufrage du Titanic</h1>
+<p>Au vu des résultats des taux de survie croisés par classe et âge, on sait déjà que la classe économique et l'âge jouent sur la chance de survie. Le calcul des taux standardisés de survie va permettre de quantifier <strong>l'effet de la classe économique isolé de l'effet âge</strong>. Le principe est le suivant : on calcule le taux de survie que l'on observerait dans chaque classe économique <strong>si la répartition des passagers en classe d'âge était la même que celle de la population de référence</strong>. Dans notre exemple, la population de référence est l'ensemble des passagers.</p>
+<p>La première étape est de récupérer les effectifs de classe d'âge de la population de référence :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">tr_age</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+  <span class="nf">summarise</span><span class="p">(</span><span class="n">eff</span> <span class="o">=</span> <span class="nf">n</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">rep_age_ref</span>
+
+<span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">(</span><span class="n">rep_age_ref</span><span class="p">)</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th align="left">tr_age</th>
+<th align="right">eff</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">0 - 17 ans</td>
+<td align="right">154</td>
+</tr>
+<tr>
+<td align="left">18 - 34 ans</td>
+<td align="right">547</td>
+</tr>
+<tr>
+<td align="left">35 - 49 ans</td>
+<td align="right">235</td>
+</tr>
+<tr>
+<td align="left">50 ans ou +</td>
+<td align="right">110</td>
+</tr>
+</tbody>
+</table>
+<p>On calcule ensuite comme précédemment les taux de survie par tranche d'âge de chaque classe économique et on transforme la table pour avoir une colonne par classe économique.  </p>
+<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">pclass</span><span class="p">,</span> <span class="n">tr_age</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+  <span class="c1"># taux de survie par classe et tranche d&#39;âge</span>
+  <span class="nf">summarise</span><span class="p">(</span><span class="n">survie</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span> <span class="o">/</span> <span class="nf">n</span><span class="p">())</span> <span class="o">%&gt;%</span> 
+  <span class="c1"># on transforme la table en largeur pour avoir trois colonnes</span>
+  <span class="c1"># donnant le taux de survie</span>
+  <span class="n">tidyr</span><span class="o">::</span><span class="nf">pivot_wider</span><span class="p">(</span><span class="n">names_from</span> <span class="o">=</span> <span class="n">pclass</span><span class="p">,</span> <span class="n">values_from</span> <span class="o">=</span> <span class="n">survie</span><span class="p">,</span>
+                     <span class="c1"># option names_glue pour spécifier le nom des variables créées</span>
+                     <span class="n">names_glue</span> <span class="o">=</span> <span class="s">&quot;{.value}_{pclass}&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">survie_age_class</span>
+
+<span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">(</span><span class="n">survie_age_class</span><span class="p">)</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th align="left">tr_age</th>
+<th align="right">survie_1</th>
+<th align="right">survie_2</th>
+<th align="right">survie_3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">0 - 17 ans</td>
+<td align="right">0.8666667</td>
+<td align="right">0.8787879</td>
+<td align="right">0.3679245</td>
+</tr>
+<tr>
+<td align="left">18 - 34 ans</td>
+<td align="right">0.7065217</td>
+<td align="right">0.4144737</td>
+<td align="right">0.2574257</td>
+</tr>
+<tr>
+<td align="left">35 - 49 ans</td>
+<td align="right">0.6285714</td>
+<td align="right">0.3333333</td>
+<td align="right">0.1645570</td>
+</tr>
+<tr>
+<td align="left">50 ans ou +</td>
+<td align="right">0.5138889</td>
+<td align="right">0.2400000</td>
+<td align="right">0.0769231</td>
+</tr>
+</tbody>
+</table>
+<p>Il ne reste plus qu'à fusionner les deux tables ainsi créées et à appliquer chacun des taux de survie aux effectifs par tranche d'âge de la population de référence :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">rep_age_ref</span> <span class="o">%&gt;%</span> <span class="nf">inner_join</span><span class="p">(</span><span class="n">survie_age_class</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="s">&quot;tr_age&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+  <span class="nf">mutate</span><span class="p">(</span>
+    <span class="nf">across</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;survie_&quot;</span><span class="p">),</span> <span class="o">~</span> <span class="n">.</span> <span class="o">*</span> <span class="n">eff</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">eff_survie_age_class</span>
+<span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">(</span><span class="n">eff_survie_age_class</span><span class="p">)</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th align="left">tr_age</th>
+<th align="right">eff</th>
+<th align="right">survie_1</th>
+<th align="right">survie_2</th>
+<th align="right">survie_3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">0 - 17 ans</td>
+<td align="right">154</td>
+<td align="right">133.46667</td>
+<td align="right">135.33333</td>
+<td align="right">56.660377</td>
+</tr>
+<tr>
+<td align="left">18 - 34 ans</td>
+<td align="right">547</td>
+<td align="right">386.46739</td>
+<td align="right">226.71711</td>
+<td align="right">140.811881</td>
+</tr>
+<tr>
+<td align="left">35 - 49 ans</td>
+<td align="right">235</td>
+<td align="right">147.71429</td>
+<td align="right">78.33333</td>
+<td align="right">38.670886</td>
+</tr>
+<tr>
+<td align="left">50 ans ou +</td>
+<td align="right">110</td>
+<td align="right">56.52778</td>
+<td align="right">26.40000</td>
+<td align="right">8.461538</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Si l'utilisation d'across ne vous semble pas claire, je ne saurais trop vous recommander <a href="https://blog.statoscop.fr/fonctionnement-et-performances-dacross-dans-dplyr.html">notre précédent article de blog</a> sur ce verbe bien pratique de dplyr.  </p>
+</blockquote>
+<p>On obtient finalement nos taux de survie standardisés en sommant les effectifs par tranche d'âge et en divisant par l'effectif total :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">eff_survie_age_class</span> <span class="o">%&gt;%</span> 
+  <span class="nf">summarise</span><span class="p">(</span><span class="nf">across</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;survie_&quot;</span><span class="p">),</span> <span class="o">~</span> <span class="nf">sum</span><span class="p">(</span><span class="n">.</span><span class="p">)</span> <span class="o">/</span> <span class="nf">sum</span><span class="p">(</span><span class="n">eff</span><span class="p">)))</span> <span class="o">%&gt;%</span> 
+  <span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th align="right">survie_1</th>
+<th align="right">survie_2</th>
+<th align="right">survie_3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">0.692329</td>
+<td align="right">0.446256</td>
+<td align="right">0.2338477</td>
+</tr>
+</tbody>
+</table>
+<p>Par rapport aux taux de survie bruts présentés plus haut, on constate que <strong>les inégalités économiques de survie s'aggravent après avoir contrôlé par l'âge</strong>. Le taux de survie standardisés de la classe 1 et de la classe 3 sont en effet de 69,2% et 23,4 % contre 63,7% et 26,1% avant la correction. Cela correspond à ce que l'on pouvait pressentir après l'analyse exploratoire puisque les passagers de la classe 3 sont plus jeunes et que les jeunes ont une meilleure chance de survie au sein de chaque classe économique.   </p>
+<h1 id="pour-conclure">Pour conclure</h1>
+<p>J'espère que cet exemple vous aura permis de mieux appréhender la question de la standardisation directe. Bien sûr, la méthode utilisée ici comporte des limites, notamment l'utilisation de tranches d'âge très larges qui pourraient fausser le résultat. On peut par exemple penser que les enfants en bas âge ont bénéficié d'une attention toute particulière, et ils se retrouvent ici dans la même tranche d'âge que des adolescents. Mais nous sommes également contraints par les effectifs qui nous empêchent de faire une analyse trop fine de ces subtilités. Si ces questions vous intéressent, vous pouvez vous reporter à notre article sur <a href="https://blog.statoscop.fr/le-dilemme-biais-variance-dans-la-modelisation-de-donnees.html">le dilemme biais-variance</a>.   </p>
+<p>Enfin, nous avons passé sous silence une variable explicative très importante : le sexe des passagers. Les taux de survie sont en effet très différents pour les hommes et pour les femmes. Il est possible de reproduire cette analyse en prenant en compte cette variable, croisée également avec l'âge. Cependant, toujours en raison de trop faibles effectifs, il sera sans doute nécessaire d'agréger encore plus les tranches d'âge. Vous avez les cartes en main pour le faire, et mieux comprendre les fortunes diverses de Jack et Rose dans le célèbre film de la tragédie...  </p>
+<p>C'est la fin de cet article! N'hésitez pas à <a href="https://www.statoscop.fr">visiter notre site</a> et à nous suivre sur <a href="https://twitter.com/stato_scop">Twitter</a> et <a href="https://www.linkedin.com/company/statoscop">Linkedin</a>. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le <a href="https://github.com/Statoscop/notebooks-blog">github de Statoscop</a>.  </p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Taux standardisés : calcul et interprétation avec R&amp;url=https://blog.statoscop.fr/taux-standardises-calcul-et-interpretation-avec-r.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://blog.statoscop.fr/tag/r.html">R</a><a href="https://blog.statoscop.fr/tag/rstats.html">Rstats</a><a href="https://blog.statoscop.fr/tag/data-science.html">data science</a><a href="https://blog.statoscop.fr/tag/statistiques.html">statistiques</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+          <span class="credits-theme">Blog réalisé par les fondateurs de Statoscop et publié avec
+            <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a>
+          </span>
+          <span class="credits-software">
+            Thème <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a>
+          </span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
+
+</body>
+</html>
