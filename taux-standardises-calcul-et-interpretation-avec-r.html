@@ -146,7 +146,14 @@
                 <!--Table des matieres
 -->
                 
-                <p>Dans cette note nous présentons la méthode de standardisation directe des taux, qui permet de comparer des fréquences d'évènement entre différentes sous-populations en contrôlant par une ou plusieurs autres variables. Après avoir défini le principe général de standardisation directe, on présente une mise en oeuvre pas-à-pas de la méthode sur une étude de cas à partir des données des passagers du Titanic.  </p>
+                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+<li><a href="#principe-de-la-standardisation-directe">Principe de la standardisation directe</a></li>
+<li><a href="#analyses-exploratoires-des-donnees">Analyses exploratoires des données</a></li>
+<li><a href="#calcul-pas-a-pas-des-taux-standardises-de-survie-au-naufrage-du-titanic">Calcul pas-à-pas des taux standardisés de survie au naufrage du Titanic</a></li>
+<li><a href="#pour-conclure">Pour conclure</a></li>
+</ul>
+</div>
+<p>Dans cette note nous présentons la méthode de standardisation directe des taux, qui permet de comparer des fréquences d'évènement entre différentes sous-populations en contrôlant par une ou plusieurs autres variables. Après avoir défini le principe général de standardisation directe, on présente une mise en oeuvre pas-à-pas de la méthode sur une étude de cas à partir des données des passagers du Titanic.  </p>
 <h1 id="principe-de-la-standardisation-directe">Principe de la standardisation directe</h1>
 <p>Les méthodes de standardisation des taux sont principalement étudiées en épidémiologie. Elles permettent en effet de répondre au problème suivant : comment <strong>comparer des indicateurs épidémiologiques</strong> entre différents pays ayant leurs spécificités démographiques? <br>
 On peut lire par exemple sur le site des <a href="https://donnees.banquemondiale.org">données de la banque mondiale</a> que le taux de mortalité en 2020 en Australie est de 6 pour 1000 habitants, contre 12 pour 1000 habitants en Allemagne. Or, cet indicateur est bien sûr fortement influencé par la structure d'âge de la population concernée. Pour correctement comparer cet indicateur entre l'Australie et l'Allemagne et éventuellement en tirer des conclusions sur des différences de qualité de vie entre les deux pays, il faudrait <strong>comparer ces taux à structure d'âge constante</strong>. <br>
