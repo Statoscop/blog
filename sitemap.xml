@@ -5,8 +5,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/</loc>
-<lastmod>2023-11-24T12:33:18-00:00</lastmod>
+<lastmod>2023-11-28T11:10:01-00:00</lastmod>
 <changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/coder-des-fonctions-dans-le-tidyverse.html</loc>
+<lastmod>2023-11-28T00:00:00+01:00</lastmod>
+<changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
@@ -131,7 +138,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/category/r.html</loc>
-<lastmod>2023-05-17T00:00:00+00:09</lastmod>
+<lastmod>2023-11-28T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -152,14 +159,35 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/tag/r.html</loc>
-<lastmod>2023-05-17T00:00:00+00:09</lastmod>
+<lastmod>2023-11-28T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/rstats.html</loc>
-<lastmod>2023-05-17T00:00:00+00:09</lastmod>
+<lastmod>2023-11-28T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/tidyverse.html</loc>
+<lastmod>2023-11-28T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/dplyr.html</loc>
+<lastmod>2023-11-28T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/across.html</loc>
+<lastmod>2023-11-28T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -438,27 +466,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://blog.statoscop.fr/tag/dplyr.html</loc>
-<lastmod>2021-06-02T00:00:00+00:09</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://blog.statoscop.fr/tag/across.html</loc>
-<lastmod>2021-06-02T00:00:00+00:09</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://blog.statoscop.fr/tag/tidyverse.html</loc>
-<lastmod>2021-06-02T00:00:00+00:09</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
 <loc>https://blog.statoscop.fr/tag/datatable.html</loc>
 <lastmod>2021-03-30T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
@@ -474,7 +481,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/author/antoine.html</loc>
-<lastmod>2023-05-17T00:00:00+00:09</lastmod>
+<lastmod>2023-11-28T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
