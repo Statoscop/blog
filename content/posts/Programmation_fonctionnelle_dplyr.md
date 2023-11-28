@@ -1,0 +1,250 @@
+Title: Coder des fonctions dans le tidyverse
+Author: Antoine
+Date: '2023-11-28'
+Category: R
+Tags: R, Rstats, tidyverse, dplyr, across   
+Cover: images/cover_16.png
+twitter_image: images/cover_16.png
+Summary: Quelques trucs pour coder facilement ses propres fonctions en utilisant la syntaxe du tidyverse.  
+
+[TOC]
+
+Dans cet article, on s'intéresse aux manières de coder des fonctions en utilisant la syntaxe du `tidyverse`. Après avoir rappelé quelques principes de l'évaluation non standard dans le tidyverse, on présente concrètement les manières de faire référence aux paramètres de notre fonction, qu'ils soient renseignés sous forme de symboles ou de chaînes de caractères. On termine avec des astuces pour coder des fonctions plus flexibles, notamment sans avoir à fixer le nombre de paramètres en amont.
+
+# Le tidyverse et l'évaluation non standard  
+
+La syntaxe du `tidyverse` s'appuie sur des fonctions aux noms explicites et une grande facilité d'utilisation. Le principe est de rendre le code le plus lisible possible. Tout cela permet de coder de manière intuitive et peu verbeuse. Mais lorsqu'il s'agit de coder ses propres fonctions, les choses se compliquent. Prenons par exemple la fonction suivante, qui permet de donner le nombre d'observations d'un dataframe dont une valeur numérique est inférieure à un certain seuil :  
+
+
+```r
+library(dplyr)
+## 
+## Attachement du package : 'dplyr'
+## Les objets suivants sont masqués depuis 'package:stats':
+## 
+##     filter, lag
+## Les objets suivants sont masqués depuis 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+
+my_filter <- function(data, x1, seuil){
+  data |> filter(x1 <= seuil) |> nrow()
+}
+```
+
+L'appel de cette fonction pour obtenir le nombre de voitures avec `mpg <= 20` donne l'erreur suivante:  
+
+
+```r
+data(mtcars)
+
+my_filter(mtcars, x1 = mpg, seuil = 20)
+## Error in `filter()`:
+## ℹ In argument: `x1 <= seuil`.
+## Caused by error:
+## ! objet 'mpg' introuvable
+```
+
+Cette erreur est la conséquence d'une propriété importante du `tidyverse` : le __data masking__. C'est ce qui fait que les verbes de dplyr évaluent l'appel d'une fonction à un objet au sein du dataframe auquel elle s'applique. Ainsi, on fait appel à des fonctions avec la syntaxe fonction(data, var1, var2, var3) et non fonction(data$var1, data$var2, data$var3). Couplé à l'utilisation du _pipe_ (que ce soit le `%>%` de `magritr` ou le récent `|>` de R auquel nous commençons à nous convertir), cette fonctionnalité permet d'obtenir un code bien plus aisé et agréable à écrire et à lire. Ainsi, dans `dplyr`, on considère un peu __le dataframe comme un environnement__ et les colonnes de ce dataframe comme des éléments de cet environnement. 
+
+Seulement voilà, cette évaluation n'est pas non-standard pour rien : ici lors de l'appel de `my_filter` l'objet `mpg` est cherché dans l'environnement et il n'est pas trouvé. Et pour cause : il n'existe pas, contrairement à `mtcars$mpg`. 
+# Faire référence aux paramètres de ma fonction   
+
+Comment donc coder comme un développeur de Posit et profiter de cette syntaxe avantageuse? Si les choses ne sont pas aussi simples et intuitives qu'avec base R, elles se sont récemment simplifiées et ne devraient pas vous poser trop de problèmes.  
+## Paramètres renseignés en symboles  
+
+Si les paramètres sont renseignés "en dur", ou en symboles, comme c'est le cas dans les verbes de `dplyr`, on privilégiera l'écriture `{{ var }}`. Elle s'est récemment substituée à l'ancienne option, plus énigmatique, de `!!enquo(var)`.   
+Testons cela sur notre petite fonction :  
+
+```r
+my_filter <- function(data, x1, seuil){
+  data |> filter({{ x1 }} <= seuil) |> nrow()
+}
+my_filter(mtcars, x1 = mpg, seuil = 20)
+## [1] 18
+```
+Merveilleux! Mais si, pour une raison ou pour une autre, vous souhaiteriez que l'utilisateur de votre fonction entre le paramètre sous forme de chaîne de caractère?
+## Paramètres renseignés en chaînes de caractères  
+Dans ce cas, on revient à une notation classique de base R : `df[["var"]]`. Sauf que, dans un contexte d'expressions chaînées, on va utiliser la notation bien utile `.data[["var"]]` qui fait référence au dataframe de la chaîne d'expression __dans son état au moment de l'appel__. En effet, si je voulais faire référence au dataframe par son nom je pourrais me retrouver dans cette situation :  
+
+
+```r
+mtcars |> filter(mpg < 20) |> transmute(carb_2 = mtcars[["carb"]]^2) |> head(1)
+## Error in `transmute()`:
+## ℹ In argument: `carb_2 = mtcars[["carb"]]^2`.
+## Caused by error:
+## ! `carb_2` must be size 18 or 1, not 32.
+```
+Les tailles des vecteurs ne correspondent pas! En effet, le filtre appliqué n'est pas pris en compte au moment de l'appel à la variable `carb`. La notation `.data` résoud bien ce souci :  
+
+```r
+mtcars |> filter(mpg < 20) |> transmute(carb_2 = .data[["carb"]]^2) |> head(1)
+##                   carb_2
+## Hornet Sportabout      4
+```
+
+Pour en revenir à notre fonction, il est donc très aisé avec cette notation de définir le paramètre en chaîne de caractères :  
+
+
+```r
+my_filter <- function(data, x1, seuil){
+  data |> filter(.data[[x1]] <= seuil) |> nrow()
+}
+my_filter(mtcars, x1 = "mpg", seuil = 20)
+## [1] 18
+```
+Mais si vous préférez l'ancienne notation, pour les paramètres renseignés en chaînes de caractères c'est la suivante :  
+
+```r
+my_filter <- function(data, x1, seuil){
+  data |> filter(!!sym(x1) <= seuil) |> nrow()
+}
+my_filter(mtcars, x1 = "mpg", seuil = 20)
+## [1] 18
+```  
+## Nommer des variables en fonction des paramètres  
+Imaginons maintenant que nous voulions créer une indicatrice en fonction du seuil d'une variable numérique, et que nous aimerions nommer cette indicatrice en fonction de la variable numérique qu'elle décrit :  
+
+
+```r
+my_indic <- function(data, x1, seuil){
+  data |> mutate(x1_indic = if_else({{ x1 }} <= seuil, 1, 0))
+}
+```
+
+Dans cette version ma nouvelle variable va s'appeler `x1_indic`, et non prendre le nom de la variable numérique de `x1`. Et là encore c'est la double accolade qui va nous permettre de résoudre ce problème, mais pas seulement. Pour cela, on fait __référence au nom du paramètre au sein d'une double accolade__. De plus, le nom de la variable ainsi créée est donné entre guillemets. On peut également ajouter d'autres caractères. Enfin, __le signe `=` doit être remplacé par `:=`__. Cela donne :  
+
+
+```r
+my_indic <- function(data, x1, seuil){
+  data |> mutate("{{ x1 }}_indic" := if_else({{ x1 }} <= seuil, 1, 0))
+}
+```
+
+On vérifie avec `mpg` que la variable `mpg_indic` est bien créé :  
+
+
+```r
+my_indic(mtcars, mpg, seuil = 20) |> count(mpg_indic)
+##   mpg_indic  n
+## 1         0 14
+## 2         1 18
+```  
+# Coder une fonction avec n'importe quel nombre de paramètres  
+Essayons maintenant d'aller un peu plus loin! On explore dans cette partie __des manières plus flexibles de coder nos fonctions__, sans fixer à l'avance le nombre de paramètres.  
+
+## Utilisation d'`across`  
+La solution la plus directe pour permettre à l'utilisateur de votre fonction de définir le nombre de paramètres qu'il souhaite est en général d'utiliser la puissance d'`across()`. On parle de manière détaillée de ce verbe dans [cet article de notre blog](https://blog.statoscop.fr/fonctionnement-et-performances-dacross-dans-dplyr.html). Vous pouvez également explorer toutes ses possibilités dans [cet article du blog d'Icem7](https://www.icem7.fr/r/across-plus-puissant-flexible-quil-ny-parait/).   
+Dans le cas d'une fonction, c'est aussi la syntaxe `{{ var }}` qui nous permettra de l'utiliser. Imaginez par exemple que vous souhaitiez créer une fonction permettant des statistiques sur un certain nombre de variables définies par l'utilisateur. Une telle fonction s'écrirait ainsi :  
+
+
+```r
+mean_multiple_var <- function(data, vars_mean){
+  data |> summarise(across({{ vars_mean }}, mean))
+}
+```
+
+On peut ensuite appeler la fonction en définissant __le paramètre `vars_mean` comme un vecteur de symboles__, ou comme un seul symbole dans le cas où on ne voudrait la moyenne que d'une variable :  
+
+
+```r
+mean_multiple_var(mtcars, vars_mean = disp)
+##       disp
+## 1 230.7219
+mean_multiple_var(mtcars, vars_mean = c(mpg, disp, qsec)) 
+##        mpg     disp     qsec
+## 1 20.09062 230.7219 17.84875
+```
+
+Si nous souhaitons que l'utilisateur entre un vecteur de chaînes de caractères, cela fonctionne aussi car __across utilise la tidyselection__ qui tolère les appels aux vecteurs de chaînes de caractères. Il faut juste l'encapsuler dans une fonction appropriée, ici `all_of()` pour sélectionner tous les éléments du vecteur :  
+
+
+```r
+mean_multiple_var2 <- function(data, vars_mean){
+  data |> summarise(across(all_of(vars_mean), mean))
+}
+mean_multiple_var2(mtcars, vars_mean = c("mpg", "disp", "qsec")) 
+##        mpg     disp     qsec
+## 1 20.09062 230.7219 17.84875
+```
+
+Notez qu'avec `any_of()`, on autorise l'utilisateur à entre __des noms de colonnes n'existant pas dans le dataframe__. Ils sont alors juste écartés de la sélection, sans que cela génère des erreurs :  
+
+
+```r
+mean_multiple_var3 <- function(data, vars_mean){
+  data |> summarise(across(any_of(vars_mean), mean))
+}
+mean_multiple_var3(mtcars, vars_mean = c("Sepal.Length", "Sepal.Width", "mpg", "disp", "qsec")) 
+##        mpg     disp     qsec
+## 1 20.09062 230.7219 17.84875
+```
+
+Enfin, on peut utiliser l'argument `.names` de la fonction `across` pour permettre un __renommage des variables au souhait de l'utilisateur__ :  
+
+
+```r
+mean_multiple_var2 <- function(data, vars_mean, prefixe = "mean"){
+  data |> summarise(across(all_of(vars_mean), mean, .names = "{prefixe}_{.col}"))
+}
+mean_multiple_var2(mtcars, vars_mean = c("mpg", "disp", "qsec")) 
+##   mean_mpg mean_disp mean_qsec
+## 1 20.09062  230.7219  17.84875
+```
+Dans cette version, l'utilisateur peut __paramétrer le préfixe qu'il souhaite__, grâce à l'utilisation de la syntaxe propre au [package `glue`](https://glue.tidyverse.org/). Notez l'utilisation de `.col`, interne à `across()`, pour faire référence au nom de la variable.   
+## Utilisation de `pick` et `...`  
+
+`pick()` (à partir de dplyr >= 1.1.4) permet de sélectionner un nombre indéterminé de paramètres dans les fonctions du type `group_by()`, `select()`...c'est-à-dire les fonctions permettant de sélectionner un sous-ensemble de la base. C'est l'équivalent de `across()` pour les fonctions portant sur toute la base et non sur chacune des colonnes. Par exemple, la fonction suivante permet de grouper par des variables du choix de l'utilisateur et de sortir les moyennes de toutes les variables numériques :  
+
+
+```r
+my_group_by <- function(data, vars_group){
+  data |> 
+    group_by(pick({{ vars_group }})) |> 
+    summarise(across(where(is.numeric), mean, .names = "mean_{.col}"))
+}
+my_group_by(mtcars, vars_group = c(am, cyl))
+## `summarise()` has grouped output by 'am'. You can override using the `.groups`
+## argument.
+## # A tibble: 6 × 11
+## # Groups:   am [2]
+##      am   cyl mean_mpg mean_disp mean_hp mean_drat mean_wt mean_qsec mean_vs
+##   <dbl> <dbl>    <dbl>     <dbl>   <dbl>     <dbl>   <dbl>     <dbl>   <dbl>
+## 1     0     4     22.9     136.     84.7      3.77    2.94      21.0   1    
+## 2     0     6     19.1     205.    115.       3.42    3.39      19.2   1    
+## 3     0     8     15.0     358.    194.       3.12    4.10      17.1   0    
+## 4     1     4     28.1      93.6    81.9      4.18    2.04      18.4   0.875
+## 5     1     6     20.6     155     132.       3.81    2.76      16.3   0    
+## 6     1     8     15.4     326     300.       3.88    3.37      14.6   0    
+## # ℹ 2 more variables: mean_gear <dbl>, mean_carb <dbl>
+```
+
+Comme pour `across`, vous pouvez aussi utiliser les verbes de la tidyselection : `all_of`, `any_of`, `starts_with`, etc...  
+
+Enfin, il est possible d'utiliser la syntaxe `...`, de la manière suivante :  
+
+
+```r
+my_group_by <- function(data, ...){
+  data |> 
+    group_by(...) |> 
+    summarise(across(where(is.numeric), mean, .names = "mean_{.col}"))
+}
+my_group_by(mtcars, am, cyl) |> head(3)
+## `summarise()` has grouped output by 'am'. You can override using the `.groups`
+## argument.
+## # A tibble: 3 × 11
+## # Groups:   am [1]
+##      am   cyl mean_mpg mean_disp mean_hp mean_drat mean_wt mean_qsec mean_vs
+##   <dbl> <dbl>    <dbl>     <dbl>   <dbl>     <dbl>   <dbl>     <dbl>   <dbl>
+## 1     0     4     22.9      136.    84.7      3.77    2.94      21.0       1
+## 2     0     6     19.1      205.   115.       3.42    3.39      19.2       1
+## 3     0     8     15.0      358.   194.       3.12    4.10      17.1       0
+## # ℹ 2 more variables: mean_gear <dbl>, mean_carb <dbl>
+```
+
+Cette notation a l'avantage d'être très simple et flexible : on peut définir à la place des `...` autant de paramètres différents que l'on veut. Mais elle ne permet pas de différencier deux groupes de paramètres différents, si l'on veut par exemple définir d'une part des variables sur lesquels grouper, et d'autre des variables sur lesquels sélectionner.       
+# Conclusion   
+Le `tidyverse`, c'est donc plein d'astuces pour rendre le code très facile à écrire et à lire, mais cela implique quelques étapes supplémentaires quand on veut coder ses propres fonctions. On espère que cet article vous aura aidés à y voir plus clair. Pour creuser le sujet, vous pouvez vous référer à la page [Programming with dplyr](https://dplyr.tidyverse.org/articles/programming.html#user-supplied-data) sur la documentation officielle de `dplyr`. Vous pouvez également consulter, sur le site de `rlang`, les pages [Name injection](https://rlang.r-lib.org/reference/glue-operators.html) et [Data mask programming patterns](https://rlang.r-lib.org/reference/topic-data-mask-programming.html).  
+
+C'est la fin de cet article! N'hésitez pas à [visiter notre site](https://www.statoscop.fr) et à nous suivre sur [Twitter](https://twitter.com/stato_scop) et [Linkedin](https://www.linkedin.com/company/statoscop). Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le [github de Statoscop](https://github.com/Statoscop/notebooks-blog).   
