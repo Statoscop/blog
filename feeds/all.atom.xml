@@ -43,7 +43,7 @@
 &lt;span class="c1"&gt;## ! objet &amp;#39;mpg&amp;#39; introuvable&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Cette erreur est la conséquence d'une propriété importante du &lt;code&gt;tidyverse&lt;/code&gt; : le &lt;strong&gt;data masking&lt;/strong&gt;. C'est ce qui fait que les verbes de dplyr évaluent l'appel d'une fonction à un objet au sein du dataframe auquel elle s'applique. Ainsi, on fait appel à des fonctions avec la syntaxe fonction(data, var1, var2, var3) et non fonction(data&lt;span class="math"&gt;\(var1, data\)&lt;/span&gt;var2, data$var3). Couplé à l'utilisation du &lt;em&gt;pipe&lt;/em&gt; (que ce soit le &lt;code&gt;%&amp;gt;%&lt;/code&gt; de &lt;code&gt;magritr&lt;/code&gt; ou le récent &lt;code&gt;|&amp;gt;&lt;/code&gt; de R auquel nous commençons à nous convertir), cette fonctionnalité permet d'obtenir un code bien plus aisé et agréable à écrire et à lire. Ainsi, dans &lt;code&gt;dplyr&lt;/code&gt;, on considère un peu &lt;strong&gt;le dataframe comme un environnement&lt;/strong&gt; et les colonnes de ce dataframe comme des éléments de cet environnement. &lt;/p&gt;
+&lt;p&gt;Cette erreur est la conséquence d'une propriété importante du &lt;code&gt;tidyverse&lt;/code&gt; : le &lt;strong&gt;data masking&lt;/strong&gt;. C'est ce qui fait que les verbes de dplyr évaluent l'appel d'une fonction à un objet au sein du dataframe auquel elle s'applique. Ainsi, on fait appel à des fonctions avec la syntaxe fonction(&lt;code&gt;data&lt;/code&gt;, &lt;code&gt;var1&lt;/code&gt;, &lt;code&gt;var2&lt;/code&gt;, &lt;code&gt;var3&lt;/code&gt;) et non fonction(&lt;code&gt;data$var1&lt;/code&gt;, &lt;code&gt;data$var2&lt;/code&gt;, &lt;code&gt;data$var3&lt;/code&gt;). Couplé à l'utilisation du &lt;em&gt;pipe&lt;/em&gt; (que ce soit le &lt;code&gt;%&amp;gt;%&lt;/code&gt; de &lt;code&gt;magritr&lt;/code&gt; ou le récent &lt;code&gt;|&amp;gt;&lt;/code&gt; de R auquel nous commençons à nous convertir), cette fonctionnalité permet d'obtenir un code bien plus aisé et agréable à écrire et à lire. Ainsi, dans &lt;code&gt;dplyr&lt;/code&gt;, on considère un peu &lt;strong&gt;le dataframe comme un environnement&lt;/strong&gt; et les colonnes de ce dataframe comme des éléments de cet environnement. &lt;/p&gt;
 &lt;p&gt;Seulement voilà, cette évaluation n'est pas non-standard pour rien : ici lors de l'appel de &lt;code&gt;my_filter&lt;/code&gt; l'objet &lt;code&gt;mpg&lt;/code&gt; est cherché dans l'environnement et il n'est pas trouvé. Et pour cause : il n'existe pas, contrairement à &lt;code&gt;mtcars$mpg&lt;/code&gt;. &lt;/p&gt;
 &lt;h1 id="faire-reference-aux-parametres-de-ma-fonction"&gt;Faire référence aux paramètres de ma fonction&lt;/h1&gt;
 &lt;p&gt;Comment donc coder comme un développeur de Posit et profiter de cette syntaxe avantageuse? Si les choses ne sont pas aussi simples et intuitives qu'avec base R, elles se sont récemment simplifiées et ne devraient pas vous poser trop de problèmes.  &lt;/p&gt;
@@ -202,69 +202,7 @@ Dans le cas d'une fonction, c'est aussi la syntaxe &lt;code&gt;{{ var }}&lt;/cod
 &lt;p&gt;Cette notation a l'avantage d'être très simple et flexible : on peut définir à la place des &lt;code&gt;...&lt;/code&gt; autant de paramètres différents que l'on veut. Mais elle ne permet pas de différencier deux groupes de paramètres différents, si l'on veut par exemple définir d'une part des variables sur lesquels grouper, et d'autre des variables sur lesquels sélectionner.       &lt;/p&gt;
 &lt;h1 id="conclusion"&gt;Conclusion&lt;/h1&gt;
 &lt;p&gt;Le &lt;code&gt;tidyverse&lt;/code&gt;, c'est donc plein d'astuces pour rendre le code très facile à écrire et à lire, mais cela implique quelques étapes supplémentaires quand on veut coder ses propres fonctions. On espère que cet article vous aura aidés à y voir plus clair. Pour creuser le sujet, vous pouvez vous référer à la page &lt;a href="https://dplyr.tidyverse.org/articles/programming.html#user-supplied-data"&gt;Programming with dplyr&lt;/a&gt; sur la documentation officielle de &lt;code&gt;dplyr&lt;/code&gt;. Vous pouvez également consulter, sur le site de &lt;code&gt;rlang&lt;/code&gt;, les pages &lt;a href="https://rlang.r-lib.org/reference/glue-operators.html"&gt;Name injection&lt;/a&gt; et &lt;a href="https://rlang.r-lib.org/reference/topic-data-mask-programming.html"&gt;Data mask programming patterns&lt;/a&gt;.  &lt;/p&gt;
-&lt;p&gt;C'est la fin de cet article! N'hésitez pas à &lt;a href="https://www.statoscop.fr"&gt;visiter notre site&lt;/a&gt; et à nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.   &lt;/p&gt;
-&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent;
-        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-&lt;/script&gt;</content><category term="R"></category><category term="R"></category><category term="Rstats"></category><category term="tidyverse"></category><category term="dplyr"></category><category term="across"></category></entry><entry><title>Taux standardisés : calcul et interprétation avec R</title><link href="https://blog.statoscop.fr/taux-standardises-calcul-et-interpretation-avec-r.html" rel="alternate"></link><published>2023-05-17T00:00:00+02:00</published><updated>2023-05-17T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2023-05-17:/taux-standardises-calcul-et-interpretation-avec-r.html</id><summary type="html">&lt;p&gt;Présentation de la méthode de standardisation directe sur les taux de survie des passagers du Titanic.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;C'est la fin de cet article! N'hésitez pas à &lt;a href="https://www.statoscop.fr"&gt;visiter notre site&lt;/a&gt; et à nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.   &lt;/p&gt;</content><category term="R"></category><category term="R"></category><category term="Rstats"></category><category term="tidyverse"></category><category term="dplyr"></category><category term="across"></category></entry><entry><title>Taux standardisés : calcul et interprétation avec R</title><link href="https://blog.statoscop.fr/taux-standardises-calcul-et-interpretation-avec-r.html" rel="alternate"></link><published>2023-05-17T00:00:00+02:00</published><updated>2023-05-17T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2023-05-17:/taux-standardises-calcul-et-interpretation-avec-r.html</id><summary type="html">&lt;p&gt;Présentation de la méthode de standardisation directe sur les taux de survie des passagers du Titanic.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#principe-de-la-standardisation-directe"&gt;Principe de la standardisation directe&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#analyses-exploratoires-des-donnees"&gt;Analyses exploratoires des données&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#calcul-pas-a-pas-des-taux-standardises-de-survie-au-naufrage-du-titanic"&gt;Calcul pas-à-pas des taux standardisés de survie au naufrage du Titanic&lt;/a&gt;&lt;/li&gt;

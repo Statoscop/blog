@@ -192,7 +192,7 @@
 <span class="c1">## ! objet &#39;mpg&#39; introuvable</span>
 </code></pre></div>
 
-<p>Cette erreur est la conséquence d'une propriété importante du <code>tidyverse</code> : le <strong>data masking</strong>. C'est ce qui fait que les verbes de dplyr évaluent l'appel d'une fonction à un objet au sein du dataframe auquel elle s'applique. Ainsi, on fait appel à des fonctions avec la syntaxe fonction(data, var1, var2, var3) et non fonction(data<span class="math">\(var1, data\)</span>var2, data$var3). Couplé à l'utilisation du <em>pipe</em> (que ce soit le <code>%&gt;%</code> de <code>magritr</code> ou le récent <code>|&gt;</code> de R auquel nous commençons à nous convertir), cette fonctionnalité permet d'obtenir un code bien plus aisé et agréable à écrire et à lire. Ainsi, dans <code>dplyr</code>, on considère un peu <strong>le dataframe comme un environnement</strong> et les colonnes de ce dataframe comme des éléments de cet environnement. </p>
+<p>Cette erreur est la conséquence d'une propriété importante du <code>tidyverse</code> : le <strong>data masking</strong>. C'est ce qui fait que les verbes de dplyr évaluent l'appel d'une fonction à un objet au sein du dataframe auquel elle s'applique. Ainsi, on fait appel à des fonctions avec la syntaxe fonction(<code>data</code>, <code>var1</code>, <code>var2</code>, <code>var3</code>) et non fonction(<code>data$var1</code>, <code>data$var2</code>, <code>data$var3</code>). Couplé à l'utilisation du <em>pipe</em> (que ce soit le <code>%&gt;%</code> de <code>magritr</code> ou le récent <code>|&gt;</code> de R auquel nous commençons à nous convertir), cette fonctionnalité permet d'obtenir un code bien plus aisé et agréable à écrire et à lire. Ainsi, dans <code>dplyr</code>, on considère un peu <strong>le dataframe comme un environnement</strong> et les colonnes de ce dataframe comme des éléments de cet environnement. </p>
 <p>Seulement voilà, cette évaluation n'est pas non-standard pour rien : ici lors de l'appel de <code>my_filter</code> l'objet <code>mpg</code> est cherché dans l'environnement et il n'est pas trouvé. Et pour cause : il n'existe pas, contrairement à <code>mtcars$mpg</code>. </p>
 <h1 id="faire-reference-aux-parametres-de-ma-fonction">Faire référence aux paramètres de ma fonction</h1>
 <p>Comment donc coder comme un développeur de Posit et profiter de cette syntaxe avantageuse? Si les choses ne sont pas aussi simples et intuitives qu'avec base R, elles se sont récemment simplifiées et ne devraient pas vous poser trop de problèmes.  </p>
@@ -352,68 +352,6 @@ Dans le cas d'une fonction, c'est aussi la syntaxe <code>{{ var }}</code> qui no
 <h1 id="conclusion">Conclusion</h1>
 <p>Le <code>tidyverse</code>, c'est donc plein d'astuces pour rendre le code très facile à écrire et à lire, mais cela implique quelques étapes supplémentaires quand on veut coder ses propres fonctions. On espère que cet article vous aura aidés à y voir plus clair. Pour creuser le sujet, vous pouvez vous référer à la page <a href="https://dplyr.tidyverse.org/articles/programming.html#user-supplied-data">Programming with dplyr</a> sur la documentation officielle de <code>dplyr</code>. Vous pouvez également consulter, sur le site de <code>rlang</code>, les pages <a href="https://rlang.r-lib.org/reference/glue-operators.html">Name injection</a> et <a href="https://rlang.r-lib.org/reference/topic-data-mask-programming.html">Data mask programming patterns</a>.  </p>
 <p>C'est la fin de cet article! N'hésitez pas à <a href="https://www.statoscop.fr">visiter notre site</a> et à nous suivre sur <a href="https://twitter.com/stato_scop">Twitter</a> et <a href="https://www.linkedin.com/company/statoscop">Linkedin</a>. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le <a href="https://github.com/Statoscop/notebooks-blog">github de Statoscop</a>.   </p>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>
             </section>
 
             <section class="post-info">
