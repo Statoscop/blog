@@ -824,7 +824,7 @@ On propose ici une &lt;strong&gt;méthode pour utiliser les fonctions &lt;code&g
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/keras_tl/output_27_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;L'analyse de la matrice de confusion permet d'affiner les résultats du rapport de classification : on constate par exemple que les taux de précision et de rappel relativement bas pour les grenades pourries sont principalement dûes à une confusion avec les pêches pourries et les grenades fraîches.&lt;/p&gt;
+&lt;p&gt;L'analyse de la matrice de confusion permet d'affiner les résultats du rapport de classification : on constate par exemple que les taux de précision et de rappel relativement bas pour les grenades pourries sont principalement dûs à une confusion avec les pêches pourries et les grenades fraîches.&lt;/p&gt;
 &lt;h2 id="predictions-sur-des-nouvelles-images"&gt;Prédictions sur des nouvelles images&lt;/h2&gt;
 &lt;p&gt;On propose enfin une méthode pour afficher la prédiction sur une nouvelle image. Il est en effet nécessaire de charger l'image mais aussi de la modifier pour qu'elle corresponde aux fonctions de &lt;code&gt;keras&lt;/code&gt;. Voici comment :  &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;keras&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;utils&lt;/span&gt;
