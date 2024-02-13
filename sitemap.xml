@@ -5,8 +5,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/</loc>
-<lastmod>2023-11-30T10:29:07-00:00</lastmod>
+<lastmod>2024-02-13T14:07:38-00:00</lastmod>
 <changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/transfer-learning-keras.html</loc>
+<lastmod>2024-02-14T00:00:00+01:00</lastmod>
+<changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
@@ -124,14 +131,14 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/category/deep-learning.html</loc>
-<lastmod>2023-01-09T00:00:00+00:09</lastmod>
+<lastmod>2024-02-14T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/category/python.html</loc>
-<lastmod>2023-01-09T00:00:00+00:09</lastmod>
+<lastmod>2024-02-14T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -153,6 +160,48 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://blog.statoscop.fr/category/stats-ml.html</loc>
 <lastmod>2023-05-17T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/python.html</loc>
+<lastmod>2024-02-14T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/keras.html</loc>
+<lastmod>2024-02-14T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/cnn.html</loc>
+<lastmod>2024-02-14T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/machine-learning.html</loc>
+<lastmod>2024-02-14T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/data-science.html</loc>
+<lastmod>2024-02-14T00:00:00+00:09</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/transfer-learning.html</loc>
+<lastmod>2024-02-14T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -193,13 +242,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://blog.statoscop.fr/tag/data-science.html</loc>
-<lastmod>2023-05-17T00:00:00+00:09</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
 <loc>https://blog.statoscop.fr/tag/statistiques.html</loc>
 <lastmod>2023-05-17T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
@@ -207,21 +249,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://blog.statoscop.fr/tag/python.html</loc>
-<lastmod>2023-01-09T00:00:00+00:09</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
 <loc>https://blog.statoscop.fr/tag/pytorch.html</loc>
-<lastmod>2023-01-09T00:00:00+00:09</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://blog.statoscop.fr/tag/machine-learning.html</loc>
 <lastmod>2023-01-09T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
@@ -481,7 +509,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/author/antoine.html</loc>
-<lastmod>2023-11-28T00:00:00+00:09</lastmod>
+<lastmod>2024-02-14T00:00:00+00:09</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

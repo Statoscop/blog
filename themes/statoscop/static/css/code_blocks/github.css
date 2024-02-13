@@ -7,6 +7,8 @@
 
 .highlight pre {
   overflow-x: auto;       /* this sets the scrolling in x */
+  overflow-y: auto;       /* this sets the scrolling in y */
+  max-height: 25em;
 }
 
 .highlight pre code {

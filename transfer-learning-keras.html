@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Le blog de Statoscop - études de cas en R et Python</title>
+  <link rel="icon" type="image/x-icon" href="https://blog.statoscop.fr/themes/statoscop/static/images/favicon-v1.ico" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://blog.statoscop.fr/transfer-learning-keras.html" rel="canonical" />
+  <!-- Feed -->
+        <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
+          <link href="https://blog.statoscop.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
+
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://blog.statoscop.fr/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Création d'un modèle de détection d'images permettant de classifier des fruits et leur état de maturité.">
+
+    <meta name="author" content="Antoine">
+
+    <meta name="tags" content="Python">
+    <meta name="tags" content="Keras">
+    <meta name="tags" content="CNN">
+    <meta name="tags" content="Machine Learning">
+    <meta name="tags" content="Data Science">
+    <meta name="tags" content="Transfer Learning">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="Transfer Learning avec Keras : entraînement et évaluation d'un modèle de détection d'images"/>
+<meta property="og:description" content="Création d'un modèle de détection d'images permettant de classifier des fruits et leur état de maturité."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.statoscop.fr/transfer-learning-keras.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2024-02-14 00:00:00+01:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://blog.statoscop.fr/author/antoine.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Keras"/>
+<meta property="article:tag" content="CNN"/>
+<meta property="article:tag" content="Machine Learning"/>
+<meta property="article:tag" content="Data Science"/>
+<meta property="article:tag" content="Transfer Learning"/>
+<meta property="og:image" content="https://blog.statoscop.fr/images/cover_17.png">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Transfer Learning avec Keras : entraînement et évaluation d'un modèle de détection d'images",
+  "headline": "Transfer Learning avec Keras : entraînement et évaluation d'un modèle de détection d'images",
+  "datePublished": "2024-02-14 00:00:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Antoine",
+    "url": "https://blog.statoscop.fr/author/antoine.html"
+  },
+  "image": "https://blog.statoscop.fr/images/cover_17.png",
+  "url": "https://blog.statoscop.fr/transfer-learning-keras.html",
+  "description": "Création d'un modèle de détection d'images permettant de classifier des fruits et leur état de maturité."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header">
+      <div class="inner">
+        <nav id="navigation">
+          <span class="blog-logo">
+            <a href="https://statoscop.fr"><img src="https://blog.statoscop.fr/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Blog Logo" /></a>
+          </span>
+          <span id="menu-button" class="nav-button">
+            <a href="https://blog.statoscop.fr">Retour à l'accueil du blog</a>
+          </span>
+        </nav>
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+      
+      <div>
+      </div>
+
+      <article class="post">
+        <div class="inner">
+
+
+
+
+            <section class="post-content">
+              <h1 class="post-title">Transfer Learning avec Keras : entraînement et évaluation d'un modèle de détection d'images</h1>
+                <!-- Le titres et meta infos-->
+                <span class="post-meta">
+                        <a href="https://blog.statoscop.fr/author/antoine.html">Antoine</a>
+                    | <time datetime="mer. 14 février 2024">mer. 14 février 2024</time>
+                </span>
+
+                <!--Table des matieres
+-->
+                
+                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+<li><a href="#preparation-des-donnees">Préparation des données</a></li>
+<li><a href="#entrainement-du-modele">Entraînement du modèle</a><ul>
+<li><a href="#chargement-dun-modele-pre-entraine">Chargement d'un modèle pré-entraîné</a></li>
+<li><a href="#structure-de-notre-modele">Structure de notre modèle</a></li>
+</ul>
+</li>
+<li><a href="#evaluation-et-utilisation-du-modele">Évaluation et utilisation du modèle</a><ul>
+<li><a href="#evaluation-du-modele-avec-scikit-learn">Évaluation du modèle avec scikit-learn</a></li>
+<li><a href="#predictions-sur-des-nouvelles-images">Prédictions sur des nouvelles images</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>L'une des petites révolutions que le Deep Learning a permis est le fait de pouvoir entraîner des modèles sur des <strong>données très volumineuses</strong>. En particulier, les modèles de détection d'images, les <em>Convolutional Neural Networks (CNN)</em> ont pu se développer.<br>
+Ces modèles s'appuient sur des couches profondes spécifiques : <strong>les réseaux convolutifs</strong>. Ceux-ci permettent de pré-traiter les images afin de repérer des structures spécifiques dans les images et de pouvoir ainsi correctement les classifier, en évitant le <a href="https://blog.statoscop.fr/le-dilemme-biais-variance-dans-la-modelisation-de-donnees.html#liens-avec-loverfitting-et-lunderfitting-dans-les-modeles-de-machine-learning">sur-apprentissage</a>. Ces couches de convolution sont suivis de réseaux de neurones classiques permettant d'obtenir la classification voulue. <br>
+Reste que ces modèles doivent être entraînés sur <strong>des quantités importantes de données</strong> avant d'être performants, et que cet entraînement peut être extrêmement <strong>long et coûteux en ressources</strong>, rendant quasi-impossible le fait de le réaliser sur son ordinateur en local. C'est là qu'intervient le <strong>transfer learning</strong>. Le principe est de partir d'un modèle pré-entraîné et de se contenter de le ré-entraîner ou d'en entraîner une partie sur ses données spécifiques. En particulier, <strong>la partie convolutive du modèle n'est pas forcément spécifique à un thème donné</strong> et n'a souvent pas besoin d'être ré-entraîné. C'est comme si on se contentait de <strong>spécialiser un modèle généraliste</strong>. Cette méthode va nous permettre de gagner un temps précieux en entraînement et de <strong>bénéficier de performances de modèles entraînés sur un grand nombre de données</strong>.<br>
+Voyons comment la mettre en oeuvre avec la <strong>librairie Python <code>keras</code></strong>.</p>
+<h1 id="preparation-des-donnees">Préparation des données</h1>
+<p>Pour notre exemple, on va partir ici d'un <a href="https://www.kaggle.com/datasets/alihasnainch/fruits-dataset-for-classification/code">dataset Kaggle</a> avec des images de différents fruits, pourris ou en bon état. Les fruits pris en compte sont les pêches, les fraises et les grenades. Pour chaque fruit, on sépare ceux qui sont pourris de ceux qui ne le sont pas. On a donc 6 classes en tout. Commençons par afficher certaines de ces images :  </p>
+<div class="highlight"><pre><span></span><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">images</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s2">&quot;dataset&quot;</span><span class="p">):</span>
+    <span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;dataset/&quot;</span><span class="o">+</span><span class="n">i</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s2">&quot;dataset/&quot;</span><span class="o">+</span><span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">())):</span>
+    <span class="n">subplot</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[</span><span class="n">ax</span><span class="p">]</span>
+    <span class="n">subplot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="n">ax</span><span class="p">])))</span>
+    <span class="n">subplot</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">subplot</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_tick_params</span><span class="p">(</span><span class="n">labelleft</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">subplot</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">ax</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="Pelican" src="../images/keras_tl/output_3_1.png"></p>
+<p>Avec <code>keras</code>, <strong>le dataset est créé directement à partir d'un dossier</strong> où chaque sous-dossier comporte une classe, qui sera labellisée par le nom de celui-ci. De plus, la <strong>partition entre données d'entraînement et de validation</strong> peut être faite directement à ce moment là. On utilise pour cela la fonction <code>image_dataset_from_directory</code>, avec les paramètres correspondant à notre problème.<br>
+On a aussi <strong>créé en amont un dossier contenant un sous-ensemble de ces images</strong> qui nous servira de <strong>dataset de test</strong> au moment de l'évaluation de notre modèle.</p>
+<div class="highlight"><pre><span></span><code><span class="n">IMG_SIZE</span> <span class="o">=</span> <span class="mi">256</span>
+
+<span class="kn">from</span> <span class="nn">keras.utils</span> <span class="kn">import</span> <span class="n">image_dataset_from_directory</span>  
+<span class="n">images_dataset</span> <span class="o">=</span> <span class="n">image_dataset_from_directory</span><span class="p">(</span><span class="s1">&#39;dataset&#39;</span><span class="p">,</span> <span class="c1"># nom du dossier où se trouvent mes deux dossiers d&#39;images</span>
+                                              <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="c1"># Nombre d&#39;images chargées simultanément en mémoire lors de l&#39;apprentissage</span>
+                                              <span class="n">image_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">IMG_SIZE</span><span class="p">,</span> <span class="n">IMG_SIZE</span><span class="p">),</span> <span class="c1"># Choix du taille de l&#39;image</span>
+                                              <span class="n">validation_split</span> <span class="o">=</span> <span class="mf">0.30</span><span class="p">,</span> <span class="c1"># 30% des données en set de validation</span>
+                                              <span class="n">seed</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="c1"># reproductibilité du split aléatoire</span>
+                                              <span class="n">label_mode</span> <span class="o">=</span> <span class="s2">&quot;categorical&quot;</span><span class="p">,</span> <span class="c1"># problème de classif</span>
+                                              <span class="n">subset</span> <span class="o">=</span> <span class="s2">&quot;both&quot;</span><span class="p">)</span> <span class="c1"># on crée les deux sets d&#39;entraînement et de validation</span>
+<span class="n">training_set</span> <span class="o">=</span> <span class="n">images_dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">validation_set</span> <span class="o">=</span> <span class="n">images_dataset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Set test </span>
+<span class="n">test_set</span> <span class="o">=</span> <span class="n">image_dataset_from_directory</span><span class="p">(</span><span class="s1">&#39;Set test&#39;</span><span class="p">,</span> <span class="c1"># nom du dossier où se trouvent mes deux dossiers d&#39;images</span>
+                                        <span class="n">image_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">IMG_SIZE</span><span class="p">,</span> <span class="n">IMG_SIZE</span><span class="p">),</span> <span class="c1"># Choix de la taille de l&#39;image</span>
+                                        <span class="n">label_mode</span> <span class="o">=</span> <span class="s2">&quot;categorical&quot;</span><span class="p">)</span> <span class="c1"># problème de classif</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">Found 1325 files belonging to 6 classes.</span>
+<span class="err">Using 928 files for training.</span>
+<span class="err">Using 397 files for validation.</span>
+<span class="err">Found 330 files belonging to 6 classes.</span>
+</code></pre></div>
+
+<p>Nos images ont bien été chargées, nous pouvons vérifier que les labels ont été correctement attribuées : </p>
+<div class="highlight"><pre><span></span><code><span class="n">training_set</span><span class="o">.</span><span class="n">class_names</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">[&#39;fraise fraîche&#39;,</span>
+<span class="err"> &#39;fraise pourrie&#39;,</span>
+<span class="err"> &#39;grenade fraîche&#39;,</span>
+<span class="err"> &#39;grenade pourrie&#39;,</span>
+<span class="err"> &#39;pêche fraîche&#39;,</span>
+<span class="err"> &#39;pêche pourrie&#39;]</span>
+</code></pre></div>
+
+<p>À noter qu'il est importer de correctement paramétrer la <strong>taille du batch</strong> et les <strong>dimensions de l'image</strong>. Plus la taille du batch est importante, plus le modèle tournera rapidement, mais il pourrait être moins précis et surtout votre machine pourrait crasher par manque de RAM et/ou GPU. Pour la taille de l'image, de la même manière elle aura <strong>un impact sur les performances du modèle</strong> et sur la capacité de votre machine à encaisser l'entraînement.</p>
+<h1 id="entrainement-du-modele">Entraînement du modèle</h1>
+<p>Pour entraîner notre modèle, on commence par charger un des modèles de détection d'images disponibles dans <code>keras</code> puis on définit l'ensemble de notre réseau de neurones.  </p>
+<h2 id="chargement-dun-modele-pre-entraine">Chargement d'un modèle pré-entraîné</h2>
+<p>De nombreux <strong>modèles CNN pré-entraînés</strong> peuvent être chargés depuis <code>keras</code>. Ils sont répertoriés sur <a href="https://keras.io/api/applications/">cette page</a> de la documentation. Nous décidons pour notre exemple d'utiliser la <strong>dernière version du modèle ResNet50</strong> :  </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Chargement du modèle Xception</span>
+<span class="kn">from</span> <span class="nn">keras.applications</span> <span class="kn">import</span> <span class="n">ResNet50V2</span>
+<span class="n">classifier_resnet</span> <span class="o">=</span> <span class="n">ResNet50V2</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="s1">&#39;imagenet&#39;</span><span class="p">,</span> <span class="n">include_top</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="n">IMG_SIZE</span><span class="p">,</span> <span class="n">IMG_SIZE</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</code></pre></div>
+
+<p>Notez que l'on paramétrise <code>include_top=False</code> de manière à pouvoir choisir le format de nos images en entrée, ici en 256*256.<br>
+Le modèle chargé a la structure suivante :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">classifier_resnet</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>  
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>    <span class="n">Model</span><span class="p">:</span> <span class="s2">&quot;resnet50v2&quot;</span>
+    <span class="n">__________________________________________________________________________________________________</span>
+     <span class="n">Layer</span> <span class="p">(</span><span class="nb">type</span><span class="p">)</span>                <span class="n">Output</span> <span class="n">Shape</span>                 <span class="n">Param</span> <span class="c1">#   Connected to                  </span>
+    <span class="o">==================================================================================================</span>
+     <span class="n">input_1</span> <span class="p">(</span><span class="n">InputLayer</span><span class="p">)</span>        <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>        <span class="mi">0</span>         <span class="p">[]</span>                            
+
+     <span class="n">conv1_pad</span> <span class="p">(</span><span class="n">ZeroPadding2D</span><span class="p">)</span>   <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">262</span><span class="p">,</span> <span class="mi">262</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;input_1[0][0]&#39;</span><span class="p">]</span>             
+
+     <span class="n">conv1_conv</span> <span class="p">(</span><span class="n">Conv2D</span><span class="p">)</span>         <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>         <span class="mi">9472</span>      <span class="p">[</span><span class="s1">&#39;conv1_pad[0][0]&#39;</span><span class="p">]</span>           
+
+     <span class="n">pool1_pad</span> <span class="p">(</span><span class="n">ZeroPadding2D</span><span class="p">)</span>   <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>         <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv1_conv[0][0]&#39;</span><span class="p">]</span>          
+
+     <span class="n">pool1_pool</span> <span class="p">(</span><span class="n">MaxPooling2D</span><span class="p">)</span>   <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;pool1_pad[0][0]&#39;</span><span class="p">]</span>           
+
+     <span class="n">conv2_block1_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">256</span>       <span class="p">[</span><span class="s1">&#39;pool1_pool[0][0]&#39;</span><span class="p">]</span>          
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv2_block1_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block1_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv2_block1_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">4096</span>      <span class="p">[</span><span class="s1">&#39;conv2_block1_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv2_block1_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">256</span>       <span class="p">[</span><span class="s1">&#39;conv2_block1_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv2_block1_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block1_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv2_block1_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block1_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv2_block1_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">36864</span>     <span class="p">[</span><span class="s1">&#39;conv2_block1_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv2_block1_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">256</span>       <span class="p">[</span><span class="s1">&#39;conv2_block1_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv2_block1_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block1_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv2_block1_0_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">16640</span>     <span class="p">[</span><span class="s1">&#39;conv2_block1_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv2_block1_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">16640</span>     <span class="p">[</span><span class="s1">&#39;conv2_block1_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv2_block1_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block1_0_conv[0][0]&#39;</span><span class="p">,</span> 
+                                                                         <span class="s1">&#39;conv2_block1_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv2_block2_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv2_block1_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv2_block2_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block2_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv2_block2_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">16384</span>     <span class="p">[</span><span class="s1">&#39;conv2_block2_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv2_block2_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">256</span>       <span class="p">[</span><span class="s1">&#39;conv2_block2_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv2_block2_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block2_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv2_block2_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block2_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv2_block2_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">36864</span>     <span class="p">[</span><span class="s1">&#39;conv2_block2_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv2_block2_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">256</span>       <span class="p">[</span><span class="s1">&#39;conv2_block2_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv2_block2_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block2_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv2_block2_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">16640</span>     <span class="p">[</span><span class="s1">&#39;conv2_block2_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv2_block2_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block1_out[0][0]&#39;</span><span class="p">,</span>    
+                                                                         <span class="s1">&#39;conv2_block2_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv2_block3_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv2_block2_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv2_block3_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block3_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv2_block3_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">16384</span>     <span class="p">[</span><span class="s1">&#39;conv2_block3_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv2_block3_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">256</span>       <span class="p">[</span><span class="s1">&#39;conv2_block3_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv2_block3_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block3_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv2_block3_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block3_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv2_block3_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">36864</span>     <span class="p">[</span><span class="s1">&#39;conv2_block3_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv2_block3_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">256</span>       <span class="p">[</span><span class="s1">&#39;conv2_block3_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv2_block3_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block3_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">max_pooling2d</span> <span class="p">(</span><span class="n">MaxPooling2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv2_block2_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv2_block3_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">16640</span>     <span class="p">[</span><span class="s1">&#39;conv2_block3_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv2_block3_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;max_pooling2d[0][0]&#39;</span><span class="p">,</span>       
+                                                                         <span class="s1">&#39;conv2_block3_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv3_block1_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv2_block3_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv3_block1_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block1_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv3_block1_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">32768</span>     <span class="p">[</span><span class="s1">&#39;conv3_block1_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv3_block1_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">512</span>       <span class="p">[</span><span class="s1">&#39;conv3_block1_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv3_block1_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block1_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv3_block1_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block1_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv3_block1_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">147456</span>    <span class="p">[</span><span class="s1">&#39;conv3_block1_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv3_block1_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">512</span>       <span class="p">[</span><span class="s1">&#39;conv3_block1_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv3_block1_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block1_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv3_block1_0_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">131584</span>    <span class="p">[</span><span class="s1">&#39;conv3_block1_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv3_block1_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">66048</span>     <span class="p">[</span><span class="s1">&#39;conv3_block1_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv3_block1_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block1_0_conv[0][0]&#39;</span><span class="p">,</span> 
+                                                                         <span class="s1">&#39;conv3_block1_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv3_block2_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">2048</span>      <span class="p">[</span><span class="s1">&#39;conv3_block1_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv3_block2_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block2_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv3_block2_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">65536</span>     <span class="p">[</span><span class="s1">&#39;conv3_block2_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv3_block2_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">512</span>       <span class="p">[</span><span class="s1">&#39;conv3_block2_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv3_block2_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block2_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv3_block2_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block2_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv3_block2_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">147456</span>    <span class="p">[</span><span class="s1">&#39;conv3_block2_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv3_block2_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">512</span>       <span class="p">[</span><span class="s1">&#39;conv3_block2_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv3_block2_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block2_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv3_block2_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">66048</span>     <span class="p">[</span><span class="s1">&#39;conv3_block2_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv3_block2_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block1_out[0][0]&#39;</span><span class="p">,</span>    
+                                                                         <span class="s1">&#39;conv3_block2_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv3_block3_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">2048</span>      <span class="p">[</span><span class="s1">&#39;conv3_block2_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv3_block3_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block3_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv3_block3_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">65536</span>     <span class="p">[</span><span class="s1">&#39;conv3_block3_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv3_block3_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">512</span>       <span class="p">[</span><span class="s1">&#39;conv3_block3_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv3_block3_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block3_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv3_block3_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block3_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv3_block3_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">147456</span>    <span class="p">[</span><span class="s1">&#39;conv3_block3_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv3_block3_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">512</span>       <span class="p">[</span><span class="s1">&#39;conv3_block3_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv3_block3_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block3_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv3_block3_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">66048</span>     <span class="p">[</span><span class="s1">&#39;conv3_block3_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv3_block3_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block2_out[0][0]&#39;</span><span class="p">,</span>    
+                                                                         <span class="s1">&#39;conv3_block3_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv3_block4_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">2048</span>      <span class="p">[</span><span class="s1">&#39;conv3_block3_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv3_block4_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block4_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv3_block4_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">65536</span>     <span class="p">[</span><span class="s1">&#39;conv3_block4_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv3_block4_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">512</span>       <span class="p">[</span><span class="s1">&#39;conv3_block4_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv3_block4_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block4_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv3_block4_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block4_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv3_block4_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">147456</span>    <span class="p">[</span><span class="s1">&#39;conv3_block4_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv3_block4_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">512</span>       <span class="p">[</span><span class="s1">&#39;conv3_block4_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv3_block4_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block4_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">max_pooling2d_1</span> <span class="p">(</span><span class="n">MaxPoolin</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv3_block3_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">g2D</span><span class="p">)</span>                                                                                             
+
+     <span class="n">conv3_block4_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">66048</span>     <span class="p">[</span><span class="s1">&#39;conv3_block4_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv3_block4_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;max_pooling2d_1[0][0]&#39;</span><span class="p">,</span>     
+                                                                         <span class="s1">&#39;conv3_block4_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv4_block1_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">2048</span>      <span class="p">[</span><span class="s1">&#39;conv3_block4_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv4_block1_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block1_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv4_block1_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">131072</span>    <span class="p">[</span><span class="s1">&#39;conv4_block1_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv4_block1_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv4_block1_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv4_block1_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block1_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv4_block1_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block1_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv4_block1_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">589824</span>    <span class="p">[</span><span class="s1">&#39;conv4_block1_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv4_block1_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv4_block1_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv4_block1_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block1_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv4_block1_0_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">525312</span>    <span class="p">[</span><span class="s1">&#39;conv4_block1_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv4_block1_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">263168</span>    <span class="p">[</span><span class="s1">&#39;conv4_block1_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv4_block1_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block1_0_conv[0][0]&#39;</span><span class="p">,</span> 
+                                                                         <span class="s1">&#39;conv4_block1_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv4_block2_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">4096</span>      <span class="p">[</span><span class="s1">&#39;conv4_block1_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv4_block2_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block2_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv4_block2_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">262144</span>    <span class="p">[</span><span class="s1">&#39;conv4_block2_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv4_block2_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv4_block2_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv4_block2_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block2_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv4_block2_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block2_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv4_block2_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">589824</span>    <span class="p">[</span><span class="s1">&#39;conv4_block2_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv4_block2_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv4_block2_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv4_block2_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block2_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv4_block2_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">263168</span>    <span class="p">[</span><span class="s1">&#39;conv4_block2_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv4_block2_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block1_out[0][0]&#39;</span><span class="p">,</span>    
+                                                                         <span class="s1">&#39;conv4_block2_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv4_block3_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">4096</span>      <span class="p">[</span><span class="s1">&#39;conv4_block2_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv4_block3_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block3_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv4_block3_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">262144</span>    <span class="p">[</span><span class="s1">&#39;conv4_block3_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv4_block3_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv4_block3_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv4_block3_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block3_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv4_block3_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block3_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv4_block3_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">589824</span>    <span class="p">[</span><span class="s1">&#39;conv4_block3_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv4_block3_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv4_block3_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv4_block3_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block3_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv4_block3_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">263168</span>    <span class="p">[</span><span class="s1">&#39;conv4_block3_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv4_block3_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block2_out[0][0]&#39;</span><span class="p">,</span>    
+                                                                         <span class="s1">&#39;conv4_block3_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv4_block4_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">4096</span>      <span class="p">[</span><span class="s1">&#39;conv4_block3_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv4_block4_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block4_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv4_block4_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">262144</span>    <span class="p">[</span><span class="s1">&#39;conv4_block4_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv4_block4_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv4_block4_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv4_block4_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block4_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv4_block4_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block4_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv4_block4_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">589824</span>    <span class="p">[</span><span class="s1">&#39;conv4_block4_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv4_block4_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv4_block4_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv4_block4_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block4_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv4_block4_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">263168</span>    <span class="p">[</span><span class="s1">&#39;conv4_block4_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv4_block4_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block3_out[0][0]&#39;</span><span class="p">,</span>    
+                                                                         <span class="s1">&#39;conv4_block4_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv4_block5_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">4096</span>      <span class="p">[</span><span class="s1">&#39;conv4_block4_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv4_block5_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block5_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv4_block5_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">262144</span>    <span class="p">[</span><span class="s1">&#39;conv4_block5_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv4_block5_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv4_block5_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv4_block5_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block5_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv4_block5_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block5_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv4_block5_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">589824</span>    <span class="p">[</span><span class="s1">&#39;conv4_block5_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv4_block5_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv4_block5_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv4_block5_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block5_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv4_block5_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">263168</span>    <span class="p">[</span><span class="s1">&#39;conv4_block5_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv4_block5_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block4_out[0][0]&#39;</span><span class="p">,</span>    
+                                                                         <span class="s1">&#39;conv4_block5_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv4_block6_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">4096</span>      <span class="p">[</span><span class="s1">&#39;conv4_block5_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv4_block6_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>         <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block6_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv4_block6_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">262144</span>    <span class="p">[</span><span class="s1">&#39;conv4_block6_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv4_block6_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv4_block6_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv4_block6_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block6_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv4_block6_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block6_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv4_block6_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>            <span class="mi">589824</span>    <span class="p">[</span><span class="s1">&#39;conv4_block6_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv4_block6_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>            <span class="mi">1024</span>      <span class="p">[</span><span class="s1">&#39;conv4_block6_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv4_block6_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>            <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block6_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">max_pooling2d_2</span> <span class="p">(</span><span class="n">MaxPoolin</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv4_block5_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">g2D</span><span class="p">)</span>                                                                                             
+
+     <span class="n">conv4_block6_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>           <span class="mi">263168</span>    <span class="p">[</span><span class="s1">&#39;conv4_block6_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv4_block6_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;max_pooling2d_2[0][0]&#39;</span><span class="p">,</span>     
+                                                                         <span class="s1">&#39;conv4_block6_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv5_block1_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>           <span class="mi">4096</span>      <span class="p">[</span><span class="s1">&#39;conv4_block6_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv5_block1_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">1024</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block1_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv5_block1_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">524288</span>    <span class="p">[</span><span class="s1">&#39;conv5_block1_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv5_block1_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">2048</span>      <span class="p">[</span><span class="s1">&#39;conv5_block1_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv5_block1_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block1_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv5_block1_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block1_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv5_block1_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">2359296</span>   <span class="p">[</span><span class="s1">&#39;conv5_block1_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv5_block1_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">2048</span>      <span class="p">[</span><span class="s1">&#39;conv5_block1_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv5_block1_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block1_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv5_block1_0_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>           <span class="mi">2099200</span>   <span class="p">[</span><span class="s1">&#39;conv5_block1_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv5_block1_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>           <span class="mi">1050624</span>   <span class="p">[</span><span class="s1">&#39;conv5_block1_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv5_block1_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block1_0_conv[0][0]&#39;</span><span class="p">,</span> 
+                                                                         <span class="s1">&#39;conv5_block1_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv5_block2_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>           <span class="mi">8192</span>      <span class="p">[</span><span class="s1">&#39;conv5_block1_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv5_block2_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block2_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv5_block2_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">1048576</span>   <span class="p">[</span><span class="s1">&#39;conv5_block2_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv5_block2_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">2048</span>      <span class="p">[</span><span class="s1">&#39;conv5_block2_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv5_block2_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block2_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv5_block2_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block2_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv5_block2_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">2359296</span>   <span class="p">[</span><span class="s1">&#39;conv5_block2_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv5_block2_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">2048</span>      <span class="p">[</span><span class="s1">&#39;conv5_block2_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv5_block2_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block2_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv5_block2_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>           <span class="mi">1050624</span>   <span class="p">[</span><span class="s1">&#39;conv5_block2_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv5_block2_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block1_out[0][0]&#39;</span><span class="p">,</span>    
+                                                                         <span class="s1">&#39;conv5_block2_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">conv5_block3_preact_bn</span> <span class="p">(</span><span class="n">Ba</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>           <span class="mi">8192</span>      <span class="p">[</span><span class="s1">&#39;conv5_block2_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">tchNormalization</span><span class="p">)</span>                                                                                
+
+     <span class="n">conv5_block3_preact_relu</span> <span class="p">(</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block3_preact_bn[0][0]</span>
+     <span class="n">Activation</span><span class="p">)</span>                                                        <span class="s1">&#39;]                            </span>
+
+     <span class="n">conv5_block3_1_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">1048576</span>   <span class="p">[</span><span class="s1">&#39;conv5_block3_preact_relu[0][</span>
+     <span class="n">D</span><span class="p">)</span>                                                                 <span class="mi">0</span><span class="p">]</span><span class="s1">&#39;]                          </span>
+
+     <span class="n">conv5_block3_1_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">2048</span>      <span class="p">[</span><span class="s1">&#39;conv5_block3_1_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv5_block3_1_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block3_1_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv5_block3_2_pad</span> <span class="p">(</span><span class="n">ZeroPa</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>          <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block3_1_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">dding2D</span><span class="p">)</span>                                                                                         
+
+     <span class="n">conv5_block3_2_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">2359296</span>   <span class="p">[</span><span class="s1">&#39;conv5_block3_2_pad[0][0]&#39;</span><span class="p">]</span>  
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv5_block3_2_bn</span> <span class="p">(</span><span class="n">BatchNo</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">2048</span>      <span class="p">[</span><span class="s1">&#39;conv5_block3_2_conv[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">rmalization</span><span class="p">)</span>                                                                                     
+
+     <span class="n">conv5_block3_2_relu</span> <span class="p">(</span><span class="n">Activ</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>            <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block3_2_bn[0][0]&#39;</span><span class="p">]</span>   
+     <span class="n">ation</span><span class="p">)</span>                                                                                           
+
+     <span class="n">conv5_block3_3_conv</span> <span class="p">(</span><span class="n">Conv2</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>           <span class="mi">1050624</span>   <span class="p">[</span><span class="s1">&#39;conv5_block3_2_relu[0][0]&#39;</span><span class="p">]</span> 
+     <span class="n">D</span><span class="p">)</span>                                                                                               
+
+     <span class="n">conv5_block3_out</span> <span class="p">(</span><span class="n">Add</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;conv5_block2_out[0][0]&#39;</span><span class="p">,</span>    
+                                                                         <span class="s1">&#39;conv5_block3_3_conv[0][0]&#39;</span><span class="p">]</span> 
+
+     <span class="n">post_bn</span> <span class="p">(</span><span class="n">BatchNormalizatio</span>  <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>           <span class="mi">8192</span>      <span class="p">[</span><span class="s1">&#39;conv5_block3_out[0][0]&#39;</span><span class="p">]</span>    
+     <span class="n">n</span><span class="p">)</span>                                                                                               
+
+     <span class="n">post_relu</span> <span class="p">(</span><span class="n">Activation</span><span class="p">)</span>      <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>           <span class="mi">0</span>         <span class="p">[</span><span class="s1">&#39;post_bn[0][0]&#39;</span><span class="p">]</span>             
+
+    <span class="o">==================================================================================================</span>
+    <span class="n">Total</span> <span class="n">params</span><span class="p">:</span> <span class="mi">23564800</span> <span class="p">(</span><span class="mf">89.89</span> <span class="n">MB</span><span class="p">)</span>
+    <span class="n">Trainable</span> <span class="n">params</span><span class="p">:</span> <span class="mi">23519360</span> <span class="p">(</span><span class="mf">89.72</span> <span class="n">MB</span><span class="p">)</span>
+    <span class="n">Non</span><span class="o">-</span><span class="n">trainable</span> <span class="n">params</span><span class="p">:</span> <span class="mi">45440</span> <span class="p">(</span><span class="mf">177.50</span> <span class="n">KB</span><span class="p">)</span>
+    <span class="n">__________________________________________________________________________________________________</span>
+</code></pre></div>
+
+<p>On constate qu'il contient de nombreuses couches et donc de nombreux paramètres à entraîner. Pour optimiser le temps d'exécution, on décide de ne pas ré-entraîner ces paramètres :  </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># On définit les couches cachées comme non entraînables</span>
+<span class="c1">#(on pourrait les réentrainer ou choisir de ne réentrainer que les premières par exemple)</span>
+<span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">classifier_resnet</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+    <span class="n">layer</span><span class="o">.</span><span class="n">trainable</span> <span class="o">=</span> <span class="kc">False</span>
+</code></pre></div>
+
+<h2 id="structure-de-notre-modele">Structure de notre modèle</h2>
+<p>Il ne nous reste plus qu'à <strong>introduire ce bloc convolutif dans notre réseau de neurones</strong>. On y ajoute en amont des couches permettant d'appliquer une mise à l'échelle uniforme (<code>Rescaling</code>) et des modifications aléatoires des images d'entraînement (<code>RandomRotation</code>, <code>RandomZoom</code>) permettant d'obtenir un <strong>modèle plus généralisable</strong>. En sortie du modèle ResNet, <strong>on ajoute une couche <code>Flatten()</code></strong> qui sort un vecteur de données à partir de la dernière couche de convolution, puis <strong>quelques couches de réseau de neurones</strong> qui serviront à entraîner notre modèle sur nos données.<br>
+On choisit ici d'ajouter 2 couches <code>Dense</code> de 256 et 128 neurones. Les nombres de couches et de neurones que vous allez implémenter dépendent de <strong>la complexité du modèle souhaitée et de la taille des données d'entraînement dont vous disposez</strong>. Il y a un arbitrage à faire entre <a href="https://blog.statoscop.fr/le-dilemme-biais-variance-dans-la-modelisation-de-donnees.html">performances du modèle et risques de surapprentissage</a>. En sortie, la dernière couche doit avoir un <strong>nombre de neurones égal au nombre de classes</strong> de votre problème et une <strong>fonction d'activation</strong> correspondant à un problème de classification (ici <code>softmax</code>).   </p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Rescaling</span><span class="p">,</span> <span class="n">RandomRotation</span><span class="p">,</span> <span class="n">RandomFlip</span><span class="p">,</span> <span class="n">RandomTranslation</span><span class="p">,</span> <span class="n">RandomZoom</span><span class="p">,</span> <span class="n">Flatten</span><span class="p">,</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">BatchNormalization</span>
+<span class="kn">from</span> <span class="nn">keras.optimizers</span> <span class="kn">import</span> <span class="n">Adam</span>
+
+<span class="c1"># On définit l&#39;ensemble de notre réseau</span>
+<span class="n">classifier_resnet_final</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">([</span>
+    <span class="n">Rescaling</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mi">255</span><span class="p">),</span>
+    <span class="n">RandomRotation</span><span class="p">((</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)),</span>
+    <span class="n">RandomZoom</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)),</span>
+    <span class="n">classifier_resnet</span><span class="p">,</span>
+    <span class="n">Flatten</span><span class="p">(),</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">),</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;softmax&#39;</span><span class="p">)</span>
+<span class="p">])</span>
+
+<span class="c1"># On compile avec l&#39;algorithme d&#39;optimisation, la fonction de perte et la métrique en sortie : </span>
+<span class="n">classifier_resnet_final</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<p>Enfin, il ne nous reste plus qu'à lancer <strong>l'entraînement de notre modèle sur nos données</strong>. En amont, on crée un <code>ModelCheckPoint</code> qui va permettre de sauvegarder sur notre disque le modèle le plus performant :  </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># On fait un modèle check point</span>
+<span class="kn">from</span> <span class="nn">keras.callbacks</span> <span class="kn">import</span> <span class="n">ModelCheckpoint</span>
+<span class="n">model_checkpoint_callback</span> <span class="o">=</span> <span class="n">ModelCheckpoint</span><span class="p">(</span>
+    <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;model/best_</span><span class="si">{epoch:02d}</span><span class="s2">.keras&quot;</span><span class="p">,</span>
+    <span class="n">save_weights_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">save_best_only</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">monitor</span><span class="o">=</span><span class="s1">&#39;val_accuracy&#39;</span><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>On lance finalement l'entraînement, en choisissant <strong>20 epochs</strong>. Les époques sont <strong>le nombre de fois où chaque point sera vu par le modèle</strong>. La taille du <strong>batch</strong> correspond au nombre d'images dans chaque lot de données qui sera envoyé dans le modèle avant mise à jour de ses paramètres. Elle a été définie dans la fonction <code>image_dataset_from_directory</code> et est de 64 images. Cela signifie que ma machine doit pouvoir supporter de charger 64 images en mémoire. Pour chaque époque, il y a donc X étapes, ou passages de batch, permettant que l'ensemble des images des données d'entraînement soit vu par le modèle.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># On lance l&#39;entraînement </span>
+<span class="n">fitting_resnet</span> <span class="o">=</span> <span class="n">classifier_resnet_final</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">training_set</span><span class="p">,</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="n">validation_data</span> <span class="o">=</span> <span class="n">validation_set</span><span class="p">,</span>
+    <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">model_checkpoint_callback</span><span class="p">])</span> 
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>    <span class="n">Epoch</span> <span class="mi">1</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">104</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">10.5564</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.5216</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">2.7596</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.7935</span>
+    <span class="n">Epoch</span> <span class="mi">2</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">98</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">2.3802</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.8050</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">2.0154</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8312</span>
+    <span class="n">Epoch</span> <span class="mi">3</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">99</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">1.3172</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.8588</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.5961</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8564</span>
+    <span class="n">Epoch</span> <span class="mi">4</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">100</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.7892</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.8879</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.9057</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8363</span>
+    <span class="n">Epoch</span> <span class="mi">5</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">99</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.8162</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.8944</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.4213</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8539</span>
+    <span class="n">Epoch</span> <span class="mi">6</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">98</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.6900</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.8922</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.1035</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8866</span>
+    <span class="n">Epoch</span> <span class="mi">7</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">97</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.4349</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9397</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.2567</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8514</span>
+    <span class="n">Epoch</span> <span class="mi">8</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">97</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.4405</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9461</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.1115</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8866</span>
+    <span class="n">Epoch</span> <span class="mi">9</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">97</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.5066</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9321</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.3761</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8816</span>
+    <span class="n">Epoch</span> <span class="mi">10</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">100</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.3270</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9461</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.4117</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8967</span>
+    <span class="n">Epoch</span> <span class="mi">11</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">97</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.4974</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9429</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.1139</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8866</span>
+    <span class="n">Epoch</span> <span class="mi">12</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">96</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.2116</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9558</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.3811</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8665</span>
+    <span class="n">Epoch</span> <span class="mi">13</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">97</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.2452</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9666</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.0028</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8866</span>
+    <span class="n">Epoch</span> <span class="mi">14</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">97</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.1808</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9677</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.3891</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8438</span>
+    <span class="n">Epoch</span> <span class="mi">15</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">99</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.2319</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9580</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.0152</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.9093</span>
+    <span class="n">Epoch</span> <span class="mi">16</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">98</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.2255</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9644</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.1827</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8917</span>
+    <span class="n">Epoch</span> <span class="mi">17</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">97</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.1173</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9720</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.3951</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8791</span>
+    <span class="n">Epoch</span> <span class="mi">18</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">97</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.2391</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9612</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.2992</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8816</span>
+    <span class="n">Epoch</span> <span class="mi">19</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">98</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.1443</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9688</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.4597</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8791</span>
+    <span class="n">Epoch</span> <span class="mi">20</span><span class="o">/</span><span class="mi">20</span>
+    <span class="mi">15</span><span class="o">/</span><span class="mi">15</span> <span class="p">[</span><span class="o">==============================</span><span class="p">]</span> <span class="o">-</span> <span class="mi">96</span><span class="n">s</span> <span class="mi">7</span><span class="n">s</span><span class="o">/</span><span class="n">step</span> <span class="o">-</span> <span class="n">loss</span><span class="p">:</span> <span class="mf">0.2531</span> <span class="o">-</span> <span class="n">accuracy</span><span class="p">:</span> <span class="mf">0.9688</span> <span class="o">-</span> <span class="n">val_loss</span><span class="p">:</span> <span class="mf">1.3889</span> <span class="o">-</span> <span class="n">val_accuracy</span><span class="p">:</span> <span class="mf">0.8967</span>
+</code></pre></div>
+
+<p>Le modèle finalement sélectionné est celui à la 15e époque. On constate en effet que l'accuracy n'augmente plus que sur les données d'entraînement au delà. </p>
+<h1 id="evaluation-et-utilisation-du-modele">Évaluation et utilisation du modèle</h1>
+<p>Une fois le modèle entraîné, il faut évaluer ses performances avant de l'utiliser pour réaliser de nouvelles prédictions.  </p>
+<h2 id="evaluation-du-modele-avec-scikit-learn">Évaluation du modèle avec <code>scikit-learn</code></h2>
+<p>On utilise enfin notre set de test, importé au début de cet article en même temps que les sets d'entraînement de validation. En effet, si le modèle n'a pas été entraîné à proprement parler sur le set de validation, ce dernier a <strong>servi à sélectionner le modèle final durant l'entraînement</strong> et n'est donc pas adapté pour en fournir une évaluation non biaisée. On évalue donc maintenant les performances du modèle finalement sélectionné, qui avait obtenu une accuracy de 91% sur les données de validation, avec les données test. 
+On propose ici une <strong>méthode pour utiliser les fonctions <code>classification_report</code> et <code>confusion_matrix</code> de <code>scikit-learn</code></strong> sur un modèle <code>keras</code>.  </p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">classification_report</span>
+<span class="kn">from</span> <span class="nn">keras.saving</span> <span class="kn">import</span> <span class="n">load_model</span>
+
+<span class="n">modele_resnet</span> <span class="o">=</span> <span class="n">load_model</span><span class="p">(</span><span class="s2">&quot;model/best_15.keras&quot;</span><span class="p">)</span>
+
+<span class="c1"># on parcourt le set de test et on enregistre pour chaque élément</span>
+<span class="c1"># la prédiction et la vraie valeur</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+<span class="n">true_values</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+<span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">test_set</span><span class="p">:</span>
+  <span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">predictions</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">modele_resnet</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)])</span>
+  <span class="n">true_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">true_values</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)])</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">true_values</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">target_names</span> <span class="o">=</span> <span class="n">test_set</span><span class="o">.</span><span class="n">class_names</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>                 <span class="k">precision</span>    <span class="n">recall</span>  <span class="n">f1</span><span class="o">-</span><span class="n">score</span>   <span class="n">support</span>
+
+ <span class="n">fraise</span> <span class="n">fraîche</span>       <span class="mi">0</span><span class="p">.</span><span class="mi">93</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">86</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">90</span>        <span class="mi">50</span>
+ <span class="n">fraise</span> <span class="n">pourrie</span>       <span class="mi">0</span><span class="p">.</span><span class="mi">87</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">96</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">91</span>        <span class="mi">50</span>
+<span class="n">grenade</span> <span class="n">fraîche</span>       <span class="mi">0</span><span class="p">.</span><span class="mi">89</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">89</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">89</span>        <span class="mi">62</span>
+<span class="n">grenade</span> <span class="n">pourrie</span>       <span class="mi">0</span><span class="p">.</span><span class="mi">79</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">76</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">78</span>        <span class="mi">50</span>
+  <span class="n">pêche</span> <span class="n">fraîche</span>       <span class="mi">0</span><span class="p">.</span><span class="mi">94</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">90</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">92</span>        <span class="mi">50</span>
+  <span class="n">pêche</span> <span class="n">pourrie</span>       <span class="mi">0</span><span class="p">.</span><span class="mi">83</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">87</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">85</span>        <span class="mi">68</span>
+
+       <span class="n">accuracy</span>                           <span class="mi">0</span><span class="p">.</span><span class="mi">87</span>       <span class="mi">330</span>
+      <span class="n">macro</span> <span class="k">avg</span>       <span class="mi">0</span><span class="p">.</span><span class="mi">88</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">87</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">87</span>       <span class="mi">330</span>
+   <span class="n">weighted</span> <span class="k">avg</span>       <span class="mi">0</span><span class="p">.</span><span class="mi">87</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">87</span>      <span class="mi">0</span><span class="p">.</span><span class="mi">87</span>       <span class="mi">330</span>
+</code></pre></div>
+
+<p>On remarque tout d'abord que l'accuracy sur les données de test est assez proche de celle obtenue sur les données de validation puisqu'elle est de 87%. Cela semble indiquer que notre modèle se généralise bien. Le rapport de classification de scikit-learn permet de voir plus précisément les forces et faiblesses du modèle. En particulier, pour chaque classe, il donne :   </p>
+<ul>
+<li>
+<p>la <strong>précision</strong> du modèle, qui permet de voir, pour l'ensemble des prédictions d'une classe, la part qui appartenait bien à cette classe.  </p>
+</li>
+<li>
+<p>le <strong>rappel</strong> du modèle, qui permet de voir, pour l'ensemble des images d'une classe, la part ayant été correctement prédite.</p>
+</li>
+</ul>
+<p>Il faut viser d'avoir les <strong>meilleures performances possible sur ces deux indicateurs</strong>. En effet, un modèle <strong>très précis sur une classe</strong>, c'est à dire dont les prédictions de cette classe sont souvent correctes, peut avoir malgré tout un <strong>très mauvais rappel</strong>, c'est à dire <em>manquer</em> beaucoup d'images de cette classe en les prédisant à tort comme appartenant à d'autres classes.    </p>
+<p>Ici, le rapport de classification nous indique par exemple que <em><strong>87% des prédictions "fraise pourrie" sont correctes (<code>précision</code>) mais que 96% des fraises pourries sont bien repérées par le modèle (<code>rappel</code>)</strong>. Cela montre que la quasi totalité des fraises pourries sont classées comme telles, mais que 13% des prédictions de cette classe concernent d'autres groupes de fruits. On constate également une précision et un rappel plus bas que les autres classes pour les </em>grenades pourries_.</p>
+<p>On peut compléter cette analyse avec une matrice de confusion : </p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">ConfusionMatrixDisplay</span> 
+
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">true_values</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+<span class="n">cmd</span> <span class="o">=</span> <span class="n">ConfusionMatrixDisplay</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">display_labels</span> <span class="o">=</span> <span class="n">test_set</span><span class="o">.</span><span class="n">class_names</span><span class="p">)</span>
+<span class="n">cmd</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="Pelican" src="../images/keras_tl/output_27_0.png"></p>
+<p>L'analyse de la matrice de confusion permet d'affiner le constat du rapport de classification : on constate par exemple que les taux de précision et de rappel relativement bas pour les grenades pourries sont principalement dûes à une confusion avec les pêches pourries et les grenades fraîches.</p>
+<h2 id="predictions-sur-des-nouvelles-images">Prédictions sur des nouvelles images</h2>
+<p>On propose enfin une méthode pour afficher la prédiction sur une nouvelle image. Il est en effet nécessaire de charger l'image mais aussi de la modifier pour qu'elle corresponde aux fonctions de <code>keras</code>. Voici comment :  </p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">keras</span> <span class="kn">import</span> <span class="n">utils</span>
+<span class="c1"># chargement de l&#39;image à la taille correspondante</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">load_img</span><span class="p">(</span><span class="s2">&quot;Set test/pêche pourrie/rotten_peach_32.jpg&quot;</span><span class="p">,</span> <span class="n">target_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">IMG_SIZE</span><span class="p">,</span> <span class="n">IMG_SIZE</span><span class="p">))</span>
+<span class="c1"># transformation en matrice de pixels </span>
+<span class="n">image_array</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">img_to_array</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="c1"># ajout d&#39;une dimension pour simuler la matrice d&#39;images</span>
+<span class="n">image_array2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">image_array</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># prédiction</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">modele_resnet</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">image_array2</span><span class="p">)</span>
+</code></pre></div>
+
+<p>La prédiction est un vecteur de probabilités, on crée la valeur correspondant à la probabilité et le label pour ensuite pouvoir afficher ces informations au moment de la prédiction :  </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># la proba max</span>
+<span class="n">proba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># l&#39;index de la classe associée</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span>
+<span class="c1"># le label de la classe prédite</span>
+<span class="n">label</span> <span class="o">=</span> <span class="n">test_set</span><span class="o">.</span><span class="n">class_names</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">proba</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">1.0 pêche pourrie</span>
+</code></pre></div>
+
+<p>Il n'y a plus qu'à afficher l'image chargée et la prédiction associée, par exemple en la mettant en forme sous forme de titre <code>matplotlib</code> :  </p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;Set test/pêche pourrie/rotten_peach_32.jpg&quot;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Notre modèle prédit une &quot;</span><span class="o">+</span><span class="n">label</span><span class="o">+</span><span class="s2">&quot; avec une probabilité de &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">proba</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="Pelican" src="../images/keras_tl/output_35_0.png"></p>
+<p>Et voilà! Sur notre machine locale et <a href="https://blog.statoscop.fr/yolov7-gradient.html#le-gpu">sans GPU</a>, on a réussi à entraîner un modèle qui fonctionne plutôt bien! Il ne vous reste plus qu'à mettre tout ça dans une fonction et à l'intégrer... à votre <a href="https://flask.palletsprojects.com/en/3.0.x/">application Flask</a> par exemple. Promis on vous explique comment faire tout ça très rapidement.  </p>
+<p>C'est tout pour aujourd'hui! N'hésitez pas à <a href="https://www.statoscop.fr">visiter notre site</a> et à nous suivre sur <a href="https://twitter.com/stato_scop">Twitter</a> et <a href="https://www.linkedin.com/company/statoscop">Linkedin</a>. Pour retrouver le code ayant servi à générer cette note, vous pouvez vous rendre sur le <a href="https://github.com/Statoscop/notebooks-blog">github de Statoscop</a>. </p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Transfer Learning avec Keras : entraînement et évaluation d'un modèle de détection d'images&amp;url=https://blog.statoscop.fr/transfer-learning-keras.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://blog.statoscop.fr/tag/python.html">Python</a><a href="https://blog.statoscop.fr/tag/keras.html">Keras</a><a href="https://blog.statoscop.fr/tag/cnn.html">CNN</a><a href="https://blog.statoscop.fr/tag/machine-learning.html">Machine Learning</a><a href="https://blog.statoscop.fr/tag/data-science.html">Data Science</a><a href="https://blog.statoscop.fr/tag/transfer-learning.html">Transfer Learning</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+          <span class="credits-theme">Blog réalisé par les fondateurs de Statoscop et publié avec
+            <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a>
+          </span>
+          <span class="credits-software">
+            Thème <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a>
+          </span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
+
+</body>
+</html>
