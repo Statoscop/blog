@@ -881,7 +881,7 @@ plt.show()
     
 
 
-L'analyse de la matrice de confusion permet d'affiner le constat du rapport de classification : on constate par exemple que les taux de précision et de rappel relativement bas pour les grenades pourries sont principalement dûes à une confusion avec les pêches pourries et les grenades fraîches.
+L'analyse de la matrice de confusion permet d'affiner les résultats du rapport de classification : on constate par exemple que les taux de précision et de rappel relativement bas pour les grenades pourries sont principalement dûes à une confusion avec les pêches pourries et les grenades fraîches.
 
 ## Prédictions sur des nouvelles images
 
