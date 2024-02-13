@@ -10,9 +10,9 @@ Summary: Création d'un modèle de détection d'images permettant de classifier 
 [TOC]
 
 
-L'une des petites révolutions que le Deep Learning a permis est le fait de pouvoir entraîner des modèles sur des __données très volumineuses__. En particulier, les modèles de détection d'images, les _Convolutional Neural Networks (CNN)_ ont pu se développer.  
-Ces modèles s'appuient sur des couches profondes spécifiques : __les réseaux convolutifs__. Ceux-ci permettent de pré-traiter les images afin de repérer des structures spécifiques dans les images et de pouvoir ainsi correctement les classifier, en évitant le [sur-apprentissage](https://blog.statoscop.fr/le-dilemme-biais-variance-dans-la-modelisation-de-donnees.html#liens-avec-loverfitting-et-lunderfitting-dans-les-modeles-de-machine-learning). Ces couches de convolution sont suivis de réseaux de neurones classiques permettant d'obtenir la classification voulue.   
-Reste que ces modèles doivent être entraînés sur __des quantités importantes de données__ avant d'être performants, et que cet entraînement peut être extrêmement __long et coûteux en ressources__, rendant quasi-impossible le fait de le réaliser sur son ordinateur en local. C'est là qu'intervient le __transfer learning__. Le principe est de partir d'un modèle pré-entraîné et de se contenter de le ré-entraîner ou d'en entraîner une partie sur ses données spécifiques. En particulier, __la partie convolutive du modèle n'est pas forcément spécifique à un thème donné__ et n'a souvent pas besoin d'être ré-entraîné. C'est comme si on se contentait de __spécialiser un modèle généraliste__. Cette méthode va nous permettre de gagner un temps précieux en entraînement et de __bénéficier de performances de modèles entraînés sur un grand nombre de données__.  
+L'une des petites révolutions que le Deep Learning a permise est le fait de pouvoir entraîner des modèles sur des __données très volumineuses__. En particulier, les modèles de détection d'images, les _Convolutional Neural Networks (CNN)_ ont pu se développer.  
+Ces modèles s'appuient sur des couches profondes spécifiques : __les réseaux convolutifs__. Ceux-ci permettent de pré-traiter les images afin de repérer des structures spécifiques dans celles-cu et de pouvoir ainsi correctement les classifier, en évitant le [sur-apprentissage](https://blog.statoscop.fr/le-dilemme-biais-variance-dans-la-modelisation-de-donnees.html#liens-avec-loverfitting-et-lunderfitting-dans-les-modeles-de-machine-learning). Ces couches de convolution sont suivies de réseaux de neurones classiques permettant d'obtenir la classification voulue.   
+Reste que ces modèles doivent être entraînés sur __des quantités importantes de données__ avant d'être performants, et que cet entraînement peut être extrêmement __long et coûteux en ressources__, rendant quasi-impossible le fait de le réaliser sur son ordinateur en local. C'est là qu'intervient le __transfer learning__. Le principe est de partir d'un modèle pré-entraîné et de se contenter de le ré-entraîner ou d'en entraîner une partie sur ses données spécifiques. En particulier, __la partie convolutive du modèle n'est pas forcément spécifique à un thème donné__ et n'a souvent pas besoin d'être ré-entraînée. C'est comme si on se contentait de __spécialiser un modèle généraliste__. Cette méthode va nous permettre de gagner un temps précieux en entraînement et de __bénéficier de performances de modèles entraînés sur un grand nombre de données__.  
 Voyons comment la mettre en oeuvre avec la __librairie Python `keras`__.
 
 
@@ -96,7 +96,7 @@ training_set.class_names
 
 
 
-À noter qu'il est importer de correctement paramétrer la __taille du batch__ et les __dimensions de l'image__. Plus la taille du batch est importante, plus le modèle tournera rapidement, mais il pourrait être moins précis et surtout votre machine pourrait crasher par manque de RAM et/ou GPU. Pour la taille de l'image, de la même manière elle aura **un impact sur les performances du modèle** et sur la capacité de votre machine à encaisser l'entraînement.
+À noter qu'il est important de correctement paramétrer la __taille du batch__ et les __dimensions de l'image__. Plus la taille du batch est importante, plus le modèle tournera rapidement, mais il pourrait être moins précis et surtout votre machine pourrait crasher par manque de RAM et/ou GPU. Pour la taille de l'image, de la même manière elle aura **un impact sur les performances du modèle** et sur la capacité de votre machine à encaisser l'entraînement.
 
 # Entraînement du modèle  
 Pour entraîner notre modèle, on commence par charger un des modèles de détection d'images disponibles dans `keras` puis on définit l'ensemble de notre réseau de neurones.  
@@ -111,7 +111,7 @@ from keras.applications import ResNet50V2
 classifier_resnet = ResNet50V2(weights='imagenet', include_top=False, input_shape=(IMG_SIZE, IMG_SIZE, 3))
 ```
 
-Notez que l'on paramétrise `include_top=False` de manière à pouvoir choisir le format de nos images en entrée, ici en 256*256.  
+Notez le paramètre `include_top=False` qui permet de pouvoir choisir le format de nos images en entrée, ici en 256*256.  
 Le modèle chargé a la structure suivante :  
 
 
@@ -747,7 +747,7 @@ model_checkpoint_callback = ModelCheckpoint(
     mode='max')
 ```
 
-On lance finalement l'entraînement, en choisissant __20 epochs__. Les époques sont **le nombre de fois où chaque point sera vu par le modèle**. La taille du __batch__ correspond au nombre d'images dans chaque lot de données qui sera envoyé dans le modèle avant mise à jour de ses paramètres. Elle a été définie dans la fonction `image_dataset_from_directory` et est de 64 images. Cela signifie que ma machine doit pouvoir supporter de charger 64 images en mémoire. Pour chaque époque, il y a donc X étapes, ou passages de batch, permettant que l'ensemble des images des données d'entraînement soit vu par le modèle.
+On lance finalement l'entraînement, en choisissant __20 epochs__. Les époques sont **le nombre de fois où chaque point sera vu par le modèle**. La taille du __batch__ correspond au nombre d'images dans chaque lot de données qui sera envoyé dans le modèle avant mise à jour de ses paramètres. Elle a été définie dans la fonction `image_dataset_from_directory` et est de 64 images. Cela signifie que ma machine doit pouvoir supporter de charger 64 images en mémoire. Pour chaque époque, il y a donc 15 étapes, ou passages de batch, permettant que l'ensemble des images des données d'entraînement soit vu par le modèle.
 
 
 ```python
@@ -859,7 +859,7 @@ On remarque tout d'abord que l'accuracy sur les données de test est assez proch
    
 Il faut viser d'avoir les **meilleures performances possible sur ces deux indicateurs**. En effet, un modèle **très précis sur une classe**, c'est à dire dont les prédictions de cette classe sont souvent correctes, peut avoir malgré tout un **très mauvais rappel**, c'est à dire _manquer_ beaucoup d'images de cette classe en les prédisant à tort comme appartenant à d'autres classes.    
 
-Ici, le rapport de classification nous indique par exemple que ___87% des prédictions "fraise pourrie" sont correctes (`précision`) mais que 96% des fraises pourries sont bien repérées par le modèle (`rappel`)__. Cela montre que la quasi totalité des fraises pourries sont classées comme telles, mais que 13% des prédictions de cette classe concernent d'autres groupes de fruits. On constate également une précision et un rappel plus bas que les autres classes pour les _grenades pourries_.
+Ici, le rapport de classification nous indique par exemple que __87% des prédictions "fraise pourrie" sont correctes (`précision`) mais que 96% des fraises pourries sont bien repérées par le modèle (`rappel`)__. Cela montre que la quasi totalité des fraises pourries sont classées comme telles, mais que 13% des prédictions de cette classe concernent d'autres groupes de fruits. On constate également une précision et un rappel plus bas que les autres classes pour les grenades pourries.
 
 On peut compléter cette analyse avec une matrice de confusion : 
 
