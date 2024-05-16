@@ -2,13 +2,23 @@
 <html lang="fr">
 
 <head>
-      <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+      <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="Statisticiens du Sud-Ouest organisés en coopérative pour vous accompagner dans l'analyse de vos données" />
+  <meta name="author" content="" />
+  <title>Conseil, formation et études en statistiques et data science - Statoscop</title>
+  <!-- Font Awesome icons (free version)-->
+  <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
 
 
-  <title>Le blog de Statoscop - études de cas en R et Python</title>
+
+  <!-- <title>Le blog de Statoscop - études de cas en R et Python</title> -->
   <link rel="icon" type="image/x-icon" href="https://blog.statoscop.fr/themes/statoscop/static/images/favicon-v1.ico" />
+
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,8 +28,9 @@
   <!-- Feed -->
         <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
 
-  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />
-
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />-->
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style-site.css" type="text/css" rel="stylesheet" /> 
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style_fusion.css" type="text/css" rel="stylesheet" /> -->
   <!-- Code highlight color scheme -->
       <link href="https://blog.statoscop.fr/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
 
@@ -29,10 +40,10 @@
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
+  [if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
+  ![endif]
 
 
 
@@ -60,18 +71,41 @@
 </script>
 </head>
 <!-- TODO : Body class -->
-<body class="home-template">
+  <body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
 
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
+        <a class="navbar-brand" href="https://statoscop.fr"><img src="https://blog.statoscop.fr/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Statoscop.logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-
-    </ul>
-  </div>
-</nav>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle font-weight-bold "
+                    href="https://statoscop.fr" id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false"> Accueil </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="https://statoscop.fr#services">Vos besoins</a></li>
+                        <li><a class="dropdown-item" href="https://statoscop.fr#portfolio">Nos missions</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle font-weight-bold "
+                    href="https://statoscop.fr/about" id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false"> Qui sommes-nous&#8239;? </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="https://statoscop.fr/about#coop">La coopérative</a></li>
+                        <li><a class="dropdown-item" href="https://statoscop.fr/about#team">L'équipe</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item font-weight-bold"><a class="nav-link js-scroll-trigger " href="https://statoscop.fr/contact">Contact</a></li>
+                <li class="nav-item font-weight-bold"><a class="nav-link js-scroll-trigger active" href="https://blog.statoscop.fr/" target="_blank">Le blog</a></li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+    
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
     <header id="blog-header" >
@@ -87,9 +121,6 @@
         <h1 class="post-title">Le blog - Authors</h1>
       </div>
     </header>
-
-  <section id="wrapper">
-    <a class="hidden-close"></a>
 
       <article class="post">
         <div class="inner">
@@ -111,25 +142,29 @@
             </a>
         </div>
       </article>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
-
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
-          <span class="credits-theme">Blog réalisé par les fondateurs de Statoscop et publié avec
-            <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a>
-          </span>
-          <span class="credits-software">
-            Thème <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a>
-          </span>
-        </section>
-      </div>
+          
+    <!-- Footer-->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-left"> © Statoscop</div>
+                <div class="col-lg-4 my-3 my-lg-0">
+                    <a class="btn btn-dark btn-social mx-2" href="https://twitter.com/stato_scop" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="col-lg-4 text-lg-left"> 
+                    Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
+                     déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+                </div>
+            </div>
+        </div>
     </footer>
-  </section>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
 
-</body>
+  </body>
 </html>
