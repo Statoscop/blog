@@ -981,6 +981,69 @@ img {
     padding: 0 2em
 }
 
+.nav-button {
+    position: fixed;
+    top: 0;
+    margin: 1em;
+    z-index: 200
+}
+
+.nav-button#home-button {
+    left: 0
+}
+
+.nav-button#menu-button {
+    right: 0
+}
+
+.nav-button a {
+    display: block;
+    height: 1.5em;
+    margin-bottom: 1em;
+    padding: 0.5em 1.25em;
+    border: 1px solid rgb(52,107,179);
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 0.75em;
+    line-height: 1.666em;
+    text-shadow: none;
+    color: rgb(52,107,179);
+    cursor: pointer;
+    background: #fff;
+    transition: color, border-color ease 0.3s;
+    border-radius: 2em
+}
+
+.nav-button a:hover,
+.nav-button a:focus {
+    color: rgb(0,152,117);
+    border-color: rgb(0,152,117)
+}
+
+.cover-active .nav-button a {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.5);
+    background: transparent
+}
+
+.cover-active .nav-button a:hover,
+.cover-active .nav-button a:focus {
+    color: #fff;
+    border-color: #fff
+}
+
+.nav-button a i {
+    display: inline-block;
+    color: inherit
+}
+
+.nav-button a i:before {
+    position: relative;
+    width: auto;
+    top: -2px;
+    margin: auto;
+    font-size: 0.625em;
+    line-height: 1.6em
+}
 
 #menu {
     position: fixed;
