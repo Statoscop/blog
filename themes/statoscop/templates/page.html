@@ -54,7 +54,7 @@
         {% if selected_cover %}
             <div class="post-cover cover" style="background-image: url('{{ selected_cover }}')">
         {% elif selected_color %}
-            <div class="post-cover cover" style="background-color: {{ selected_color }}">
+            <div class="post-cover cover" style="background-color: url('{{ selected_color }}')">
         {% endif %}
       </div>
     </header>

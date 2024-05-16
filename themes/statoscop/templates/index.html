@@ -6,36 +6,26 @@
     {% include 'partials/jsonld.html' %}
 {% endblock %}
 
+{% block navbar_blog_active %}active{% endblock %}
+
+
 {% block header %}
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="blog-header" {% if selected_cover or selected_color %}class="has-cover"{% endif %}>
-      <div class="inner">
-        <nav id="navigation">
-          <span class="blog-logo">
-            <a href="https://statoscop.fr"><img src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/images/logo-statoscop-v1.png" alt="Blog Logo" /></a>
-          </span>
-          <span id="menu-button" class="nav-button">
-            <a href="https://statoscop.fr">Aller sur le site</a>
-          </span>
-        </nav>
-        <h1 class="blog-name"><a href="{{ SITEURL }}/">Le blog de Statoscop</a></h1>
-        <span class="blog-description"><br>Quelques notes sur les méthodes de programmation et d'analyse de données</span>
+<section class="page-section" id="home">
+      <!-- <h1 class="blog-name"><a href="{{ SITEURL }}/">Quelques notes sur les méthodes de programmation et d'analyse de données</a></h1> -->
+      <!-- <span class="blog-description"><br>Quelques notes sur les méthodes de programmation et d'analyse de données</span> -->
 
-        {% if selected_cover %}
-          <div class="blog-cover cover" style="background-image: url('{{ selected_cover }}')">
-        {% elif selected_color %}
-          <div class="blog-cover cover" style="background-color: url('{{ selected_color }}')">
-        {% endif %}
-      </div>
+      <!-- {% if selected_cover %}-->
+        <!-- <div class="blog-cover cover" style="background-image: url('{{ selected_cover }}')"> -->
+      <!-- {% elif selected_color %}
+        <div class="blog-cover cover" style="background-color: url('{{ selected_color }}')">
+      {% endif %}  -->
 
-    </header>
     <div class="nav_accueil"><span class="nav_title">Par catégorie</span>
       {% for cat, articles in categories|sort %}
             <ul><li><a href="/{{ cat.url }}">{{ cat }} ({{ articles|count }} article{% if articles|length > 1 %}s{% endif %})</a></li></ul>
       {% endfor %}
-      <!--
-      <span class="nav_title">Par tag</span>
+      
+      <!-- <span class="nav_title">Par tag</span>
       {% for tag, articles in tags|sort %}
             <a href="/{{ tag.url }}">{{ tag }} ({{ articles|count }} article{% if articles|length > 1 %}s{% endif %})</a>
       {% endfor %} -->
@@ -51,6 +41,9 @@
 <div id="index" class="container">
   
   {% include "partials/loop.html" %}
+
 </div>
 
 {% endblock content %}
+
+</section>
