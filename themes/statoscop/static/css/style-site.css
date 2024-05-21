@@ -11735,13 +11735,13 @@ code{
   padding: 0em;
   margin: 10em 0em;
   position: fixed;
-  width: 12em;
+  width: 15%;
   text-align: none !important;
   z-index: 100;
 }
 
 .nav_accueil .nav_title {
-  padding: 0em 0em 0em 1em;
+  padding: 0em 0em 0em 2em;
   font-weight: bold;
   color: rgb(0,152,117);
   font-size: 140%;
