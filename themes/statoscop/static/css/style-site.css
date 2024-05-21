@@ -1972,7 +1972,7 @@ pre code {
     border: 0;
   }
 }
-@media (max-width: 991.98px) {
+@media (max-width: 992px) {
   .table-responsive-lg {
     display: block;
     width: 100%;
@@ -1983,7 +1983,7 @@ pre code {
     border: 0;
   }
 }
-@media (max-width: 1199.98px) {
+@media (max-width: 1200px) {
   .table-responsive-xl {
     display: block;
     width: 100%;
@@ -10955,14 +10955,15 @@ section#contact form#contactForm :-ms-input-placeholder {
 }
 
 .container .post:after {
-  position: absolute;
-  width: 32em;
+  position: relative; 
+  width: 50%;
   height: 1px;
-  left: 50%;
-  bottom: 0;
-  margin-left: -16em;
+  left: 75%;
+  bottom: -60px;
+  margin-left: -50%;
   content: '';
-  background: #e5e4e1
+  background: #e5e4e1; 
+  display: block;
 }
 
 .container .post.featured .post-title:after {
@@ -11397,14 +11398,15 @@ section#contact form#contactForm :-ms-input-placeholder {
 }
 
 .pagination:after {
-  position: absolute;
-  width: 32em;
+  position: relative; 
+  width: 50%;
   height: 1px;
-  left: 50%;
-  bottom: 0;
-  margin-left: -16em;
+  left: 75%;
+  bottom: -60px;
+  margin-left: -50%;
   content: '';
-  background: #e5e4e1
+  background: #e5e4e1; 
+  display: block;
 }
 
 .pagination a {
@@ -11944,3 +11946,4 @@ table td:after {
   content: '';
   background: #faf9f7
 }
+
