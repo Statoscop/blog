@@ -11092,7 +11092,8 @@ section#contact form#contactForm :-ms-input-placeholder {
 }
 
 .post-content {
-  text-align : justify;
+  text-align: justify;
+  margin-top: 5%;
 }
 
 .post-content > :is(h1, h2, h3, h4, h5, h6) {
