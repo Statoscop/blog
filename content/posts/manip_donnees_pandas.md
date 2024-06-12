@@ -9,7 +9,6 @@ Summary: Tour d'horizon des manières de filtrer des observations et sélectionn
 
 [TOC]   
 
-# Manipulation de données avec pandas  
 
 Dans cet article, on va essayer de clarifier les différentes options qui s'offrent à vous pour manipuler vos données avec Python en utilisant la librairie `pandas`. On se place dans le cas d'un tableau de données _tidy_, c'est à dire où chaque __colonne__ représente une __variable__, ou caractéristique, et chaque __ligne__ une __observation__. Dans ce cadre, on présente les options possibles pour :  
 
@@ -161,10 +160,10 @@ titanic.tail()
 
 Cette base contient 1309 observations (ici des passagers) et 14 variables qui permet de les caractériser. Voyons comment sélectionner des sous-ensembles de ces données.  
 
-## Filtrer des observations   
+# Filtrer des observations   
 On s'intéresse tout d'abord à la sélection sur les lignes. Différentes options sont possibles :  
 
-### À partir de leur position  avec `iloc`  
+## À partir de leur position  avec `iloc`  
 
 Dans `pandas`, il est possible de sélectionner certaines lignes directement en renseignant leur position avec la syntaxe `data_frame.iloc[positions_lignes, positions_colonnes]`. En ayant bien en tête qu'en Python, la première observation correspond à la position 0, on peut par exemple sélectionner les lignes 1 à 3 :   
 
@@ -677,7 +676,7 @@ titanic_index_name.iloc[0:3, ]
 
 
 
-### À partir de leur index avec `loc`   
+## À partir de leur index avec `loc`   
 Cette dernière remarque nous amène tout naturellement vers la seconde manière de filtrer les observations : à partir de leur index. En effet, il est possible avec `pandas` de créer un index qui permet de sélectionner des lignes en fonction de leur label. Ici nous avons créé le dataframe `titanic_index_name` qui identifie chaque ligne avec le nom du passager à laquelle elle correspond. On peut alors sélectionner une ou plusieurs lignes en utilisant ces labels, que l'on renseigne dans une liste :  
 
 
@@ -817,7 +816,7 @@ print(type(titanic_index_name.loc["Allen, Miss. Elisabeth Walton", :]),
     <class 'pandas.core.series.Series'> <class 'pandas.core.frame.DataFrame'>
 
 
-### À partir de conditions avec `loc` et `[]`  
+## À partir de conditions avec `loc` et `[]`  
 Enfin, et c'est sans doute le cas qui est le plus utilisé dans la pratique, on peut filtrer sur les observations à partir d'une condition. L'idée est de garder seulement les lignes correspondant à la condition.   
 Imaginons par exemple qu'on veuille le tableau contenant uniquement les passagères. La condition `titanic.sex == "female"` va renvoyer un vecteur de booléens de la taille du nombre de lignes de `titanic` renseignant `True` ou `False` en fonction de si la ligne correspond à un passager ou une passagère :  
 
@@ -1094,9 +1093,9 @@ titanic.loc[my_cond, :].head(4)
 
 
 
-## Sélectionner des variables  
+# Sélectionner des variables  
 
-### À partir de leur position avec `iloc`  
+## À partir de leur position avec `iloc`  
 
 De manière complètement analogue à ce que l'on faisait avec les lignes, il est possible de sélectionner certaines variables en indiquant dans `iloc` une liste de positions, par exemple pour sélectionner la première et la dernière colonne :  
 
@@ -1164,7 +1163,7 @@ titanic.iloc[:, [0, -1]].head()
 
 À noter que cette notation ne fonctionnera pas ni avec `.loc`, ni avec `[]`, qui ont besoin des labels des variables.  
 
-### À partir de leur nom avec `loc` et `[]`  
+## À partir de leur nom avec `loc` et `[]`  
 Tout comme on pouvait filtrer les lignes à partir de leur label quand on définissait un index, il est possible de sélectionner certaines variables en les renseignant dans une liste avec `.loc` et `[]` :  
 
 
@@ -1325,7 +1324,7 @@ print(type(titanic.loc[:, "pclass"]), type(titanic.loc[:, ["pclass"]]))
     <class 'pandas.core.series.Series'> <class 'pandas.core.frame.DataFrame'>
 
 
-### À partir de conditions avec `loc`   
+## À partir de conditions avec `loc`   
 Enfin, il est possible de sélectionner certaines colonnes en fonction de conditions, représentées par un vecteur de booléens. En général, on va créer ce vecteur en s'appuyant sur les méthodes `pandas` permettant de caractériser les colonnes de notre dataframe, comme `.columns` et `.dtypes` :   
 
 
@@ -1503,9 +1502,9 @@ titanic.loc[:, cond2].head()
 
 
 
-## Synthèse : j'utilise quoi du coup?    
+# Synthèse : j'utilise quoi du coup?    
 
-### `iloc` ou `loc` ? 
+## `iloc` ou `loc` ? 
 En résumé, les syntaxes `data.iloc[i, j]` et `data.loc[i, j]` suivent la même logique en permettant dans le même appel de filtrer sur les lignes en i et sur les colonnes en j. Le choix entre `iloc` et `loc` est seulement guidé par le fait que votre sélection porte sur :  
 
 - les __positions des lignes ou des colonnes__. Dans ce cas vous devez utiliser `iloc`.  
@@ -1818,7 +1817,7 @@ titanic_sorted.loc[[0, 4], :]
 
 On aurait aussi pu utiliser le paramètre `ignore_index` dans `sort_values()` pour réinitialiser directement les index.  
 
-### `[]` ou `loc`?  
+## `[]` ou `loc`?  
 Les crochets n'explicitent pas autant s'ils sélectionnent sur des lignes ou des colonnes. Si vous renseignez une liste de labels ils vont sélectionner des colonnes, et si vous renseignez une liste de booléens ils vont filtrer sur les lignes. Il est possible de chaîner les opérations sur les lignes ou les colonnes. Ainsi : `titanic[titanic.sex == "female"]["name"]` donnera le même résultat que `titanic.loc[titanic.sex == "female", "name"]`, c'est à dire les noms (colonne "name") des passagères (lignes correspondant aux femmes). 
 Il vous revient donc de choisir ce qui vous convient le mieux. Dans le cas où on sélectionne à la fois sur les lignes et les colonnes, la syntaxe de `loc` a l'avantage d'être plus lisible. Dans le cas où on sélectionne seulement des colonnes ou seulement des lignes, l'usage des crochets permettra de taper les instructions légèrement plus rapidement. Enfin quand on veut extraire une série d'un dataframe, on utilisera avantageusement la syntaxe `data.nom_col`, équivalente à `data["nom_col"]`.  
   
