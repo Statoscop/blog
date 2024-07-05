@@ -134,7 +134,12 @@ dd {
 }
 
 blockquote {
-  margin: 0 0 1rem;
+  border-left: 4px solid rgb(0,152,117);; /* Barre latérale de couleur bleue */
+  padding-left: 16px;             /* Espace entre la barre latérale et le texte */
+  margin: 16px 0;                 /* Marges verticales autour du blockquote */
+  color: #6c757d;                 /* Couleur grisée pour le texte */
+  font-size: 1.1em;               /* Taille de police légèrement plus grande */
+  font-style: italic;   
 }
 
 b,
