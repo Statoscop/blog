@@ -1,5 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog - Stats &amp; ML</title><link href="https://blog.statoscop.fr/" rel="alternate"></link><link href="https://blog.statoscop.fr/feeds/stats-ml.atom.xml" rel="self"></link><id>https://blog.statoscop.fr/</id><updated>2023-05-17T00:00:00+02:00</updated><entry><title>Taux standardisés : calcul et interprétation avec R</title><link href="https://blog.statoscop.fr/taux-standardises-calcul-et-interpretation-avec-r.html" rel="alternate"></link><published>2023-05-17T00:00:00+02:00</published><updated>2023-05-17T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2023-05-17:/taux-standardises-calcul-et-interpretation-avec-r.html</id><summary type="html">&lt;p&gt;Présentation de la méthode de standardisation directe sur les taux de survie des passagers du Titanic.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog - Stats &amp; ML</title><link href="https://blog.statoscop.fr/" rel="alternate"></link><link href="https://blog.statoscop.fr/feeds/stats-ml.atom.xml" rel="self"></link><id>https://blog.statoscop.fr/</id><updated>2024-07-09T00:00:00+02:00</updated><entry><title>Comprendre et interpréter les p-values</title><link href="https://blog.statoscop.fr/comprendre-et-interpreter-les-p-values.html" rel="alternate"></link><published>2024-07-09T00:00:00+02:00</published><updated>2024-07-09T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-07-09:/comprendre-et-interpreter-les-p-values.html</id><summary type="html">&lt;p&gt;Petite présentation intuitive des p-values et de leur utilisation dans nos modèles statistiques.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#les-p-values-et-les-tests-statistiques"&gt;Les p-values et les tests statistiques&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#interpretation-des-p-values"&gt;Interprétation des p-values&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#conclusion"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;p&gt;Aujourd'hui c'est à un grand classique de la statistique que l'on s'attaque : la &lt;strong&gt;p-value, ou valeur p&lt;/strong&gt;. Fondamentale dans l'analyse des résultats de la recherche scientifique, elle est pourtant &lt;strong&gt;souvent mal interprétée&lt;/strong&gt;. C'est sur elle que l'on s'appuie pour &lt;strong&gt;confirmer ou infirmer une hypothèse&lt;/strong&gt; et juger de la &lt;strong&gt;significativé de nos résultats&lt;/strong&gt;. Mais qu'est-ce que cela implique et comment bien appréhender ce qu'elle permet (et surtout ce qu'elle ne permet pas) de conclure? On essaye de voir ça ensemble, de la manière la plus intuitive possible!  &lt;/p&gt;
+&lt;h1 id="les-p-values-et-les-tests-statistiques"&gt;Les p-values et les tests statistiques&lt;/h1&gt;
+&lt;p&gt;Pour comprendre les p-values, il faut aborder la notion de &lt;strong&gt;tests statistiques&lt;/strong&gt;. Ils permettent de tester une &lt;strong&gt;Hypothèse nulle &lt;code&gt;H0&lt;/code&gt;&lt;/strong&gt; contre une &lt;strong&gt;hypothèse alternative &lt;code&gt;H1&lt;/code&gt;&lt;/strong&gt;. Par exemple, prenons le cas d'une régression linéaire où on cherche à estimer des coefficients &lt;span class="math"&gt;\(\beta_i\)&lt;/span&gt; décrivant le lien entre une variable d'intérêt  &lt;span class="math"&gt;\(Y\)&lt;/span&gt; et des variables explicatives &lt;span class="math"&gt;\(X_i\)&lt;/span&gt; :  &lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Pour chaque coefficient estimé &lt;span class="math"&gt;\(\beta_i\)&lt;/span&gt;, on utilise le &lt;strong&gt;test t de Student&lt;/strong&gt; qui nous permet de tester les hypothèses :&lt;br&gt;
+- &lt;code&gt;H0&lt;/code&gt; : &lt;span class="math"&gt;\(\beta_i  = 0\)&lt;/span&gt;&lt;br&gt;
+- &lt;code&gt;H1&lt;/code&gt; : &lt;span class="math"&gt;\(\beta_i \neq 0\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Le principe du test est le suivant : on va &lt;strong&gt;partir du principe que H0 est vrai&lt;/strong&gt; et on va voir &lt;strong&gt;quelle est la chance d'observer notre résultat dans ce monde théorique&lt;/strong&gt;. Ce test statistique va ainsi nous donner la &lt;strong&gt;distribution possible des résultats que l'on pourrait obtenir à partir de différents échantillons si &lt;code&gt;H0&lt;/code&gt; était vraie&lt;/strong&gt;. Selon où l'on se situe dans cette distribution, on va pouvoir juger de la &lt;strong&gt;vraisemblance de cette hypothèse H0&lt;/strong&gt;, en fonction d'un &lt;strong&gt;seuil alpha que l'on peut faire varier&lt;/strong&gt;. En fonction de la valeur de &lt;code&gt;t&lt;/code&gt; obtenue avec notre échantillon, on peut décider de rejeter ou non l'hypothèse &lt;code&gt;H0&lt;/code&gt; :  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/p_values/unnamed-chunk-1-1.png"&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;p&gt;Sur le graphique ci-dessus, la zone rouge représente &lt;strong&gt;5% de l'aire de la courbe de densité&lt;/strong&gt;. Si la valeur obtenue par notre test est dans cette zone, on sait que &lt;strong&gt;cela représenterait 5% ou moins des résultats possibles que l'on aurait obtenus si &lt;code&gt;H0&lt;/code&gt; était vraie&lt;/strong&gt;. On peut donc en déduire que &lt;strong&gt;la nullité du coefficient est peu probable&lt;/strong&gt;. &lt;/p&gt;
+&lt;p&gt;Bien sûr, si on modifie le seuil alpha dans un sens plus restrictif, mettant le seuil de significativité à 1%, cela va restreindre la zone rouge de notre graphique. Il faudra alors obtenir &lt;strong&gt;une valeur &lt;code&gt;t&lt;/code&gt; encore plus extrême pour rejeter &lt;code&gt;H0&lt;/code&gt;&lt;/strong&gt; : &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/p_values/unnamed-chunk-2-1.png"&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;p&gt;Ainsi, lorsqu'on fait tourner un modèle de régression sur notre logiciel de statistiques favori et que l'on obtient une p-value, il s'agit du &lt;strong&gt;seuil alpha de notre hypothèse &lt;code&gt;H0&lt;/code&gt;&lt;/strong&gt; qui doit nous permettre de décider de la rejeter ou non. On va donc l'utiliser pour décider de la &lt;strong&gt;significativité de ce coefficient&lt;/strong&gt;. Si l'on devait synthétiser ce que veut dire la p-value en une phrase, cela donnerait :   &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Si la vraie valeur du coefficient était 0 et que 
+j'avais fait tourner ce modèle sur 100 échantillons 
+différents, j'aurais obtenu un résultat au moins 
+aussi extrême dans p cas.   &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Ainsi, &lt;strong&gt;plus p est faible, plus on peut écarter l'hypothèse que le coefficient estimé soit nul&lt;/strong&gt;.  &lt;/p&gt;
+&lt;h1 id="interpretation-des-p-values"&gt;Interprétation des p-values&lt;/h1&gt;
+&lt;p&gt;Il faut bien comprendre que la p-value et la &lt;strong&gt;significativité du coefficient&lt;/strong&gt; qui en découle ne portent que sur la question de savoir si ce coefficient est ou non différent de zéro. Cela n'indique pas si le résultat trouvé a une importance particulière. Un coefficient peut très bien être &lt;strong&gt;significatif statistiquement&lt;/strong&gt; (donc probablement différent de zéro) mais &lt;strong&gt;en pratique insignifiant&lt;/strong&gt;. Il faut donc le confronter à l'expertise pratique de la question de recherche étudiée.  &lt;/p&gt;
+&lt;p&gt;Une faible p-value n'est pas non plus le signe d'une &lt;strong&gt;estimation précise&lt;/strong&gt;. Pour juger de cet aspect, il est important de regarder &lt;strong&gt;les intervalles de confiance&lt;/strong&gt;. Un coefficient peut très bien être &lt;strong&gt;significativement différent de zéro mais avoir un intervalle de confiance très large&lt;/strong&gt;, ce qui est très important à considérer en fonction des implications pratiques de votre recherche. On sait seulement que si par exemple &lt;strong&gt;l'intervalle de confiance à 95% ne contient pas 0&lt;/strong&gt; (ou 1 si on estime des &lt;a href="https://blog.statoscop.fr/risques-relatifs-et-odds-ratios-comment-les-interpreter-et-les-comparer.html"&gt;odds-ratios&lt;/a&gt;), le &lt;strong&gt;coefficient estimé est significatif à au moins 5%&lt;/strong&gt;. &lt;/p&gt;
+&lt;p&gt;De plus, un résultat peut être &lt;strong&gt;non significatif en raison d'une mauvaise calibration du modèle&lt;/strong&gt; : un échantillon trop peu important, de trop nombreuses variables explicatives, etc... C'est notamment pour cette raison qu'il &lt;strong&gt;ne faut pas directement interpréter un coefficient non significatif comme un absence d'effet&lt;/strong&gt;. C'est plutôt une absence de preuve d'effet. Oui, c'est moins facile à rédiger, mais cela rend plus justice à la complexité des statistiques inférentielles.    &lt;/p&gt;
+&lt;p&gt;En général, le consensus scientifique fixe le &lt;strong&gt;seuil de significativité à 5%&lt;/strong&gt;. Bien sûr, c'est forcément au moins partiellement arbitraire et cela pose question : on écarterait un résultat avec une p-value à 5,1% mais on afficherait fièrement celui avec une p-value à 4,9%?    &lt;/p&gt;
+&lt;p&gt;Il est ainsi tentant pour les chercheurs de construire leur modèle en fonction de la p-value recherchée, et non de la question de recherche affichée, ce qui est complètement contre-productif. D'autant que la nature de la p-value fait que &lt;strong&gt;si l'on teste un nombre très important de fois, on finira bien par trouver des résultats significatifs&lt;/strong&gt;, mais uniquement du fait du hasard. Cette mauvaise pratique, volontaire ou non, est bien identifiée et se nomme le &lt;a href="https://en.wikipedia.org/wiki/Data_dredging"&gt;p-hacking&lt;/a&gt;. La bonne manière de se prémunir de cet écueil est de &lt;strong&gt;définir la question de recherche et les modèles statistiques en amont de la collecte de données&lt;/strong&gt; et de calibrer l'échantillon en fonction de ceux-ci. Il faut ensuite tâcher de ne pas s'écarter de ces axes de recherche...même si on n'obtient pas les p-values qu'on espérait!  &lt;/p&gt;
+&lt;h1 id="conclusion"&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;La p-value, ça n'est donc pas du tout la &lt;em&gt;probabilité que le coefficient soit incorrect&lt;/em&gt; ! Dans le cas d'une régression, c'est un indicateur de la vraisemblance que celui-ci soit égal à zéro. Mais &lt;strong&gt;un coefficient significatif peut aussi avoir une estimation très imprécise, ou une valeur insignifiante&lt;/strong&gt;. Il est donc fondamental d'affiner son diagnostic, avec par exemple les intervalles de confiance, et surtout l'interprétation de quelqu'un qui comprend les implications pratiques d'un coefficient!  &lt;/p&gt;
+&lt;p&gt;C'est tout pour aujourd'hui! N'hésitez pas à &lt;a href="https://www.statoscop.fr"&gt;visiter notre site (qui a fait peau neuve, vous avez remarqué?)&lt;/a&gt; et à nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;. Pour retrouver le code ayant servi à générer cette note, vous pouvez vous rendre sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.  &lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Stats &amp; ML"></category><category term="statistiques"></category><category term="p-values"></category><category term="R"></category><category term="tests"></category></entry><entry><title>Taux standardisés : calcul et interprétation avec R</title><link href="https://blog.statoscop.fr/taux-standardises-calcul-et-interpretation-avec-r.html" rel="alternate"></link><published>2023-05-17T00:00:00+02:00</published><updated>2023-05-17T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2023-05-17:/taux-standardises-calcul-et-interpretation-avec-r.html</id><summary type="html">&lt;p&gt;Présentation de la méthode de standardisation directe sur les taux de survie des passagers du Titanic.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#principe-de-la-standardisation-directe"&gt;Principe de la standardisation directe&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#analyses-exploratoires-des-donnees"&gt;Analyses exploratoires des données&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#calcul-pas-a-pas-des-taux-standardises-de-survie-au-naufrage-du-titanic"&gt;Calcul pas-à-pas des taux standardisés de survie au naufrage du Titanic&lt;/a&gt;&lt;/li&gt;
