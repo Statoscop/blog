@@ -1,4 +1,4 @@
-Title: Data Science avec Python : configurer son environnement de travail
+Title: Python pour la Data Science : configurer son environnement de travail
 Author: Antoine
 Date: '2024-10-16'
 Slug: setup-python
