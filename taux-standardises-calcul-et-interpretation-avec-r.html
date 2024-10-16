@@ -175,9 +175,9 @@ C'est précisément ce que permet de faire la standardisation directe. Il est n�
 <h1 id="analyses-exploratoires-des-donnees">Analyses exploratoires des données</h1>
 <p>Pour notre petit exemple, on s'appuie sur un dataset très connu : les <a href="https://www.kaggle.com/c/titanic">données des passagers du Titanic</a>. Les informations qui nous intéressent ici sont la classe économique, l'âge et le fait d'avoir survécu ou non au naufrage. On ne garde que les observations ayant des valeurs renseignées pour ces 3 variables. On veut répondre à la question suivante : <strong>le fait d'être dans une classe économique aisée augmente-t-elle les chances de survie au nauffrage?</strong>  </p>
 <p>La première approche de cette question est bien sûr de calculer les taux de survie par classe économique. le résultat est le suivant :  </p>
-<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">pclass</span><span class="p">)</span> <span class="o">%&gt;%</span> 
-  <span class="nf">summarise</span><span class="p">(</span><span class="n">tx_survie</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span> <span class="o">/</span> <span class="nf">n</span><span class="p">())</span> <span class="o">%&gt;%</span> 
-  <span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">group_by</span><span class="p">(</span><span class="n">pclass</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="n">tx_survie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">n</span><span class="p">())</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
 </code></pre></div>
 
 <table>
@@ -204,13 +204,13 @@ C'est précisément ce que permet de faire la standardisation directe. Il est n�
 </table>
 <p>On constate en effet une forte disparité des taux de survie en fonction de la classe économique, puisque les passagers de 1ere classe sont 63,7% à survivre, contre 44,1% des passagers de seconde classe et 26,1% des passagers de 3e classe.<br>
 Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économique et pas d'un autre facteur de confusion</strong>? On peut par exemple imaginer que l'âge a un effet important sur la chance de survie, et qu'il est également lié à la classe économique choisie pour le voyage. Vérifions ces hypothèses en croisant la répartition en tranches d'âge dans chaque classe :  </p>
-<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span> <span class="o">%&gt;%</span> 
-  <span class="nf">group_by</span><span class="p">(</span><span class="n">pclass</span><span class="p">,</span> <span class="n">tr_age</span><span class="p">)</span> <span class="o">%&gt;%</span> 
-  <span class="nf">summarise</span><span class="p">(</span><span class="n">eff</span> <span class="o">=</span> <span class="nf">n</span><span class="p">())</span> <span class="o">%&gt;%</span> 
-  <span class="c1"># À ce stade le df n&#39;est plus groupé que par pclass</span>
-  <span class="nf">mutate</span><span class="p">(</span><span class="n">Proportion</span> <span class="o">=</span> <span class="n">eff</span> <span class="o">/</span> <span class="nf">sum</span><span class="p">(</span><span class="n">eff</span><span class="p">))</span> <span class="o">%&gt;%</span> 
-  <span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">eff</span><span class="p">)</span> <span class="o">%&gt;%</span> 
-  <span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">group_by</span><span class="p">(</span><span class="n">pclass</span><span class="p">,</span><span class="w"> </span><span class="n">tr_age</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="n">eff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">n</span><span class="p">())</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="c1"># À ce stade le df n&#39;est plus groupé que par pclass</span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span><span class="n">Proportion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">eff</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">eff</span><span class="p">))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">eff</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
 </code></pre></div>
 
 <table>
@@ -285,9 +285,9 @@ Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économ
 </tbody>
 </table>
 <p>On constate en effet que la classe 3 comporte bien plus de mineurs et bien moins de passagers de plus de cinquante ans que la première classe. Comme on s'y attendait, <strong>plus la classe économique est aisée, plus les passagers ont un âge élevé</strong>. Voyons maintenant si les taux de survie varient en fonction de l'âge :  </p>
-<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">tr_age</span><span class="p">)</span> <span class="o">%&gt;%</span> 
-  <span class="nf">summarise</span><span class="p">(</span><span class="n">tx_survie</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span> <span class="o">/</span> <span class="nf">n</span><span class="p">())</span> <span class="o">%&gt;%</span> 
-  <span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">group_by</span><span class="p">(</span><span class="n">tr_age</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="n">tx_survie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">n</span><span class="p">())</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
 </code></pre></div>
 
 <table>
@@ -317,9 +317,9 @@ Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économ
 </tbody>
 </table>
 <p>Les taux de survie ne semblent pas beaucoup varier en fonction de l'âge, à part pour les mineurs qui ont un taux de survie bien supérieur aux autres. Croisons maintenant les taux de survie en fonction de la classe économique <strong>et</strong> de la tranche d'âge :  </p>
-<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">pclass</span><span class="p">,</span> <span class="n">tr_age</span><span class="p">)</span> <span class="o">%&gt;%</span> 
-  <span class="nf">summarise</span><span class="p">(</span><span class="n">tx_survie</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span> <span class="o">/</span> <span class="nf">n</span><span class="p">())</span> <span class="o">%&gt;%</span> 
-  <span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">group_by</span><span class="p">(</span><span class="n">pclass</span><span class="p">,</span><span class="w"> </span><span class="n">tr_age</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="n">tx_survie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">n</span><span class="p">())</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
 </code></pre></div>
 
 <table>
@@ -400,8 +400,8 @@ Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économ
 <h1 id="calcul-pas-a-pas-des-taux-standardises-de-survie-au-naufrage-du-titanic">Calcul pas-à-pas des taux standardisés de survie au naufrage du Titanic</h1>
 <p>Au vu des résultats des taux de survie croisés par classe et âge, on sait déjà que la classe économique et l'âge jouent sur la chance de survie. Le calcul des taux standardisés de survie va permettre de quantifier <strong>l'effet de la classe économique isolé de l'effet âge</strong>. Le principe est le suivant : on calcule le taux de survie que l'on observerait dans chaque classe économique <strong>si la répartition des passagers en classe d'âge était la même que celle de la population de référence</strong>. Dans notre exemple, la population de référence est l'ensemble des passagers.</p>
 <p>La première étape est de récupérer les effectifs de classe d'âge de la population de référence :  </p>
-<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">tr_age</span><span class="p">)</span> <span class="o">%&gt;%</span> 
-  <span class="nf">summarise</span><span class="p">(</span><span class="n">eff</span> <span class="o">=</span> <span class="nf">n</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">rep_age_ref</span>
+<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">group_by</span><span class="p">(</span><span class="n">tr_age</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="n">eff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">n</span><span class="p">())</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">rep_age_ref</span>
 
 <span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">(</span><span class="n">rep_age_ref</span><span class="p">)</span>
 </code></pre></div>
@@ -433,14 +433,14 @@ Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économ
 </tbody>
 </table>
 <p>On calcule ensuite comme précédemment les taux de survie par tranche d'âge de chaque classe économique et on transforme la table pour avoir une colonne par classe économique.  </p>
-<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">pclass</span><span class="p">,</span> <span class="n">tr_age</span><span class="p">)</span> <span class="o">%&gt;%</span> 
-  <span class="c1"># taux de survie par classe et tranche d&#39;âge</span>
-  <span class="nf">summarise</span><span class="p">(</span><span class="n">survie</span> <span class="o">=</span> <span class="nf">sum</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span> <span class="o">/</span> <span class="nf">n</span><span class="p">())</span> <span class="o">%&gt;%</span> 
-  <span class="c1"># on transforme la table en largeur pour avoir trois colonnes</span>
-  <span class="c1"># donnant le taux de survie</span>
-  <span class="n">tidyr</span><span class="o">::</span><span class="nf">pivot_wider</span><span class="p">(</span><span class="n">names_from</span> <span class="o">=</span> <span class="n">pclass</span><span class="p">,</span> <span class="n">values_from</span> <span class="o">=</span> <span class="n">survie</span><span class="p">,</span>
-                     <span class="c1"># option names_glue pour spécifier le nom des variables créées</span>
-                     <span class="n">names_glue</span> <span class="o">=</span> <span class="s">&quot;{.value}_{pclass}&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">survie_age_class</span>
+<div class="highlight"><pre><span></span><code><span class="n">titanic_data</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">group_by</span><span class="p">(</span><span class="n">pclass</span><span class="p">,</span><span class="w"> </span><span class="n">tr_age</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="c1"># taux de survie par classe et tranche d&#39;âge</span>
+<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="n">survie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">survived</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">n</span><span class="p">())</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="c1"># on transforme la table en largeur pour avoir trois colonnes</span>
+<span class="w">  </span><span class="c1"># donnant le taux de survie</span>
+<span class="w">  </span><span class="n">tidyr</span><span class="o">::</span><span class="nf">pivot_wider</span><span class="p">(</span><span class="n">names_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pclass</span><span class="p">,</span><span class="w"> </span><span class="n">values_from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">survie</span><span class="p">,</span>
+<span class="w">                     </span><span class="c1"># option names_glue pour spécifier le nom des variables créées</span>
+<span class="w">                     </span><span class="n">names_glue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;{.value}_{pclass}&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">survie_age_class</span>
 
 <span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">(</span><span class="n">survie_age_class</span><span class="p">)</span>
 </code></pre></div>
@@ -482,9 +482,9 @@ Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économ
 </tbody>
 </table>
 <p>Il ne reste plus qu'à fusionner les deux tables ainsi créées et à appliquer chacun des taux de survie aux effectifs par tranche d'âge de la population de référence :  </p>
-<div class="highlight"><pre><span></span><code><span class="n">rep_age_ref</span> <span class="o">%&gt;%</span> <span class="nf">inner_join</span><span class="p">(</span><span class="n">survie_age_class</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="s">&quot;tr_age&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
-  <span class="nf">mutate</span><span class="p">(</span>
-    <span class="nf">across</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;survie_&quot;</span><span class="p">),</span> <span class="o">~</span> <span class="n">.</span> <span class="o">*</span> <span class="n">eff</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">eff_survie_age_class</span>
+<div class="highlight"><pre><span></span><code><span class="n">rep_age_ref</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">inner_join</span><span class="p">(</span><span class="n">survie_age_class</span><span class="p">,</span><span class="w"> </span><span class="n">by</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;tr_age&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">across</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;survie_&quot;</span><span class="p">),</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">.</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">eff</span><span class="p">))</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">eff_survie_age_class</span>
 <span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">(</span><span class="n">eff_survie_age_class</span><span class="p">)</span>
 </code></pre></div>
 
@@ -533,9 +533,9 @@ Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économ
 <p>Si l'utilisation d'across ne vous semble pas claire, je ne saurais trop vous recommander <a href="https://blog.statoscop.fr/fonctionnement-et-performances-dacross-dans-dplyr.html">notre précédent article de blog</a> sur ce verbe bien pratique de dplyr.  </p>
 </blockquote>
 <p>On obtient finalement nos taux de survie standardisés en sommant les effectifs par tranche d'âge et en divisant par l'effectif total :  </p>
-<div class="highlight"><pre><span></span><code><span class="n">eff_survie_age_class</span> <span class="o">%&gt;%</span> 
-  <span class="nf">summarise</span><span class="p">(</span><span class="nf">across</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;survie_&quot;</span><span class="p">),</span> <span class="o">~</span> <span class="nf">sum</span><span class="p">(</span><span class="n">.</span><span class="p">)</span> <span class="o">/</span> <span class="nf">sum</span><span class="p">(</span><span class="n">eff</span><span class="p">)))</span> <span class="o">%&gt;%</span> 
-  <span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">eff_survie_age_class</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="nf">across</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;survie_&quot;</span><span class="p">),</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">.</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nf">sum</span><span class="p">(</span><span class="n">eff</span><span class="p">)))</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
 </code></pre></div>
 
 <table>

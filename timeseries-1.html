@@ -212,7 +212,7 @@
 <span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">datetime.datetime(2021, 4, 30, 0, 0)</span>
+<div class="highlight"><pre><span></span><code>datetime.datetime(2021, 4, 30, 0, 0)
 </code></pre></div>
 
 <p>Ou avec le module <code>dateutil</code>, on peut lire différents format de dates à partir de chaînes de caractères.</p>
@@ -222,8 +222,8 @@
 <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">(datetime.datetime(2021, 4, 30, 14, 0),</span>
-<span class="err"> datetime.datetime(2021, 4, 30, 14, 15, 16))</span>
+<div class="highlight"><pre><span></span><code>(datetime.datetime(2021, 4, 30, 14, 0),
+ datetime.datetime(2021, 4, 30, 14, 15, 16))
 </code></pre></div>
 
 <p>Une fois qu'on manipule un objet <code>datetime</code>, on peut facilement effectuer des opérations sur cet objet. Par exemple, récupérer en chaîne de caractères le jour de la semaine correspondant, le mois, l'année, etc...</p>
@@ -232,7 +232,7 @@ Une autre aide utile sur les manipulation de dates est la <a href="http://labix.
 <div class="highlight"><pre><span></span><code><span class="n">d1</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A&quot;</span><span class="p">),</span> <span class="n">d1</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%a</span><span class="s2">&quot;</span><span class="p">),</span> <span class="n">d1</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">),</span> <span class="n">d1</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%B&quot;</span><span class="p">),</span> <span class="n">d1</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">(&#39;Friday&#39;, &#39;Fri&#39;, &#39;30&#39;, &#39;April&#39;, &#39;2021&#39;)</span>
+<div class="highlight"><pre><span></span><code>(&#39;Friday&#39;, &#39;Fri&#39;, &#39;30&#39;, &#39;April&#39;, &#39;2021&#39;)
 </code></pre></div>
 
 <p><strong>À savoir</strong> : il existe un package utile <a href="http://pytz.sourceforge.net/" target="_blank"><code>pytz</code></a> contenant des outils pour pouvoir travailler avec les <em>timezones</em>.</p>
@@ -246,7 +246,7 @@ Une autre aide utile sur les manipulation de dates est la <a href="http://labix.
 <span class="n">date</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="k">array</span><span class="p">(</span><span class="s1">&#39;2021-04-30&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[D]&#39;</span><span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">array</span><span class="p">(</span><span class="s1">&#39;2021-04-30&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[D]&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Une fois qu'on a une date dans le bon format, on peut facilement effectuer des opérations vectorielles dessus :</p>
@@ -254,7 +254,7 @@ Une autre aide utile sur les manipulation de dates est la <a href="http://labix.
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="k">array</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30&#39;, &#39;2021-05-01&#39;, &#39;2021-05-02&#39;, &#39;2021-05-03&#39;,</span>
-<span class="n">       &#39;2021-05-04&#39;, &#39;2021-05-05&#39;, &#39;2021-05-06&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[D]&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">       &#39;2021-05-04&#39;, &#39;2021-05-05&#39;, &#39;2021-05-06&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[D]&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Grâce au type de données uniforme dans les tableaux <code>datetime64</code>, ce genre d'opérations vectorielles peut être effectué bien plus rapidement qu'en travaillant directement avec les objets <code>datetime</code> de Python, particulièrement pour de grands tableaux.</p>
@@ -265,21 +265,21 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2021-04-30&#39;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">numpy.datetime64(&#39;2021-04-30&#39;)</span>
+<div class="highlight"><pre><span></span><code>numpy.datetime64(&#39;2021-04-30&#39;)
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1"># un datetime basé sur la minute</span>
 <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2021-04-30 14:15&#39;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">numpy.datetime64(&#39;2021-04-30T14:15&#39;)</span>
+<div class="highlight"><pre><span></span><code>numpy.datetime64(&#39;2021-04-30T14:15&#39;)
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1"># un datetime basé sur la nanoseconde en fixant l&#39;unité fondamentale de temps</span>
 <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2021-04-30 14:15:16&#39;</span><span class="p">,</span> <span class="s1">&#39;ns&#39;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">numpy.datetime64(&#39;2021-04-30T14:15:16.000000000&#39;)</span>
+<div class="highlight"><pre><span></span><code>numpy.datetime64(&#39;2021-04-30T14:15:16.000000000&#39;)
 </code></pre></div>
 
 <p>À noter aussi, la timezone est par défaut celle de l'ordinateur qui exécute le code.</p>
@@ -385,13 +385,13 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 <span class="n">date</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">Timestamp(&#39;2021-04-30 00:00:00&#39;)</span>
+<div class="highlight"><pre><span></span><code>Timestamp(&#39;2021-04-30 00:00:00&#39;)
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%A&#39;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">&#39;Friday&#39;</span>
+<div class="highlight"><pre><span></span><code>&#39;Friday&#39;
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">day_name</span><span class="p">())</span>
@@ -399,9 +399,9 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 <span class="nb">print</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">date</span><span class="o">.</span><span class="n">month_name</span><span class="p">())</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">30 Friday</span>
-<span class="err">2021</span>
-<span class="err">4 April</span>
+<div class="highlight"><pre><span></span><code><span class="mf">30</span><span class="w"> </span><span class="n">Friday</span>
+<span class="mf">2021</span>
+<span class="mf">4</span><span class="w"> </span><span class="n">April</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">date</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span>
@@ -410,8 +410,8 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30&#39;, &#39;2021-05-01&#39;, &#39;2021-05-02&#39;, &#39;2021-05-03&#39;,</span>
-<span class="n">               &#39;2021-05-04&#39;, &#39;2021-05-05&#39;, &#39;2021-05-06&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">)</span><span class="w"></span>
+<span class="n">               &#39;2021-05-04&#39;, &#39;2021-05-05&#39;, &#39;2021-05-06&#39;</span><span class="o">]</span><span class="p">,</span>
+<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1"># ici on crée une liste d&#39;entier entre 0 et 24 avec un intervalle de 6 </span>
@@ -422,8 +422,8 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 
 <div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30 14:00:00&#39;, &#39;2021-04-30 20:00:00&#39;,</span>
 <span class="n">               &#39;2021-05-01 02:00:00&#39;, &#39;2021-05-01 08:00:00&#39;,</span>
-<span class="n">               &#39;2021-05-01 14:00:00&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">)</span><span class="w"></span>
+<span class="n">               &#39;2021-05-01 14:00:00&#39;</span><span class="o">]</span><span class="p">,</span>
+<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1"># un dernier exemple avant le suivant</span>
@@ -433,8 +433,8 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 
 <div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30 14:20:00&#39;, &#39;2021-04-30 14:30:00&#39;,</span>
 <span class="n">               &#39;2021-04-30 14:40:00&#39;, &#39;2021-04-30 14:50:00&#39;,</span>
-<span class="n">               &#39;2021-04-30 15:00:00&#39;, &#39;2021-04-30 15:10:00&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">)</span><span class="w"></span>
+<span class="n">               &#39;2021-04-30 15:00:00&#39;, &#39;2021-04-30 15:10:00&#39;</span><span class="o">]</span><span class="p">,</span>
+<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">)</span>
 </code></pre></div>
 
 <h1 id="series-temporelles-avec-pandas">Séries temporelles avec <code>pandas</code></h1>
@@ -445,36 +445,36 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 <span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="mi">2020</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">30</span><span class="w">    </span><span class="mi">0</span><span class="w"></span>
-<span class="w"> </span><span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">30</span><span class="w">    </span><span class="mi">1</span><span class="w"></span>
-<span class="w"> </span><span class="mi">2021</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">30</span><span class="w">    </span><span class="mi">2</span><span class="w"></span>
-<span class="w"> </span><span class="mi">2021</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">30</span><span class="w">    </span><span class="mi">3</span><span class="w"></span>
-<span class="w"> </span><span class="nl">dtype</span><span class="p">:</span><span class="w"> </span><span class="n">int64</span><span class="p">,</span><span class="w"></span>
-<span class="w"> </span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2020-03-30&#39;, &#39;2020-04-30&#39;, &#39;2021-03-30&#39;, &#39;2021-04-30&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">))</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="mi">2020</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">30</span><span class="w">    </span><span class="mi">0</span>
+<span class="w"> </span><span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">30</span><span class="w">    </span><span class="mi">1</span>
+<span class="w"> </span><span class="mi">2021</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">30</span><span class="w">    </span><span class="mi">2</span>
+<span class="w"> </span><span class="mi">2021</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">30</span><span class="w">    </span><span class="mi">3</span>
+<span class="w"> </span><span class="nl">dtype</span><span class="p">:</span><span class="w"> </span><span class="n">int64</span><span class="p">,</span>
+<span class="w"> </span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2020-03-30&#39;, &#39;2020-04-30&#39;, &#39;2021-03-30&#39;, &#39;2021-04-30&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">))</span>
 </code></pre></div>
 
 <p>Une fois qu'on a une <code>Series</code>, on peut utiliser les index datetime comme pour n'importe quel autre index et notamment avoir recours au <em>slicing</em>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">data</span><span class="p">[</span><span class="s1">&#39;2020-03-30&#39;</span><span class="p">:</span><span class="s1">&#39;2021-03-30&#39;</span><span class="p">]</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">2020-03-30    0</span>
-<span class="err">2020-04-30    1</span>
-<span class="err">2021-03-30    2</span>
-<span class="c">dtype: int64</span>
+<div class="highlight"><pre><span></span><code><span class="mf">2020</span><span class="o">-</span><span class="mf">03</span><span class="o">-</span><span class="mf">30</span><span class="w">    </span><span class="mf">0</span>
+<span class="mf">2020</span><span class="o">-</span><span class="mf">04</span><span class="o">-</span><span class="mf">30</span><span class="w">    </span><span class="mf">1</span>
+<span class="mf">2021</span><span class="o">-</span><span class="mf">03</span><span class="o">-</span><span class="mf">30</span><span class="w">    </span><span class="mf">2</span>
+<span class="n">dtype</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="mf">64</span>
 </code></pre></div>
 
 <p>Par ailleurs certaines opérations spécifiques aux <code>DatetimeIndex</code> permettent d'obtenir des slicing différents comme par exemple utiliser une année pour récupérer toutes les observations de cette année ou un date seuil pour récupérer toutes les données avant/après cette date.</p>
 <div class="highlight"><pre><span></span><code><span class="n">data</span><span class="p">[</span><span class="s1">&#39;2020&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;2020-04&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;2020-05-01&#39;</span><span class="p">:]</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">(2020-03-30    0</span>
-<span class="err"> 2020-04-30    1</span>
-<span class="err"> dtype: int64,</span>
-<span class="err"> 2020-04-30    1</span>
-<span class="err"> dtype: int64,</span>
-<span class="err"> 2021-03-30    2</span>
-<span class="err"> 2021-04-30    3</span>
-<span class="err"> dtype: int64)</span>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="mi">2020</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">30</span><span class="w">    </span><span class="mi">0</span>
+<span class="w"> </span><span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">30</span><span class="w">    </span><span class="mi">1</span>
+<span class="w"> </span><span class="nx">dtype</span><span class="p">:</span><span class="w"> </span><span class="nx">int64</span><span class="p">,</span>
+<span class="w"> </span><span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">30</span><span class="w">    </span><span class="mi">1</span>
+<span class="w"> </span><span class="nx">dtype</span><span class="p">:</span><span class="w"> </span><span class="nx">int64</span><span class="p">,</span>
+<span class="w"> </span><span class="mi">2021</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">30</span><span class="w">    </span><span class="mi">2</span>
+<span class="w"> </span><span class="mi">2021</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">30</span><span class="w">    </span><span class="mi">3</span>
+<span class="w"> </span><span class="nx">dtype</span><span class="p">:</span><span class="w"> </span><span class="nx">int64</span><span class="p">)</span>
 </code></pre></div>
 
 <h2 id="les-structures-de-donnees-pandas-pour-les-series-temporelles">Les structures de données <code>pandas</code> pour les séries temporelles</h2>
@@ -489,30 +489,30 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30&#39;, &#39;2021-05-06&#39;, &#39;2021-06-07&#39;, &#39;2021-06-10&#39;,</span>
-<span class="n">               &#39;2021-04-29&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">)</span><span class="w"></span>
+<span class="n">               &#39;2021-04-29&#39;</span><span class="o">]</span><span class="p">,</span>
+<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Tout objet <code>DatetimeIndex</code> peut être converti en <code>PeriodIndex</code> avec la fonction <code>to_period()</code> en ajoutant un code de fréquence (par exemple <code>'D'</code> pour une fréquence quotidienne ou <code>'M'</code> pour une fréquence mensuelle) :</p>
 <div class="highlight"><pre><span></span><code><span class="n">dates</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">PeriodIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04&#39;, &#39;2021-05&#39;, &#39;2021-06&#39;, &#39;2021-06&#39;, &#39;2021-04&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;period[M]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="n">PeriodIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04&#39;, &#39;2021-05&#39;, &#39;2021-06&#39;, &#39;2021-06&#39;, &#39;2021-04&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;period[M]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;M&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">dates</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">PeriodIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30&#39;, &#39;2021-05-06&#39;, &#39;2021-06-07&#39;, &#39;2021-06-10&#39;,</span>
-<span class="n">             &#39;2021-04-29&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;period[D]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">             &#39;2021-04-29&#39;</span><span class="o">]</span><span class="p">,</span>
+<span class="w">            </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;period[D]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Enfin, un objet <code>TimedeltaIndex</code> peut être par exemple créé lorsqu'on soustrait 2 dates :</p>
 <div class="highlight"><pre><span></span><code><span class="n">dates</span> <span class="o">-</span> <span class="n">dates</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">TimedeltaIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;-6 days&#39;, &#39;0 days&#39;, &#39;32 days&#39;, &#39;35 days&#39;, &#39;-7 days&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;timedelta64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="n">TimedeltaIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;-6 days&#39;, &#39;0 days&#39;, &#39;32 days&#39;, &#39;35 days&#39;, &#39;-7 days&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;timedelta64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="k">None</span><span class="p">)</span>
 </code></pre></div>
 
 <h2 id="les-sequences-avec-pddate_range">Les séquences avec <code>pd.date_range()</code></h2>
@@ -523,8 +523,8 @@ De la même manière, <code>pd.date_range()</code> prend une date de départ, un
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30&#39;, &#39;2021-05-01&#39;, &#39;2021-05-02&#39;, &#39;2021-05-03&#39;,</span>
-<span class="n">               &#39;2021-05-04&#39;, &#39;2021-05-05&#39;, &#39;2021-05-06&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">               &#39;2021-05-04&#39;, &#39;2021-05-05&#39;, &#39;2021-05-06&#39;</span><span class="o">]</span><span class="p">,</span>
+<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <p>On peut aussi spécifier simplement un point de départ et un nombre de Periods et on peut utiliser <code>freq</code> pour modifier la fréquence.</p>
@@ -533,8 +533,8 @@ De la même manière, <code>pd.date_range()</code> prend une date de départ, un
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30&#39;, &#39;2021-05-01&#39;, &#39;2021-05-02&#39;, &#39;2021-05-03&#39;,</span>
-<span class="n">               &#39;2021-05-04&#39;, &#39;2021-05-05&#39;, &#39;2021-05-06&#39;, &#39;2021-05-07&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">               &#39;2021-05-04&#39;, &#39;2021-05-05&#39;, &#39;2021-05-06&#39;, &#39;2021-05-07&#39;</span><span class="o">]</span><span class="p">,</span>
+<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1"># pour avoir 4 timestamps chacune correspondant à un décalage de 2 heures à partir d&#39;aujourd&#39;hui 14h</span>
@@ -542,8 +542,8 @@ De la même manière, <code>pd.date_range()</code> prend une date de départ, un
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30 14:00:00&#39;, &#39;2021-04-30 16:00:00&#39;,</span>
-<span class="n">               &#39;2021-04-30 18:00:00&#39;, &#39;2021-04-30 20:00:00&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;2H&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">               &#39;2021-04-30 18:00:00&#39;, &#39;2021-04-30 20:00:00&#39;</span><span class="o">]</span><span class="p">,</span>
+<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;2H&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <p>N'hésitez pas à jeter un oeil à <code>pd.period_range()</code> et <code>pd.timedelta_range()</code> qui fonctionnent de manière similaire.</p>
@@ -551,16 +551,16 @@ De la même manière, <code>pd.date_range()</code> prend une date de départ, un
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">PeriodIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2020-06&#39;, &#39;2020-07&#39;, &#39;2020-08&#39;, &#39;2020-09&#39;, &#39;2020-10&#39;, &#39;2020-11&#39;,</span>
-<span class="n">             &#39;2020-12&#39;, &#39;2021-01&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;period[M]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;M&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">             &#39;2020-12&#39;, &#39;2021-01&#39;</span><span class="o">]</span><span class="p">,</span>
+<span class="w">            </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;period[M]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;M&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">pd</span><span class="o">.</span><span class="n">timedelta_range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">TimedeltaIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;00:00:00&#39;, &#39;01:00:00&#39;, &#39;02:00:00&#39;, &#39;03:00:00&#39;, &#39;04:00:00&#39;,</span>
-<span class="n">                &#39;05:00:00&#39;, &#39;06:00:00&#39;, &#39;07:00:00&#39;, &#39;08:00:00&#39;, &#39;09:00:00&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
-<span class="w">               </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;timedelta64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;H&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">                &#39;05:00:00&#39;, &#39;06:00:00&#39;, &#39;07:00:00&#39;, &#39;08:00:00&#39;, &#39;09:00:00&#39;</span><span class="o">]</span><span class="p">,</span>
+<span class="w">               </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;timedelta64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Vous l'aurez compris, pour bien comprendre ce qu'il se passe et toutes les possibilités, il faut avoir une idée des codes de fréquences...</p>
@@ -709,8 +709,8 @@ On a déjà croisé les codes <code>M</code> (month), <code>D</code> (day) et <c
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">TimedeltaIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;00:00:00&#39;, &#39;02:30:00&#39;, &#39;05:00:00&#39;, &#39;07:30:00&#39;, &#39;10:00:00&#39;,</span>
-<span class="n">                &#39;12:30:00&#39;, &#39;15:00:00&#39;, &#39;17:30:00&#39;, &#39;20:00:00&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
-<span class="w">               </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;timedelta64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;150T&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">                &#39;12:30:00&#39;, &#39;15:00:00&#39;, &#39;17:30:00&#39;, &#39;20:00:00&#39;</span><span class="o">]</span><span class="p">,</span>
+<span class="w">               </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;timedelta64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;150T&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Tout ça provient en fait du module <code>pd.tseries.offsets</code>.</p>
@@ -720,8 +720,8 @@ On a déjà croisé les codes <code>M</code> (month), <code>D</code> (day) et <c
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30&#39;, &#39;2021-05-03&#39;, &#39;2021-05-04&#39;, &#39;2021-05-05&#39;,</span>
-<span class="n">               &#39;2021-05-06&#39;, &#39;2021-05-07&#39;, &#39;2021-05-10&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;B&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">               &#39;2021-05-06&#39;, &#39;2021-05-07&#39;, &#39;2021-05-10&#39;</span><span class="o">]</span><span class="p">,</span>
+<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;B&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1"># Par exemple, pour récupérer le dernier jour ouvrable du mois, on peut faire :</span>
@@ -730,8 +730,8 @@ On a déjà croisé les codes <code>M</code> (month), <code>D</code> (day) et <c
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="n">DatetimeIndex</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;2021-04-30&#39;, &#39;2021-05-31&#39;, &#39;2021-06-30&#39;, &#39;2021-07-30&#39;,</span>
-<span class="n">               &#39;2021-08-31&#39;, &#39;2021-09-30&#39;, &#39;2021-10-29&#39;, &#39;2021-11-30&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
-<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;BM&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="n">               &#39;2021-08-31&#39;, &#39;2021-09-30&#39;, &#39;2021-10-29&#39;, &#39;2021-11-30&#39;</span><span class="o">]</span><span class="p">,</span>
+<span class="w">              </span><span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;datetime64[ns]&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;BM&#39;</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Pour en savoir plus, il y a la <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects" target="_blank">section "DateOffset"</a> de la documentation <code>pandas</code>.</p>

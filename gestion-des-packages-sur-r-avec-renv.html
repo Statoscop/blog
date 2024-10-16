@@ -197,10 +197,10 @@
 <span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
 
 <span class="c1"># Import des données</span>
-<span class="n">mon_iris</span> <span class="o">&lt;-</span> <span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="s">&quot;data/iris.csv&quot;</span><span class="p">)</span>
+<span class="n">mon_iris</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">data.table</span><span class="o">::</span><span class="nf">fread</span><span class="p">(</span><span class="s">&quot;data/iris.csv&quot;</span><span class="p">)</span>
 
-<span class="n">results</span> <span class="o">&lt;-</span> <span class="n">mon_iris</span> <span class="o">%&gt;%</span> 
-  <span class="nf">summarise</span><span class="p">(</span><span class="nf">across</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;Sepal&quot;</span><span class="p">),</span> <span class="n">mean</span><span class="p">))</span> 
+<span class="n">results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mon_iris</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">summarise</span><span class="p">(</span><span class="nf">across</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;Sepal&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">mean</span><span class="p">))</span><span class="w"> </span>
 </code></pre></div>
 
 <p>Ce code tout simple permet donc de calculer la moyenne des largeur et longueur des sépales de la base de données <code>iris</code>. L'utilisation d'un fichier .Rproj, d'un chemin relatif pour importer les données et le fait que les deux packages utilisés (<code>dplyr</code> et <code>data.table</code>) soient chargés explicitement semblent rendre la reproductibilité des résultats aisée : il me suffit de récupérer l'ensemble du dossier, d'installer les deux packages s'ils ne sont pas déjà installés et de faire tourner le code. Seulement, je pourrais avoir sur mon poste une version de dplyr installée trop ancienne et dans laquelle <code>across</code> n'existerait pas encore. Bien sûr il suffirait ici de mettre à jour mon package, mais peut-être que la version la plus récente de <code>dplyr</code> ne correspond pas non plus à la version du code utilisé par la personne ayant écrit le code, et que cela peut causer de nouveaux problèmes...</p>
@@ -217,44 +217,44 @@
 <p><img alt="Pelican" src="../images/renv/orga_dossier_renv.png"><!-- --></p>
 <p>On constate l'apparition d'un dossier <code>renv</code>, qui contient les fichiers de lancement et de paramétrage du gestionnaire ainsi que les liens vers les packages à charger. Contrairement à <code>packrat</code>, renv utilise en effet un cache dans lequel il installe les packages, ce qui permet de ne pas dupliquer l'installation de la même version du même package pour deux projets différents. Mais ce qui nous intéresse plus, c'est l'apparition à la racine du projet du fichier <code>renv.lock</code>, qui ressemble à ça :  </p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-  <span class="s">&quot;R&quot;</span><span class="o">:</span> <span class="p">{</span>
-    <span class="s">&quot;Version&quot;</span><span class="o">:</span> <span class="s">&quot;4.1.1&quot;</span><span class="p">,</span>
-    <span class="s">&quot;Repositories&quot;</span><span class="o">:</span> <span class="p">[</span>
-      <span class="p">{</span>
-        <span class="s">&quot;Name&quot;</span><span class="o">:</span> <span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
-        <span class="s">&quot;URL&quot;</span><span class="o">:</span> <span class="s">&quot;https://cloud.r-project.org&quot;</span>
-      <span class="p">}</span>
-    <span class="p">]</span>
-  <span class="p">},</span>
-  <span class="s">&quot;Packages&quot;</span><span class="o">:</span> <span class="p">{</span>
-    <span class="s">&quot;R6&quot;</span><span class="o">:</span> <span class="p">{</span>
-      <span class="s">&quot;Package&quot;</span><span class="o">:</span> <span class="s">&quot;R6&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Version&quot;</span><span class="o">:</span> <span class="s">&quot;2.5.0&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Source&quot;</span><span class="o">:</span> <span class="s">&quot;Repository&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Repository&quot;</span><span class="o">:</span> <span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Hash&quot;</span><span class="o">:</span> <span class="s">&quot;b203113193e70978a696b2809525649d&quot;</span>
-    <span class="p">},</span>
-    <span class="s">&quot;cli&quot;</span><span class="o">:</span> <span class="p">{</span>
-      <span class="s">&quot;Package&quot;</span><span class="o">:</span> <span class="s">&quot;cli&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Version&quot;</span><span class="o">:</span> <span class="s">&quot;2.5.0&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Source&quot;</span><span class="o">:</span> <span class="s">&quot;Repository&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Repository&quot;</span><span class="o">:</span> <span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Hash&quot;</span><span class="o">:</span> <span class="s">&quot;a94ba44cee3ea571e813721e64184172&quot;</span>
-    <span class="p">},</span>
-    <span class="s">&quot;crayon&quot;</span><span class="o">:</span> <span class="p">{</span>
-      <span class="s">&quot;Package&quot;</span><span class="o">:</span> <span class="s">&quot;crayon&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Version&quot;</span><span class="o">:</span> <span class="s">&quot;1.4.1&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Source&quot;</span><span class="o">:</span> <span class="s">&quot;Repository&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Repository&quot;</span><span class="o">:</span> <span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Hash&quot;</span><span class="o">:</span> <span class="s">&quot;e75525c55c70e5f4f78c9960a4b402e9&quot;</span>
-    <span class="p">},</span>
-    <span class="s">&quot;data.table&quot;</span><span class="o">:</span> <span class="p">{</span>
-      <span class="s">&quot;Package&quot;</span><span class="o">:</span> <span class="s">&quot;data.table&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Version&quot;</span><span class="o">:</span> <span class="s">&quot;1.14.0&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Source&quot;</span><span class="o">:</span> <span class="s">&quot;Repository&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Repository&quot;</span><span class="o">:</span> <span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
-      <span class="s">&quot;Hash&quot;</span><span class="o">:</span> <span class="s">&quot;d1b8b1a821ee564a3515fa6c6d5c52dc&quot;</span>
-    <span class="p">},</span><span class="kc">...</span>
+<span class="w">  </span><span class="s">&quot;R&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;Version&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;4.1.1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;Repositories&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="s">&quot;Name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;URL&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;https://cloud.r-project.org&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="s">&quot;Packages&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;R6&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;Package&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;R6&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Version&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;2.5.0&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Source&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;Repository&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Repository&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Hash&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;b203113193e70978a696b2809525649d&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="s">&quot;cli&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;Package&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;cli&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Version&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;2.5.0&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Source&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;Repository&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Repository&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Hash&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;a94ba44cee3ea571e813721e64184172&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="s">&quot;crayon&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;Package&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;crayon&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Version&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;1.4.1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Source&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;Repository&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Repository&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Hash&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;e75525c55c70e5f4f78c9960a4b402e9&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="s">&quot;data.table&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="s">&quot;Package&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;data.table&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Version&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;1.14.0&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Source&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;Repository&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Repository&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;CRAN&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;Hash&quot;</span><span class="o">:</span><span class="w"> </span><span class="s">&quot;d1b8b1a821ee564a3515fa6c6d5c52dc&quot;</span>
+<span class="w">    </span><span class="p">},</span><span class="kc">...</span>
 </code></pre></div>
 
 <p>Le gestionnaire a repéré les packages utilisés dans mon script et a recensé toutes leurs informations utiles ainsi que celles de leurs dépendances : nom, version, source d'installation... Il renseigne aussi les caractéristiques du logiciel R installé sur mon poste. C'est à partir de ce fichier que le gestionnaire va ensuite être capable de vérifier l'adéquation de l'environnement de packages de l'utilisateur et celui enregistré le plus récemment. C'est aussi là qu'il va écrire les références des packages que j'installerai après avoir commencé à travailler sur le poste.  </p>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<title>Python pour la Data Science : configurer son environnement de travail</title>    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="Statisticiens à Toulouse et Bayonne organisés en coopérative pour vous accompagner dans l'analyse de vos données" />
+  <meta name="author" content="" />
+
+  <!-- Font Awesome icons (free version)-->
+  <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+
+
+
+  <!-- <title>Le blog de Statoscop - études de cas en R et Python</title> -->
+  <link rel="icon" type="image/x-icon" href="https://blog.statoscop.fr/themes/statoscop/static/images/favicon-v1.ico" />
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://blog.statoscop.fr/setup-python.html" rel="canonical" />
+  <!-- Feed -->
+        <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
+          <link href="https://blog.statoscop.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
+
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />-->
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style-site.css" type="text/css" rel="stylesheet" /> 
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style_fusion.css" type="text/css" rel="stylesheet" /> -->
+  <!-- Code highlight color scheme -->
+      <link href="https://blog.statoscop.fr/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!-- [if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  ![endif] -->
+
+
+
+    <meta name="description" content="Les essentiels et rien que les essentiels pour se lancer en Data Science avec Python.">
+
+    <meta name="author" content="Antoine">
+
+    <meta name="tags" content="Python">
+    <meta name="tags" content="Data Science">
+    <meta name="tags" content="conda">
+    <meta name="tags" content="anaconda">
+    <meta name="tags" content="vscode">
+    <meta name="tags" content="notebook">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="Python pour la Data Science : configurer son environnement de travail"/>
+<meta property="og:description" content="Les essentiels et rien que les essentiels pour se lancer en Data Science avec Python."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.statoscop.fr/setup-python.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2024-10-16 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://blog.statoscop.fr/author/antoine.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Data Science"/>
+<meta property="article:tag" content="conda"/>
+<meta property="article:tag" content="anaconda"/>
+<meta property="article:tag" content="vscode"/>
+<meta property="article:tag" content="notebook"/>
+<meta property="og:image" content="https://blog.statoscop.fr/images/cover_19.png">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Python pour la Data Science : configurer son environnement de travail",
+  "headline": "Python pour la Data Science : configurer son environnement de travail",
+  "datePublished": "2024-10-16 00:00:00+02:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Antoine",
+    "url": "https://blog.statoscop.fr/author/antoine.html"
+  },
+  "image": "https://blog.statoscop.fr/images/cover_19.png",
+  "url": "https://blog.statoscop.fr/setup-python.html",
+  "description": "Les essentiels et rien que les essentiels pour se lancer en Data Science avec Python."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+  <body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
+
+        <a class="navbar-brand" href="https://statoscop.fr"><img src="https://blog.statoscop.fr/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Statoscop.logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle font-weight-bold "
+                    href="https://statoscop.fr" id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false"> Accueil </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="https://statoscop.fr#services">Vos besoins</a></li>
+                        <li><a class="dropdown-item" href="https://statoscop.fr#portfolio">Nos missions</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle font-weight-bold "
+                    href="https://statoscop.fr/about" id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false"> Qui sommes-nous&#8239;? </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="https://statoscop.fr/about#coop">La coopérative</a></li>
+                        <li><a class="dropdown-item" href="https://statoscop.fr/about#expertise">Notre expertise</a></li>
+                        <li><a class="dropdown-item" href="https://statoscop.fr/about#team">L'équipe</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item font-weight-bold"><a class="nav-link js-scroll-trigger " href="https://statoscop.fr/contact">Contact</a></li>
+                <li class="nav-item font-weight-bold"><a class="nav-link js-scroll-trigger active" href="https://blog.statoscop.fr/">Le blog</a></li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+    
+
+
+    <!-- Post content -->
+    <main class="content" role="main">
+      
+      <div>
+      </div>
+
+      <article class="post">
+        <div class="inner">
+
+
+
+
+            <section class="post-content">
+              <h1 class="post-title">Python pour la Data Science : configurer son environnement de travail</h1>
+                <!-- Le titres et meta infos-->
+                <span class="post-meta">
+                        <a href="https://blog.statoscop.fr/author/antoine.html">Antoine</a>
+                    | <time datetime="mer. 16 octobre 2024">mer. 16 octobre 2024</time>
+                </span>
+
+                <!--Table des matieres
+-->
+                
+                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+<li><a href="#installer-python-et-vscode">Installer Python et VSCode</a><ul>
+<li><a href="#installation-de-python">Installation de Python</a></li>
+<li><a href="#installation-de-vscode">Installation de VSCode</a></li>
+<li><a href="#bonus-installation-de-git">Bonus : Installation de Git</a></li>
+</ul>
+</li>
+<li><a href="#travailler-avec-python-sur-vos-projets">Travailler avec Python sur vos projets</a><ul>
+<li><a href="#gestionnaire-denvironnements">Gestionnaire d'environnements</a></li>
+<li><a href="#les-notebooks-jupyter">Les notebooks jupyter</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Python est un <strong>langage de programmation extrêmement complet</strong> et souvent plébiscité pour conduire ses projets en Data Science. Sa grande flexibilité, le nombre très important de <a href="https://pypi.org/">modules développés</a> et de logiciels permettant de le faire tourner constitue une grande part de sa richesse. Mais elle est aussi souvent source de beaucoup de difficultés pour ses nouvelles utilisatrices et utilisateurs. Il est en effet parfois difficile de reproduire un <strong>environnement de travail simple et minimaliste</strong>, semblable à ce que l'on obtiendrait plus directement en utilisant R et RStudio.<br>
+Une des réponses à cette problématique est la solution <a href="https://www.anaconda.com/download/">Anaconda</a>, mais elle nous semble trop lourde et souvent source de complications. C'est pour cela que cette semaine, on vous recommande <strong>un environnement de travail pour la Data Science avec Python</strong>, en se focalisant sur les outils qui nous semblent les plus <strong>pratiques et utiles</strong> au quotidien.  </p>
+<h1 id="installer-python-et-vscode">Installer Python et VSCode</h1>
+<h2 id="installation-de-python">Installation de Python</h2>
+<p>La première étape est bien sûr d'installer Python. Avant cela, vous pouvez tout de même vérifier que ça n'est pas déjà le cas en ouvrant le terminal de votre système d'exploitation et en tapant :  </p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>--version
+</code></pre></div>
+
+<blockquote>
+<p>Attention, parfois l'alias utilisé par votre système ne sera pas <code>python</code> mais <code>python3</code>, il faut donc modifier les instructions données dans cette note en conséquence, ou <a href="https://www.askpython.com/python/examples/python3-alias-as-python">modifier l'alias</a>.  </p>
+</blockquote>
+<p>Si Python est installé, sa version va s'afficher dans la console, sinon vous recevrez un message d'erreur. Dans ce cas, rendez-vous sur la <a href="https://www.python.org/downloads/">page du site officiel</a> pour télécharger la version de Python qui vous convient. Je vous conseille la 3.12, qui est assez récente mais a déjà été éprouvée. Surtout, <strong>n'oubliez pas de cocher la case <code>Add Python to PATH</code></strong> quand cela vous est demandé, afin de pouvoir accéder à Python en ligne de commande.  </p>
+<p>Une fois Python installé, vous pouvez vérifier que tout s'est bien passé en tapant à nouveau <code>python --version</code> depuis un terminal. Vous pouvez alors lancer depuis votre terminal une session Python en lançant l'instruction <code>python</code>. Mais nous allons préférer passer par un <strong>environnement de développement intégré, ou IDE</strong>.</p>
+<h2 id="installation-de-vscode">Installation de VSCode</h2>
+<p>Le choix de l'IDE est déjà une première étape peu évidente, puisqu'il en existe de nombreux :  <a href="https://www.jetbrains.com/pycharm/">Pycharm</a>, <a href="https://www.spyder-ide.org/">Spyder</a>, <a href="https://jupyter.org/">Jupyter Notebook</a>... Nous vous proposons d'installer VSCode, parce qu'il est sans doute <strong>le plus populaire</strong> en ce moment, et qu'il peut être utilisé <strong>pour des scripts Python, mais aussi des notebooks Jupyter</strong>. Il supporte également de <strong>nombreux autres langages que Python</strong> (HTML/CSS, Javascript, C/C++, Ruby....) et pourra donc vous servir pour des projets plus tournés vers le développement Web. Enfin, il a un <strong>module intégré permettant d'utiliser Git</strong> sans ligne de commande, ce qui peut être très pratique pour une première prise en main d'un outil de gestion de versions.  </p>
+<p>Pour installer VSCode, <a href="https://code.visualstudio.com/download">suivez les instructions correspondant à l'OS que vous utilisez</a>. Une fois installé, ouvrez-le et rendez vous dans l'onglet extensions que vous trouverez sur la barre latérale à gauche de votre écran :   </p>
+<p><img alt="Pelican" src="../images/setup_python/image-2.png"></p>
+<p>Ce sont ces extensions de VSCode qui lui permettent de <strong>gérer tant de langages différents</strong>. Vous pouvez d'ores et déjà installer les extensions <strong>Python et Jupyter</strong>.  </p>
+<h2 id="bonus-installation-de-git">Bonus : Installation de Git</h2>
+<p>Ça n'est pas l'objectif de cet article, mais on vous conseille fortement d'utiliser Git pour tous vos projets de Data Science. Pour cela, commencez par <a href="https://git-scm.com/downloads">télécharger Git</a> et créez-vous un compte sur <a href="https://about.gitlab.com/">Gitlab</a> ou <a href="https://github.com/">Github</a>.<br>
+Si vous n'êtez pas à l'aise avec les lignes de commande, VSCode propose justement <strong>un outil intégré permettant de gérer vos fichiers et commits</strong> en clic-bouton, toujours accessible depuis la barre latérale :  </p>
+<p><img alt="Pelican" src="../images/setup_python/image-6.png"></p>
+<p>Pour se lancer avec Git sur vos projets de Data Science en Python, on vous conseille cet <a href="https://pythonds.linogaliana.fr/content/git/introgit.html">excellent article de Lino Galiana</a>.</p>
+<h1 id="travailler-avec-python-sur-vos-projets">Travailler avec Python sur vos projets</h1>
+<p>Ok, maintenant vous êtes prêts à vous lancer dans vos projets de Data Science. Il ne vous reste plus qu'à choisir et configurer un gestionnaire d'environnements avant de vous lancer enfin dans votre code Python!</p>
+<h2 id="gestionnaire-denvironnements">Gestionnaire d'environnements</h2>
+<p>Un gestionnaire d'environnements vous permet de gérer les dépendances de votre projet afin que ceux-ci soient indépendants les uns des autres et plus reproductibles. En dehors du fait d'avoir des bibliothèques de packages propres à chaque projet, il vous permet également de gérer différentes versions de Python en fonction des besoins de chaque projet.<br>
+Là aussi, il existe différentes possibilités : <code>virtualenv</code>, <code>pyenv</code>, <code>pipenv</code>... Nous optons de notre côté pour le gestionnaire <code>conda</code>, qui nous semble pratique d'utilisation, notamment pour changer de versions de python simplement. Pour l'installer, nous vous proposons d'<a href="https://docs.anaconda.com/miniconda/miniconda-install/">installer <code>miniconda</code></a> qui est une version allégée d'Anaconda nous permettant de faire tourner <code>conda</code>. Une fois conda installé, rendez-vous sur le terminal, accessible directement sur VSCode en bas de votre écran :  </p>
+<p><img alt="Pelican" src="../images/setup_python/image-4.png"></p>
+<p>Vous pouvez maintenant créer votre premier environnement virtuel, en tapant dans la console :  </p>
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>mon_premier_env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.12<span class="w"> </span>
+</code></pre></div>
+
+<p>Il n'est pas nécessaire de spécifier la version de python pour créer l'environnement mais c'est une bonne pratique, pour clarifier la version qui sera utilisée dans celui-ci. Vous pouvez aussi installer des packages directement à la création en mettant leurs noms à la suite de la version de Python. <br>
+Une fois créé, il ne reste plus qu'à l'activer avec :  </p>
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>activate<span class="w"> </span>mon_premier_env<span class="w"> </span>
+</code></pre></div>
+
+<p>Dans votre terminal, la mention <code>(base)</code> devrait être remplacée par <code>(mon_premier_env)</code>, vous indiquant que votre environnement est bien activé. 
+Dorénavant, les packages que vous installerez seront installés seulement pour celui-ci. Nous allons ici installer pandas avec : </p>
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>install<span class="w"> </span>pandas
+</code></pre></div>
+
+<blockquote>
+<p>Attention, ça n'est pas parce que vous utilisez <code>conda</code> comme gestionnaire d'environnements que  vous ne pouvez pas utiliser <code>pip</code> pour installer des packages. On préfèrera cependant utiliser <code>conda</code> quand cela est possible pour faciliter les gestions de dépendances entre packages.  </p>
+</blockquote>
+<p>Enfin, pour sortir de votre environnement il vous suffit de taper :  </p>
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>deactivate
+</code></pre></div>
+
+<h2 id="les-notebooks-jupyter">Les notebooks jupyter</h2>
+<p>Normalement, vous avez déjà installé les extensions Jupyter et Python sur VSCode. Vous pouvez donc cliquer sur <code>File -&gt; New File... -&gt; Jupyter Notebook</code>. Cela va vous créer votre premier notebook, avec une extension <code>.ipynb</code>. 
+On vous recommande les notebooks pour la partie exploration de vos données car ils vous permettent de faire tourner des blocs de Python et aussi d'intégrer du Markdown pour la mise en forme. C'est d'ailleurs des notebooks que l'on utilise pour rédiger nos <a href="https://blog.statoscop.fr">notes de blog sur Python</a>. Une fois votre notebook ouvert, cliquez sur <code>Select kernel</code> en haut à droite de votre fichier :  </p>
+<p><img alt="Pelican" src="../images/setup_python/image-3.png"></p>
+<p>Dans <code>Python Environments...</code> vous allez normalement trouver votre environnement conda. Maintenant, créez une cellule de code et lancez :  </p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</code></pre></div>
+
+<p>Et là... catastrophe :  </p>
+<p><img alt="Pelican" src="../images/setup_python/image-5.png"></p>
+<p>Mais non, c'est normal! On a juste oublié de vous expliquer quelque chose. Les notebooks s'appuient sur une version améliorée de Python, que l'on appelle IPython. C'est une surcouche interactive de python qui permet notamment de faire tourner Python par blocs de code, comme dans les notebooks. Vous pouvez l'installer en clic-bouton comme cela vous est suggéré, ou revenir dans le terminal, activer votre environnement et lancer :  </p>
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>install<span class="w"> </span>ipykernel
+</code></pre></div>
+
+<p>Maintenant, vous pouvez importer votre package <code>pandas</code> depuis votre notebook et lancer vos premières analyses exploratoires. Il vous reste encore probablement de nombreux problèmes à résoudre, mais on espère que cet article vous aura bien accompagné pour vous lancer!  </p>
+<p>C'est la fin de cet article! N'hésitez pas à <a href="https://www.statoscop.fr">visiter notre site</a> et à nous suivre sur <a href="https://twitter.com/stato_scop">Twitter</a> et <a href="https://www.linkedin.com/company/statoscop">Linkedin</a>. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le <a href="https://github.com/Statoscop/notebooks-blog">github de Statoscop</a>.  </p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Python pour la Data Science : configurer son environnement de travail&amp;url=https://blog.statoscop.fr/setup-python.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://blog.statoscop.fr/tag/python.html">Python</a><a href="https://blog.statoscop.fr/tag/data-science.html">Data Science</a><a href="https://blog.statoscop.fr/tag/conda.html">conda</a><a href="https://blog.statoscop.fr/tag/anaconda.html">anaconda</a><a href="https://blog.statoscop.fr/tag/vscode.html">vscode</a><a href="https://blog.statoscop.fr/tag/notebook.html">notebook</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+    
+    <!-- Footer-->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-left"> © Statoscop</div>
+                <div class="col-lg-4 my-3 my-lg-0">
+                    <a class="btn btn-dark btn-social mx-2" href="https://twitter.com/stato_scop" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="col-lg-4 text-lg-left"> 
+                    Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
+                     déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
+
+  </body>
+</html>

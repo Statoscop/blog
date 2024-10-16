@@ -212,14 +212,14 @@
 <span class="n">pca_wine</span><span class="o">.</span><span class="n">shape</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">(178, 2)</span>
+<div class="highlight"><pre><span></span><code>(178, 2)
 </code></pre></div>
 
 <p>En sortie, nous obtenons les vecteurs des deux premières composantes dans l'objet <code>pca_wine</code>. Notons que nous aurions pu paramétrer la fonction <code>PCA</code> de manière à ce qu'elle nous renvoie le nombre de composantes nécessaire à expliquer <code>X</code>% de la variance, comme nous le ferons par la suite. Depuis l'objet <code>pca</code>, on peut voir le vecteur de la variance expliquée par chaque composante avec <code>pca.explained_variance_ratio_</code> et donc la variance totale expliquée par nos deux composantes en sommant les éléments de ce vecteur :  </p>
 <div class="highlight"><pre><span></span><code><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">0.554063383569353</span>
+<div class="highlight"><pre><span></span><code><span class="mf">0.554063383569353</span>
 </code></pre></div>
 
 <p>On explique donc 55 % de la variance totale de nos données avec 2 composantes, alors que celle-ci contient 13 variables. Voyons si cela suffit à discriminer nos 3 producteurs visuellement :  </p>

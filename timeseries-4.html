@@ -472,13 +472,13 @@ Pour ça on peut utiliser le test de Ljung-Box d'autocorrélation des résidus q
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> : </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lag</span><span class="p">,</span> <span class="n">acorr_ljungbox</span><span class="p">(</span><span class="n">res3</span><span class="o">.</span><span class="n">resid</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="n">lag</span><span class="p">,</span> <span class="n">return_df</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="n">Retard</span> <span class="o">:</span> <span class="n">p</span><span class="o">-</span><span class="n">value</span>
-<span class="mi">6</span> <span class="o">:</span> <span class="mf">0.981720860200859</span>
-<span class="mi">12</span> <span class="o">:</span> <span class="mf">0.9083064612785483</span>
-<span class="mi">18</span> <span class="o">:</span> <span class="mf">0.6207396507474344</span>
-<span class="mi">24</span> <span class="o">:</span> <span class="mf">0.5187361239841579</span>
-<span class="mi">30</span> <span class="o">:</span> <span class="mf">0.5161804687133994</span>
-<span class="mi">36</span> <span class="o">:</span> <span class="mf">0.560395354197207</span>
+<div class="highlight"><pre><span></span><code><span class="n">Retard</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">p</span><span class="o">-</span><span class="n">value</span>
+<span class="mi">6</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">0.981720860200859</span>
+<span class="mi">12</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">0.9083064612785483</span>
+<span class="mi">18</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">0.6207396507474344</span>
+<span class="mi">24</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">0.5187361239841579</span>
+<span class="mi">30</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">0.5161804687133994</span>
+<span class="mi">36</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">0.560395354197207</span>
 </code></pre></div>
 
 <p>Toutes les p-values sont élevées ce qui signifie qu'on ne peut pas rejeter l'hypothèse nulle du test. Or, l'hypothèse <span class="math">\(H_0\)</span> est qu'il n'y a pas d'autocorrélation des résidus, on peut pas la rejeter, donc on est bon !</p>
@@ -487,7 +487,7 @@ Pour ça on peut utiliser le test de Ljung-Box d'autocorrélation des résidus q
 <span class="n">shapiro</span><span class="p">(</span><span class="n">res3</span><span class="o">.</span><span class="n">resid</span><span class="p">[</span><span class="mi">13</span><span class="p">:])</span>
 </code></pre></div>
 
-<div class="highlight"><pre><span></span><code><span class="err">ShapiroResult(statistic=0.9908484220504761, pvalue=0.547280490398407)</span>
+<div class="highlight"><pre><span></span><code>ShapiroResult(statistic=0.9908484220504761, pvalue=0.547280490398407)
 </code></pre></div>
 
 <p>Le test de normalité est également validé pour ce modèle et on peut afficher les résidus pour le visualiser :</p>
@@ -595,7 +595,7 @@ ShapiroResult(statistic=0.9883859157562256, pvalue=0.48699426651000977)
 </code></pre></div>
 
 <p><img alt="Pelican" src="../images/SeriesTemp4/output_35_1.png"></p>
-<div class="highlight"><pre><span></span><code><span class="err">RMSE = 43.18024430485034 et MAPE = 8.51556515346472</span>
+<div class="highlight"><pre><span></span><code>RMSE = 43.18024430485034 et MAPE = 8.51556515346472
 </code></pre></div>
 
 <p>Ainsi on obtient su les 2 années 1959 et 1960, une erreur moyenne de prédiction de 43,2 passagers (RMSE) et une erreur moyenne absolue en pourcentage de 8,5%.</p>
@@ -652,8 +652,8 @@ ShapiroResult(statistic=0.9883859157562256, pvalue=0.48699426651000977)
 
 <div class="highlight"><pre><span></span><code><span class="mi">100</span><span class="c1">%|███████████████████████████████████████████| 64/64 [00:59&lt;00:00,  1.08it/s]</span>
 
-<span class="nv">Modèle</span> <span class="s s-Atom">retenu</span> <span class="s s-Atom">selon</span> <span class="s s-Atom">le</span> <span class="s s-Atom">critère</span> <span class="nv">AIC</span> <span class="s s-Atom">:</span> <span class="nv">SARIMA</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="mi">12</span> <span class="o">-</span> <span class="nv">AIC</span><span class="p">:-</span><span class="mf">405.4220890824692</span> <span class="o">-</span> <span class="nv">BIC</span><span class="p">:-</span><span class="mf">394.3055951100231</span>
-<span class="nv">Modèle</span> <span class="s s-Atom">retenu</span> <span class="s s-Atom">selon</span> <span class="s s-Atom">le</span> <span class="s s-Atom">critère</span> <span class="nv">BIC</span> <span class="s s-Atom">:</span> <span class="nv">SARIMA</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="mi">12</span> <span class="o">-</span> <span class="nv">AIC</span><span class="p">:-</span><span class="mf">405.4220890824692</span> <span class="o">-</span> <span class="nv">BIC</span><span class="p">:-</span><span class="mf">394.3055951100231</span>
+<span class="nv">Modèle</span> <span class="s s-Atom">retenu</span> <span class="s s-Atom">selon</span> <span class="s s-Atom">le</span> <span class="s s-Atom">critère</span> <span class="nv">AIC</span> <span class="o">:</span> <span class="nv">SARIMA</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="mi">12</span> <span class="o">-</span> <span class="nv">AIC</span><span class="o">:-</span><span class="mf">405.4220890824692</span> <span class="o">-</span> <span class="nv">BIC</span><span class="o">:-</span><span class="mf">394.3055951100231</span>
+<span class="nv">Modèle</span> <span class="s s-Atom">retenu</span> <span class="s s-Atom">selon</span> <span class="s s-Atom">le</span> <span class="s s-Atom">critère</span> <span class="nv">BIC</span> <span class="o">:</span> <span class="nv">SARIMA</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="mi">12</span> <span class="o">-</span> <span class="nv">AIC</span><span class="o">:-</span><span class="mf">405.4220890824692</span> <span class="o">-</span> <span class="nv">BIC</span><span class="o">:-</span><span class="mf">394.3055951100231</span>
 </code></pre></div>
 
 <p>Le meilleur modèle selon le critère AIC est le <span class="math">\(SARIMA(0,1,1)(1,0,1)_{12}\)</span> qui diffère légèrement de celui obtenu avec la méthode précédente. Il convient de noter cependant que le modèle précédent <span class="math">\(SARIMA(0,1,1)(0,1,1)_{12}\)</span> a été obtenu sur toutes les observations.</p>
@@ -680,10 +680,10 @@ ShapiroResult(statistic=0.9883859157562256, pvalue=0.48699426651000977)
 <span class="c1"># affichage de l&#39;intervalle de confiance</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">pred_CI</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
                 <span class="n">pred_CI</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
-                <span class="n">pred_CI</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;plum&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">25</span><span class="p">)</span>
+                <span class="n">pred_CI</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;plum&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.25</span><span class="p">)</span>
 
 <span class="c1"># un peu de style</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">fill_betweenx</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">(),</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s1">&#39;1958-12-01&#39;</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_betweenx</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">(),</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s1">&#39;1958-12-01&#39;</span><span class="p">),</span> <span class="n">x</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Date&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Passagers&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">)</span>
@@ -725,7 +725,7 @@ Test de Shapiro : ShapiroResult(statistic=0.988020658493042, pvalue=0.4595574438
 
 <p><img alt="Pelican" src="../images/SeriesTemp4/output_39_1.png"></p>
 <p><img alt="Pelican" src="../images/SeriesTemp4/output_39_2.png"></p>
-<div class="highlight"><pre><span></span><code><span class="err">RMSE = 47.11786986382567 et MAPE = 9.220540274482799</span>
+<div class="highlight"><pre><span></span><code>RMSE = 47.11786986382567 et MAPE = 9.220540274482799
 </code></pre></div>
 
 <p>Le RMSE et le MAPE sont légèrement plus élevés qu'avec le précédent modèle mais restent dans les mêmes ordres de grandeur. On notera donc que dans ce cas précis, l'approche par critère d'information ne permet pas d'avoir les meilleurs résultats de prédiction sur les années 1959 et 1960. Toutefois l'approche étant plus exhaustive puisqu'on compare un grand nombre de modèle, elle mérite d'être conservée. Cette réflexion entre dans le cadre de la sélection de modèles si vous voulez en savoir plus.</p>
