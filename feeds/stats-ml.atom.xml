@@ -1,5 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog - Stats &amp; ML</title><link href="https://blog.statoscop.fr/" rel="alternate"></link><link href="https://blog.statoscop.fr/feeds/stats-ml.atom.xml" rel="self"></link><id>https://blog.statoscop.fr/</id><updated>2024-10-16T00:00:00+02:00</updated><entry><title>Python pour la Data Science : configurer son environnement de travail</title><link href="https://blog.statoscop.fr/setup-python.html" rel="alternate"></link><published>2024-10-16T00:00:00+02:00</published><updated>2024-10-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-10-16:/setup-python.html</id><summary type="html">&lt;p&gt;Les essentiels et rien que les essentiels pour se lancer en Data Science avec Python.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog - Stats &amp; ML</title><link href="https://blog.statoscop.fr/" rel="alternate"></link><link href="https://blog.statoscop.fr/feeds/stats-ml.atom.xml" rel="self"></link><id>https://blog.statoscop.fr/</id><updated>2024-12-12T00:00:00+01:00</updated><entry><title>Passer de RMarkdown à Quarto pour vos rapports statistiques</title><link href="https://blog.statoscop.fr/quarto-rmarkdown.html" rel="alternate"></link><published>2024-12-12T00:00:00+01:00</published><updated>2024-12-12T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-12-12:/quarto-rmarkdown.html</id><summary type="html">&lt;p&gt;Petit exemple pour vous accompagner dans la transition de RMarkdown vers Quarto, et pourquoi ça va rendre vos rapports encore plus ergonomiques!&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#configuration-de-quarto"&gt;Configuration de Quarto&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#utilisation-des-onglets"&gt;Utilisation des onglets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#generation-dynamique-de-contenu-markdown"&gt;Génération dynamique de contenu markdown&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#les-references-aux-graphiques-et-tableaux"&gt;Les références aux graphiques et tableaux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#bonus-les-blocs-dannotation"&gt;Bonus : les blocs d'annotation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#conclusion"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;a href="https://rmarkdown.rstudio.com/"&gt;RMarkdown&lt;/a&gt; est un outil de génération de rapports qui permet de &lt;strong&gt;communiquer des résultats d'analyse de manière efficace, ergonomique et automatisée&lt;/strong&gt;. Nous l'utilisions de manière quasi-quotidienne, mais force est de constater l'émergence irrémédiable de &lt;a href="https://quarto.org/"&gt;Quarto&lt;/a&gt;. Du coup, on a fini par s'y mettre. Et en effet, Quarto permet non seulement de reproduire le type de rapports que l'on obtenait avec RMarkdown, mais il offre aussi &lt;strong&gt;encore plus de possibilités!&lt;/strong&gt; C'est pour cela que nous vous présentons ici quelques unes de ses fonctionnalités et 2/3 choses à ne pas rater pour l'adopter sans peine.  &lt;/p&gt;
+&lt;p&gt;Dans cet article nous allons suivre la création d'un rapport fictif, qui repose sur des données complètement inventées. L'idée est d'étudier la prévalence d'une maladie en fonction de différentes variables. &lt;/p&gt;
+&lt;h1 id="configuration-de-quarto"&gt;Configuration de Quarto&lt;/h1&gt;
+&lt;p&gt;Pour lancer votre premier rapport, vous pouvez comme pour RMarkdown le créer directement depuis RStudio avec &lt;code&gt;File -&amp;gt; New file -&amp;gt; Quarto document&lt;/code&gt;. Je préfère personnellement décocher l'option &lt;code&gt;Use visual markdown editor&lt;/code&gt; qui propose une édition qui met directement en forme la partie Markdown, mais vous pouvez de toute façon passer de l'un à l'autre en cliquant sur &lt;code&gt;Source&lt;/code&gt; ou &lt;code&gt;Visual&lt;/code&gt; en haut de de votre écran d'édition.  &lt;/p&gt;
+&lt;p&gt;La première chose à paramétrer est votre en-tête YAML qui donne les paramétrages globaux de votre document. Voici le mien :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;---
+title: &amp;quot;Mon rapport dynamique&amp;quot;
+format: 
+  html:
+    self-contained: true
+    toc: true
+    smooth-scroll: true
+execute:
+  echo: false
+--- 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Comme pour RMarkdown, on y renseigne le titre et les formats de sortie, ici html. On remarque le paramètre &lt;code&gt;self-contained: true&lt;/code&gt; &lt;strong&gt;qui est fondamental&lt;/strong&gt; : en effet, les sorties html de Quarto nécessitent de charger beaucoup de classes CSS et de fonctions javascript. Par défaut, tous ces éléments sont stockés dans un dossier &lt;code&gt;nom_de_votre_fichier_files&lt;/code&gt;. Cela permet par exemple de &lt;strong&gt;ne le charger qu'une fois&lt;/strong&gt; si vous avez plusieurs fichiers Quarto dans un projet. Par contre, si vous envoyez votre rapport html par mail, &lt;strong&gt;il ne va pas s'afficher correctement!&lt;/strong&gt; Ce paramètre permet donc de &lt;strong&gt;charger toutes les dépendances nécessaires directement dans le fichier&lt;/strong&gt;, au prix d'un poids du fichier bien plus important. &lt;/p&gt;
+&lt;p&gt;Bien sûr, ce que l'on adorait dans RMarkdown et qui est encore plus agréable avec Quarto, c'est &lt;strong&gt;la table des matières flottante&lt;/strong&gt; sur le côté. Couplée au paramètre &lt;code&gt;smooth-scroll: true&lt;/code&gt;, elle permet une navigation dans le fichier très agréable. C'est particulièrement appréciable dans le cas de rapports très volumineux. Mais jugez plutôt :  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/quarto_rmarkdown/toc.gif"&gt;&lt;/p&gt;
+&lt;p&gt;Enfin dans &lt;code&gt;execute&lt;/code&gt; je règle un comportement par défaut de traitement de mes cellules de code. Ici, &lt;code&gt;echo: false&lt;/code&gt; indique que je souhaite que seules les sorties s'affichent dans mon rapport.  &lt;/p&gt;
+&lt;p&gt;Bien sûr, on peut écraser le paramétrage par défaut pour les blocs de code en les paramétrant directement, avec une syntaxe différente de celle de RMarkdown, ici par exemple pour le bloc me permettant de charger les librairies et les données :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;```{r}
+&lt;span class="gh"&gt;#| include: false&lt;/span&gt;
+
+&lt;span class="gh"&gt;# Librairies&lt;/span&gt;
+library(dplyr)
+library(ggplot2)
+
+&lt;span class="gh"&gt;# Thème et styles ggplot2&lt;/span&gt;
+options(ggplot2.discrete.colour = RColorBrewer::brewer.pal(11, &amp;quot;Set2&amp;quot;))
+options(ggplot2.discrete.fill = RColorBrewer::brewer.pal(11, &amp;quot;Set2&amp;quot;))
+theme_set(theme_bw())
+
+&lt;span class="gh"&gt;# Import de la base&lt;/span&gt;
+base_patients &amp;lt;- read.csv(&amp;quot;base_fictive_patients.csv&amp;quot;)
+```                                                                       &amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;La partie &lt;code&gt;#| include: false&lt;/code&gt; permet d'indiquer que je ne souhaite pas que ce code ni sa sortie n'apparaisse dans le rapport.&lt;br&gt;
+À noter enfin qu'il existe de nombreuses nouvelles possibilités avec Quarto, comme le fait de permettre à l'utilisateur d'afficher ou non le code ayant permis de générer un résultat (&lt;code&gt;code-fold&lt;/code&gt;) et de lui laisser le choix du comportement par défaut de ces blocs de code (&lt;code&gt;code-tools&lt;/code&gt;). Je vous laisse explorer les &lt;a href="https://quarto.org/docs/output-formats/html-code.html"&gt;pages de documentation liées à ces points&lt;/a&gt;.&lt;/p&gt;
+&lt;h1 id="utilisation-des-onglets"&gt;Utilisation des onglets&lt;/h1&gt;
+&lt;p&gt;Une de nos fonctionnalités préférées de RMarkdown, c'était la possibilité de faire des onglets. Comme pour la table des matières flottante, cela permet d'alléger des rapports contenant parfois beaucoup de résultats et cela facilite la navigation de la personne qui cherche un des nombreux résultats qui se trouve dans votre rapport. Évidemment cela reste possible avec Quarto, en utilisant une syntaxe légèrement différente. On va en effet encapsuler notre code Markdown dans une instruction &lt;code&gt;::: panel-tabset&lt;/code&gt;. Tous les titres qui suivront seront automatiquement créés comme des onglets. Dans notre rapport fictif, on va par exemple présenter la répartition de chacune des variables caractère dans un onglet de la manière suivante :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gu"&gt;## Variables caractères&lt;/span&gt;
+
+::: panel-tabset
+&lt;span class="gu"&gt;### Sexe&lt;/span&gt;
+
+```{r}
+base_patients |&amp;gt; 
+  count(Sexe) |&amp;gt; 
+  mutate(Proportion = n / sum(n),
+         Proportion = glue::glue(&amp;quot;{round(100 * Proportion)} %&amp;quot;)) |&amp;gt; 
+  knitr::kable()
+```                                                                &amp;#39;
+
+&lt;span class="gu"&gt;### Tabagisme&lt;/span&gt;
+
+```{r}
+base_patients |&amp;gt; 
+  count(Fumeur) |&amp;gt; 
+  mutate(Proportion = n / sum(n),
+         Proportion = glue::glue(&amp;quot;{round(100 * Proportion)} %&amp;quot;)) |&amp;gt; 
+  knitr::kable()
+```                                                                &amp;#39;
+
+&lt;span class="gu"&gt;### Poids&lt;/span&gt;
+
+```{r}
+base_patients |&amp;gt; 
+  count(Poids) |&amp;gt; 
+  mutate(Proportion = n / sum(n),
+         Proportion = glue::glue(&amp;quot;{round(100 * Proportion)} %&amp;quot;)) |&amp;gt; 
+  knitr::kable()
+```                                                                &amp;#39;
+:::
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Le résultat obtenu est le suivant :   &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/quarto_rmarkdown/onglets.gif"&gt;  &lt;/p&gt;
+&lt;h1 id="generation-dynamique-de-contenu-markdown"&gt;Génération dynamique de contenu markdown&lt;/h1&gt;
+&lt;p&gt;Une autre fonctionnalité très pratique de RMarkdown que l'on retrouve dans Quarto est la possibilité de générer automatiquement le code Markdown, et pas seulement les blocs de code R ou Python. Cela est très pratique quand on souhaite par exemple automatiser la création d'un dictionnaire de variables, ou faire un rapport standardisé pour différentes données.  &lt;/p&gt;
+&lt;p&gt;Ici par exemple on peut se dire qu'on va présenter les variables numériques de cette façon. Comme pour les variables caractères, on va présenter un tableau de statistiques par variable dans chaque onglet mais cette fois on va faire une boucle sur les variables numériques et ne pas répéter le code pour chaque variable. Pour cela, on code dans un bloc R avec le paramètre &lt;code&gt;results: asis&lt;/code&gt; :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;```{r}
+&lt;span class="gh"&gt;#| results: asis&lt;/span&gt;
+&lt;span class="gh"&gt;# boucle sur les variables numériques&lt;/span&gt;
+for (var_num in names(base_patients |&amp;gt; select(where(is.numeric)))){
+  # titre de l&amp;#39;onglet
+  cat(glue::glue(&amp;quot;### {var_num}&amp;quot;))  
+  cat(&amp;quot;\n&amp;quot;)
+  base_patients |&amp;gt; 
+    summarise(
+      across(all_of(var_num), list(Min = min,
+                                   Moyenne = mean,
+                                   Mediane = median,
+                                   Max = max),
+             .names = &amp;quot;{.fn}&amp;quot;)) |&amp;gt; 
+    knitr::kable(format.args = list(digits = 2, nsmall = 2)) |&amp;gt; 
+    print()
+  # retour à la ligne
+  cat(&amp;quot;\n&amp;quot;)
+}
+
+```                                                                   &amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Il est important de noter plusieurs choses :&lt;br&gt;
+- Le code Mardown doit se trouver dans une instructions &lt;code&gt;cat()&lt;/code&gt;&lt;br&gt;
+- Ne pas oublier d'ajouter des retours à la ligne avec &lt;code&gt;cat("\n")&lt;/code&gt; &lt;br&gt;
+- Il faut afficher les sorties de R que l'on souhaite dans un &lt;code&gt;print()&lt;/code&gt;  &lt;/p&gt;
+&lt;p&gt;Le résultat obtenu est le même que pour les variables caractères, mais avec un code factorisé et généralisable à différentes données en entrée :  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/quarto_rmarkdown/onglets_num.gif"&gt;  &lt;/p&gt;
+&lt;h1 id="les-references-aux-graphiques-et-tableaux"&gt;Les références aux graphiques et tableaux&lt;/h1&gt;
+&lt;p&gt;Vous devez le savoir si vous avez déjà mené des analyses statistiques, le tableau 1 ne le reste pas forcément tout au long du processus, le graphique 3 apparaît finalement souvent en second, etc... Avec Quarto, comme c'était le cas avec RMarkdown, on peut automatiser le référencement aux différents éléments de notre rapport très simplement. Dans le code, on va indiquer un label et un titre au bloc de code correspondant à notre graphique avec &lt;code&gt;#| label: fig-mon-label&lt;/code&gt; et &lt;code&gt;#| fig-cap: "Titre de mon graphique"&lt;/code&gt;, comme ci-dessous pour les deux graphiques de notre rapport :   &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;```{r}
+&lt;span class="gh"&gt;#| label: fig-glucose&lt;/span&gt;
+&lt;span class="gh"&gt;#| fig-cap: &amp;quot;Taux de glucose et présence de la maladie&amp;quot;&lt;/span&gt;
+
+base_patients %&amp;gt;% 
+  ggplot(aes(x = factor(Maladie), y = Taux_de_glucose)) + 
+  geom_boxplot(aes(fill = factor(Maladie)), alpha = 0.4) + 
+  geom_jitter(aes(color = factor(Maladie)), size = 0.4, alpha = 0.9) + 
+  theme(legend.position = &amp;quot;none&amp;quot;) + 
+   labs(x = &amp;quot;Présence de la maladie&amp;quot;, 
+        y = &amp;quot;Taux de glucose&amp;quot;)
+```                                                                   &amp;#39;
+
+```{r}
+&lt;span class="gh"&gt;#| label: fig-sexe-poids&lt;/span&gt;
+&lt;span class="gh"&gt;#| fig-cap: &amp;quot;Sexe, poids et prévalence de la maladie&amp;quot;&lt;/span&gt;
+base_patients |&amp;gt; 
+  group_by(Sexe, Poids) |&amp;gt; 
+  summarise(taux = mean(Maladie),
+            .groups = &amp;quot;drop&amp;quot;) |&amp;gt; 
+  ggplot(aes(x = Poids, y = taux, fill = Sexe)) + 
+  geom_col(position = &amp;quot;dodge&amp;quot;, width = 0.5) + 
+  scale_y_continuous(labels = ~ scales::percent(.)) + 
+  labs(x = &amp;quot;Tabagisme&amp;quot;, y = &amp;quot;Prévalence de la maladie&amp;quot;)
+```                                                                   &amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Il n'y aura ensuite plus qu'à faire référence à la sortie voulue dans le texte avec la syntaxe &lt;code&gt;@fig-mon-label&lt;/code&gt; qui permettra de numéroter correctement le graphique ou le tableau par rapport à sa position dans le rapport. De plus, par défaut dans Quarto, l'élément est cliquable ce qui permet de directement retrouver l'élément en question. Enfin, en passant juste la souris sur l'élément, on peut voir une prévisualisation de celui-ci :  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/quarto_rmarkdown/cross-ref.gif"&gt;  &lt;/p&gt;
+&lt;h1 id="bonus-les-blocs-dannotation"&gt;Bonus : les blocs d'annotation&lt;/h1&gt;
+&lt;p&gt;On a ainsi effleuré qu'une toute petite partie des possibilités de Quarto, mais on ne voulait pas partir sans vous parler des &lt;em&gt;Callout Blocks&lt;/em&gt;. Ce sont des blocs de texte mis en forme, permettant de générer différents types de messages (note, avertissement, erreurs...). On peut également les rendre dépliables de manière à ce que le texte ne s'affiche que si l'utilisateur le souhaite.   &lt;/p&gt;
+&lt;p&gt;Voici par exemple le code pour une note (dépliable) et un avertissement :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;::: {.callout-note collapse=&amp;quot;true&amp;quot;}   
+Pour rappel, cette note s&amp;#39;appuie sur des données complètement fictives et ne devrait pas révolutionner la recherche scientifique.
+:::  
+
+::: {.callout-caution}  
+L&amp;#39;utilisation des blocs d&amp;#39;annotation de Quarto peut être addictive, merci de ne pas en abuser.
+:::
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Le résultat obtenu est le suivant :  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/quarto_rmarkdown/callout-bloc.gif"&gt;  &lt;/p&gt;
+&lt;h1 id="conclusion"&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;Dans cet article, nous n'avons présenté qu'une petite partie du potentiel de Quarto. Mais vous pouvez explorer aussi toutes les autres possibilités (Dashboards Observable/RShiny, utilisation de Python/Julia, rédaction de livres, déploiement de vos résultats sur un serveur...) dans &lt;a href="https://quarto.org/docs/guide/"&gt;la documentation officielle du projet&lt;/a&gt;.   &lt;/p&gt;
+&lt;p&gt;Vous souhaitez mettre en place des rapports Quarto automatisés dans votre entreprise ou votre laboratoire? Vous préférez l'utiliser pour votre premier dashboard? N'hésitez pas à &lt;a href="https://statoscop.fr/contact"&gt;nous contacter&lt;/a&gt;! &lt;/p&gt;
+&lt;p&gt;C'est la fin de cet article! Le faux rapport html sur lequel s'appuie cette note est &lt;a href="https://statoscop.fr/static/rapport_quarto.html"&gt;disponible en ligne&lt;/a&gt;. Vous retrouverez le code ayant permis de le générer sur le &lt;a href="https://github.com/Statoscop/notebooks-blog/tree/main/Rapport%20Quarto"&gt;github de Statoscop&lt;/a&gt;. Vous pouvez aussi &lt;a href="https://www.statoscop.fr"&gt;visiter notre site&lt;/a&gt; et nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;.  &lt;/p&gt;</content><category term="R"></category><category term="quarto"></category><category term="rmarkdown"></category><category term="rapport"></category></entry><entry><title>Python pour la Data Science : configurer son environnement de travail</title><link href="https://blog.statoscop.fr/setup-python.html" rel="alternate"></link><published>2024-10-16T00:00:00+02:00</published><updated>2024-10-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-10-16:/setup-python.html</id><summary type="html">&lt;p&gt;Les essentiels et rien que les essentiels pour se lancer en Data Science avec Python.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#installer-python-et-vscode"&gt;Installer Python et VSCode&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#installation-de-python"&gt;Installation de Python&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#installation-de-vscode"&gt;Installation de VSCode&lt;/a&gt;&lt;/li&gt;

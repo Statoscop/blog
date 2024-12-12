@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<title>Passer de RMarkdown à Quarto pour vos rapports statistiques</title>    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="Statisticiens à Toulouse et Bayonne organisés en coopérative pour vous accompagner dans l'analyse de vos données" />
+  <meta name="author" content="" />
+
+  <!-- Font Awesome icons (free version)-->
+  <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+
+
+
+  <!-- <title>Le blog de Statoscop - études de cas en R et Python</title> -->
+  <link rel="icon" type="image/x-icon" href="https://blog.statoscop.fr/themes/statoscop/static/images/favicon-v1.ico" />
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://blog.statoscop.fr/quarto-rmarkdown.html" rel="canonical" />
+  <!-- Feed -->
+        <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
+          <link href="https://blog.statoscop.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
+
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />-->
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style-site.css" type="text/css" rel="stylesheet" /> 
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style_fusion.css" type="text/css" rel="stylesheet" /> -->
+  <!-- Code highlight color scheme -->
+      <link href="https://blog.statoscop.fr/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!-- [if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  ![endif] -->
+
+
+
+    <meta name="description" content="Petit exemple pour vous accompagner dans la transition de RMarkdown vers Quarto, et pourquoi ça va rendre vos rapports encore plus ergonomiques!">
+
+    <meta name="author" content="Antoine">
+
+    <meta name="tags" content="quarto">
+    <meta name="tags" content="rmarkdown">
+    <meta name="tags" content="rapport">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="Passer de RMarkdown à Quarto pour vos rapports statistiques"/>
+<meta property="og:description" content="Petit exemple pour vous accompagner dans la transition de RMarkdown vers Quarto, et pourquoi ça va rendre vos rapports encore plus ergonomiques!"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.statoscop.fr/quarto-rmarkdown.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2024-12-12 00:00:00+01:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://blog.statoscop.fr/author/antoine.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="quarto"/>
+<meta property="article:tag" content="rmarkdown"/>
+<meta property="article:tag" content="rapport"/>
+<meta property="og:image" content="https://blog.statoscop.fr/images/cover_20.png">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Passer de RMarkdown à Quarto pour vos rapports statistiques",
+  "headline": "Passer de RMarkdown à Quarto pour vos rapports statistiques",
+  "datePublished": "2024-12-12 00:00:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Antoine",
+    "url": "https://blog.statoscop.fr/author/antoine.html"
+  },
+  "image": "https://blog.statoscop.fr/images/cover_20.png",
+  "url": "https://blog.statoscop.fr/quarto-rmarkdown.html",
+  "description": "Petit exemple pour vous accompagner dans la transition de RMarkdown vers Quarto, et pourquoi ça va rendre vos rapports encore plus ergonomiques!"
+}
+</script>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//matomo.statoscop.fr/matomo/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+  
+
+</head>
+<!-- TODO : Body class -->
+  <body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
+
+        <a class="navbar-brand" href="https://statoscop.fr"><img src="https://blog.statoscop.fr/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Statoscop.logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle font-weight-bold "
+                    href="https://statoscop.fr" id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false"> Accueil </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="https://statoscop.fr#services">Vos besoins</a></li>
+                        <li><a class="dropdown-item" href="https://statoscop.fr#portfolio">Nos missions</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle font-weight-bold "
+                    href="https://statoscop.fr/about" id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false"> Qui sommes-nous&#8239;? </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="https://statoscop.fr/about#coop">La coopérative</a></li>
+                        <li><a class="dropdown-item" href="https://statoscop.fr/about#expertise">Notre expertise</a></li>
+                        <li><a class="dropdown-item" href="https://statoscop.fr/about#team">L'équipe</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item font-weight-bold"><a class="nav-link js-scroll-trigger " href="https://statoscop.fr/contact">Contact</a></li>
+                <li class="nav-item font-weight-bold"><a class="nav-link js-scroll-trigger active" href="https://blog.statoscop.fr/">Le blog</a></li>
+            </ul>
+        </div>
+      </div>
+    </nav>
+    
+
+
+    <!-- Post content -->
+    <main class="content" role="main">
+      
+      <div>
+      </div>
+
+      <article class="post">
+        <div class="inner">
+
+
+
+
+            <section class="post-content">
+              <h1 class="post-title">Passer de RMarkdown à Quarto pour vos rapports statistiques</h1>
+                <!-- Le titres et meta infos-->
+                <span class="post-meta">
+                        <a href="https://blog.statoscop.fr/author/antoine.html">Antoine</a>
+                    | <time datetime="jeu. 12 décembre 2024">jeu. 12 décembre 2024</time>
+                </span>
+
+                <!--Table des matieres
+-->
+                
+                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+<li><a href="#configuration-de-quarto">Configuration de Quarto</a></li>
+<li><a href="#utilisation-des-onglets">Utilisation des onglets</a></li>
+<li><a href="#generation-dynamique-de-contenu-markdown">Génération dynamique de contenu markdown</a></li>
+<li><a href="#les-references-aux-graphiques-et-tableaux">Les références aux graphiques et tableaux</a></li>
+<li><a href="#bonus-les-blocs-dannotation">Bonus : les blocs d'annotation</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+<p><a href="https://rmarkdown.rstudio.com/">RMarkdown</a> est un outil de génération de rapports qui permet de <strong>communiquer des résultats d'analyse de manière efficace, ergonomique et automatisée</strong>. Nous l'utilisions de manière quasi-quotidienne, mais force est de constater l'émergence irrémédiable de <a href="https://quarto.org/">Quarto</a>. Du coup, on a fini par s'y mettre. Et en effet, Quarto permet non seulement de reproduire le type de rapports que l'on obtenait avec RMarkdown, mais il offre aussi <strong>encore plus de possibilités!</strong> C'est pour cela que nous vous présentons ici quelques unes de ses fonctionnalités et 2/3 choses à ne pas rater pour l'adopter sans peine.  </p>
+<p>Dans cet article nous allons suivre la création d'un rapport fictif, qui repose sur des données complètement inventées. L'idée est d'étudier la prévalence d'une maladie en fonction de différentes variables. </p>
+<h1 id="configuration-de-quarto">Configuration de Quarto</h1>
+<p>Pour lancer votre premier rapport, vous pouvez comme pour RMarkdown le créer directement depuis RStudio avec <code>File -&gt; New file -&gt; Quarto document</code>. Je préfère personnellement décocher l'option <code>Use visual markdown editor</code> qui propose une édition qui met directement en forme la partie Markdown, mais vous pouvez de toute façon passer de l'un à l'autre en cliquant sur <code>Source</code> ou <code>Visual</code> en haut de de votre écran d'édition.  </p>
+<p>La première chose à paramétrer est votre en-tête YAML qui donne les paramétrages globaux de votre document. Voici le mien :  </p>
+<div class="highlight"><pre><span></span><code>---
+title: &quot;Mon rapport dynamique&quot;
+format: 
+  html:
+    self-contained: true
+    toc: true
+    smooth-scroll: true
+execute:
+  echo: false
+--- 
+</code></pre></div>
+
+<p>Comme pour RMarkdown, on y renseigne le titre et les formats de sortie, ici html. On remarque le paramètre <code>self-contained: true</code> <strong>qui est fondamental</strong> : en effet, les sorties html de Quarto nécessitent de charger beaucoup de classes CSS et de fonctions javascript. Par défaut, tous ces éléments sont stockés dans un dossier <code>nom_de_votre_fichier_files</code>. Cela permet par exemple de <strong>ne le charger qu'une fois</strong> si vous avez plusieurs fichiers Quarto dans un projet. Par contre, si vous envoyez votre rapport html par mail, <strong>il ne va pas s'afficher correctement!</strong> Ce paramètre permet donc de <strong>charger toutes les dépendances nécessaires directement dans le fichier</strong>, au prix d'un poids du fichier bien plus important. </p>
+<p>Bien sûr, ce que l'on adorait dans RMarkdown et qui est encore plus agréable avec Quarto, c'est <strong>la table des matières flottante</strong> sur le côté. Couplée au paramètre <code>smooth-scroll: true</code>, elle permet une navigation dans le fichier très agréable. C'est particulièrement appréciable dans le cas de rapports très volumineux. Mais jugez plutôt :  </p>
+<p><img alt="Pelican" src="../images/quarto_rmarkdown/toc.gif"></p>
+<p>Enfin dans <code>execute</code> je règle un comportement par défaut de traitement de mes cellules de code. Ici, <code>echo: false</code> indique que je souhaite que seules les sorties s'affichent dans mon rapport.  </p>
+<p>Bien sûr, on peut écraser le paramétrage par défaut pour les blocs de code en les paramétrant directement, avec une syntaxe différente de celle de RMarkdown, ici par exemple pour le bloc me permettant de charger les librairies et les données :  </p>
+<div class="highlight"><pre><span></span><code>```{r}
+<span class="gh">#| include: false</span>
+
+<span class="gh"># Librairies</span>
+library(dplyr)
+library(ggplot2)
+
+<span class="gh"># Thème et styles ggplot2</span>
+options(ggplot2.discrete.colour = RColorBrewer::brewer.pal(11, &quot;Set2&quot;))
+options(ggplot2.discrete.fill = RColorBrewer::brewer.pal(11, &quot;Set2&quot;))
+theme_set(theme_bw())
+
+<span class="gh"># Import de la base</span>
+base_patients &lt;- read.csv(&quot;base_fictive_patients.csv&quot;)
+```                                                                       &#39;
+</code></pre></div>
+
+<p>La partie <code>#| include: false</code> permet d'indiquer que je ne souhaite pas que ce code ni sa sortie n'apparaisse dans le rapport.<br>
+À noter enfin qu'il existe de nombreuses nouvelles possibilités avec Quarto, comme le fait de permettre à l'utilisateur d'afficher ou non le code ayant permis de générer un résultat (<code>code-fold</code>) et de lui laisser le choix du comportement par défaut de ces blocs de code (<code>code-tools</code>). Je vous laisse explorer les <a href="https://quarto.org/docs/output-formats/html-code.html">pages de documentation liées à ces points</a>.</p>
+<h1 id="utilisation-des-onglets">Utilisation des onglets</h1>
+<p>Une de nos fonctionnalités préférées de RMarkdown, c'était la possibilité de faire des onglets. Comme pour la table des matières flottante, cela permet d'alléger des rapports contenant parfois beaucoup de résultats et cela facilite la navigation de la personne qui cherche un des nombreux résultats qui se trouve dans votre rapport. Évidemment cela reste possible avec Quarto, en utilisant une syntaxe légèrement différente. On va en effet encapsuler notre code Markdown dans une instruction <code>::: panel-tabset</code>. Tous les titres qui suivront seront automatiquement créés comme des onglets. Dans notre rapport fictif, on va par exemple présenter la répartition de chacune des variables caractère dans un onglet de la manière suivante :  </p>
+<div class="highlight"><pre><span></span><code><span class="gu">## Variables caractères</span>
+
+::: panel-tabset
+<span class="gu">### Sexe</span>
+
+```{r}
+base_patients |&gt; 
+  count(Sexe) |&gt; 
+  mutate(Proportion = n / sum(n),
+         Proportion = glue::glue(&quot;{round(100 * Proportion)} %&quot;)) |&gt; 
+  knitr::kable()
+```                                                                &#39;
+
+<span class="gu">### Tabagisme</span>
+
+```{r}
+base_patients |&gt; 
+  count(Fumeur) |&gt; 
+  mutate(Proportion = n / sum(n),
+         Proportion = glue::glue(&quot;{round(100 * Proportion)} %&quot;)) |&gt; 
+  knitr::kable()
+```                                                                &#39;
+
+<span class="gu">### Poids</span>
+
+```{r}
+base_patients |&gt; 
+  count(Poids) |&gt; 
+  mutate(Proportion = n / sum(n),
+         Proportion = glue::glue(&quot;{round(100 * Proportion)} %&quot;)) |&gt; 
+  knitr::kable()
+```                                                                &#39;
+:::
+</code></pre></div>
+
+<p>Le résultat obtenu est le suivant :   </p>
+<p><img alt="Pelican" src="../images/quarto_rmarkdown/onglets.gif">  </p>
+<h1 id="generation-dynamique-de-contenu-markdown">Génération dynamique de contenu markdown</h1>
+<p>Une autre fonctionnalité très pratique de RMarkdown que l'on retrouve dans Quarto est la possibilité de générer automatiquement le code Markdown, et pas seulement les blocs de code R ou Python. Cela est très pratique quand on souhaite par exemple automatiser la création d'un dictionnaire de variables, ou faire un rapport standardisé pour différentes données.  </p>
+<p>Ici par exemple on peut se dire qu'on va présenter les variables numériques de cette façon. Comme pour les variables caractères, on va présenter un tableau de statistiques par variable dans chaque onglet mais cette fois on va faire une boucle sur les variables numériques et ne pas répéter le code pour chaque variable. Pour cela, on code dans un bloc R avec le paramètre <code>results: asis</code> :  </p>
+<div class="highlight"><pre><span></span><code>```{r}
+<span class="gh">#| results: asis</span>
+<span class="gh"># boucle sur les variables numériques</span>
+for (var_num in names(base_patients |&gt; select(where(is.numeric)))){
+  # titre de l&#39;onglet
+  cat(glue::glue(&quot;### {var_num}&quot;))  
+  cat(&quot;\n&quot;)
+  base_patients |&gt; 
+    summarise(
+      across(all_of(var_num), list(Min = min,
+                                   Moyenne = mean,
+                                   Mediane = median,
+                                   Max = max),
+             .names = &quot;{.fn}&quot;)) |&gt; 
+    knitr::kable(format.args = list(digits = 2, nsmall = 2)) |&gt; 
+    print()
+  # retour à la ligne
+  cat(&quot;\n&quot;)
+}
+
+```                                                                   &#39;
+</code></pre></div>
+
+<p>Il est important de noter plusieurs choses :<br>
+- Le code Mardown doit se trouver dans une instructions <code>cat()</code><br>
+- Ne pas oublier d'ajouter des retours à la ligne avec <code>cat("\n")</code> <br>
+- Il faut afficher les sorties de R que l'on souhaite dans un <code>print()</code>  </p>
+<p>Le résultat obtenu est le même que pour les variables caractères, mais avec un code factorisé et généralisable à différentes données en entrée :  </p>
+<p><img alt="Pelican" src="../images/quarto_rmarkdown/onglets_num.gif">  </p>
+<h1 id="les-references-aux-graphiques-et-tableaux">Les références aux graphiques et tableaux</h1>
+<p>Vous devez le savoir si vous avez déjà mené des analyses statistiques, le tableau 1 ne le reste pas forcément tout au long du processus, le graphique 3 apparaît finalement souvent en second, etc... Avec Quarto, comme c'était le cas avec RMarkdown, on peut automatiser le référencement aux différents éléments de notre rapport très simplement. Dans le code, on va indiquer un label et un titre au bloc de code correspondant à notre graphique avec <code>#| label: fig-mon-label</code> et <code>#| fig-cap: "Titre de mon graphique"</code>, comme ci-dessous pour les deux graphiques de notre rapport :   </p>
+<div class="highlight"><pre><span></span><code>```{r}
+<span class="gh">#| label: fig-glucose</span>
+<span class="gh">#| fig-cap: &quot;Taux de glucose et présence de la maladie&quot;</span>
+
+base_patients %&gt;% 
+  ggplot(aes(x = factor(Maladie), y = Taux_de_glucose)) + 
+  geom_boxplot(aes(fill = factor(Maladie)), alpha = 0.4) + 
+  geom_jitter(aes(color = factor(Maladie)), size = 0.4, alpha = 0.9) + 
+  theme(legend.position = &quot;none&quot;) + 
+   labs(x = &quot;Présence de la maladie&quot;, 
+        y = &quot;Taux de glucose&quot;)
+```                                                                   &#39;
+
+```{r}
+<span class="gh">#| label: fig-sexe-poids</span>
+<span class="gh">#| fig-cap: &quot;Sexe, poids et prévalence de la maladie&quot;</span>
+base_patients |&gt; 
+  group_by(Sexe, Poids) |&gt; 
+  summarise(taux = mean(Maladie),
+            .groups = &quot;drop&quot;) |&gt; 
+  ggplot(aes(x = Poids, y = taux, fill = Sexe)) + 
+  geom_col(position = &quot;dodge&quot;, width = 0.5) + 
+  scale_y_continuous(labels = ~ scales::percent(.)) + 
+  labs(x = &quot;Tabagisme&quot;, y = &quot;Prévalence de la maladie&quot;)
+```                                                                   &#39;
+</code></pre></div>
+
+<p>Il n'y aura ensuite plus qu'à faire référence à la sortie voulue dans le texte avec la syntaxe <code>@fig-mon-label</code> qui permettra de numéroter correctement le graphique ou le tableau par rapport à sa position dans le rapport. De plus, par défaut dans Quarto, l'élément est cliquable ce qui permet de directement retrouver l'élément en question. Enfin, en passant juste la souris sur l'élément, on peut voir une prévisualisation de celui-ci :  </p>
+<p><img alt="Pelican" src="../images/quarto_rmarkdown/cross-ref.gif">  </p>
+<h1 id="bonus-les-blocs-dannotation">Bonus : les blocs d'annotation</h1>
+<p>On a ainsi effleuré qu'une toute petite partie des possibilités de Quarto, mais on ne voulait pas partir sans vous parler des <em>Callout Blocks</em>. Ce sont des blocs de texte mis en forme, permettant de générer différents types de messages (note, avertissement, erreurs...). On peut également les rendre dépliables de manière à ce que le texte ne s'affiche que si l'utilisateur le souhaite.   </p>
+<p>Voici par exemple le code pour une note (dépliable) et un avertissement :  </p>
+<div class="highlight"><pre><span></span><code>::: {.callout-note collapse=&quot;true&quot;}   
+Pour rappel, cette note s&#39;appuie sur des données complètement fictives et ne devrait pas révolutionner la recherche scientifique.
+:::  
+
+::: {.callout-caution}  
+L&#39;utilisation des blocs d&#39;annotation de Quarto peut être addictive, merci de ne pas en abuser.
+:::
+</code></pre></div>
+
+<p>Le résultat obtenu est le suivant :  </p>
+<p><img alt="Pelican" src="../images/quarto_rmarkdown/callout-bloc.gif">  </p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Dans cet article, nous n'avons présenté qu'une petite partie du potentiel de Quarto. Mais vous pouvez explorer aussi toutes les autres possibilités (Dashboards Observable/RShiny, utilisation de Python/Julia, rédaction de livres, déploiement de vos résultats sur un serveur...) dans <a href="https://quarto.org/docs/guide/">la documentation officielle du projet</a>.   </p>
+<p>Vous souhaitez mettre en place des rapports Quarto automatisés dans votre entreprise ou votre laboratoire? Vous préférez l'utiliser pour votre premier dashboard? N'hésitez pas à <a href="https://statoscop.fr/contact">nous contacter</a>! </p>
+<p>C'est la fin de cet article! Le faux rapport html sur lequel s'appuie cette note est <a href="https://statoscop.fr/static/rapport_quarto.html">disponible en ligne</a>. Vous retrouverez le code ayant permis de le générer sur le <a href="https://github.com/Statoscop/notebooks-blog/tree/main/Rapport%20Quarto">github de Statoscop</a>. Vous pouvez aussi <a href="https://www.statoscop.fr">visiter notre site</a> et nous suivre sur <a href="https://twitter.com/stato_scop">Twitter</a> et <a href="https://www.linkedin.com/company/statoscop">Linkedin</a>.  </p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Passer de RMarkdown à Quarto pour vos rapports statistiques&amp;url=https://blog.statoscop.fr/quarto-rmarkdown.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://blog.statoscop.fr/tag/quarto.html">quarto</a><a href="https://blog.statoscop.fr/tag/rmarkdown.html">rmarkdown</a><a href="https://blog.statoscop.fr/tag/rapport.html">rapport</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+    
+    <!-- Footer-->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-left"> © Statoscop</div>
+                <div class="col-lg-4 my-3 my-lg-0">
+                    <a class="btn btn-dark btn-social mx-2" href="https://twitter.com/stato_scop" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="col-lg-4 text-lg-left"> 
+                    Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
+                     déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
+
+  </body>
+</html>
