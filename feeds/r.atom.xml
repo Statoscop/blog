@@ -33,8 +33,8 @@ Comme on a décidé de manière complètement aléatoire l'assignation à l'un o
 Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;div class = "d-flex justify-content-center mt-4"&gt;
-   &lt;a href="https://statoscop.fr" class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
-   &lt;a href="https://statoscop.fr/contact" class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 &lt;h1 id="mise-en-oeuvre-de-lappariement-par-score-de-propension-avec-r"&gt;Mise en oeuvre de l'appariement par score de propension avec R&lt;/h1&gt;
@@ -509,8 +509,8 @@ Le paramètre &lt;code&gt;method = "ATT"&lt;/code&gt; permet d'évaluer un &lt;s
 &lt;p&gt;La plus grosse limite de cette méthode est sans doute le fait qu'elle pourrait faire oublier que nos groupes de traitement et de contrôle sont comparables &lt;strong&gt;uniquement sur des caractéristiques observables&lt;/strong&gt;. Il n'est donc pas à exclure que des biais de sélection non observables polluent notre analyse, là où un essai clinique randomisé calibré correctement met normalement à l'abri de ce problème. Il est donc fondamental de garder constamment cet écueil en tête pour essayer d'anticiper les possibles défauts de nos analyses.  &lt;/p&gt;
 &lt;p&gt;C'est tout pour aujourd'hui! Si vous cherchez des &lt;a href="https://www.statoscop.fr"&gt;statisticiens pour vos études cliniques n'hésitez pas à visiter notre site&lt;/a&gt; et à nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;. Pour retrouver le code ayant servi à générer cette note, vous pouvez vous rendre sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.  &lt;/p&gt;
 &lt;div class = "d-flex justify-content-center mt-4"&gt;
-   &lt;a href="https://statoscop.fr" class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
-   &lt;a href="https://statoscop.fr/contact" class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
 
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
