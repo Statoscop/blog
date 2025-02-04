@@ -1,5 +1,580 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog</title><link href="https://blog.statoscop.fr/" rel="alternate"></link><link href="https://blog.statoscop.fr/feeds/all.atom.xml" rel="self"></link><id>https://blog.statoscop.fr/</id><updated>2024-12-12T00:00:00+01:00</updated><entry><title>Passer de RMarkdown à Quarto pour vos rapports statistiques</title><link href="https://blog.statoscop.fr/quarto-rmarkdown.html" rel="alternate"></link><published>2024-12-12T00:00:00+01:00</published><updated>2024-12-12T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-12-12:/quarto-rmarkdown.html</id><summary type="html">&lt;p&gt;Petit exemple pour vous accompagner dans la transition de RMarkdown vers Quarto, et pourquoi ça va rendre vos rapports encore plus ergonomiques!&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog</title><link href="https://blog.statoscop.fr/" rel="alternate"></link><link href="https://blog.statoscop.fr/feeds/all.atom.xml" rel="self"></link><id>https://blog.statoscop.fr/</id><updated>2025-02-04T00:00:00+01:00</updated><entry><title>Appariement par score de propension (PSM) : mise en oeuvre avec R et discussions méthodologiques</title><link href="https://blog.statoscop.fr/appariement-score-propension.html" rel="alternate"></link><published>2025-02-04T00:00:00+01:00</published><updated>2025-02-04T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2025-02-04:/appariement-score-propension.html</id><summary type="html">&lt;p&gt;Implications théoriques des méthodes d'appariement par score de propension et implémentation avec le package R &lt;code&gt;MatchIt&lt;/code&gt;.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#principes-du-propensity-score-matching"&gt;Principes du Propensity Score Matching&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#calcul-du-score-de-propension"&gt;Calcul du score de propension&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#appariement-de-vos-donnees"&gt;Appariement de vos données&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#mise-en-oeuvre-de-lappariement-par-score-de-propension-avec-r"&gt;Mise en oeuvre de l'appariement par score de propension avec R&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#description-des-donnees-et-de-notre-problematique"&gt;Description des données et de notre problématique&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#calcul-du-score-de-propension-et-appariement-des-patients"&gt;Calcul du score de propension et appariement des patients&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#evaluation-de-la-qualite-de-lappariement"&gt;Évaluation de la qualité de l'appariement&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#mesure-des-effets-causaux-a-partir-de-la-population-appariee"&gt;Mesure des effets causaux à partir de la population appariée&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#forces-et-limites-des-methodes-avec-score-de-propension"&gt;Forces et limites des méthodes avec score de propension&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;p&gt;Pour évaluer un effet causal, comme par exemple les effets d'un médicament sur des patients, on a besoin de ce que l'on appelle un &lt;strong&gt;essai clinique randomisé&lt;/strong&gt;. Le principe est le suivant : on prend un certain nombre de patients (à déterminer en fonction de l'effet minimum attendu, mais c'est un autre sujet) et on les sépare aléatoirement en deux groupes : &lt;strong&gt;un groupe traitement&lt;/strong&gt; qui prend le médicament et &lt;strong&gt;un groupe contrôle&lt;/strong&gt; qui en général prend un placebo.&lt;br&gt;
+Comme on a décidé de manière complètement aléatoire l'assignation à l'un ou l'autre groupe, on sait que ces deux groupes auront en moyenne des caractéristiques identiques (merci la loi faible des grands nombres!). Cela nous permet de conclure que les différences qui seraient observées entre les deux groupes (meilleur rétablissement, prise de poids, selon ce qu'on cherche à observer...) &lt;strong&gt;sont imputables au traitement et non à une spécificité d'un des groupes par rapport à l'autre&lt;/strong&gt;.  &lt;/p&gt;
+&lt;p&gt;L'essai clinique randomisé, c'est donc l'idéal pour montrer un effet causal et c'est d'ailleurs par là qu'il faut passer si vous souhaitez homologuer un nouveau médicament. Mais c'est également coûteux et difficile à réaliser. C'est pourquoi on cherche de plus en plus à essayer &lt;strong&gt;d'imiter les conditions d'un essai clinique randomisé à partir de données observationnelles&lt;/strong&gt;. Pour cette note de blog, on va vous présenter une ces méthodes : le &lt;strong&gt;propensity score matching (PSM), ou appariement par score de propension&lt;/strong&gt;.  &lt;/p&gt;
+&lt;h1 id="principes-du-propensity-score-matching"&gt;Principes du Propensity Score Matching&lt;/h1&gt;
+&lt;p&gt;L'appariement par score de propension vise à &lt;strong&gt;recréer les conditions d'un essai clinique à partir de données observationnelles&lt;/strong&gt;. On a ainsi un ensemble de données avec par exemple un certain nombre de patients qui ont pris un traitement (le &lt;em&gt;groupe traitement&lt;/em&gt;) et d'autres qui ne l'ont pas pris (le &lt;em&gt;groupe contrôle&lt;/em&gt;). Problème : ces population qui n'ont pas été séparées de manière aléatoire &lt;strong&gt;peuvent être très différentes&lt;/strong&gt; et il n'est pas possible en l'état de conclure qu'une différence entre elles soit imputable au traitement en question. Il faut donc recréer deux groupes de contrôle et de traitement qui puissent être comparables.    &lt;/p&gt;
+&lt;h2 id="calcul-du-score-de-propension"&gt;Calcul du score de propension&lt;/h2&gt;
+&lt;p&gt;La première étape est de &lt;strong&gt;calculer le score de propension&lt;/strong&gt;. Il est nécessaire en premier lieu &lt;strong&gt;d'identifier les variables observables&lt;/strong&gt; sur lesquelles on souhaiterait rééquilibrer les deux groupes. Il n'y a pas de méthode magique pour choisir ces variables : il faut que ce soit la connaissance technique du cas qui guide votre choix. L'idée est d'identifier les variables dont vous imaginez qu'elles peuvent être &lt;strong&gt;déséquilibrées entre vos deux groupes&lt;/strong&gt; pour différentes raisons (par exemple, le traitement A est plus souvent donné aux femmes donc je sais qu'il y aura plus de femmes dans ce groupe que dans un autre). Il faut aussi bien sûr contrôler par les variables dont on sait qu'elles peuvent avoir &lt;strong&gt;un impact sur le résultat indépendemment de l'efficacité du médicament&lt;/strong&gt; (l'âge impacte souvent la probabilité de guérison par exemple).  &lt;/p&gt;
+&lt;p&gt;Une fois ces variables identifiées, il ne vous reste plus qu'à faire &lt;strong&gt;sur l'ensemble de vos données un modèle de régression logistique.&lt;/strong&gt; Par exemple, si votre groupe traitement prend un médicament A et le reste du groupe ne prend pas ce médicament, votre variable &lt;code&gt;Y&lt;/code&gt; sera l'indicatrice &lt;em&gt;Prend le médicament A&lt;/em&gt; et vos variables &lt;span class="math"&gt;\(X_i\)&lt;/span&gt; les variables sur lesquelles vous souhaitez contrôler (sexe, âge, etc...). La formule est la suivante :  &lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\log \left( \frac{P(Y=1)}{1 - P(Y=1)} \right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots\)&lt;/span&gt;&lt;/p&gt;
+&lt;h2 id="appariement-de-vos-donnees"&gt;Appariement de vos données&lt;/h2&gt;
+&lt;p&gt;La mise en oeuvre de cette régression logistique nous permet &lt;strong&gt;d'obtenir un score de propension&lt;/strong&gt;. Celui-ci représente pour chaque individu la probabilité prédite qu'il appartienne au groupe traitement. Ce score de propension peut-être utilisé dans différentes méthodes (IPTW, variable d'ajustement dans la modèle...). Pour le PSM, nous l'utilisons pour &lt;strong&gt;apparier les données&lt;/strong&gt;.  &lt;/p&gt;
+&lt;p&gt;En effet, pour chaque observation du groupe traité, l'idée est de lui attribuer une (ou plusieurs, selon vos données) observation(s) du groupe contrôle, ayant &lt;strong&gt;un score de propension le plus proche possible&lt;/strong&gt;, donc des caractéristiques semblables. Différentes méthodes d'appariement existent, la plus courante étant celle du plus proche voisin.  &lt;/p&gt;
+&lt;p&gt;Une fois que chaque observation du groupe traitement s'est vue attribuer son plus proche voisin du groupe contrôle, on écarte les données qui n'ont pas été appariées. La première chose à faire est bien sûr &lt;strong&gt;d'évaluer la qualité de l'appariement&lt;/strong&gt; en vérifiant la répartition des variables de contrôle entre les deux groupes. Puis, nous allons réaliser nos analyses comme si nous étions dans le cas d'un essai clinique randomisé, ou presque...&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;h1 id="mise-en-oeuvre-de-lappariement-par-score-de-propension-avec-r"&gt;Mise en oeuvre de l'appariement par score de propension avec R&lt;/h1&gt;
+&lt;p&gt;Les méthodes utilisant des scores de propension, et en particulier l'appariement par score de propension, sont très bien prises en charge avec R. Nous vous proposons ici d'utiliser le package R &lt;code&gt;MatchIt&lt;/code&gt; sur des &lt;a href="https://archive.ics.uci.edu/dataset/519/heart+failure+clinical+records"&gt;données cliniques librement accessibles&lt;/a&gt;. Il s'agit de patients hospitalisés pour une insuffisance cardiaque.  &lt;/p&gt;
+&lt;h2 id="description-des-donnees-et-de-notre-problematique"&gt;Description des données et de notre problématique&lt;/h2&gt;
+&lt;p&gt;Nos données représentent 299 patients.  Parmi eux, la prévalence de cas d'hypertension artérielle (HTA) est la suivante :  &lt;/p&gt;
+&lt;p&gt;Table: Présence de diabètes&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align="left"&gt;high_blood_pressure&lt;/th&gt;
+&lt;th align="right"&gt;n&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;Non&lt;/td&gt;
+&lt;td align="right"&gt;194&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;Oui&lt;/td&gt;
+&lt;td align="right"&gt;105&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Il y a 13 variables disponibles :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gu"&gt;##&lt;/span&gt;  [1] &amp;quot;age&amp;quot;                      &amp;quot;anaemia&amp;quot;                 
+&lt;span class="gu"&gt;##&lt;/span&gt;  [3] &amp;quot;creatinine_phosphokinase&amp;quot; &amp;quot;diabetes&amp;quot;                
+&lt;span class="gu"&gt;##&lt;/span&gt;  [5] &amp;quot;ejection_fraction&amp;quot;        &amp;quot;high_blood_pressure&amp;quot;     
+&lt;span class="gu"&gt;##&lt;/span&gt;  [7] &amp;quot;platelets&amp;quot;                &amp;quot;serum_creatinine&amp;quot;        
+&lt;span class="gu"&gt;##&lt;/span&gt;  [9] &amp;quot;serum_sodium&amp;quot;             &amp;quot;sex&amp;quot;                     
+&lt;span class="gu"&gt;##&lt;/span&gt; [11] &amp;quot;smoking&amp;quot;                  &amp;quot;time&amp;quot;                    
+&lt;span class="gu"&gt;##&lt;/span&gt; [13] &amp;quot;death_event&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On cherche ici à &lt;strong&gt;évaluer l'impact de l'HTA sur la probabilité de décéder des suites d'une insuffisance cardiaque&lt;/strong&gt;. Notre &lt;strong&gt;variable d'intérêt&lt;/strong&gt; est donc &lt;code&gt;death_event&lt;/code&gt;. Notre &lt;em&gt;traitement&lt;/em&gt; (ici on ne regarde pas l'effet d'un traitement mais d'une caractéristique des patients, cependant on va continuer à utiliser cette terminologie) est ici le fait d'avoir une HTA. Le croisement de ces deux variables donne le résultat suivant :  &lt;/p&gt;
+&lt;p&gt;Table: HTA et décès&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align="left"&gt;high_blood_pressure&lt;/th&gt;
+&lt;th align="right"&gt;Effectifs&lt;/th&gt;
+&lt;th align="right"&gt;Part de décès&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;Non&lt;/td&gt;
+&lt;td align="right"&gt;194&lt;/td&gt;
+&lt;td align="right"&gt;0.29&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;Oui&lt;/td&gt;
+&lt;td align="right"&gt;105&lt;/td&gt;
+&lt;td align="right"&gt;0.37&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Ici à première vue on trouve une proportion plus importante de décès parmi les patients ayant une HTA (37% contre 29% pour les autres). Mais bien sûr, il n'est pas encore possible de &lt;strong&gt;savoir si cela est dû à l'HTA en soi ou à d'autres caractéristiques&lt;/strong&gt; des patients souffrant de ce problème.&lt;/p&gt;
+&lt;h2 id="calcul-du-score-de-propension-et-appariement-des-patients"&gt;Calcul du score de propension et appariement des patients&lt;/h2&gt;
+&lt;p&gt;La fonction &lt;code&gt;matchit&lt;/code&gt; du package R &lt;code&gt;MatchIt&lt;/code&gt; nous permet de &lt;strong&gt;mettre directement en oeuvre le calcul du score de propension et l'appariement&lt;/strong&gt;. On commence par sélectionner les variables par lesquelles il nous semble important de contrôler : ici nous allons prendre l'ensemble des variables cliniques dont nous disposons. Il faut alors &lt;strong&gt;retirer les valeurs manquantes&lt;/strong&gt; pour ensuite obtenir deux groupes de patients avec et sans HTA ayant des caractéristiques semblables par ailleurs. La fonction s'écrit ainsi :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MatchIt&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;m.out1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;matchit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;high_blood_pressure&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;sex&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;anaemia&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;creatinine_phosphokinase&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;diabetes&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;                    &lt;/span&gt;&lt;span class="n"&gt;platelets&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;serum_creatinine&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;serum_sodium&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;smoking&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;                  &lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;data_ps&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;                  &lt;/span&gt;&lt;span class="n"&gt;method&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;nearest&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;                  &lt;/span&gt;&lt;span class="n"&gt;distance&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;glm&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;                  &lt;/span&gt;&lt;span class="n"&gt;estimand&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;ATT&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ici on choisit le paramétrage par défaut &lt;code&gt;method = "nearest"&lt;/code&gt; qui apparie à chaque observation du &lt;strong&gt;groupe traité&lt;/strong&gt; (les patients ayant une HTA) l'observation du &lt;strong&gt;groupe contrôle&lt;/strong&gt; ayant le score de propension le plus proche possible.
+Le paramètre &lt;code&gt;method = "ATT"&lt;/code&gt; permet d'évaluer un &lt;strong&gt;effet du traitement sur les traités&lt;/strong&gt; et non sur la population globale. Enfin, on définit le modèle (ici logistique avec avec &lt;code&gt;distance = "glm"&lt;/code&gt;) pour le calcul du score de propension. Si vous avez un doute sur la méthode à utiliser, &lt;a href="https://cran.r-project.org/web/packages/MatchIt/vignettes/MatchIt.html"&gt;reportez-vous à la documentation du package MatchIT&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="evaluation-de-la-qualite-de-lappariement"&gt;Évaluation de la qualité de l'appariement&lt;/h2&gt;
+&lt;p&gt;Encore une fois, la librairie &lt;code&gt;MatchIt&lt;/code&gt; nous mâche directement le travail en nous permettant de comparer facilement la &lt;strong&gt;répartition de nos patients avant et après appariement&lt;/strong&gt; avec &lt;code&gt;summary()&lt;/code&gt;. La &lt;strong&gt;répartition avant l'appariement&lt;/strong&gt; est la suivante :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;output_matching&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;summary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;m.out1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# on affiche seulemet l&amp;#39;élément `sum.all` de la sortie&lt;/span&gt;
+&lt;span class="n"&gt;output_matching&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;sum.all&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;knitr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;kable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;digits&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align="left"&gt;&lt;/th&gt;
+&lt;th align="right"&gt;Means Treated&lt;/th&gt;
+&lt;th align="right"&gt;Means Control&lt;/th&gt;
+&lt;th align="right"&gt;Std. Mean Diff.&lt;/th&gt;
+&lt;th align="right"&gt;Var. Ratio&lt;/th&gt;
+&lt;th align="right"&gt;eCDF Mean&lt;/th&gt;
+&lt;th align="right"&gt;eCDF Max&lt;/th&gt;
+&lt;th align="right"&gt;Std. Pair Dist.&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;distance&lt;/td&gt;
+&lt;td align="right"&gt;0.37&lt;/td&gt;
+&lt;td align="right"&gt;0.34&lt;/td&gt;
+&lt;td align="right"&gt;0.36&lt;/td&gt;
+&lt;td align="right"&gt;1.01&lt;/td&gt;
+&lt;td align="right"&gt;0.11&lt;/td&gt;
+&lt;td align="right"&gt;0.23&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;age&lt;/td&gt;
+&lt;td align="right"&gt;62.34&lt;/td&gt;
+&lt;td align="right"&gt;60.02&lt;/td&gt;
+&lt;td align="right"&gt;0.20&lt;/td&gt;
+&lt;td align="right"&gt;0.91&lt;/td&gt;
+&lt;td align="right"&gt;0.06&lt;/td&gt;
+&lt;td align="right"&gt;0.13&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;sexFemme&lt;/td&gt;
+&lt;td align="right"&gt;0.42&lt;/td&gt;
+&lt;td align="right"&gt;0.31&lt;/td&gt;
+&lt;td align="right"&gt;0.21&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.10&lt;/td&gt;
+&lt;td align="right"&gt;0.10&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;sexHomme&lt;/td&gt;
+&lt;td align="right"&gt;0.58&lt;/td&gt;
+&lt;td align="right"&gt;0.69&lt;/td&gt;
+&lt;td align="right"&gt;-0.21&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.10&lt;/td&gt;
+&lt;td align="right"&gt;0.10&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;anaemiaNon&lt;/td&gt;
+&lt;td align="right"&gt;0.54&lt;/td&gt;
+&lt;td align="right"&gt;0.58&lt;/td&gt;
+&lt;td align="right"&gt;-0.08&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;anaemiaOui&lt;/td&gt;
+&lt;td align="right"&gt;0.46&lt;/td&gt;
+&lt;td align="right"&gt;0.42&lt;/td&gt;
+&lt;td align="right"&gt;0.08&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;creatinine_phosphokinase&lt;/td&gt;
+&lt;td align="right"&gt;488.90&lt;/td&gt;
+&lt;td align="right"&gt;632.14&lt;/td&gt;
+&lt;td align="right"&gt;-0.16&lt;/td&gt;
+&lt;td align="right"&gt;0.73&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;0.11&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;diabetesNon&lt;/td&gt;
+&lt;td align="right"&gt;0.59&lt;/td&gt;
+&lt;td align="right"&gt;0.58&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;diabetesOui&lt;/td&gt;
+&lt;td align="right"&gt;0.41&lt;/td&gt;
+&lt;td align="right"&gt;0.42&lt;/td&gt;
+&lt;td align="right"&gt;-0.03&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;platelets&lt;/td&gt;
+&lt;td align="right"&gt;269989.18&lt;/td&gt;
+&lt;td align="right"&gt;259769.00&lt;/td&gt;
+&lt;td align="right"&gt;0.12&lt;/td&gt;
+&lt;td align="right"&gt;0.66&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;0.10&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;serum_creatinine&lt;/td&gt;
+&lt;td align="right"&gt;1.39&lt;/td&gt;
+&lt;td align="right"&gt;1.40&lt;/td&gt;
+&lt;td align="right"&gt;-0.01&lt;/td&gt;
+&lt;td align="right"&gt;1.99&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;0.13&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;serum_sodium&lt;/td&gt;
+&lt;td align="right"&gt;136.85&lt;/td&gt;
+&lt;td align="right"&gt;136.51&lt;/td&gt;
+&lt;td align="right"&gt;0.08&lt;/td&gt;
+&lt;td align="right"&gt;0.82&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;smokingNon&lt;/td&gt;
+&lt;td align="right"&gt;0.71&lt;/td&gt;
+&lt;td align="right"&gt;0.66&lt;/td&gt;
+&lt;td align="right"&gt;0.12&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;smokingOui&lt;/td&gt;
+&lt;td align="right"&gt;0.29&lt;/td&gt;
+&lt;td align="right"&gt;0.34&lt;/td&gt;
+&lt;td align="right"&gt;-0.12&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;On constate ainsi que les personnes souffrant d'hyper tension artérielle sont souvent plus âgées que les autres. Ce sont également plus souvent des femmes, et plus souvent des personnes atteintes d'anémie. Observons maintenant si notre appariement a permis d'équilibrer nos deux groupes sur ces variables et sur les autres :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# on affiche seulement l&amp;#39;élément `sum.matched` de la sortie&lt;/span&gt;
+&lt;span class="n"&gt;output_matching&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;sum.matched&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;knitr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;kable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;digits&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align="left"&gt;&lt;/th&gt;
+&lt;th align="right"&gt;Means Treated&lt;/th&gt;
+&lt;th align="right"&gt;Means Control&lt;/th&gt;
+&lt;th align="right"&gt;Std. Mean Diff.&lt;/th&gt;
+&lt;th align="right"&gt;Var. Ratio&lt;/th&gt;
+&lt;th align="right"&gt;eCDF Mean&lt;/th&gt;
+&lt;th align="right"&gt;eCDF Max&lt;/th&gt;
+&lt;th align="right"&gt;Std. Pair Dist.&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;distance&lt;/td&gt;
+&lt;td align="right"&gt;0.37&lt;/td&gt;
+&lt;td align="right"&gt;0.37&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;1.10&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;0.10&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;age&lt;/td&gt;
+&lt;td align="right"&gt;62.34&lt;/td&gt;
+&lt;td align="right"&gt;62.36&lt;/td&gt;
+&lt;td align="right"&gt;0.00&lt;/td&gt;
+&lt;td align="right"&gt;0.93&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;0.07&lt;/td&gt;
+&lt;td align="right"&gt;0.89&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;sexFemme&lt;/td&gt;
+&lt;td align="right"&gt;0.42&lt;/td&gt;
+&lt;td align="right"&gt;0.40&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.54&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;sexHomme&lt;/td&gt;
+&lt;td align="right"&gt;0.58&lt;/td&gt;
+&lt;td align="right"&gt;0.60&lt;/td&gt;
+&lt;td align="right"&gt;-0.04&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.54&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;anaemiaNon&lt;/td&gt;
+&lt;td align="right"&gt;0.54&lt;/td&gt;
+&lt;td align="right"&gt;0.56&lt;/td&gt;
+&lt;td align="right"&gt;-0.04&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.96&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;anaemiaOui&lt;/td&gt;
+&lt;td align="right"&gt;0.46&lt;/td&gt;
+&lt;td align="right"&gt;0.44&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.96&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;creatinine_phosphokinase&lt;/td&gt;
+&lt;td align="right"&gt;488.90&lt;/td&gt;
+&lt;td align="right"&gt;481.78&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;0.89&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.07&lt;/td&gt;
+&lt;td align="right"&gt;0.46&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;diabetesNon&lt;/td&gt;
+&lt;td align="right"&gt;0.59&lt;/td&gt;
+&lt;td align="right"&gt;0.63&lt;/td&gt;
+&lt;td align="right"&gt;-0.08&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;1.01&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;diabetesOui&lt;/td&gt;
+&lt;td align="right"&gt;0.41&lt;/td&gt;
+&lt;td align="right"&gt;0.37&lt;/td&gt;
+&lt;td align="right"&gt;0.08&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;1.01&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;platelets&lt;/td&gt;
+&lt;td align="right"&gt;269989.18&lt;/td&gt;
+&lt;td align="right"&gt;264619.41&lt;/td&gt;
+&lt;td align="right"&gt;0.06&lt;/td&gt;
+&lt;td align="right"&gt;0.87&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;0.10&lt;/td&gt;
+&lt;td align="right"&gt;1.02&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;serum_creatinine&lt;/td&gt;
+&lt;td align="right"&gt;1.39&lt;/td&gt;
+&lt;td align="right"&gt;1.43&lt;/td&gt;
+&lt;td align="right"&gt;-0.03&lt;/td&gt;
+&lt;td align="right"&gt;2.09&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;0.18&lt;/td&gt;
+&lt;td align="right"&gt;0.66&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;serum_sodium&lt;/td&gt;
+&lt;td align="right"&gt;136.85&lt;/td&gt;
+&lt;td align="right"&gt;136.60&lt;/td&gt;
+&lt;td align="right"&gt;0.06&lt;/td&gt;
+&lt;td align="right"&gt;0.88&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;1.07&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;smokingNon&lt;/td&gt;
+&lt;td align="right"&gt;0.71&lt;/td&gt;
+&lt;td align="right"&gt;0.74&lt;/td&gt;
+&lt;td align="right"&gt;-0.06&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;0.74&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;smokingOui&lt;/td&gt;
+&lt;td align="right"&gt;0.29&lt;/td&gt;
+&lt;td align="right"&gt;0.26&lt;/td&gt;
+&lt;td align="right"&gt;0.06&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;0.74&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;On constate que la plupart des variables sont maintenant plus équilibrées entre les deux groupes. Au global, la variable &lt;code&gt;distance&lt;/code&gt; montre la grande proximité du score de propension entre les deux groupes. On peut également mettre en évidence l'effet de l'appariement visuellement sur quelques unes des variables avec la fonction &lt;code&gt;plot&lt;/code&gt; :&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nf"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;m.out1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;density&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;interactive&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="n"&gt;which.xs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;anaemia&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;sex&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img alt="Pelican" src="../images/psm/unnamed-chunk-9-1.png"&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;h2 id="mesure-des-effets-causaux-a-partir-de-la-population-appariee"&gt;Mesure des effets causaux à partir de la population appariée&lt;/h2&gt;
+&lt;p&gt;Une fois convaincus de la qualité de l'appariement, on peut mettre en oeuvre notre modèle statistique &lt;strong&gt;en tenant compte pour le calcul des estimateurs du fait que nous manipulons des observations appariées&lt;/strong&gt;. Différentes méthodes sont possibles en fonction de la variable d'intérêt, du type d'appariement réalisé, etc. En cas de doute, vous pouvez vous reporter &lt;a href="https://kosukeimai.github.io/MatchIt/articles/estimating-effects.html#modeling-the-outcome"&gt;à la vignette consacrée à l'estimation des effets du package &lt;code&gt;MatchIt&lt;/code&gt;&lt;/a&gt;.  &lt;/p&gt;
+&lt;p&gt;Dans notre exemple simple, nous allons tout d'abord extraire les données appariées avec &lt;code&gt;match_data&lt;/code&gt; et calibrer un modèle linéaire généralisé. Nous &lt;strong&gt;pondérons avec les poids issus de l'appariement&lt;/strong&gt;. S'ils sont tous égaux à 1 (c'est le cas pour nous) cela n'est pas nécessaire. Toutefois, cela reste une bonne habitude en cas d'appariement utilisant des poids différents. Il est possible également de &lt;strong&gt;contrôler notre régression logistique par les variables ayant servi à l'appariement, ou directement par le score de propension&lt;/strong&gt;. Nous choisissons ici de ne pas le faire en raison de la bonne qualité de l'appariement. &lt;/p&gt;
+&lt;p&gt;Enfin, on utilise le package &lt;code&gt;marginaleffects&lt;/code&gt; pour estimer l'&lt;strong&gt;effet moyen sur les traités (ATT)&lt;/strong&gt; en tenant compte l'appariement.   &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;data_matched&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;match_data&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;m.out1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;glm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;death_event&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;high_blood_pressure&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;data_matched&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="n"&gt;family&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;binomial&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;          &lt;/span&gt;&lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;weights&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;marginaleffects&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;avg_comparisons&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;                                            &lt;/span&gt;&lt;span class="n"&gt;vcov&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="n"&gt;subclass&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;                                            &lt;/span&gt;&lt;span class="n"&gt;newdata&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;subset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;high_blood_pressure&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Oui&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+
+&lt;span class="nf"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;knitr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;kable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;digits&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align="left"&gt;term&lt;/th&gt;
+&lt;th align="left"&gt;contrast&lt;/th&gt;
+&lt;th align="right"&gt;estimate&lt;/th&gt;
+&lt;th align="right"&gt;std.error&lt;/th&gt;
+&lt;th align="right"&gt;statistic&lt;/th&gt;
+&lt;th align="right"&gt;p.value&lt;/th&gt;
+&lt;th align="right"&gt;s.value&lt;/th&gt;
+&lt;th align="right"&gt;conf.low&lt;/th&gt;
+&lt;th align="right"&gt;conf.high&lt;/th&gt;
+&lt;th align="right"&gt;predicted_lo&lt;/th&gt;
+&lt;th align="right"&gt;predicted_hi&lt;/th&gt;
+&lt;th align="right"&gt;predicted&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align="left"&gt;high_blood_pressure&lt;/td&gt;
+&lt;td align="left"&gt;Oui - Non&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;0.06&lt;/td&gt;
+&lt;td align="right"&gt;0.76&lt;/td&gt;
+&lt;td align="right"&gt;0.45&lt;/td&gt;
+&lt;td align="right"&gt;1.16&lt;/td&gt;
+&lt;td align="right"&gt;-0.08&lt;/td&gt;
+&lt;td align="right"&gt;0.17&lt;/td&gt;
+&lt;td align="right"&gt;0.32&lt;/td&gt;
+&lt;td align="right"&gt;0.37&lt;/td&gt;
+&lt;td align="right"&gt;0.37&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;L'estimateur représente la &lt;strong&gt;différence de proportions de décès&lt;/strong&gt; entre le groupe traité (ceux avec HTA) et le groupe contrôle (les autres). Elle est ici de 0.05, soit 5 points de pourcentage. En effet, les variables &lt;code&gt;predicted_lo&lt;/code&gt; et &lt;code&gt;predicted_hi&lt;/code&gt; indiquent que lorsqu'on apparie, la part de décès dans le groupe contrôle monte à 32% (contre 29% dans l'ensemble des patients n'ayant pas de tension artérielle), alors qu'elle est de 37% dans le groupe traité. De fait, cette différence n'est pas significative, puisque la p-value est de 0.45 (&lt;a href="https://blog.statoscop.fr/comprendre-et-interpreter-les-p-values.html"&gt;un autre de nos articles explique ce qu'est une p-value&lt;/a&gt;). Bien sûr, cela ne signifie pas forcément que cet effet n'existe pas, mais en tout cas on ne dispose pas dans nos données de suffisament d'observations pour affirmer ici que l'HTA augmente signficativement la probabilité de décès.&lt;/p&gt;
+&lt;h1 id="forces-et-limites-des-methodes-avec-score-de-propension"&gt;Forces et limites des méthodes avec score de propension&lt;/h1&gt;
+&lt;p&gt;De nombreuses questions se posent autour des méthodes de score de propension. La première est sans doute son avantage réel ou supposé par rapport à un modèle multivarié classique. Il est vrai cependant que cette méthode a l'avantage de capter dans une seule variable un ensemble de dimensions observables par lesquelles on souhaite contrôler notre analyse. Mais le fait, dans le cas de l'appariement, de se passer d'une partie des données pose question. Cela permet cependant de calculer &lt;strong&gt;un effet moyen sur les traités (ATT)&lt;/strong&gt; et de ne pas trop biaiser l'effet avec des observations qui auraient des caractéristiques très éloignées de la population traitée. De plus, la méthode de pondération par inverse de probabilité de traitement (IPTW) permet d'utiliser le score de propension sans écarter de données, et il est également possible d'estimer un ATT.  &lt;/p&gt;
+&lt;p&gt;La plus grosse limite de cette méthode est sans doute le fait qu'elle pourrait faire oublier que nos groupes de traitement et de contrôle sont comparables &lt;strong&gt;uniquement sur des caractéristiques observables&lt;/strong&gt;. Il n'est donc pas à exclure que des biais de sélection non observables polluent notre analyse, là où un essai clinique randomisé calibré correctement met normalement à l'abri de ce problème. Il est donc fondamental de garder constamment cet écueil en tête pour essayer d'anticiper les possibles défauts de nos analyses.  &lt;/p&gt;
+&lt;p&gt;C'est tout pour aujourd'hui! Si vous cherchez des &lt;a href="https://www.statoscop.fr"&gt;statisticiens pour vos études cliniques n'hésitez pas à visiter notre site&lt;/a&gt; et à nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;. Pour retrouver le code ayant servi à générer cette note, vous pouvez vous rendre sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.  &lt;/p&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="R"></category><category term="R"></category><category term="Rstats"></category><category term="data science"></category><category term="statistiques"></category></entry><entry><title>Passer de RMarkdown à Quarto pour vos rapports statistiques</title><link href="https://blog.statoscop.fr/quarto-rmarkdown.html" rel="alternate"></link><published>2024-12-12T00:00:00+01:00</published><updated>2024-12-12T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-12-12:/quarto-rmarkdown.html</id><summary type="html">&lt;p&gt;Petit exemple pour vous accompagner dans la transition de RMarkdown vers Quarto, et pourquoi ça va rendre vos rapports encore plus ergonomiques!&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#configuration-de-quarto"&gt;Configuration de Quarto&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#utilisation-des-onglets"&gt;Utilisation des onglets&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#generation-dynamique-de-contenu-markdown"&gt;Génération dynamique de contenu markdown&lt;/a&gt;&lt;/li&gt;

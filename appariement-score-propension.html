@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<title>Appariement par score de propension (PSM) : mise en oeuvre avec R et discussions méthodologiques</title>    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="Statisticiens à Toulouse et Bayonne organisés en coopérative pour vous accompagner dans l'analyse de vos données" />
+  <meta name="author" content="" />
+
+  <!-- Font Awesome icons (free version)-->
+  <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+
+
+
+  <!-- <title>Le blog de Statoscop - études de cas en R et Python</title> -->
+  <link rel="icon" type="image/x-icon" href="https://blog.statoscop.fr/themes/statoscop/static/images/favicon-v1.ico" />
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://blog.statoscop.fr/appariement-score-propension.html" rel="canonical" />
+  <!-- Feed -->
+        <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
+          <link href="https://blog.statoscop.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
+
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />-->
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style-site.css" type="text/css" rel="stylesheet" /> 
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style_fusion.css" type="text/css" rel="stylesheet" /> -->
+  <!-- Code highlight color scheme -->
+      <link href="https://blog.statoscop.fr/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!-- [if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  ![endif] -->
+
+
+
+    <meta name="description" content="Implications théoriques des méthodes d'appariement par score de propension et implémentation avec le package R MatchIt.">
+
+    <meta name="author" content="Antoine">
+
+    <meta name="tags" content="R">
+    <meta name="tags" content="Rstats">
+    <meta name="tags" content="data science">
+    <meta name="tags" content="statistiques">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="Appariement par score de propension (PSM) : mise en oeuvre avec R et discussions méthodologiques"/>
+<meta property="og:description" content="Implications théoriques des méthodes d'appariement par score de propension et implémentation avec le package R MatchIt."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.statoscop.fr/appariement-score-propension.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2025-02-04 00:00:00+01:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://blog.statoscop.fr/author/antoine.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="R"/>
+<meta property="article:tag" content="Rstats"/>
+<meta property="article:tag" content="data science"/>
+<meta property="article:tag" content="statistiques"/>
+<meta property="og:image" content="https://blog.statoscop.fr/images/cover_21.png">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Appariement par score de propension (PSM) : mise en oeuvre avec R et discussions méthodologiques",
+  "headline": "Appariement par score de propension (PSM) : mise en oeuvre avec R et discussions méthodologiques",
+  "datePublished": "2025-02-04 00:00:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Antoine",
+    "url": "https://blog.statoscop.fr/author/antoine.html"
+  },
+  "image": "https://blog.statoscop.fr/images/cover_21.png",
+  "url": "https://blog.statoscop.fr/appariement-score-propension.html",
+  "description": "Implications théoriques des méthodes d'appariement par score de propension et implémentation avec le package R MatchIt."
+}
+</script>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//matomo.statoscop.fr/matomo/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+  
+
+</head>
+<!-- TODO : Body class -->
+  <body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
+
+        <a class="navbar-brand" href="https://statoscop.fr"><img src="https://blog.statoscop.fr/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Statoscop.logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ml-auto">
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr"> Accueil </a>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr/about"> À propos </a>
+              </li>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle font-weight-bold "
+                  id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false"> Prestations </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <li><a class="dropdown-item" href="https://statoscop.fr/etudes">Conseils & études statistiques</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/recodages">Migrations de code & Recodages</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/formations">Formations</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/applis">Dashboards & Applications</a></li>
+                  </ul>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr/contact">Contact</a>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger active" href="https://blog.statoscop.fr/">Le blog</a>
+              </li>
+          </ul>
+      </div>
+      </div>
+    </nav>
+    
+
+
+    <!-- Post content -->
+    <main class="content" role="main">
+      
+      <div>
+      </div>
+
+      <article class="post">
+        <div class="inner">
+
+
+
+
+            <section class="post-content">
+              <h1 class="post-title">Appariement par score de propension (PSM) : mise en oeuvre avec R et discussions méthodologiques</h1>
+                <!-- Le titres et meta infos-->
+                <span class="post-meta">
+                        <a href="https://blog.statoscop.fr/author/antoine.html">Antoine</a>
+                    | <time datetime="mar. 04 février 2025">mar. 04 février 2025</time>
+                </span>
+
+                <!--Table des matieres
+-->
+                
+                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+<li><a href="#principes-du-propensity-score-matching">Principes du Propensity Score Matching</a><ul>
+<li><a href="#calcul-du-score-de-propension">Calcul du score de propension</a></li>
+<li><a href="#appariement-de-vos-donnees">Appariement de vos données</a></li>
+</ul>
+</li>
+<li><a href="#mise-en-oeuvre-de-lappariement-par-score-de-propension-avec-r">Mise en oeuvre de l'appariement par score de propension avec R</a><ul>
+<li><a href="#description-des-donnees-et-de-notre-problematique">Description des données et de notre problématique</a></li>
+<li><a href="#calcul-du-score-de-propension-et-appariement-des-patients">Calcul du score de propension et appariement des patients</a></li>
+<li><a href="#evaluation-de-la-qualite-de-lappariement">Évaluation de la qualité de l'appariement</a></li>
+<li><a href="#mesure-des-effets-causaux-a-partir-de-la-population-appariee">Mesure des effets causaux à partir de la population appariée</a></li>
+</ul>
+</li>
+<li><a href="#forces-et-limites-des-methodes-avec-score-de-propension">Forces et limites des méthodes avec score de propension</a></li>
+</ul>
+</div>
+<p>Pour évaluer un effet causal, comme par exemple les effets d'un médicament sur des patients, on a besoin de ce que l'on appelle un <strong>essai clinique randomisé</strong>. Le principe est le suivant : on prend un certain nombre de patients (à déterminer en fonction de l'effet minimum attendu, mais c'est un autre sujet) et on les sépare aléatoirement en deux groupes : <strong>un groupe traitement</strong> qui prend le médicament et <strong>un groupe contrôle</strong> qui en général prend un placebo.<br>
+Comme on a décidé de manière complètement aléatoire l'assignation à l'un ou l'autre groupe, on sait que ces deux groupes auront en moyenne des caractéristiques identiques (merci la loi faible des grands nombres!). Cela nous permet de conclure que les différences qui seraient observées entre les deux groupes (meilleur rétablissement, prise de poids, selon ce qu'on cherche à observer...) <strong>sont imputables au traitement et non à une spécificité d'un des groupes par rapport à l'autre</strong>.  </p>
+<p>L'essai clinique randomisé, c'est donc l'idéal pour montrer un effet causal et c'est d'ailleurs par là qu'il faut passer si vous souhaitez homologuer un nouveau médicament. Mais c'est également coûteux et difficile à réaliser. C'est pourquoi on cherche de plus en plus à essayer <strong>d'imiter les conditions d'un essai clinique randomisé à partir de données observationnelles</strong>. Pour cette note de blog, on va vous présenter une ces méthodes : le <strong>propensity score matching (PSM), ou appariement par score de propension</strong>.  </p>
+<h1 id="principes-du-propensity-score-matching">Principes du Propensity Score Matching</h1>
+<p>L'appariement par score de propension vise à <strong>recréer les conditions d'un essai clinique à partir de données observationnelles</strong>. On a ainsi un ensemble de données avec par exemple un certain nombre de patients qui ont pris un traitement (le <em>groupe traitement</em>) et d'autres qui ne l'ont pas pris (le <em>groupe contrôle</em>). Problème : ces population qui n'ont pas été séparées de manière aléatoire <strong>peuvent être très différentes</strong> et il n'est pas possible en l'état de conclure qu'une différence entre elles soit imputable au traitement en question. Il faut donc recréer deux groupes de contrôle et de traitement qui puissent être comparables.    </p>
+<h2 id="calcul-du-score-de-propension">Calcul du score de propension</h2>
+<p>La première étape est de <strong>calculer le score de propension</strong>. Il est nécessaire en premier lieu <strong>d'identifier les variables observables</strong> sur lesquelles on souhaiterait rééquilibrer les deux groupes. Il n'y a pas de méthode magique pour choisir ces variables : il faut que ce soit la connaissance technique du cas qui guide votre choix. L'idée est d'identifier les variables dont vous imaginez qu'elles peuvent être <strong>déséquilibrées entre vos deux groupes</strong> pour différentes raisons (par exemple, le traitement A est plus souvent donné aux femmes donc je sais qu'il y aura plus de femmes dans ce groupe que dans un autre). Il faut aussi bien sûr contrôler par les variables dont on sait qu'elles peuvent avoir <strong>un impact sur le résultat indépendemment de l'efficacité du médicament</strong> (l'âge impacte souvent la probabilité de guérison par exemple).  </p>
+<p>Une fois ces variables identifiées, il ne vous reste plus qu'à faire <strong>sur l'ensemble de vos données un modèle de régression logistique.</strong> Par exemple, si votre groupe traitement prend un médicament A et le reste du groupe ne prend pas ce médicament, votre variable <code>Y</code> sera l'indicatrice <em>Prend le médicament A</em> et vos variables <span class="math">\(X_i\)</span> les variables sur lesquelles vous souhaitez contrôler (sexe, âge, etc...). La formule est la suivante :  </p>
+<p><span class="math">\(\log \left( \frac{P(Y=1)}{1 - P(Y=1)} \right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots\)</span></p>
+<h2 id="appariement-de-vos-donnees">Appariement de vos données</h2>
+<p>La mise en oeuvre de cette régression logistique nous permet <strong>d'obtenir un score de propension</strong>. Celui-ci représente pour chaque individu la probabilité prédite qu'il appartienne au groupe traitement. Ce score de propension peut-être utilisé dans différentes méthodes (IPTW, variable d'ajustement dans la modèle...). Pour le PSM, nous l'utilisons pour <strong>apparier les données</strong>.  </p>
+<p>En effet, pour chaque observation du groupe traité, l'idée est de lui attribuer une (ou plusieurs, selon vos données) observation(s) du groupe contrôle, ayant <strong>un score de propension le plus proche possible</strong>, donc des caractéristiques semblables. Différentes méthodes d'appariement existent, la plus courante étant celle du plus proche voisin.  </p>
+<p>Une fois que chaque observation du groupe traitement s'est vue attribuer son plus proche voisin du groupe contrôle, on écarte les données qui n'ont pas été appariées. La première chose à faire est bien sûr <strong>d'évaluer la qualité de l'appariement</strong> en vérifiant la répartition des variables de contrôle entre les deux groupes. Puis, nous allons réaliser nos analyses comme si nous étions dans le cas d'un essai clinique randomisé, ou presque...</p>
+<blockquote>
+<p>👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?</p>
+</blockquote>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br></p>
+<h1 id="mise-en-oeuvre-de-lappariement-par-score-de-propension-avec-r">Mise en oeuvre de l'appariement par score de propension avec R</h1>
+<p>Les méthodes utilisant des scores de propension, et en particulier l'appariement par score de propension, sont très bien prises en charge avec R. Nous vous proposons ici d'utiliser le package R <code>MatchIt</code> sur des <a href="https://archive.ics.uci.edu/dataset/519/heart+failure+clinical+records">données cliniques librement accessibles</a>. Il s'agit de patients hospitalisés pour une insuffisance cardiaque.  </p>
+<h2 id="description-des-donnees-et-de-notre-problematique">Description des données et de notre problématique</h2>
+<p>Nos données représentent 299 patients.  Parmi eux, la prévalence de cas d'hypertension artérielle (HTA) est la suivante :  </p>
+<p>Table: Présence de diabètes</p>
+<table>
+<thead>
+<tr>
+<th align="left">high_blood_pressure</th>
+<th align="right">n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Non</td>
+<td align="right">194</td>
+</tr>
+<tr>
+<td align="left">Oui</td>
+<td align="right">105</td>
+</tr>
+</tbody>
+</table>
+<p>Il y a 13 variables disponibles :  </p>
+<div class="highlight"><pre><span></span><code><span class="gu">##</span>  [1] &quot;age&quot;                      &quot;anaemia&quot;                 
+<span class="gu">##</span>  [3] &quot;creatinine_phosphokinase&quot; &quot;diabetes&quot;                
+<span class="gu">##</span>  [5] &quot;ejection_fraction&quot;        &quot;high_blood_pressure&quot;     
+<span class="gu">##</span>  [7] &quot;platelets&quot;                &quot;serum_creatinine&quot;        
+<span class="gu">##</span>  [9] &quot;serum_sodium&quot;             &quot;sex&quot;                     
+<span class="gu">##</span> [11] &quot;smoking&quot;                  &quot;time&quot;                    
+<span class="gu">##</span> [13] &quot;death_event&quot;
+</code></pre></div>
+
+<p>On cherche ici à <strong>évaluer l'impact de l'HTA sur la probabilité de décéder des suites d'une insuffisance cardiaque</strong>. Notre <strong>variable d'intérêt</strong> est donc <code>death_event</code>. Notre <em>traitement</em> (ici on ne regarde pas l'effet d'un traitement mais d'une caractéristique des patients, cependant on va continuer à utiliser cette terminologie) est ici le fait d'avoir une HTA. Le croisement de ces deux variables donne le résultat suivant :  </p>
+<p>Table: HTA et décès</p>
+<table>
+<thead>
+<tr>
+<th align="left">high_blood_pressure</th>
+<th align="right">Effectifs</th>
+<th align="right">Part de décès</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Non</td>
+<td align="right">194</td>
+<td align="right">0.29</td>
+</tr>
+<tr>
+<td align="left">Oui</td>
+<td align="right">105</td>
+<td align="right">0.37</td>
+</tr>
+</tbody>
+</table>
+<p>Ici à première vue on trouve une proportion plus importante de décès parmi les patients ayant une HTA (37% contre 29% pour les autres). Mais bien sûr, il n'est pas encore possible de <strong>savoir si cela est dû à l'HTA en soi ou à d'autres caractéristiques</strong> des patients souffrant de ce problème.</p>
+<h2 id="calcul-du-score-de-propension-et-appariement-des-patients">Calcul du score de propension et appariement des patients</h2>
+<p>La fonction <code>matchit</code> du package R <code>MatchIt</code> nous permet de <strong>mettre directement en oeuvre le calcul du score de propension et l'appariement</strong>. On commence par sélectionner les variables par lesquelles il nous semble important de contrôler : ici nous allons prendre l'ensemble des variables cliniques dont nous disposons. Il faut alors <strong>retirer les valeurs manquantes</strong> pour ensuite obtenir deux groupes de patients avec et sans HTA ayant des caractéristiques semblables par ailleurs. La fonction s'écrit ainsi :  </p>
+<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">MatchIt</span><span class="p">)</span>
+<span class="n">m.out1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">matchit</span><span class="p">(</span><span class="n">high_blood_pressure</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">anaemia</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">creatinine_phosphokinase</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">diabetes</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">                    </span><span class="n">platelets</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">serum_creatinine</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">serum_sodium</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">smoking</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                  </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_ps</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;nearest&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">distance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;glm&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">estimand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ATT&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Ici on choisit le paramétrage par défaut <code>method = "nearest"</code> qui apparie à chaque observation du <strong>groupe traité</strong> (les patients ayant une HTA) l'observation du <strong>groupe contrôle</strong> ayant le score de propension le plus proche possible.
+Le paramètre <code>method = "ATT"</code> permet d'évaluer un <strong>effet du traitement sur les traités</strong> et non sur la population globale. Enfin, on définit le modèle (ici logistique avec avec <code>distance = "glm"</code>) pour le calcul du score de propension. Si vous avez un doute sur la méthode à utiliser, <a href="https://cran.r-project.org/web/packages/MatchIt/vignettes/MatchIt.html">reportez-vous à la documentation du package MatchIT</a>.</p>
+<h2 id="evaluation-de-la-qualite-de-lappariement">Évaluation de la qualité de l'appariement</h2>
+<p>Encore une fois, la librairie <code>MatchIt</code> nous mâche directement le travail en nous permettant de comparer facilement la <strong>répartition de nos patients avant et après appariement</strong> avec <code>summary()</code>. La <strong>répartition avant l'appariement</strong> est la suivante :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">output_matching</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="n">m.out1</span><span class="p">)</span>
+
+<span class="c1"># on affiche seulemet l&#39;élément `sum.all` de la sortie</span>
+<span class="n">output_matching</span><span class="o">$</span><span class="n">sum.all</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">(</span><span class="n">digits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="right">Means Treated</th>
+<th align="right">Means Control</th>
+<th align="right">Std. Mean Diff.</th>
+<th align="right">Var. Ratio</th>
+<th align="right">eCDF Mean</th>
+<th align="right">eCDF Max</th>
+<th align="right">Std. Pair Dist.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">distance</td>
+<td align="right">0.37</td>
+<td align="right">0.34</td>
+<td align="right">0.36</td>
+<td align="right">1.01</td>
+<td align="right">0.11</td>
+<td align="right">0.23</td>
+<td align="right">NA</td>
+</tr>
+<tr>
+<td align="left">age</td>
+<td align="right">62.34</td>
+<td align="right">60.02</td>
+<td align="right">0.20</td>
+<td align="right">0.91</td>
+<td align="right">0.06</td>
+<td align="right">0.13</td>
+<td align="right">NA</td>
+</tr>
+<tr>
+<td align="left">sexFemme</td>
+<td align="right">0.42</td>
+<td align="right">0.31</td>
+<td align="right">0.21</td>
+<td align="right">NA</td>
+<td align="right">0.10</td>
+<td align="right">0.10</td>
+<td align="right">NA</td>
+</tr>
+<tr>
+<td align="left">sexHomme</td>
+<td align="right">0.58</td>
+<td align="right">0.69</td>
+<td align="right">-0.21</td>
+<td align="right">NA</td>
+<td align="right">0.10</td>
+<td align="right">0.10</td>
+<td align="right">NA</td>
+</tr>
+<tr>
+<td align="left">anaemiaNon</td>
+<td align="right">0.54</td>
+<td align="right">0.58</td>
+<td align="right">-0.08</td>
+<td align="right">NA</td>
+<td align="right">0.04</td>
+<td align="right">0.04</td>
+<td align="right">NA</td>
+</tr>
+<tr>
+<td align="left">anaemiaOui</td>
+<td align="right">0.46</td>
+<td align="right">0.42</td>
+<td align="right">0.08</td>
+<td align="right">NA</td>
+<td align="right">0.04</td>
+<td align="right">0.04</td>
+<td align="right">NA</td>
+</tr>
+<tr>
+<td align="left">creatinine_phosphokinase</td>
+<td align="right">488.90</td>
+<td align="right">632.14</td>
+<td align="right">-0.16</td>
+<td align="right">0.73</td>
+<td align="right">0.05</td>
+<td align="right">0.11</td>
+<td align="right">NA</td>
+</tr>
+<tr>
+<td align="left">diabetesNon</td>
+<td align="right">0.59</td>
+<td align="right">0.58</td>
+<td align="right">0.03</td>
+<td align="right">NA</td>
+<td align="right">0.01</td>
+<td align="right">0.01</td>
+<td align="right">NA</td>
+</tr>
+<tr>
+<td align="left">diabetesOui</td>
+<td align="right">0.41</td>
+<td align="right">0.42</td>
+<td align="right">-0.03</td>
+<td align="right">NA</td>
+<td align="right">0.01</td>
+<td align="right">0.01</td>
+<td align="right">NA</td>
+</tr>
+<tr>
+<td align="left">platelets</td>
+<td align="right">269989.18</td>
+<td align="right">259769.00</td>
+<td align="right">0.12</td>
+<td align="right">0.66</td>
+<td align="right">0.04</td>
+<td align="right">0.10</td>
+<td align="right">NA</td>
+</tr>
+<tr>
+<td align="left">serum_creatinine</td>
+<td align="right">1.39</td>
+<td align="right">1.40</td>
+<td align="right">-0.01</td>
+<td align="right">1.99</td>
+<td align="right">0.03</td>
+<td align="right">0.13</td>
+<td align="right">NA</td>
+</tr>
+<tr>
+<td align="left">serum_sodium</td>
+<td align="right">136.85</td>
+<td align="right">136.51</td>
+<td align="right">0.08</td>
+<td align="right">0.82</td>
+<td align="right">0.01</td>
+<td align="right">0.05</td>
+<td align="right">NA</td>
+</tr>
+<tr>
+<td align="left">smokingNon</td>
+<td align="right">0.71</td>
+<td align="right">0.66</td>
+<td align="right">0.12</td>
+<td align="right">NA</td>
+<td align="right">0.05</td>
+<td align="right">0.05</td>
+<td align="right">NA</td>
+</tr>
+<tr>
+<td align="left">smokingOui</td>
+<td align="right">0.29</td>
+<td align="right">0.34</td>
+<td align="right">-0.12</td>
+<td align="right">NA</td>
+<td align="right">0.05</td>
+<td align="right">0.05</td>
+<td align="right">NA</td>
+</tr>
+</tbody>
+</table>
+<p>On constate ainsi que les personnes souffrant d'hyper tension artérielle sont souvent plus âgées que les autres. Ce sont également plus souvent des femmes, et plus souvent des personnes atteintes d'anémie. Observons maintenant si notre appariement a permis d'équilibrer nos deux groupes sur ces variables et sur les autres :  </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># on affiche seulement l&#39;élément `sum.matched` de la sortie</span>
+<span class="n">output_matching</span><span class="o">$</span><span class="n">sum.matched</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">(</span><span class="n">digits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="right">Means Treated</th>
+<th align="right">Means Control</th>
+<th align="right">Std. Mean Diff.</th>
+<th align="right">Var. Ratio</th>
+<th align="right">eCDF Mean</th>
+<th align="right">eCDF Max</th>
+<th align="right">Std. Pair Dist.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">distance</td>
+<td align="right">0.37</td>
+<td align="right">0.37</td>
+<td align="right">0.04</td>
+<td align="right">1.10</td>
+<td align="right">0.01</td>
+<td align="right">0.10</td>
+<td align="right">0.05</td>
+</tr>
+<tr>
+<td align="left">age</td>
+<td align="right">62.34</td>
+<td align="right">62.36</td>
+<td align="right">0.00</td>
+<td align="right">0.93</td>
+<td align="right">0.03</td>
+<td align="right">0.07</td>
+<td align="right">0.89</td>
+</tr>
+<tr>
+<td align="left">sexFemme</td>
+<td align="right">0.42</td>
+<td align="right">0.40</td>
+<td align="right">0.04</td>
+<td align="right">NA</td>
+<td align="right">0.02</td>
+<td align="right">0.02</td>
+<td align="right">0.54</td>
+</tr>
+<tr>
+<td align="left">sexHomme</td>
+<td align="right">0.58</td>
+<td align="right">0.60</td>
+<td align="right">-0.04</td>
+<td align="right">NA</td>
+<td align="right">0.02</td>
+<td align="right">0.02</td>
+<td align="right">0.54</td>
+</tr>
+<tr>
+<td align="left">anaemiaNon</td>
+<td align="right">0.54</td>
+<td align="right">0.56</td>
+<td align="right">-0.04</td>
+<td align="right">NA</td>
+<td align="right">0.02</td>
+<td align="right">0.02</td>
+<td align="right">0.96</td>
+</tr>
+<tr>
+<td align="left">anaemiaOui</td>
+<td align="right">0.46</td>
+<td align="right">0.44</td>
+<td align="right">0.04</td>
+<td align="right">NA</td>
+<td align="right">0.02</td>
+<td align="right">0.02</td>
+<td align="right">0.96</td>
+</tr>
+<tr>
+<td align="left">creatinine_phosphokinase</td>
+<td align="right">488.90</td>
+<td align="right">481.78</td>
+<td align="right">0.01</td>
+<td align="right">0.89</td>
+<td align="right">0.02</td>
+<td align="right">0.07</td>
+<td align="right">0.46</td>
+</tr>
+<tr>
+<td align="left">diabetesNon</td>
+<td align="right">0.59</td>
+<td align="right">0.63</td>
+<td align="right">-0.08</td>
+<td align="right">NA</td>
+<td align="right">0.04</td>
+<td align="right">0.04</td>
+<td align="right">1.01</td>
+</tr>
+<tr>
+<td align="left">diabetesOui</td>
+<td align="right">0.41</td>
+<td align="right">0.37</td>
+<td align="right">0.08</td>
+<td align="right">NA</td>
+<td align="right">0.04</td>
+<td align="right">0.04</td>
+<td align="right">1.01</td>
+</tr>
+<tr>
+<td align="left">platelets</td>
+<td align="right">269989.18</td>
+<td align="right">264619.41</td>
+<td align="right">0.06</td>
+<td align="right">0.87</td>
+<td align="right">0.03</td>
+<td align="right">0.10</td>
+<td align="right">1.02</td>
+</tr>
+<tr>
+<td align="left">serum_creatinine</td>
+<td align="right">1.39</td>
+<td align="right">1.43</td>
+<td align="right">-0.03</td>
+<td align="right">2.09</td>
+<td align="right">0.04</td>
+<td align="right">0.18</td>
+<td align="right">0.66</td>
+</tr>
+<tr>
+<td align="left">serum_sodium</td>
+<td align="right">136.85</td>
+<td align="right">136.60</td>
+<td align="right">0.06</td>
+<td align="right">0.88</td>
+<td align="right">0.01</td>
+<td align="right">0.05</td>
+<td align="right">1.07</td>
+</tr>
+<tr>
+<td align="left">smokingNon</td>
+<td align="right">0.71</td>
+<td align="right">0.74</td>
+<td align="right">-0.06</td>
+<td align="right">NA</td>
+<td align="right">0.03</td>
+<td align="right">0.03</td>
+<td align="right">0.74</td>
+</tr>
+<tr>
+<td align="left">smokingOui</td>
+<td align="right">0.29</td>
+<td align="right">0.26</td>
+<td align="right">0.06</td>
+<td align="right">NA</td>
+<td align="right">0.03</td>
+<td align="right">0.03</td>
+<td align="right">0.74</td>
+</tr>
+<tr>
+<td align="left">On constate que la plupart des variables sont maintenant plus équilibrées entre les deux groupes. Au global, la variable <code>distance</code> montre la grande proximité du score de propension entre les deux groupes. On peut également mettre en évidence l'effet de l'appariement visuellement sur quelques unes des variables avec la fonction <code>plot</code> :</td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+<td align="right"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="nf">plot</span><span class="p">(</span><span class="n">m.out1</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;density&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">interactive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span>
+<span class="w">     </span><span class="n">which.xs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">anaemia</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="Pelican" src="../images/psm/unnamed-chunk-9-1.png"><!-- --></p>
+<h2 id="mesure-des-effets-causaux-a-partir-de-la-population-appariee">Mesure des effets causaux à partir de la population appariée</h2>
+<p>Une fois convaincus de la qualité de l'appariement, on peut mettre en oeuvre notre modèle statistique <strong>en tenant compte pour le calcul des estimateurs du fait que nous manipulons des observations appariées</strong>. Différentes méthodes sont possibles en fonction de la variable d'intérêt, du type d'appariement réalisé, etc. En cas de doute, vous pouvez vous reporter <a href="https://kosukeimai.github.io/MatchIt/articles/estimating-effects.html#modeling-the-outcome">à la vignette consacrée à l'estimation des effets du package <code>MatchIt</code></a>.  </p>
+<p>Dans notre exemple simple, nous allons tout d'abord extraire les données appariées avec <code>match_data</code> et calibrer un modèle linéaire généralisé. Nous <strong>pondérons avec les poids issus de l'appariement</strong>. S'ils sont tous égaux à 1 (c'est le cas pour nous) cela n'est pas nécessaire. Toutefois, cela reste une bonne habitude en cas d'appariement utilisant des poids différents. Il est possible également de <strong>contrôler notre régression logistique par les variables ayant servi à l'appariement, ou directement par le score de propension</strong>. Nous choisissons ici de ne pas le faire en raison de la bonne qualité de l'appariement. </p>
+<p>Enfin, on utilise le package <code>marginaleffects</code> pour estimer l'<strong>effet moyen sur les traités (ATT)</strong> en tenant compte l'appariement.   </p>
+<div class="highlight"><pre><span></span><code><span class="n">data_matched</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">match_data</span><span class="p">(</span><span class="n">m.out1</span><span class="p">)</span>
+
+<span class="n">fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">glm</span><span class="p">(</span><span class="n">death_event</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">high_blood_pressure</span><span class="p">,</span>
+<span class="w">          </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_matched</span><span class="p">,</span>
+<span class="w">          </span><span class="n">family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binomial</span><span class="p">,</span>
+<span class="w">          </span><span class="n">weights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">weights</span><span class="p">)</span>
+
+<span class="n">results</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">marginaleffects</span><span class="o">::</span><span class="nf">avg_comparisons</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span>
+<span class="w">                                            </span><span class="n">vcov</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">~</span><span class="n">subclass</span><span class="p">,</span>
+<span class="w">                                            </span><span class="n">newdata</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">subset</span><span class="p">(</span><span class="n">high_blood_pressure</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;Oui&quot;</span><span class="p">))</span>
+
+
+<span class="nf">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="m">2</span><span class="p">)</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th align="left">term</th>
+<th align="left">contrast</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">s.value</th>
+<th align="right">conf.low</th>
+<th align="right">conf.high</th>
+<th align="right">predicted_lo</th>
+<th align="right">predicted_hi</th>
+<th align="right">predicted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">high_blood_pressure</td>
+<td align="left">Oui - Non</td>
+<td align="right">0.05</td>
+<td align="right">0.06</td>
+<td align="right">0.76</td>
+<td align="right">0.45</td>
+<td align="right">1.16</td>
+<td align="right">-0.08</td>
+<td align="right">0.17</td>
+<td align="right">0.32</td>
+<td align="right">0.37</td>
+<td align="right">0.37</td>
+</tr>
+</tbody>
+</table>
+<p>L'estimateur représente la <strong>différence de proportions de décès</strong> entre le groupe traité (ceux avec HTA) et le groupe contrôle (les autres). Elle est ici de 0.05, soit 5 points de pourcentage. En effet, les variables <code>predicted_lo</code> et <code>predicted_hi</code> indiquent que lorsqu'on apparie, la part de décès dans le groupe contrôle monte à 32% (contre 29% dans l'ensemble des patients n'ayant pas de tension artérielle), alors qu'elle est de 37% dans le groupe traité. De fait, cette différence n'est pas significative, puisque la p-value est de 0.45 (<a href="https://blog.statoscop.fr/comprendre-et-interpreter-les-p-values.html">un autre de nos articles explique ce qu'est une p-value</a>). Bien sûr, cela ne signifie pas forcément que cet effet n'existe pas, mais en tout cas on ne dispose pas dans nos données de suffisament d'observations pour affirmer ici que l'HTA augmente signficativement la probabilité de décès.</p>
+<h1 id="forces-et-limites-des-methodes-avec-score-de-propension">Forces et limites des méthodes avec score de propension</h1>
+<p>De nombreuses questions se posent autour des méthodes de score de propension. La première est sans doute son avantage réel ou supposé par rapport à un modèle multivarié classique. Il est vrai cependant que cette méthode a l'avantage de capter dans une seule variable un ensemble de dimensions observables par lesquelles on souhaite contrôler notre analyse. Mais le fait, dans le cas de l'appariement, de se passer d'une partie des données pose question. Cela permet cependant de calculer <strong>un effet moyen sur les traités (ATT)</strong> et de ne pas trop biaiser l'effet avec des observations qui auraient des caractéristiques très éloignées de la population traitée. De plus, la méthode de pondération par inverse de probabilité de traitement (IPTW) permet d'utiliser le score de propension sans écarter de données, et il est également possible d'estimer un ATT.  </p>
+<p>La plus grosse limite de cette méthode est sans doute le fait qu'elle pourrait faire oublier que nos groupes de traitement et de contrôle sont comparables <strong>uniquement sur des caractéristiques observables</strong>. Il n'est donc pas à exclure que des biais de sélection non observables polluent notre analyse, là où un essai clinique randomisé calibré correctement met normalement à l'abri de ce problème. Il est donc fondamental de garder constamment cet écueil en tête pour essayer d'anticiper les possibles défauts de nos analyses.  </p>
+<p>C'est tout pour aujourd'hui! Si vous cherchez des <a href="https://www.statoscop.fr">statisticiens pour vos études cliniques n'hésitez pas à visiter notre site</a> et à nous suivre sur <a href="https://twitter.com/stato_scop">Twitter</a> et <a href="https://www.linkedin.com/company/statoscop">Linkedin</a>. Pour retrouver le code ayant servi à générer cette note, vous pouvez vous rendre sur le <a href="https://github.com/Statoscop/notebooks-blog">github de Statoscop</a>.  </p>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Appariement par score de propension (PSM) : mise en oeuvre avec R et discussions méthodologiques&amp;url=https://blog.statoscop.fr/appariement-score-propension.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://blog.statoscop.fr/tag/r.html">R</a><a href="https://blog.statoscop.fr/tag/rstats.html">Rstats</a><a href="https://blog.statoscop.fr/tag/data-science.html">data science</a><a href="https://blog.statoscop.fr/tag/statistiques.html">statistiques</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+    
+    <!-- Footer-->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-left"> © Statoscop</div>
+                <div class="col-lg-4 my-3 my-lg-0">
+                    <a class="btn btn-dark btn-social mx-2" href="https://twitter.com/stato_scop" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="col-lg-4 text-lg-left"> 
+                    Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
+                     déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
+
+  </body>
+</html>
