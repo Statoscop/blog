@@ -42,8 +42,8 @@ Une fois que chaque observation du groupe traitement s'est vue attribuer son plu
 > 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
 > Vous voulez en savoir plus sur ce que l'on fait?
 <div class = "d-flex justify-content-center mt-4">
-   <a href="https://statoscop.fr" class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
-   <a href="https://statoscop.fr/contact" class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
 </div>
 <br>
 
@@ -225,6 +225,6 @@ C'est tout pour aujourd'hui! Si vous cherchez des [statisticiens pour vos étude
 
 
 <div class = "d-flex justify-content-center mt-4">
-   <a href="https://statoscop.fr" class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
-   <a href="https://statoscop.fr/contact" class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
 </div>
