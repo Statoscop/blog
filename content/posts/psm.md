@@ -14,7 +14,7 @@ Summary: Implications théoriques des méthodes d'appariement par score de prope
 Pour évaluer un effet causal, comme par exemple les effets d'un médicament sur des patients, on a besoin de ce que l'on appelle un __essai clinique randomisé__. Le principe est le suivant : on prend un certain nombre de patients (à déterminer en fonction de l'effet minimum attendu, mais c'est un autre sujet) et on les sépare aléatoirement en deux groupes : __un groupe traitement__ qui prend le médicament et __un groupe contrôle__ qui en général prend un placebo.  
 Comme on a décidé de manière complètement aléatoire l'assignation à l'un ou l'autre groupe, on sait que ces deux groupes auront en moyenne des caractéristiques identiques (merci la loi faible des grands nombres!). Cela nous permet de conclure que les différences qui seraient observées entre les deux groupes (meilleur rétablissement, prise de poids, selon ce qu'on cherche à observer...) __sont imputables au traitement et non à une spécificité d'un des groupes par rapport à l'autre__.  
 
-L'essai clinique randomisé, c'est donc l'idéal pour montrer un effet causal et c'est d'ailleurs par là qu'il faut passer si vous souhaitez homologuer un nouveau médicament. Mais c'est aussi coûteux et difficile à réaliser. C'est pourquoi on cherche de plus en plus à essayer __d'imiter les conditions d'un essai clinique randomisé à partir de données observationnelles__. Pour cette note de blog, on va vous présenter une ces méthodes : le __propensity score matching (PSM), ou appariement par score de propension__.  
+L'essai clinique randomisé, c'est donc l'idéal pour montrer un effet causal et c'est d'ailleurs par là qu'il faut passer si vous souhaitez homologuer un nouveau médicament. Mais c'est également coûteux et difficile à réaliser. C'est pourquoi on cherche de plus en plus à essayer __d'imiter les conditions d'un essai clinique randomisé à partir de données observationnelles__. Pour cette note de blog, on va vous présenter une ces méthodes : le __propensity score matching (PSM), ou appariement par score de propension__.  
 
 
 # Principes du Propensity Score Matching
@@ -27,9 +27,8 @@ La première étape est de __calculer le score de propension__. Il est nécessai
 
 Une fois ces variables identifiées, il ne vous reste plus qu'à faire __sur l'ensemble de vos données un modèle de régression logistique.__ Par exemple, si votre groupe traitement prend un médicament A et le reste du groupe ne prend pas ce médicament, votre variable `Y` sera l'indicatrice _Prend le médicament A_ et vos variables $X_i$ les variables sur lesquelles vous souhaitez contrôler (sexe, âge, etc...). La formule est la suivante :  
 
-\[
-\log \left( \frac{P(Y=1)}{1 - P(Y=1)} \right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \ ...
-\]
+$\log \left( \frac{P(Y=1)}{1 - P(Y=1)} \right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots$
+
 
 ## Appariement de vos données  
 
@@ -37,7 +36,17 @@ La mise en oeuvre de cette régression logistique nous permet __d'obtenir un sco
 
 En effet, pour chaque observation du groupe traité, l'idée est de lui attribuer une (ou plusieurs, selon vos données) observation(s) du groupe contrôle, ayant __un score de propension le plus proche possible__, donc des caractéristiques semblables. Différentes méthodes d'appariement existent, la plus courante étant celle du plus proche voisin.  
 
-Une fois que chaque observation du groupe traitement s'est vu attribuer son plus proche voisin du groupe contrôle, on écarte les données qui n'ont pas été appariées. La première chose à faire est bien sûr __d'évaluer la qualité de l'appariement__ en vérifiant la répartition des variables de contôle entre les deux groupes. Puis nous allons réaliser nos analyses comme si nous étions dans le cas d'un essai clinique randomisé, ou presque...
+Une fois que chaque observation du groupe traitement s'est vue attribuer son plus proche voisin du groupe contrôle, on écarte les données qui n'ont pas été appariées. La première chose à faire est bien sûr __d'évaluer la qualité de l'appariement__ en vérifiant la répartition des variables de contrôle entre les deux groupes. Puis, nous allons réaliser nos analyses comme si nous étions dans le cas d'un essai clinique randomisé, ou presque...
+  
+
+> 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+> Vous voulez en savoir plus sur ce que l'on fait?
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>
+
 
 # Mise en oeuvre de l'appariement par score de propension avec R  
 
@@ -80,7 +89,7 @@ Table: HTA et décès
 |Non                 |       194|          0.29|
 |Oui                 |       105|          0.37|
 
-Ici à première vue on trouve une proportion plus importante de décès parmi les patients ayant une HTA. Mais bien sûr, il n'est pas encore possible de __savoir si cela est dû à l'HTA en soi ou à d'autres caractéristiques__ des patients souffrant de ce problème.
+Ici à première vue on trouve une proportion plus importante de décès parmi les patients ayant une HTA (37% contre 29% pour les autres). Mais bien sûr, il n'est pas encore possible de __savoir si cela est dû à l'HTA en soi ou à d'autres caractéristiques__ des patients souffrant de ce problème.
 
 ## Calcul du score de propension et appariement des patients  
 
@@ -176,7 +185,7 @@ plot(m.out1, type = "density", interactive = FALSE,
 
 Une fois convaincus de la qualité de l'appariement, on peut mettre en oeuvre notre modèle statistique __en tenant compte pour le calcul des estimateurs du fait que nous manipulons des observations appariées__. Différentes méthodes sont possibles en fonction de la variable d'intérêt, du type d'appariement réalisé, etc. En cas de doute, vous pouvez vous reporter [à la vignette consacrée à l'estimation des effets du package `MatchIt`](https://kosukeimai.github.io/MatchIt/articles/estimating-effects.html#modeling-the-outcome).  
 
-Dans notre exemple simple, nous allons tout d'abord extraire les données appariées avec `match_data` et calibrer un modèle linéaire généralisé. Nous __pondérons avec les poids issus de l'appariement__. S'ils sont tous égaux à 1 (c'est le cas pour nous) cela n'est pas nécessaire. Toutefois, cela reste une bonne habitude en cas d'appariement utilisant des poids différents. Il possible également de __contrôler notre régression logistique par les variables ayant servi à l'appariement, ou directement par le score de propension__. Nous choisissons ici de ne pas le faire en raison de la bonne qualité de l'appariement. 
+Dans notre exemple simple, nous allons tout d'abord extraire les données appariées avec `match_data` et calibrer un modèle linéaire généralisé. Nous __pondérons avec les poids issus de l'appariement__. S'ils sont tous égaux à 1 (c'est le cas pour nous) cela n'est pas nécessaire. Toutefois, cela reste une bonne habitude en cas d'appariement utilisant des poids différents. Il est possible également de __contrôler notre régression logistique par les variables ayant servi à l'appariement, ou directement par le score de propension__. Nous choisissons ici de ne pas le faire en raison de la bonne qualité de l'appariement. 
 
 Enfin, on utilise le package `marginaleffects` pour estimer l'__effet moyen sur les traités (ATT)__ en tenant compte l'appariement.   
 
@@ -204,7 +213,7 @@ print(results) |>
 |:-------------------|:---------|--------:|---------:|---------:|-------:|-------:|--------:|---------:|------------:|------------:|---------:|
 |high_blood_pressure |Oui - Non |     0.05|      0.06|      0.76|    0.45|    1.16|    -0.08|      0.17|         0.32|         0.37|      0.37|
 
-L'estimateur représente la __différence de proportions de décès__ entre le groupe traité (ceux avec HTA) et le groupe contrôle (les autres). Elle est ici de 0.05, soit 5 points de pourcentage. En effet, les variables `predicted_low` et `predicted_hi` indiquent que lorsqu'on apparie, la part de décès dans le groupe contrôle monte à 32% (contre 29% dans l'ensemble des patients n'ayant pas de tension artérielle), alors qu'elle est de 37% dans le groupe traité. De fait, cette différence n'est pas significative, puisque la p-value est de 0.45 ([un autre de nos articles explique ce qu'est une p-value](https://blog.statoscop.fr/comprendre-et-interpreter-les-p-values.html)). Bien sûr, cela ne signifie pas forcément que cet effet n'existe pas, mais en tout cas on ne dispose pas dans nos données de suffisament d'observations pour affirmer ici que l'HTA augmente signficativement la probabilité de décès.
+L'estimateur représente la __différence de proportions de décès__ entre le groupe traité (ceux avec HTA) et le groupe contrôle (les autres). Elle est ici de 0.05, soit 5 points de pourcentage. En effet, les variables `predicted_lo` et `predicted_hi` indiquent que lorsqu'on apparie, la part de décès dans le groupe contrôle monte à 32% (contre 29% dans l'ensemble des patients n'ayant pas de tension artérielle), alors qu'elle est de 37% dans le groupe traité. De fait, cette différence n'est pas significative, puisque la p-value est de 0.45 ([un autre de nos articles explique ce qu'est une p-value](https://blog.statoscop.fr/comprendre-et-interpreter-les-p-values.html)). Bien sûr, cela ne signifie pas forcément que cet effet n'existe pas, mais en tout cas on ne dispose pas dans nos données de suffisament d'observations pour affirmer ici que l'HTA augmente signficativement la probabilité de décès.
 
 # Forces et limites des méthodes avec score de propension   
 
@@ -215,9 +224,7 @@ La plus grosse limite de cette méthode est sans doute le fait qu'elle pourrait 
 C'est tout pour aujourd'hui! Si vous cherchez des [statisticiens pour vos études cliniques n'hésitez pas à visiter notre site](https://www.statoscop.fr) et à nous suivre sur [Twitter](https://twitter.com/stato_scop) et [Linkedin](https://www.linkedin.com/company/statoscop). Pour retrouver le code ayant servi à générer cette note, vous pouvez vous rendre sur le [github de Statoscop](https://github.com/Statoscop/notebooks-blog).  
 
 
-> Au fait! Nous c'est Statoscop, une coopérative de statisticiens / data scientists. 
-> N'hésitez pas à visiter notre site et prendre contact avec nous!
-> <div class = "d-flex justify-content-center mt-4">
->    <a href="https://statoscop.fr" class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
->    <a href="https://statoscop.fr/contact" class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
-> </div>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
