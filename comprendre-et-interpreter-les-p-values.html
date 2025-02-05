@@ -207,6 +207,15 @@ différents, j'aurais obtenu un résultat au moins
 aussi extrême dans p cas.   </p>
 </blockquote>
 <p>Ainsi, <strong>plus p est faible, plus on peut écarter l'hypothèse que le coefficient estimé soit nul</strong>.  </p>
+<blockquote>
+<p>👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?</p>
+</blockquote>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>   </p>
 <h1 id="interpretation-des-p-values">Interprétation des p-values</h1>
 <p>Il faut bien comprendre que la p-value et la <strong>significativité du coefficient</strong> qui en découle ne portent que sur la question de savoir si ce coefficient est ou non différent de zéro. Cela n'indique pas si le résultat trouvé a une importance particulière. Un coefficient peut très bien être <strong>significatif statistiquement</strong> (donc probablement différent de zéro) mais <strong>en pratique insignifiant</strong>. Il faut donc le confronter à l'expertise pratique de la question de recherche étudiée.  </p>
 <p>Une faible p-value n'est pas non plus le signe d'une <strong>estimation précise</strong>. Pour juger de cet aspect, il est important de regarder <strong>les intervalles de confiance</strong>. Un coefficient peut très bien être <strong>significativement différent de zéro mais avoir un intervalle de confiance très large</strong>, ce qui est très important à considérer en fonction des implications pratiques de votre recherche. On sait seulement que si par exemple <strong>l'intervalle de confiance à 95% ne contient pas 0</strong> (ou 1 si on estime des <a href="https://blog.statoscop.fr/risques-relatifs-et-odds-ratios-comment-les-interpreter-et-les-comparer.html">odds-ratios</a>), le <strong>coefficient estimé est significatif à au moins 5%</strong>. </p>
@@ -216,6 +225,11 @@ aussi extrême dans p cas.   </p>
 <h1 id="conclusion">Conclusion</h1>
 <p>La p-value, ça n'est donc pas du tout la <em>probabilité que le coefficient soit incorrect</em> ! Dans le cas d'une régression, c'est un indicateur de la vraisemblance que celui-ci soit égal à zéro. Mais <strong>un coefficient significatif peut aussi avoir une estimation très imprécise, ou une valeur insignifiante</strong>. Il est donc fondamental d'affiner son diagnostic, avec par exemple les intervalles de confiance, et surtout l'interprétation de quelqu'un qui comprend les implications pratiques d'un coefficient!  </p>
 <p>C'est tout pour aujourd'hui! N'hésitez pas à <a href="https://www.statoscop.fr">visiter notre site (qui a fait peau neuve, vous avez remarqué?)</a> et à nous suivre sur <a href="https://twitter.com/stato_scop">Twitter</a> et <a href="https://www.linkedin.com/company/statoscop">Linkedin</a>. Pour retrouver le code ayant servi à générer cette note, vous pouvez vous rendre sur le <a href="https://github.com/Statoscop/notebooks-blog">github de Statoscop</a>.  </p>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>  </p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

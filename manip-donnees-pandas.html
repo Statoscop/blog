@@ -349,7 +349,16 @@
 </table>
 </div>
 
-<p>Cette base contient 1309 observations (ici des passagers) et 14 variables qui permet de les caractériser. Voyons comment sélectionner des sous-ensembles de ces données.  </p>
+<p>Cette base contient 1309 observations (ici des passagers) et 14 variables qui permet de les caractériser. Voyons comment sélectionner des sous-ensembles de ces données.    </p>
+<blockquote>
+<p>👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?</p>
+</blockquote>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>  </p>
 <h1 id="filtrer-des-observations">Filtrer des observations</h1>
 <p>On s'intéresse tout d'abord à la sélection sur les lignes. Différentes options sont possibles :  </p>
 <h2 id="a-partir-de-leur-position-avec-iloc">À partir de leur position  avec <code>iloc</code></h2>
@@ -1860,6 +1869,11 @@ Imaginons par exemple qu'on veuille le tableau contenant uniquement les passagè
 <p>Les crochets n'explicitent pas autant s'ils sélectionnent sur des lignes ou des colonnes. Si vous renseignez une liste de labels ils vont sélectionner des colonnes, et si vous renseignez une liste de booléens ils vont filtrer sur les lignes. Il est possible de chaîner les opérations sur les lignes ou les colonnes. Ainsi : <code>titanic[titanic.sex == "female"]["name"]</code> donnera le même résultat que <code>titanic.loc[titanic.sex == "female", "name"]</code>, c'est à dire les noms (colonne "name") des passagères (lignes correspondant aux femmes). 
 Il vous revient donc de choisir ce qui vous convient le mieux. Dans le cas où on sélectionne à la fois sur les lignes et les colonnes, la syntaxe de <code>loc</code> a l'avantage d'être plus lisible. Dans le cas où on sélectionne seulement des colonnes ou seulement des lignes, l'usage des crochets permettra de taper les instructions légèrement plus rapidement. Enfin quand on veut extraire une série d'un dataframe, on utilisera avantageusement la syntaxe <code>data.nom_col</code>, équivalente à <code>data["nom_col"]</code>.  </p>
 <p>C'est la fin de cet article! N'hésitez pas à <a href="https://www.statoscop.fr">visiter notre site</a> et à nous suivre sur <a href="https://twitter.com/stato_scop">Twitter</a> et <a href="https://www.linkedin.com/company/statoscop">Linkedin</a>. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le <a href="https://github.com/Statoscop/notebooks-blog">github de Statoscop</a>.  </p>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>  </p>
             </section>
 
             <section class="post-info">

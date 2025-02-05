@@ -206,6 +206,15 @@
 <li>Le troisième modèle est un modèle polynomial dont on voit qu'il est plus ajusté que le second. Les points prédits (en vert) par la courbe sont en effet plus proche des points que pour le précédent modèle et mécaniquement cela fait augmenter le R2. Le fait d'utiliser un modèle polynomial a donné au modèle une plus grande souplesse ce qui lui a permis de se rapprocher de certains points extrêmes qui étaient éloignés de la droite de régression du second modèle.  </li>
 </ul>
 <p>Ainsi, plus la variance augmente, plus le modèle prédit en moyenne des valeurs proches de leurs vraies valeurs, ce qui fait diminuer le biais, puisqu'il est défini comme l'écart entre notre fonction de prédiction et une fonction qui permettrait de prédire parfaitement les données observées.  </p>
+<blockquote>
+<p>👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?</p>
+</blockquote>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>  </p>
 <h1 id="enjeux-de-larbitrage-biais-variance">Enjeux de l'arbitrage biais variance</h1>
 <p>D'après ce qu'on a vu, pourquoi alors ne pas simplement chercher à maximiser la variance pour minimiser le biais, c'est-à-dire son écart aux vraies valeurs? Tout simplement parce que dans le cas de la construction d'un modèle de prédiction, nous modélisons des relations entre des données à partir d'un échantillon pour prédire un résultat sur une nouvelle population. C'est donc la performance de ce modèle sur de nouvelles données qui va nous intéresser. Or, comme vous avez pu le pressentir en observant les graphiques précédents, <strong>un modèle avec une variance très élevée se généralise mal à de nouvelles données</strong>. D'un autre côté, <strong>un modèle avec une faible variance aura lui aussi une qualité prédictive très faible</strong> car il captera mal une éventuelle relation entre les variables.</p>
 <p>Tout le problème de cet arbitrage (ou dilemme) biais variance est donc de <strong>trouver un modèle qui ait une variance suffisamment forte pour limiter le biais mais suffisamment faible pour qu'il soit généralisable</strong>. Les modèles précédents avaient été entraînés sur une base de données qui était un échantillon aléatoire correspondant à 10% des données d'un échantillon plus important. Pour mesurer la qualité prédictive de ces modèles on les applique donc aux données entières et on calcule l'écart moyen au carré de la prédiction à la vraie valeur, c'est-à-dire l'erreur quadratique moyenne ou en anglais <strong>MSE</strong> pour <em>Mean Squared Error</em> :</p>
@@ -224,6 +233,15 @@ Dans le premier cas, on dit que l'on est dans une situation de <strong>surappren
 <h1 id="conclusion">Conclusion</h1>
 <p>Dans le cadre d'une <strong>démarche prédictive</strong>, il est donc tout à fait naturel de limiter l'apprentissage du modèle pour optimiser ses capacités prédictives. Cela peut être fait en réduisant le nombre de variables prédictives utilisées, en limitant le nombre de couches de neurones dans un réseau, mais aussi en utilisant des méthodes de réduction des dimensions, comme <a href="https://blog.statoscop.fr/acp-python.html">nous vous l'avions montré avec l'analyse en composantes principales</a>. Bien sûr, dans une <strong>démarche explicative</strong>, il sera au contraire normal de sacrifier éventuellement une meilleure capacité prédictive pour mettre en évidence une relation avec une variable explicative. Si vous souhaitez aller plus loin, vous pouvez parcourir l'excellente étude de <a href="https://www.stat.berkeley.edu/~aldous/157/Papers/shmueli.pdf">Shmueli, 2010</a> qui expose les enjeux croisés des démarches explicative et prédictive dans la modélisation.<br>
 Il me reste à remercier <a href="https://twitter.com/EParoissien">Emmanuel Paroissien</a>, chercheur à l'Inra, pour nos échanges qui m'ont aidé à construire cette note. N'hésitez pas à <a href="https://www.statoscop.fr">visiter notre site</a> et à nous suivre sur <a href="https://twitter.com/stato_scop">Twitter</a> et <a href="https://www.linkedin.com/company/statoscop">Linkedin</a>. Pour retrouver le code ayant servi à générer cette note, vous pouvez vous rendre sur le <a href="https://github.com/Statoscop/notebooks-blog">dépôt github de nos notes de blog</a>.  </p>
+<blockquote>
+<p>👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?</p>
+</blockquote>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>  </p>
             </section>
 
             <section class="post-info">

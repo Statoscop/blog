@@ -97,6 +97,15 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp4/output_10_0.png"&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 &lt;h1 id="prevision-avec-un-lissage-exponentiel"&gt;Prévision avec un lissage exponentiel&lt;/h1&gt;
 &lt;p&gt;Le lissage exponentiel est une technique de lissage pas brésilien qui ressemble un peu aux moyennes mobiles. Cette méthode peut être utilisée pour prédire une série temporelle. C'est en fait un cas particulier des modèles ARMA déjà évoqués. On en distingue différents types (simple, double, triple...). On notera que les lissages exponentiels simple et double ne sont plus vraiment d'actualité donc on présente seulement le lissage exponentiel triple qui, lui, est parfois utilisé.&lt;/p&gt;
 &lt;p&gt;Le lissage exponentiel triple ou méthode de Holt-Winters est adapté à des séries à tendance localement linéaire avec en plus une composante saisonnière. Ce qui est le cas de notre série logarithmique.&lt;/p&gt;
@@ -564,6 +573,11 @@ Test de Shapiro : ShapiroResult(statistic=0.988020658493042, pvalue=0.4595574438
 - le &lt;strong&gt;modèle à correction d'erreur&lt;/strong&gt; et la notion associée de vitesse d'ajustement&lt;br&gt;
 - d'autres modèles adaptés adaptés aux séries temporelles : &lt;strong&gt;Prophet&lt;/strong&gt; ou encore les réseaux de neurones réccurents avec notamment les &lt;strong&gt;LSTM&lt;/strong&gt;. Tiens tiens, mais ce serait pas une bonne idée pour un petit "Bonus Series Temp" ? Allez d'accord !  &lt;/p&gt;
 &lt;p&gt;C'est la fin de cet article! N'hésitez pas à &lt;a href="https://www.statoscop.fr"&gt;visiter notre site&lt;/a&gt; et à nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.  &lt;/p&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -829,7 +843,16 @@ avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&g
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp3/output_11_0.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; on voit clairement que la série n'est pas stationnaire et que les résidus ont l'air de suivre une loi normale mais on n'ira pas plus loin pour l'interprétation...&lt;/p&gt;
-&lt;p&gt;Maintenant qu'on a fait un bon petit tour d'horizon théoriques des propriétés des séries temporelles, allons en voir des vraies dans leur milieu naturel !&lt;/p&gt;
+&lt;p&gt;Maintenant qu'on a fait un bon petit tour d'horizon théoriques des propriétés des séries temporelles, allons en voir des vraies dans leur milieu naturel !  &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
 &lt;h1 id="des-exemples-de-series-temporelles"&gt;Des exemples de séries temporelles&lt;/h1&gt;
 &lt;p&gt;On va simplement regarder quelques séries temporelles et les commenter graphiquement.&lt;/p&gt;
 &lt;h2 id="des-taches-solaires"&gt;Des tâches solaires&lt;/h2&gt;
@@ -871,6 +894,11 @@ avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&g
 - il ne semble pas y avoir de cycles&lt;br&gt;
 - en revanche, il y a bien une saisonnalité avec un "motif" annuel qui se répète contenant un pic haut (parfois un 2ème identifiable) et un creux  &lt;/p&gt;
 &lt;p&gt;Voilà quelques exemples d'analyse graphique, et rapide, de séries temporelles. Comme toujours, le code ayant généré ce notebook est disponible sur le &lt;a href="https://github.com/Statoscop/notebooks-blog" target="_blank"&gt;github de Statoscop&lt;/a&gt;. Maintenant, la question est de savoir comment on va pouvoir identifier les différents éléments composant une série avant de s'intéresser à leur modélisation et leur prédiction. Alors, impatients de savoir comment décomposer une série temporelle ? La suite dans le prochain post !&lt;/p&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -1201,6 +1229,15 @@ avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&g
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp2/output_23_0.png"&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;    &lt;/p&gt;
 &lt;h1 id="un-exemple-de-visualisation-le-nombre-de-velos-a-paris-montparnasse"&gt;Un exemple de visualisation : le nombre de vélos à Paris Montparnasse&lt;/h1&gt;
 &lt;p&gt;On va terminer sur un petit exemple un peu plus parlant, ou en tout cas, un peu moins financier, en regardant le nombre de vélos passés devant un des compteurs de la ville de Paris, situé sur le boulevard Montparnasse. Le jeu de données vient &lt;a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name" target="_blank"&gt;de là&lt;/a&gt;. On récupère ainsi le décompte horaire des vélos.&lt;/p&gt;
 &lt;h2 id="nettoyage-des-donnees"&gt;Nettoyage des données&lt;/h2&gt;
@@ -1364,7 +1401,12 @@ avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&g
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp2/output_43_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;C'est tout de suite plus clair : le weekend, les gens dorment et sortent se promener l'après-midi ! Nous voilà rassurés. Sur cette belle découverte, on se dit à très vite pour le post numéro 3 de cette série ! Comme d'habitude, vous pouvez retrouver l'ensemble du notebook ayant servi à générer cette note sur le &lt;a href="https://github.com/Statoscop/notebooks-blog" target="_blank"&gt;github de Statoscop&lt;/a&gt;.&lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Les séries temporelles avec Python (1/4) - Introduction</title><link href="https://blog.statoscop.fr/timeseries-1.html" rel="alternate"></link><published>2021-05-04T00:00:00+02:00</published><updated>2021-05-04T00:00:00+02:00</updated><author><name>Louis</name></author><id>tag:blog.statoscop.fr,2021-05-04:/timeseries-1.html</id><summary type="html">&lt;p&gt;Introduction à la manipulation de données temporelles avec Python&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;C'est tout de suite plus clair : le weekend, les gens dorment et sortent se promener l'après-midi ! Nous voilà rassurés. Sur cette belle découverte, on se dit à très vite pour le post numéro 3 de cette série ! Comme d'habitude, vous pouvez retrouver l'ensemble du notebook ayant servi à générer cette note sur le &lt;a href="https://github.com/Statoscop/notebooks-blog" target="_blank"&gt;github de Statoscop&lt;/a&gt;.&lt;/p&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Les séries temporelles avec Python (1/4) - Introduction</title><link href="https://blog.statoscop.fr/timeseries-1.html" rel="alternate"></link><published>2021-05-04T00:00:00+02:00</published><updated>2021-05-04T00:00:00+02:00</updated><author><name>Louis</name></author><id>tag:blog.statoscop.fr,2021-05-04:/timeseries-1.html</id><summary type="html">&lt;p&gt;Introduction à la manipulation de données temporelles avec Python&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#les-dates-et-heures-avec-python"&gt;Les dates (et heures) avec Python&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#les-packages-datetime-and-dateutil"&gt;Les packages datetime and dateutil&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#le-type-de-donnees-date-des-tableaux-numpy-datetime64"&gt;Le type de données date des tableaux numpy : datetime64&lt;/a&gt;&lt;/li&gt;
@@ -1637,6 +1679,15 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 &lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="n"&gt;dtype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;datetime64[ns]&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;freq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;blockquote&gt;
+&lt;p&gt;👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;    &lt;/p&gt;
 &lt;h1 id="series-temporelles-avec-pandas"&gt;Séries temporelles avec &lt;code&gt;pandas&lt;/code&gt;&lt;/h1&gt;
 &lt;h2 id="lindexation-par-le-temps"&gt;L'indexation par le temps&lt;/h2&gt;
 &lt;p&gt;L'intérêt des time series de &lt;code&gt;pandas&lt;/code&gt; réside dans l'utilisation d'une indexation des données par des &lt;em&gt;timestamps&lt;/em&gt;. On crée donc un objet &lt;code&gt;DatetimeIndex&lt;/code&gt; pour ensuite indexer la série.&lt;/p&gt;
@@ -1936,6 +1987,11 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 
 &lt;p&gt;Pour en savoir plus, il y a la &lt;a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects" target="_blank"&gt;section "DateOffset"&lt;/a&gt; de la documentation &lt;code&gt;pandas&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Vous trouverez, comme pour l'ensemble de nos posts, le code de ce notebook sur le &lt;a href="https://github.com/Statoscop/notebooks-blog" target="_blank"&gt;github de Statoscop&lt;/a&gt;. Dans le prochain article, nous commencerons à manipuler, visualiser et effectuer certaines opérations classiques sur les séries temporelles avant de conclure sur une petite étude de cas. À très vite !&lt;/p&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

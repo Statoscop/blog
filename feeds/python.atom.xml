@@ -36,6 +36,15 @@ Une des réponses à cette problématique est la solution &lt;a href="https://ww
 Si vous n'êtez pas à l'aise avec les lignes de commande, VSCode propose justement &lt;strong&gt;un outil intégré permettant de gérer vos fichiers et commits&lt;/strong&gt; en clic-bouton, toujours accessible depuis la barre latérale :  &lt;/p&gt;
 &lt;p&gt;&lt;img alt="Pelican" src="../images/setup_python/image-6.png"&gt;&lt;/p&gt;
 &lt;p&gt;Pour se lancer avec Git sur vos projets de Data Science en Python, on vous conseille cet &lt;a href="https://pythonds.linogaliana.fr/content/git/introgit.html"&gt;excellent article de Lino Galiana&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;    &lt;/p&gt;
 &lt;h1 id="travailler-avec-python-sur-vos-projets"&gt;Travailler avec Python sur vos projets&lt;/h1&gt;
 &lt;p&gt;Ok, maintenant vous êtes prêts à vous lancer dans vos projets de Data Science. Il ne vous reste plus qu'à choisir et configurer un gestionnaire d'environnements avant de vous lancer enfin dans votre code Python!&lt;/p&gt;
 &lt;h2 id="gestionnaire-denvironnements"&gt;Gestionnaire d'environnements&lt;/h2&gt;
@@ -78,7 +87,12 @@ On vous recommande les notebooks pour la partie exploration de vos données car 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Maintenant, vous pouvez importer votre package &lt;code&gt;pandas&lt;/code&gt; depuis votre notebook et lancer vos premières analyses exploratoires. Il vous reste encore probablement de nombreux problèmes à résoudre, mais on espère que cet article vous aura bien accompagné pour vous lancer!  &lt;/p&gt;
-&lt;p&gt;C'est la fin de cet article! N'hésitez pas à &lt;a href="https://www.statoscop.fr"&gt;visiter notre site&lt;/a&gt; et à nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Data Science"></category><category term="conda"></category><category term="anaconda"></category><category term="vscode"></category><category term="notebook"></category></entry><entry><title>Transfer Learning avec Keras : entraînement et évaluation d'un modèle de détection d'images</title><link href="https://blog.statoscop.fr/transfer-learning-keras.html" rel="alternate"></link><published>2024-02-14T00:00:00+01:00</published><updated>2024-02-14T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-02-14:/transfer-learning-keras.html</id><summary type="html">&lt;p&gt;Création d'un modèle de détection d'images permettant de classifier des fruits et leur état de maturité.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;C'est la fin de cet article! N'hésitez pas à &lt;a href="https://www.statoscop.fr"&gt;visiter notre site&lt;/a&gt; et à nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.  &lt;/p&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Data Science"></category><category term="conda"></category><category term="anaconda"></category><category term="vscode"></category><category term="notebook"></category></entry><entry><title>Transfer Learning avec Keras : entraînement et évaluation d'un modèle de détection d'images</title><link href="https://blog.statoscop.fr/transfer-learning-keras.html" rel="alternate"></link><published>2024-02-14T00:00:00+01:00</published><updated>2024-02-14T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-02-14:/transfer-learning-keras.html</id><summary type="html">&lt;p&gt;Création d'un modèle de détection d'images permettant de classifier des fruits et leur état de maturité.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#preparation-des-donnees"&gt;Préparation des données&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#entrainement-du-modele"&gt;Entraînement du modèle&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#chargement-dun-modele-pre-entraine"&gt;Chargement d'un modèle pré-entraîné&lt;/a&gt;&lt;/li&gt;
@@ -1398,6 +1412,15 @@ Copying images to TEST directory
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp4/output_10_0.png"&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 &lt;h1 id="prevision-avec-un-lissage-exponentiel"&gt;Prévision avec un lissage exponentiel&lt;/h1&gt;
 &lt;p&gt;Le lissage exponentiel est une technique de lissage pas brésilien qui ressemble un peu aux moyennes mobiles. Cette méthode peut être utilisée pour prédire une série temporelle. C'est en fait un cas particulier des modèles ARMA déjà évoqués. On en distingue différents types (simple, double, triple...). On notera que les lissages exponentiels simple et double ne sont plus vraiment d'actualité donc on présente seulement le lissage exponentiel triple qui, lui, est parfois utilisé.&lt;/p&gt;
 &lt;p&gt;Le lissage exponentiel triple ou méthode de Holt-Winters est adapté à des séries à tendance localement linéaire avec en plus une composante saisonnière. Ce qui est le cas de notre série logarithmique.&lt;/p&gt;
@@ -1865,6 +1888,11 @@ Test de Shapiro : ShapiroResult(statistic=0.988020658493042, pvalue=0.4595574438
 - le &lt;strong&gt;modèle à correction d'erreur&lt;/strong&gt; et la notion associée de vitesse d'ajustement&lt;br&gt;
 - d'autres modèles adaptés adaptés aux séries temporelles : &lt;strong&gt;Prophet&lt;/strong&gt; ou encore les réseaux de neurones réccurents avec notamment les &lt;strong&gt;LSTM&lt;/strong&gt;. Tiens tiens, mais ce serait pas une bonne idée pour un petit "Bonus Series Temp" ? Allez d'accord !  &lt;/p&gt;
 &lt;p&gt;C'est la fin de cet article! N'hésitez pas à &lt;a href="https://www.statoscop.fr"&gt;visiter notre site&lt;/a&gt; et à nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.  &lt;/p&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -2086,7 +2114,16 @@ Test de Shapiro : ShapiroResult(statistic=0.988020658493042, pvalue=0.4595574438
 &lt;/table&gt;
 &lt;/div&gt;
 
-&lt;p&gt;Cette base contient 1309 observations (ici des passagers) et 14 variables qui permet de les caractériser. Voyons comment sélectionner des sous-ensembles de ces données.  &lt;/p&gt;
+&lt;p&gt;Cette base contient 1309 observations (ici des passagers) et 14 variables qui permet de les caractériser. Voyons comment sélectionner des sous-ensembles de ces données.    &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
 &lt;h1 id="filtrer-des-observations"&gt;Filtrer des observations&lt;/h1&gt;
 &lt;p&gt;On s'intéresse tout d'abord à la sélection sur les lignes. Différentes options sont possibles :  &lt;/p&gt;
 &lt;h2 id="a-partir-de-leur-position-avec-iloc"&gt;À partir de leur position  avec &lt;code&gt;iloc&lt;/code&gt;&lt;/h2&gt;
@@ -3596,7 +3633,12 @@ Imaginons par exemple qu'on veuille le tableau contenant uniquement les passagè
 &lt;h2 id="ou-loc"&gt;&lt;code&gt;[]&lt;/code&gt; ou &lt;code&gt;loc&lt;/code&gt;?&lt;/h2&gt;
 &lt;p&gt;Les crochets n'explicitent pas autant s'ils sélectionnent sur des lignes ou des colonnes. Si vous renseignez une liste de labels ils vont sélectionner des colonnes, et si vous renseignez une liste de booléens ils vont filtrer sur les lignes. Il est possible de chaîner les opérations sur les lignes ou les colonnes. Ainsi : &lt;code&gt;titanic[titanic.sex == "female"]["name"]&lt;/code&gt; donnera le même résultat que &lt;code&gt;titanic.loc[titanic.sex == "female", "name"]&lt;/code&gt;, c'est à dire les noms (colonne "name") des passagères (lignes correspondant aux femmes). 
 Il vous revient donc de choisir ce qui vous convient le mieux. Dans le cas où on sélectionne à la fois sur les lignes et les colonnes, la syntaxe de &lt;code&gt;loc&lt;/code&gt; a l'avantage d'être plus lisible. Dans le cas où on sélectionne seulement des colonnes ou seulement des lignes, l'usage des crochets permettra de taper les instructions légèrement plus rapidement. Enfin quand on veut extraire une série d'un dataframe, on utilisera avantageusement la syntaxe &lt;code&gt;data.nom_col&lt;/code&gt;, équivalente à &lt;code&gt;data["nom_col"]&lt;/code&gt;.  &lt;/p&gt;
-&lt;p&gt;C'est la fin de cet article! N'hésitez pas à &lt;a href="https://www.statoscop.fr"&gt;visiter notre site&lt;/a&gt; et à nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="index"></category><category term="loc"></category><category term="iloc"></category><category term="colonnes"></category><category term="lignes"></category></entry><entry><title>Les séries temporelles avec Python (3/4) - Éléments théoriques et exemples</title><link href="https://blog.statoscop.fr/timeseries-3.html" rel="alternate"></link><published>2021-06-10T00:00:00+02:00</published><updated>2021-06-10T00:00:00+02:00</updated><author><name>Louis</name></author><id>tag:blog.statoscop.fr,2021-06-10:/timeseries-3.html</id><summary type="html">&lt;p&gt;Éléments théoriques généraux sur les séries temporelles et quelques exemples classiques.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;C'est la fin de cet article! N'hésitez pas à &lt;a href="https://www.statoscop.fr"&gt;visiter notre site&lt;/a&gt; et à nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.  &lt;/p&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="index"></category><category term="loc"></category><category term="iloc"></category><category term="colonnes"></category><category term="lignes"></category></entry><entry><title>Les séries temporelles avec Python (3/4) - Éléments théoriques et exemples</title><link href="https://blog.statoscop.fr/timeseries-3.html" rel="alternate"></link><published>2021-06-10T00:00:00+02:00</published><updated>2021-06-10T00:00:00+02:00</updated><author><name>Louis</name></author><id>tag:blog.statoscop.fr,2021-06-10:/timeseries-3.html</id><summary type="html">&lt;p&gt;Éléments théoriques généraux sur les séries temporelles et quelques exemples classiques.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#notions-de-bases"&gt;Notions de bases&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#definition"&gt;Définition&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#les-composantes-dune-serie-temporelle"&gt;Les composantes d'une série temporelle&lt;/a&gt;&lt;/li&gt;
@@ -3800,7 +3842,16 @@ avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&g
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp3/output_11_0.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; on voit clairement que la série n'est pas stationnaire et que les résidus ont l'air de suivre une loi normale mais on n'ira pas plus loin pour l'interprétation...&lt;/p&gt;
-&lt;p&gt;Maintenant qu'on a fait un bon petit tour d'horizon théoriques des propriétés des séries temporelles, allons en voir des vraies dans leur milieu naturel !&lt;/p&gt;
+&lt;p&gt;Maintenant qu'on a fait un bon petit tour d'horizon théoriques des propriétés des séries temporelles, allons en voir des vraies dans leur milieu naturel !  &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
 &lt;h1 id="des-exemples-de-series-temporelles"&gt;Des exemples de séries temporelles&lt;/h1&gt;
 &lt;p&gt;On va simplement regarder quelques séries temporelles et les commenter graphiquement.&lt;/p&gt;
 &lt;h2 id="des-taches-solaires"&gt;Des tâches solaires&lt;/h2&gt;
@@ -3842,6 +3893,11 @@ avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&g
 - il ne semble pas y avoir de cycles&lt;br&gt;
 - en revanche, il y a bien une saisonnalité avec un "motif" annuel qui se répète contenant un pic haut (parfois un 2ème identifiable) et un creux  &lt;/p&gt;
 &lt;p&gt;Voilà quelques exemples d'analyse graphique, et rapide, de séries temporelles. Comme toujours, le code ayant généré ce notebook est disponible sur le &lt;a href="https://github.com/Statoscop/notebooks-blog" target="_blank"&gt;github de Statoscop&lt;/a&gt;. Maintenant, la question est de savoir comment on va pouvoir identifier les différents éléments composant une série avant de s'intéresser à leur modélisation et leur prédiction. Alors, impatients de savoir comment décomposer une série temporelle ? La suite dans le prochain post !&lt;/p&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -4172,6 +4228,15 @@ avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&g
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp2/output_23_0.png"&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;    &lt;/p&gt;
 &lt;h1 id="un-exemple-de-visualisation-le-nombre-de-velos-a-paris-montparnasse"&gt;Un exemple de visualisation : le nombre de vélos à Paris Montparnasse&lt;/h1&gt;
 &lt;p&gt;On va terminer sur un petit exemple un peu plus parlant, ou en tout cas, un peu moins financier, en regardant le nombre de vélos passés devant un des compteurs de la ville de Paris, situé sur le boulevard Montparnasse. Le jeu de données vient &lt;a href="https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/information/?disjunctive.id_compteur&amp;disjunctive.nom_compteur&amp;disjunctive.id&amp;disjunctive.name" target="_blank"&gt;de là&lt;/a&gt;. On récupère ainsi le décompte horaire des vélos.&lt;/p&gt;
 &lt;h2 id="nettoyage-des-donnees"&gt;Nettoyage des données&lt;/h2&gt;
@@ -4335,7 +4400,12 @@ avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&g
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp2/output_43_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;C'est tout de suite plus clair : le weekend, les gens dorment et sortent se promener l'après-midi ! Nous voilà rassurés. Sur cette belle découverte, on se dit à très vite pour le post numéro 3 de cette série ! Comme d'habitude, vous pouvez retrouver l'ensemble du notebook ayant servi à générer cette note sur le &lt;a href="https://github.com/Statoscop/notebooks-blog" target="_blank"&gt;github de Statoscop&lt;/a&gt;.&lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Les séries temporelles avec Python (1/4) - Introduction</title><link href="https://blog.statoscop.fr/timeseries-1.html" rel="alternate"></link><published>2021-05-04T00:00:00+02:00</published><updated>2021-05-04T00:00:00+02:00</updated><author><name>Louis</name></author><id>tag:blog.statoscop.fr,2021-05-04:/timeseries-1.html</id><summary type="html">&lt;p&gt;Introduction à la manipulation de données temporelles avec Python&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;C'est tout de suite plus clair : le weekend, les gens dorment et sortent se promener l'après-midi ! Nous voilà rassurés. Sur cette belle découverte, on se dit à très vite pour le post numéro 3 de cette série ! Comme d'habitude, vous pouvez retrouver l'ensemble du notebook ayant servi à générer cette note sur le &lt;a href="https://github.com/Statoscop/notebooks-blog" target="_blank"&gt;github de Statoscop&lt;/a&gt;.&lt;/p&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Les séries temporelles avec Python (1/4) - Introduction</title><link href="https://blog.statoscop.fr/timeseries-1.html" rel="alternate"></link><published>2021-05-04T00:00:00+02:00</published><updated>2021-05-04T00:00:00+02:00</updated><author><name>Louis</name></author><id>tag:blog.statoscop.fr,2021-05-04:/timeseries-1.html</id><summary type="html">&lt;p&gt;Introduction à la manipulation de données temporelles avec Python&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#les-dates-et-heures-avec-python"&gt;Les dates (et heures) avec Python&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#les-packages-datetime-and-dateutil"&gt;Les packages datetime and dateutil&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#le-type-de-donnees-date-des-tableaux-numpy-datetime64"&gt;Le type de données date des tableaux numpy : datetime64&lt;/a&gt;&lt;/li&gt;
@@ -4608,6 +4678,15 @@ Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir l
 &lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="n"&gt;dtype&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;datetime64[ns]&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;freq&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;blockquote&gt;
+&lt;p&gt;👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;    &lt;/p&gt;
 &lt;h1 id="series-temporelles-avec-pandas"&gt;Séries temporelles avec &lt;code&gt;pandas&lt;/code&gt;&lt;/h1&gt;
 &lt;h2 id="lindexation-par-le-temps"&gt;L'indexation par le temps&lt;/h2&gt;
 &lt;p&gt;L'intérêt des time series de &lt;code&gt;pandas&lt;/code&gt; réside dans l'utilisation d'une indexation des données par des &lt;em&gt;timestamps&lt;/em&gt;. On crée donc un objet &lt;code&gt;DatetimeIndex&lt;/code&gt; pour ensuite indexer la série.&lt;/p&gt;
@@ -4907,6 +4986,11 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 
 &lt;p&gt;Pour en savoir plus, il y a la &lt;a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects" target="_blank"&gt;section "DateOffset"&lt;/a&gt; de la documentation &lt;code&gt;pandas&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Vous trouverez, comme pour l'ensemble de nos posts, le code de ce notebook sur le &lt;a href="https://github.com/Statoscop/notebooks-blog" target="_blank"&gt;github de Statoscop&lt;/a&gt;. Dans le prochain article, nous commencerons à manipuler, visualiser et effectuer certaines opérations classiques sur les séries temporelles avant de conclure sur une petite étude de cas. À très vite !&lt;/p&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -4991,6 +5075,15 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;p&gt;Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient le plus proche possible de cette droite. Mathématiquement, la première composante principale est la combinaison linéaire des deux axes &lt;span class="math"&gt;\(x\)&lt;/span&gt; et &lt;span class="math"&gt;\(y\)&lt;/span&gt; qui maximise l'inertie projetée ce qui revient à minimiser les écarts entre les points et cette droite.&lt;/p&gt;
 &lt;p&gt;Dans cet exemple, la seconde composante principale sera l'axe perpendiculaire à ce premier axe.&lt;/p&gt;
 &lt;p&gt;Si les points étaient parfaitement alignés sur une ligne, l'ensemble de la variance serait expliqué par la première composante et on serait parvenus à réduire le nombre de dimensions de notre problème sans perte d'information.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;    &lt;/p&gt;
 &lt;h1 id="mise-en-oeuvre-dune-acp"&gt;Mise en oeuvre d'une ACP&lt;/h1&gt;
 &lt;p&gt;D'accord, on a projeté notre jeu de données dans un nouvel espace avec des nouvelles "variables" décrites comme combinaisons linéaires des précédentes telles que la première explique la plus grande partie de la variance possible, la seconde la plus grande partie de la variance restant à expliquer, etc... Mais ça nous sert à quoi?   &lt;/p&gt;
 &lt;h2 id="analyse-exploratoire-de-nos-donnees"&gt;Analyse exploratoire de nos données&lt;/h2&gt;
@@ -5206,6 +5299,11 @@ Tout d'abord, commençons par déterminer ce nombre de dimensions. Le graphique 
 
 &lt;p&gt;On constate que l'ACP n'a pas seulement permis de réduire le nombre de dimensions de notre problème, elle nous offre aussi une précision globale du modèle supérieure. Cela n'est pas toujours le cas - puisque ça dépend de votre problématique, des variables explicatives dont vous disposez et du nombre de composantes que vous retenez - mais ici c'est dû au fait qu'elle permet de réduire le bruit associé aux données en ne conservant qu'une partie de l'information totale. Cela permet ainsi de prévenir les problèmes de surapprentissage, c'est à dire le fait que le modèle explique parfaitement les données d'entraînement mais se généralise mal à de nouvelles données. Ce sujet est abordé dans &lt;a href="https://blog.statoscop.fr/larbitrage-biaisvariance-dans-la-modelisation-de-donnees.html"&gt;cet article de notre blog sur l'arbitrage biais/variance&lt;/a&gt;.  &lt;/p&gt;
 &lt;p&gt;C'est tout pour aujourd'hui! Si vous voulez voir d'autres exemples d'utilisation de l'ACP, je vous conseille &lt;a href="https://jakevdp.github.io/PythonDataScienceHandbook/05.09-principal-component-analysis.html" target="_blank"&gt;cet article&lt;/a&gt; qui aborde notamment le cas du traitement des images, pour lequel il est particulièrement intéressant de réduire le nombre de dimensions. N'hésitez pas à &lt;a href="https://www.statoscop.fr"&gt;visiter notre site&lt;/a&gt; et à nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; pour ne pas rater les prochains articles! Vous pouvez trouver le notebook avec l'ensemble du code ayant servi à générer cette note sur le &lt;a href="https://github.com/Statoscop/notebooks-blog" target="_blank"&gt;github de Statoscop&lt;/a&gt;.   &lt;/p&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
