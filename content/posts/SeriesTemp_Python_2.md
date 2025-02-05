@@ -345,6 +345,13 @@ ax.lines[0].set_alpha(0.4)
     
 ![Pelican](../images/SeriesTemp2/output_23_0.png)
     
+> 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+> Vous voulez en savoir plus sur ce que l'on fait?
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>    
 
 
 # Un exemple de visualisation : le nombre de vélos à Paris Montparnasse
@@ -588,3 +595,10 @@ par_hr.loc['Weekend'].plot(ax=ax[1], title='Weekends', xticks=heures, legend=Fal
 
 
 C'est tout de suite plus clair : le weekend, les gens dorment et sortent se promener l'après-midi ! Nous voilà rassurés. Sur cette belle découverte, on se dit à très vite pour le post numéro 3 de cette série ! Comme d'habitude, vous pouvez retrouver l'ensemble du notebook ayant servi à générer cette note sur le <a href="https://github.com/Statoscop/notebooks-blog" target="_blank">github de Statoscop</a>.
+  
+
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>  

@@ -126,7 +126,14 @@ plt.show()
     
 ![Pelican](../images/SeriesTemp4/output_10_0.png)
     
-
+ 
+> 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+> Vous voulez en savoir plus sur ce que l'on fait?
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>
 
 # Prévision avec un lissage exponentiel
 
@@ -700,3 +707,8 @@ On va s'arrêter là pour cet article qui est déjà bien assez long mais si vou
 
 C'est la fin de cet article! N'hésitez pas à [visiter notre site](https://www.statoscop.fr) et à nous suivre sur [Twitter](https://twitter.com/stato_scop) et [Linkedin](https://www.linkedin.com/company/statoscop). Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le [github de Statoscop](https://github.com/Statoscop/notebooks-blog).  
 
+  
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>

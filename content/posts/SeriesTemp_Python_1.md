@@ -296,7 +296,16 @@ d + pd.to_timedelta(np.arange(20, 71, 10), 'm')
                    '2021-04-30 15:00:00', '2021-04-30 15:10:00'],
                   dtype='datetime64[ns]', freq=None)
 
+  
 
+> 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+> Vous voulez en savoir plus sur ce que l'on fait?
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>    
+ 
 
 # Séries temporelles avec `pandas`
 
@@ -607,3 +616,10 @@ pd.date_range('2021-04-30', periods=8, freq=BMonthEnd())
 Pour en savoir plus, il y a la <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects" target="_blank">section "DateOffset"</a> de la documentation `pandas`.
 
 Vous trouverez, comme pour l'ensemble de nos posts, le code de ce notebook sur le <a href="https://github.com/Statoscop/notebooks-blog" target="_blank">github de Statoscop</a>. Dans le prochain article, nous commencerons à manipuler, visualiser et effectuer certaines opérations classiques sur les séries temporelles avant de conclure sur une petite étude de cas. À très vite !
+  
+
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>  

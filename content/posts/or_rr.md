@@ -27,7 +27,16 @@ On peut représenter le lien entre une probabilité et sa cote, en n'oubliant pa
 
 Ainsi, une cote de 0,5 correspond à __deux fois moins de chances__ que l'évènement arrive plutôt qu'il n'arrive pas et une cote de 2 correspond à __deux fois plus de chances__ que l'évènement arrive plutôt qu'il n'arrive pas. C'est le même raisonnement pour 0,1 et 10 (10 fois plus ou moins de chances), pour 0,01 et 100 (100 fois plus ou  moins de chance), etc...  
 
-Les cotes se déduisent donc directement des probabilités. Mais lorsque l'on compare plusieurs populations, le choix de l'un ou l'autre des indicateurs va avoir une influence sur le résultat obtenu.    
+Les cotes se déduisent donc directement des probabilités. Mais lorsque l'on compare plusieurs populations, le choix de l'un ou l'autre des indicateurs va avoir une influence sur le résultat obtenu.     
+
+> 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+> Vous voulez en savoir plus sur ce que l'on fait?
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>  
+
 
 # Risques relatifs et odds ratios   
 
@@ -47,3 +56,11 @@ Le débat même sur l'interprétabilité des RR et des OR n'est pas évident. Co
 Contrairement au risque relatif, les OR ne donnent pas les mêmes résultats en fonction de la prévalence initiale de l'évènement qu'ils décrivent. Cela peut être un inconvénient quand il est interprété à tort comme un risque relatif, comme c'est souvent le cas. Mais il permet aussi de décrire plus justement le risque relatif de l'évènement __par rapport au non-évènement__, et en ce sens ajoute de l'information. Le RR permet lui de mieux rendre compte des différences de fréquence d'un évènement entre plusieurs populations.  
 Quelque soit l'indicateur choisi, il est important de __ne pas présenter seulement les OR ou les RR mais aussi la prévalence, ou la fréquence de l'évènement__, même non contrôlée de tous les facteurs de risque. Cela permet au moins d'identifier si les OR ont de grandes chances ou non de différer fortement des RR. Ensuite, c'est à vous de choisir quel indicateur correspond le mieux au type de résultats que vous voulez présenter.    
 C'est tout pour aujourd'hui! N'hésitez pas à [visiter notre site](https://www.statoscop.fr) et à nous suivre sur [Twitter](https://twitter.com/stato_scop) et [Linkedin](https://www.linkedin.com/company/statoscop). Pour retrouver le code ayant servi à générer cette note, vous pouvez vous rendre sur le [github de Statoscop](https://github.com/Statoscop/notebooks-blog).  
+  
+  
+  
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>  

@@ -45,6 +45,16 @@ Dans cet exemple, la seconde composante principale sera l'axe perpendiculaire à
 
 Si les points étaient parfaitement alignés sur une ligne, l'ensemble de la variance serait expliqué par la première composante et on serait parvenus à réduire le nombre de dimensions de notre problème sans perte d'information.
 
+
+> 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+> Vous voulez en savoir plus sur ce que l'on fait?
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>    
+
+
 # Mise en oeuvre d'une ACP
 D'accord, on a projeté notre jeu de données dans un nouvel espace avec des nouvelles "variables" décrites comme combinaisons linéaires des précédentes telles que la première explique la plus grande partie de la variance possible, la seconde la plus grande partie de la variance restant à expliquer, etc... Mais ça nous sert à quoi?   
 
@@ -298,3 +308,10 @@ pd.DataFrame({"Précision moyenne après ACP" : [mean_pca],
 On constate que l'ACP n'a pas seulement permis de réduire le nombre de dimensions de notre problème, elle nous offre aussi une précision globale du modèle supérieure. Cela n'est pas toujours le cas - puisque ça dépend de votre problématique, des variables explicatives dont vous disposez et du nombre de composantes que vous retenez - mais ici c'est dû au fait qu'elle permet de réduire le bruit associé aux données en ne conservant qu'une partie de l'information totale. Cela permet ainsi de prévenir les problèmes de surapprentissage, c'est à dire le fait que le modèle explique parfaitement les données d'entraînement mais se généralise mal à de nouvelles données. Ce sujet est abordé dans [cet article de notre blog sur l'arbitrage biais/variance](https://blog.statoscop.fr/larbitrage-biaisvariance-dans-la-modelisation-de-donnees.html).  
 
 C'est tout pour aujourd'hui! Si vous voulez voir d'autres exemples d'utilisation de l'ACP, je vous conseille <a href="https://jakevdp.github.io/PythonDataScienceHandbook/05.09-principal-component-analysis.html" target="_blank">cet article</a> qui aborde notamment le cas du traitement des images, pour lequel il est particulièrement intéressant de réduire le nombre de dimensions. N'hésitez pas à [visiter notre site](https://www.statoscop.fr) et à nous suivre sur [Twitter](https://twitter.com/stato_scop) pour ne pas rater les prochains articles! Vous pouvez trouver le notebook avec l'ensemble du code ayant servi à générer cette note sur le <a href="https://github.com/Statoscop/notebooks-blog" target="_blank">github de Statoscop</a>.   
+  
+
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>  

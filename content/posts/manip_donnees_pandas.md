@@ -158,7 +158,15 @@ titanic.tail()
 
 
 
-Cette base contient 1309 observations (ici des passagers) et 14 variables qui permet de les caractériser. Voyons comment sélectionner des sous-ensembles de ces données.  
+Cette base contient 1309 observations (ici des passagers) et 14 variables qui permet de les caractériser. Voyons comment sélectionner des sous-ensembles de ces données.    
+
+> 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+> Vous voulez en savoir plus sur ce que l'on fait?
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>  
 
 # Filtrer des observations   
 On s'intéresse tout d'abord à la sélection sur les lignes. Différentes options sont possibles :  
@@ -1823,3 +1831,9 @@ Il vous revient donc de choisir ce qui vous convient le mieux. Dans le cas où o
   
 C'est la fin de cet article! N'hésitez pas à [visiter notre site](https://www.statoscop.fr) et à nous suivre sur [Twitter](https://twitter.com/stato_scop) et [Linkedin](https://www.linkedin.com/company/statoscop). Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le [github de Statoscop](https://github.com/Statoscop/notebooks-blog).  
 
+  
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>  

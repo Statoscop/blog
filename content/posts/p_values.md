@@ -40,6 +40,16 @@ Ainsi, lorsqu'on fait tourner un modèle de régression sur notre logiciel de st
 
 Ainsi, __plus p est faible, plus on peut écarter l'hypothèse que le coefficient estimé soit nul__.  
 
+ 
+> 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+> Vous voulez en savoir plus sur ce que l'on fait?
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>   
+
+
 # Interprétation des p-values
 
 Il faut bien comprendre que la p-value et la __significativité du coefficient__ qui en découle ne portent que sur la question de savoir si ce coefficient est ou non différent de zéro. Cela n'indique pas si le résultat trouvé a une importance particulière. Un coefficient peut très bien être __significatif statistiquement__ (donc probablement différent de zéro) mais __en pratique insignifiant__. Il faut donc le confronter à l'expertise pratique de la question de recherche étudiée.  
@@ -57,3 +67,10 @@ Il est ainsi tentant pour les chercheurs de construire leur modèle en fonction 
 La p-value, ça n'est donc pas du tout la _probabilité que le coefficient soit incorrect_ ! Dans le cas d'une régression, c'est un indicateur de la vraisemblance que celui-ci soit égal à zéro. Mais __un coefficient significatif peut aussi avoir une estimation très imprécise, ou une valeur insignifiante__. Il est donc fondamental d'affiner son diagnostic, avec par exemple les intervalles de confiance, et surtout l'interprétation de quelqu'un qui comprend les implications pratiques d'un coefficient!  
 
 C'est tout pour aujourd'hui! N'hésitez pas à [visiter notre site (qui a fait peau neuve, vous avez remarqué?)](https://www.statoscop.fr) et à nous suivre sur [Twitter](https://twitter.com/stato_scop) et [Linkedin](https://www.linkedin.com/company/statoscop). Pour retrouver le code ayant servi à générer cette note, vous pouvez vous rendre sur le [github de Statoscop](https://github.com/Statoscop/notebooks-blog).  
+  
+
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>  

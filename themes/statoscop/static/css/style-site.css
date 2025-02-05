@@ -2506,7 +2506,7 @@ fieldset:disabled a.btn {
   border-color: #eceef3;
 }
 .btn-primary:hover {
-  color: #fff;
+  color: #fff !important;
   background-color: rgb(0,152,117);
   border-color: rgb(0,152,117);
 }

@@ -64,7 +64,15 @@ base_patients <- read.csv("base_fictive_patients.csv")
 ``` 
 
 La partie `#| include: false` permet d'indiquer que je ne souhaite pas que ce code ni sa sortie n'apparaisse dans le rapport.  
-À noter enfin qu'il existe de nombreuses nouvelles possibilités avec Quarto, comme le fait de permettre à l'utilisateur d'afficher ou non le code ayant permis de générer un résultat (`code-fold`) et de lui laisser le choix du comportement par défaut de ces blocs de code (`code-tools`). Je vous laisse explorer les [pages de documentation liées à ces points](https://quarto.org/docs/output-formats/html-code.html).
+À noter enfin qu'il existe de nombreuses nouvelles possibilités avec Quarto, comme le fait de permettre à l'utilisateur d'afficher ou non le code ayant permis de générer un résultat (`code-fold`) et de lui laisser le choix du comportement par défaut de ces blocs de code (`code-tools`). Je vous laisse explorer les [pages de documentation liées à ces points](https://quarto.org/docs/output-formats/html-code.html).  
+
+> 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+> Vous voulez en savoir plus sur ce que l'on fait?
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>    
 
 # Utilisation des onglets  
 
@@ -219,4 +227,9 @@ Vous souhaitez mettre en place des rapports Quarto automatisés dans votre entre
 C'est la fin de cet article! Le faux rapport html sur lequel s'appuie cette note est [disponible en ligne](https://statoscop.fr/static/rapport_quarto.html). Vous retrouverez le code ayant permis de le générer sur le [github de Statoscop](https://github.com/Statoscop/notebooks-blog/tree/main/Rapport%20Quarto). Vous pouvez aussi [visiter notre site](https://www.statoscop.fr) et nous suivre sur [Twitter](https://twitter.com/stato_scop) et [Linkedin](https://www.linkedin.com/company/statoscop).  
 
 
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>  
 

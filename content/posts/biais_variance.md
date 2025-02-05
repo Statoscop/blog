@@ -27,6 +27,13 @@ Pour chaque modèle, la courbe du modèle est celle qui apparaît en rouge et on
 
 Ainsi, plus la variance augmente, plus le modèle prédit en moyenne des valeurs proches de leurs vraies valeurs, ce qui fait diminuer le biais, puisqu'il est défini comme l'écart entre notre fonction de prédiction et une fonction qui permettrait de prédire parfaitement les données observées.  
 
+> 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+> Vous voulez en savoir plus sur ce que l'on fait?
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>  
 
 # Enjeux de l'arbitrage biais variance
 
@@ -58,3 +65,12 @@ Notons bien ici que cette relation entre complexité du modèle et décompositio
 # Conclusion  
 Dans le cadre d'une __démarche prédictive__, il est donc tout à fait naturel de limiter l'apprentissage du modèle pour optimiser ses capacités prédictives. Cela peut être fait en réduisant le nombre de variables prédictives utilisées, en limitant le nombre de couches de neurones dans un réseau, mais aussi en utilisant des méthodes de réduction des dimensions, comme [nous vous l'avions montré avec l'analyse en composantes principales](https://blog.statoscop.fr/acp-python.html). Bien sûr, dans une __démarche explicative__, il sera au contraire normal de sacrifier éventuellement une meilleure capacité prédictive pour mettre en évidence une relation avec une variable explicative. Si vous souhaitez aller plus loin, vous pouvez parcourir l'excellente étude de [Shmueli, 2010](https://www.stat.berkeley.edu/~aldous/157/Papers/shmueli.pdf) qui expose les enjeux croisés des démarches explicative et prédictive dans la modélisation.  
 Il me reste à remercier [Emmanuel Paroissien](https://twitter.com/EParoissien), chercheur à l'Inra, pour nos échanges qui m'ont aidé à construire cette note. N'hésitez pas à [visiter notre site](https://www.statoscop.fr) et à nous suivre sur [Twitter](https://twitter.com/stato_scop) et [Linkedin](https://www.linkedin.com/company/statoscop). Pour retrouver le code ayant servi à générer cette note, vous pouvez vous rendre sur le [dépôt github de nos notes de blog](https://github.com/Statoscop/notebooks-blog).  
+
+
+> 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+> Vous voulez en savoir plus sur ce que l'on fait?
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>  
