@@ -14,6 +14,14 @@ L'utilisation du logiciel d'analyses statistiques SAS est encore assez ancrée d
 # Options de recodage en R   
 Une des difficultés de R est aussi une de ses forces : le grand nombre de possibilités qui s'offrent à vous pour coder. Le CRAN (pour _Comprehensive R Archive Network_) comprend un nombre impressionnant de packages (+ de 18000!). Dans ces conditions, il est important de se mettre d'accord a minima sur l'orientation que vous souhaitez prendre, afin d'assurer une certaine homogénéité entre les différents membres de vos équipes. Ces _règles_ peuvent bien sûr varier d'une équipe à l'autre, en fonction de ses besoins spécifiques. On présente ici trois des options les plus couramment utilisées en statistiques : base R, le tidyverse et data.table. On ne rentre pas dans le détail de la syntaxe de chacune de ces options mais vous pouvez approfondir cet aspect en lisant notre [article qui compare les performances de ces trois options](https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html).  
 
+> 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+> Vous cherchez un prestataire pour vous accompagner dans votre migration vers R?
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>   
+
 ## Base R   
 Base R désigne toutes les fonctions natives de R, qui sont chargées par défaut au lancement du logiciel. Pour l'analyse de données, on s'appuiera notamment sur le format `data.frame`. L'utilisation exclusive de base R aurait l'avantage de ne pas faire dépendre votre code d'autres packages et donc de lui assurer une certaine stabilité. Cependant, pour l'analyse de données, la syntaxe sera vite verbeuse et peu lisible pour des non initiés. De plus, pour des traitements de données plus complexes, vous ne trouverez pas forcément ce qu'il vous faut dans ce que propose base R. Enfin, cette option est souvent [bien moins performante](https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html) en termes de vitesse d'exécution que les deux que nous vous présentons ensuite.  
 
@@ -49,4 +57,10 @@ Si vous faites appel à un prestataire, cela ne signifie pas pour autant que vou
 
 # Conclusion  
 Quitter SAS et aller vers R, ou un autre logiciel, c'est donc du travail et cela nécessite d'investir du temps et des moyens. Mais c'est aussi se libérer d'une __licence beaucoup trop chère__, et s'ouvrir les portes de nouvelles possibilités. Pourquoi ne pas en profiter pour __automatiser vos rapports__ et vos publications avec [R Markdown](https://rmarkdown.rstudio.com/)? Et si vous vous lanciez dans le développement d'une petite [application interactive R Shiny](https://shiny.rstudio.com/gallery/) pour mettre en valeur vos résultats les plus marquants?   
-Quoiqu'il en soit, si cet article vous a donné envie d'aller plus loin, vous pouvez [nous contacter sur le site de Statoscop](https://www.statoscop.fr/contact) pour discuter des prochaines étapes!  
+Quoiqu'il en soit, si cet article vous a donné envie d'aller plus loin, vous pouvez [nous contacter sur le site de Statoscop](https://www.statoscop.fr/contact) pour discuter des prochaines étapes!   
+
+ <div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<br>   
