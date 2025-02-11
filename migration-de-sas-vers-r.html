@@ -210,6 +210,15 @@
 <p>L'utilisation du logiciel d'analyses statistiques SAS est encore assez ancrée dans certaines administrations publiques et grandes entreprises, malgré la concurrence de deux logiciels open-source offrant des performances souvent supérieures : R et Python. La <strong>migration vers un nouveau langage</strong> présente un certain nombre de difficultés, mais le jeu en vaut la chandelle! Nous proposons dans cet article quelques recommandations pour recoder ses scripts SAS en R et assurer une <strong>transition vers l'open-source</strong> la plus simple possible.  </p>
 <h1 id="options-de-recodage-en-r">Options de recodage en R</h1>
 <p>Une des difficultés de R est aussi une de ses forces : le grand nombre de possibilités qui s'offrent à vous pour coder. Le CRAN (pour <em>Comprehensive R Archive Network</em>) comprend un nombre impressionnant de packages (+ de 18000!). Dans ces conditions, il est important de se mettre d'accord a minima sur l'orientation que vous souhaitez prendre, afin d'assurer une certaine homogénéité entre les différents membres de vos équipes. Ces <em>règles</em> peuvent bien sûr varier d'une équipe à l'autre, en fonction de ses besoins spécifiques. On présente ici trois des options les plus couramment utilisées en statistiques : base R, le tidyverse et data.table. On ne rentre pas dans le détail de la syntaxe de chacune de ces options mais vous pouvez approfondir cet aspect en lisant notre <a href="https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html">article qui compare les performances de ces trois options</a>.  </p>
+<blockquote>
+<p>👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous cherchez un prestataire pour vous accompagner dans votre migration vers R?</p>
+</blockquote>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>   </p>
 <h2 id="base-r">Base R</h2>
 <p>Base R désigne toutes les fonctions natives de R, qui sont chargées par défaut au lancement du logiciel. Pour l'analyse de données, on s'appuiera notamment sur le format <code>data.frame</code>. L'utilisation exclusive de base R aurait l'avantage de ne pas faire dépendre votre code d'autres packages et donc de lui assurer une certaine stabilité. Cependant, pour l'analyse de données, la syntaxe sera vite verbeuse et peu lisible pour des non initiés. De plus, pour des traitements de données plus complexes, vous ne trouverez pas forcément ce qu'il vous faut dans ce que propose base R. Enfin, cette option est souvent <a href="https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html">bien moins performante</a> en termes de vitesse d'exécution que les deux que nous vous présentons ensuite.  </p>
 <h2 id="tidyverse">Tidyverse</h2>
@@ -234,7 +243,12 @@
 <p>Si vous faites appel à un prestataire, cela ne signifie pas pour autant que vous ne devrez pas libérer du temps de vos équipes pour la migration. On recommande en effet des échanges étroits et réguliers avec le prestataire, et plusieurs livraisons à intervalles réguliers plutôt qu'une seule à la fin du travail. Ceci doit permettre de s'assurer d'une part que le prestataire ne va pas dans une mauvaise direction et d'autre part que le code apparaît lisible et compréhensible pour les chargés d'étude. C'est aussi l'occasion pour ces derniers de se former et d'échanger avec le prestataire sur ces choix lors du recodage. Il est aussi possible de faire appel à un prestataire simplement pour encadrer votre équipe dans le travail de recodage, optimiser le code à certains points bloquants, faire un audit du travail réalisé...</p>
 <h1 id="conclusion">Conclusion</h1>
 <p>Quitter SAS et aller vers R, ou un autre logiciel, c'est donc du travail et cela nécessite d'investir du temps et des moyens. Mais c'est aussi se libérer d'une <strong>licence beaucoup trop chère</strong>, et s'ouvrir les portes de nouvelles possibilités. Pourquoi ne pas en profiter pour <strong>automatiser vos rapports</strong> et vos publications avec <a href="https://rmarkdown.rstudio.com/">R Markdown</a>? Et si vous vous lanciez dans le développement d'une petite <a href="https://shiny.rstudio.com/gallery/">application interactive R Shiny</a> pour mettre en valeur vos résultats les plus marquants? <br>
-Quoiqu'il en soit, si cet article vous a donné envie d'aller plus loin, vous pouvez <a href="https://www.statoscop.fr/contact">nous contacter sur le site de Statoscop</a> pour discuter des prochaines étapes!  </p>
+Quoiqu'il en soit, si cet article vous a donné envie d'aller plus loin, vous pouvez <a href="https://www.statoscop.fr/contact">nous contacter sur le site de Statoscop</a> pour discuter des prochaines étapes!   </p>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>   </p>
             </section>
 
             <section class="post-info">
