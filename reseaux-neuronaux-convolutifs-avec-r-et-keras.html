@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<title>Réseaux neuronaux convolutifs avec R et Keras</title>    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="Le blog statistiques et data science de la coopérative Statoscop" />
+  <meta name="author" content="" />
+
+  <!-- Font Awesome icons (free version)-->
+  <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+
+
+
+  <!-- <title>Le blog de Statoscop - études de cas en R et Python</title> -->
+  <link rel="icon" type="image/x-icon" href="https://blog.statoscop.fr/themes/statoscop/static/images/favicon-v1.ico" />
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://blog.statoscop.fr/reseaux-neuronaux-convolutifs-avec-r-et-keras.html" rel="canonical" />
+  <!-- Feed -->
+        <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
+          <link href="https://blog.statoscop.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
+
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />-->
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style-site.css" type="text/css" rel="stylesheet" /> 
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style_fusion.css" type="text/css" rel="stylesheet" /> -->
+  <!-- Code highlight color scheme -->
+      <link href="https://blog.statoscop.fr/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!-- [if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  ![endif] -->
+
+
+
+    <meta name="description" content="Démonstration de l'utilisation du package keras3 pour faire du Deep Learning avec R.">
+
+    <meta name="author" content="Antoine">
+
+    <meta name="tags" content="R">
+    <meta name="tags" content="Keras">
+    <meta name="tags" content="CNN">
+    <meta name="tags" content="Machine Learning">
+    <meta name="tags" content="Data Science">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="Réseaux neuronaux convolutifs avec R et Keras"/>
+<meta property="og:description" content="Démonstration de l'utilisation du package keras3 pour faire du Deep Learning avec R."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.statoscop.fr/reseaux-neuronaux-convolutifs-avec-r-et-keras.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2025-02-19 00:00:00+01:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://blog.statoscop.fr/author/antoine.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="R"/>
+<meta property="article:tag" content="Keras"/>
+<meta property="article:tag" content="CNN"/>
+<meta property="article:tag" content="Machine Learning"/>
+<meta property="article:tag" content="Data Science"/>
+<meta property="og:image" content="https://blog.statoscop.fr/images/cover_22.png">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Réseaux neuronaux convolutifs avec R et Keras",
+  "headline": "Réseaux neuronaux convolutifs avec R et Keras",
+  "datePublished": "2025-02-19 00:00:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Antoine",
+    "url": "https://blog.statoscop.fr/author/antoine.html"
+  },
+  "image": "https://blog.statoscop.fr/images/cover_22.png",
+  "url": "https://blog.statoscop.fr/reseaux-neuronaux-convolutifs-avec-r-et-keras.html",
+  "description": "Démonstration de l'utilisation du package keras3 pour faire du Deep Learning avec R."
+}
+</script>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//matomo.statoscop.fr/matomo/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+  
+
+</head>
+<!-- TODO : Body class -->
+  <body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
+
+        <a class="navbar-brand" href="https://statoscop.fr"><img src="https://blog.statoscop.fr/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Statoscop.logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ml-auto">
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr"> Accueil </a>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr/about"> À propos </a>
+              </li>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle font-weight-bold "
+                  id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false"> Prestations </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <li><a class="dropdown-item" href="https://statoscop.fr/etudes">Conseils & études statistiques</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/recodages">Migrations de code & Recodages</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/formations">Formations</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/applis">Dashboards & Applications</a></li>
+                  </ul>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr/contact">Contact</a>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger active" href="https://blog.statoscop.fr/">Le blog</a>
+              </li>
+          </ul>
+      </div>
+      </div>
+    </nav>
+    
+
+
+    <!-- Post content -->
+    <main class="content" role="main">
+      
+      <div>
+      </div>
+
+      <article class="post">
+        <div class="inner">
+
+
+
+
+            <section class="post-content">
+              <h1 class="post-title">Réseaux neuronaux convolutifs avec R et Keras</h1>
+                <!-- Le titres et meta infos-->
+                <span class="post-meta">
+                        <a href="https://blog.statoscop.fr/author/antoine.html">Antoine</a>
+                    | <time datetime="mer. 19 février 2025">mer. 19 février 2025</time>
+                </span>
+
+                <!--Table des matieres
+-->
+                
+                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+<li><a href="#presentation-de-la-librairie-keras">Présentation de la librairie Keras</a><ul>
+<li><a href="#origine-de-la-librairie">Origine de la librairie</a></li>
+<li><a href="#installation-du-package-sur-r">Installation du package sur R</a></li>
+</ul>
+</li>
+<li><a href="#entrainer-un-premier-reseau-convolutionnel">Entraîner un premier réseau convolutionnel</a><ul>
+<li><a href="#pre-traiter-vos-donnees">Pré-traiter vos données</a></li>
+<li><a href="#initialiser-et-definir-votre-reseau-de-neurones-profond">Initialiser et définir votre réseau de neurones profond</a></li>
+<li><a href="#entrainer-et-evaluer-les-performances-de-votre-modele">Entraîner et évaluer les performances de votre modèle</a></li>
+</ul>
+</li>
+<li><a href="#predictions-a-partir-du-modele-pre-entraine">Prédictions à partir du modèle pré-entraîné</a></li>
+<li><a href="#deep-learning-avec-r-ou-python">Deep Learning avec R ou Python?</a></li>
+</ul>
+</div>
+<p>On le sait, le <strong>débat entre R et Python</strong> est acharné et souvent peu productif. En Machine Learning, tout le monde ou presque s'accorde à dire que Python a une longueur d'avance, surtout pour les modèles de Deep Learning (réseaux de neurones).  </p>
+<p>Heureusement, il existe souvent des alternatives pour celles et ceux ne souhaitant pas se mettre à un autre langage (même si on vous y encourage!). Ainsi <strong>le package R <code>keras3</code> permet d'accéder à la célèbre API Python</strong> du même nom. Nous vous montrons donc dans cet article comment elle fonctionne.   </p>
+<h1 id="presentation-de-la-librairie-keras">Présentation de la librairie Keras</h1>
+<h2 id="origine-de-la-librairie">Origine de la librairie</h2>
+<p>Keras est une <strong>API Python qui permet de créer et entraîner des modèles de Deep Learning</strong>. Elle a l'avantage d'offrir une interface simple et une syntaxe claire. Elle permet également d'accéder à de nombreux modèles pré-entraînés qui <strong>peuvent ensuite facilement être <em>fine-tunés</em> sur d'autres données</strong>. Elle a été récemment intégrée à <code>TensorFlow</code> mais peut s'appuyer sur d'autres backends.</p>
+<p>Keras dispose aussi d'une <a href="https://keras.io/api/">documentation très complète</a>, et sa popularité permet de retrouver de nombreux exemples d'utilisation en ligne. Elle est le plus souvent utilisée grâce au package Python <code>keras</code> ou via TensorFlow avec <code>tf.keras</code>, qui permettent d'exploiter facilement ses différentes méthodes.   </p>
+<h2 id="installation-du-package-sur-r">Installation du package sur R</h2>
+<p>Grâce notamment à la puissance de <code>reticulate</code>, un package permettant de faire tourner Python depuis une session R, on dispose maintenant d'un package R <code>keras</code>, que nous vous présentons ici. Nous utiliserons la dernière version disponible, le package <code>keras3</code>. La première étape est bien sur d'installer le package avec <code>install.packages("keras3")</code> puis de lancer la fonction <code>keras3::install_keras()</code> qui permet d'installer Python et un environnement anaconda dédié.</p>
+<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">keras3</span><span class="p">)</span>
+<span class="nf">install_keras</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Si vous avez du GPU, vous pouvez vérifier que <strong>votre device a bien été repéré</strong> avec l'instruction suivante (normalement, <code>tensorflow</code> a été installé au moment de l'installation de <code>keras3</code>) :    </p>
+<div class="highlight"><pre><span></span><code><span class="n">tensorflow</span><span class="o">::</span><span class="n">tf</span><span class="o">$</span><span class="n">config</span><span class="o">$</span><span class="nf">list_physical_devices</span><span class="p">(</span><span class="s">&quot;GPU&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="p">[[</span><span class="mi">1</span><span class="p">]]</span>
+<span class="err">##</span><span class="w"> </span><span class="nx">PhysicalDevice</span><span class="p">(</span><span class="nx">name</span><span class="p">=</span><span class="err">&#39;</span><span class="o">/</span><span class="nx">physical_device</span><span class="p">:</span><span class="nx">GPU</span><span class="p">:</span><span class="mi">0</span><span class="err">&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">device_type</span><span class="p">=</span><span class="err">&#39;</span><span class="nx">GPU</span><span class="err">&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<blockquote>
+<p>👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?</p>
+</blockquote>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>      </p>
+<h1 id="entrainer-un-premier-reseau-convolutionnel">Entraîner un premier réseau convolutionnel</h1>
+<p>Pour notre petite démonstration, nous allons utiliser la célébrissime base de données <code>mnist</code> qui contient <strong>des images de chiffres écrits à la main</strong>. Le but est donc de développer un modèle capable de reconnaître les chiffres manuscrits.  </p>
+<h2 id="pre-traiter-vos-donnees">Pré-traiter vos données</h2>
+<p>Les données fournies contiennent 60 000 observations pour les données d'entraînements et 10 000 pour les données de test. Les images étant renseignées directement sous forme de matrice dans le package <code>keras3</code> nous n'avons besoin que de normaliser ces matrices sur [0, 1]. On passe aussi la variable d'intérêt, qui donne la valeur du chiffre en question, sous un <em>one-hot-encoder</em> avec la fonction <code>to_categorical</code>. On obtient ainsi un vecteur de taille 10 contenant un indicateur pour chaque chiffre. </p>
+<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">keras3</span><span class="p">)</span>
+
+<span class="n">mnist</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">dataset_mnist</span><span class="p">()</span>
+<span class="n">x_train</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mnist</span><span class="o">$</span><span class="n">train</span><span class="o">$</span><span class="n">x</span>
+<span class="n">y_train</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mnist</span><span class="o">$</span><span class="n">train</span><span class="o">$</span><span class="n">y</span>
+<span class="n">x_test</span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mnist</span><span class="o">$</span><span class="n">test</span><span class="o">$</span><span class="n">x</span>
+<span class="n">y_test</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mnist</span><span class="o">$</span><span class="n">test</span><span class="o">$</span><span class="n">y</span>
+
+<span class="c1"># on normalise sur [0, 1]</span>
+<span class="n">x_train</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x_train</span><span class="o">/</span><span class="m">255</span>
+<span class="n">x_test</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x_test</span><span class="o">/</span><span class="m">255</span>
+
+<span class="c1"># one-hot-encoder pour la variable d&#39;intérêt avec to_categorical</span>
+<span class="n">y_train</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">to_categorical</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span><span class="w"> </span><span class="n">num_classes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span>
+<span class="n">y_test</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">to_categorical</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">num_classes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="initialiser-et-definir-votre-reseau-de-neurones-profond">Initialiser et définir votre réseau de neurones profond</h2>
+<p>On <strong>initialise le modèle</strong> avec <code>keras_model_sequential</code>, dans lequel on précise d'emblée la dimension des données que le modèle prendra en entrée. Puis on ajoute les <strong>différentes couches de neurones</strong>.  </p>
+<p>Comme nous sommes dans un réseau convolutionnel, on commence directement par une couche de convolution, qui permet de faire <strong>ressortir les caractéristiques de chaque image</strong>. Cela fonctionne grâce à un système de filtres, réalisé en faisant le produit de la matrice de pixels et d'une matrice plus petite, appelée <code>feature detector</code>. On définit dans cette étape le nombre de filtres que l'on souhaite faire passer avec le paramètre <code>filters</code> et la taille de la matrice <code>feature detector</code> avec le paramètre <code>kernel_size</code>.   </p>
+<p>On <strong>applique ensuite aux matrices obtenues une couche de <em>max pooling</em></strong> qui permet de réduire les dimensions du problème en ne conservant que les valeurs les plus importantes. Cette étape permet aussi de rendre plus souvent comparables <strong>des images ayant des caractéristiques semblables à des endroits différents</strong>. Le paramètre <code>pool_size</code> permet de choisir la <strong>taille du sous-ensemble sur lequel on ne va garder que la valeur maximale</strong>. </p>
+<p>On peut ensuite refaire des nouvelles couches de convolution suivies de pooling, en <strong>fonction de la complexité et de la taille de nos matrices de pixel en entrée du modèle</strong>. On termine ces étapes par une couche <code>flatten()</code> qui permet d'obtenir un input en deux dimensions sur lequel on va pouvoir construire notre réseau de neurones profond avec des couches <code>dense()</code>. On choisit ici une couche avec 128 neurones, suivie d'une couche avec 64 neurones. La couche de sortie contient <strong>10 neurones correspondant aux 10 classes possibles</strong>.</p>
+<p>Le package R <code>keras3</code> permet une syntaxe <strong>très proche de celle que l'on utiliserait sur Python</strong>. On peut en plus relier ces couches avec l'opérateur <code>|&gt;</code>, rendant le code encore plus lisible et aéré.  À noter qu'une fois que le modèle <code>my_first_r_cnn</code> est créé, <strong>il n'est pas nécessaire de le réassigner à chaque ajout de layers</strong>. L'opérateur <code>|&gt;</code> met à jour directement l'objet <code>my_first_r_cnn</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Initialisation du modèle  </span>
+<span class="n">my_first_r_cnn</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">keras_model_sequential</span><span class="p">(</span><span class="n">input_shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">28</span><span class="p">,</span><span class="m">28</span><span class="p">,</span><span class="m">1</span><span class="p">))</span>
+
+<span class="c1"># convolution et max pooling</span>
+<span class="n">my_first_r_cnn</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="c1"># on définit les dimension des inputs dans une couche dédiée</span>
+<span class="w">  </span><span class="nf">layer_conv_2d</span><span class="p">(</span><span class="n">filters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">32</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">3</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                </span><span class="c1"># l&#39;activation relu &quot;casse&quot; une linéarité qui a pu</span>
+<span class="w">                </span><span class="c1"># être introduite avec la convolution</span>
+<span class="w">                </span><span class="n">activation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;relu&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">layer_max_pooling_2d</span><span class="p">(</span><span class="n">pool_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">layer_conv_2d</span><span class="p">(</span><span class="n">filters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">16</span><span class="p">,</span><span class="w"> </span><span class="n">kernel_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span>
+<span class="w">                </span><span class="n">activation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;relu&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">layer_max_pooling_2d</span><span class="p">(</span><span class="n">pool_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">layer_flatten</span><span class="p">()</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">layer_dense</span><span class="p">(</span><span class="n">units</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">128</span><span class="p">,</span><span class="w"> </span><span class="n">activation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;relu&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">layer_dense</span><span class="p">(</span><span class="n">units</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">64</span><span class="p">,</span><span class="w"> </span><span class="n">activation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;relu&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">layer_dense</span><span class="p">(</span><span class="n">units</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">activation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;softmax&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>On peut illustrer la <strong>structure de notre modèle</strong> avec la fonction <code>summary()</code> : </p>
+<div class="highlight"><pre><span></span><code><span class="nf">summary</span><span class="p">(</span><span class="n">my_first_r_cnn</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="err">##</span><span class="w"> </span><span class="nx">Model</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;sequential&quot;</span>
+<span class="err">##</span><span class="w"> </span><span class="err">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓</span>
+<span class="err">##</span><span class="w"> </span><span class="err">┃</span><span class="w"> </span><span class="nx">Layer</span><span class="w"> </span><span class="p">(</span><span class="k">type</span><span class="p">)</span><span class="w">                      </span><span class="err">┃</span><span class="w"> </span><span class="nx">Output</span><span class="w"> </span><span class="nx">Shape</span><span class="w">             </span><span class="err">┃</span><span class="w">       </span><span class="nx">Param</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">┃</span>
+<span class="err">##</span><span class="w"> </span><span class="err">┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩</span>
+<span class="err">##</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">conv2d</span><span class="w"> </span><span class="p">(</span><span class="nx">Conv2D</span><span class="p">)</span><span class="w">                   </span><span class="err">│</span><span class="w"> </span><span class="p">(</span><span class="nx">None</span><span class="p">,</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> </span><span class="mi">26</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span><span class="w">       </span><span class="err">│</span><span class="w">           </span><span class="mi">320</span><span class="w"> </span><span class="err">│</span>
+<span class="err">##</span><span class="w"> </span><span class="err">├───────────────────────────────────┼──────────────────────────┼───────────────┤</span>
+<span class="err">##</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">max_pooling2d</span><span class="w"> </span><span class="p">(</span><span class="nx">MaxPooling2D</span><span class="p">)</span><span class="w">      </span><span class="err">│</span><span class="w"> </span><span class="p">(</span><span class="nx">None</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span><span class="w">       </span><span class="err">│</span><span class="w">             </span><span class="mi">0</span><span class="w"> </span><span class="err">│</span>
+<span class="err">##</span><span class="w"> </span><span class="err">├───────────────────────────────────┼──────────────────────────┼───────────────┤</span>
+<span class="err">##</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">conv2d_1</span><span class="w"> </span><span class="p">(</span><span class="nx">Conv2D</span><span class="p">)</span><span class="w">                 </span><span class="err">│</span><span class="w"> </span><span class="p">(</span><span class="nx">None</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span><span class="w">       </span><span class="err">│</span><span class="w">         </span><span class="mi">2</span><span class="p">,</span><span class="mi">064</span><span class="w"> </span><span class="err">│</span>
+<span class="err">##</span><span class="w"> </span><span class="err">├───────────────────────────────────┼──────────────────────────┼───────────────┤</span>
+<span class="err">##</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">max_pooling2d_1</span><span class="w"> </span><span class="p">(</span><span class="nx">MaxPooling2D</span><span class="p">)</span><span class="w">    </span><span class="err">│</span><span class="w"> </span><span class="p">(</span><span class="nx">None</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span><span class="w">         </span><span class="err">│</span><span class="w">             </span><span class="mi">0</span><span class="w"> </span><span class="err">│</span>
+<span class="err">##</span><span class="w"> </span><span class="err">├───────────────────────────────────┼──────────────────────────┼───────────────┤</span>
+<span class="err">##</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">flatten</span><span class="w"> </span><span class="p">(</span><span class="nx">Flatten</span><span class="p">)</span><span class="w">                 </span><span class="err">│</span><span class="w"> </span><span class="p">(</span><span class="nx">None</span><span class="p">,</span><span class="w"> </span><span class="mi">576</span><span class="p">)</span><span class="w">              </span><span class="err">│</span><span class="w">             </span><span class="mi">0</span><span class="w"> </span><span class="err">│</span>
+<span class="err">##</span><span class="w"> </span><span class="err">├───────────────────────────────────┼──────────────────────────┼───────────────┤</span>
+<span class="err">##</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">dense</span><span class="w"> </span><span class="p">(</span><span class="nx">Dense</span><span class="p">)</span><span class="w">                     </span><span class="err">│</span><span class="w"> </span><span class="p">(</span><span class="nx">None</span><span class="p">,</span><span class="w"> </span><span class="mi">128</span><span class="p">)</span><span class="w">              </span><span class="err">│</span><span class="w">        </span><span class="mi">73</span><span class="p">,</span><span class="mi">856</span><span class="w"> </span><span class="err">│</span>
+<span class="err">##</span><span class="w"> </span><span class="err">├───────────────────────────────────┼──────────────────────────┼───────────────┤</span>
+<span class="err">##</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">dense_1</span><span class="w"> </span><span class="p">(</span><span class="nx">Dense</span><span class="p">)</span><span class="w">                   </span><span class="err">│</span><span class="w"> </span><span class="p">(</span><span class="nx">None</span><span class="p">,</span><span class="w"> </span><span class="mi">64</span><span class="p">)</span><span class="w">               </span><span class="err">│</span><span class="w">         </span><span class="mi">8</span><span class="p">,</span><span class="mi">256</span><span class="w"> </span><span class="err">│</span>
+<span class="err">##</span><span class="w"> </span><span class="err">├───────────────────────────────────┼──────────────────────────┼───────────────┤</span>
+<span class="err">##</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">dense_2</span><span class="w"> </span><span class="p">(</span><span class="nx">Dense</span><span class="p">)</span><span class="w">                   </span><span class="err">│</span><span class="w"> </span><span class="p">(</span><span class="nx">None</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w">               </span><span class="err">│</span><span class="w">           </span><span class="mi">650</span><span class="w"> </span><span class="err">│</span>
+<span class="err">##</span><span class="w"> </span><span class="err">└───────────────────────────────────┴──────────────────────────┴───────────────┘</span>
+<span class="err">##</span><span class="w">  </span><span class="nx">Total</span><span class="w"> </span><span class="nx">params</span><span class="p">:</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span><span class="mi">146</span><span class="w"> </span><span class="p">(</span><span class="m m-Double">332.60</span><span class="w"> </span><span class="nx">KB</span><span class="p">)</span>
+<span class="err">##</span><span class="w">  </span><span class="nx">Trainable</span><span class="w"> </span><span class="nx">params</span><span class="p">:</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span><span class="mi">146</span><span class="w"> </span><span class="p">(</span><span class="m m-Double">332.60</span><span class="w"> </span><span class="nx">KB</span><span class="p">)</span>
+<span class="err">##</span><span class="w">  </span><span class="nx">Non</span><span class="o">-</span><span class="nx">trainable</span><span class="w"> </span><span class="nx">params</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">(</span><span class="m m-Double">0.00</span><span class="w"> </span><span class="nx">B</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="entrainer-et-evaluer-les-performances-de-votre-modele">Entraîner et évaluer les performances de votre modèle</h2>
+<p>La première étape est de compiler l'objet créé précédemment, <strong>en définissant l'<em>optimizer</em> qui sera utilisé</strong>, la fonction de perte et la métrique sur laquelle on souhaite optimiser le résultat du modèle :  </p>
+<div class="highlight"><pre><span></span><code><span class="nf">compile</span><span class="p">(</span><span class="n">my_first_r_cnn</span><span class="p">,</span>
+<span class="w">        </span><span class="n">optimizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;adam&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">loss</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">metrics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;accuracy&#39;</span><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+
+<p>Ensuite, on peut <strong>lancer l'entraînement avec une instruction <code>fit()</code></strong> que l'on applique à nos données d'entraînement. On y définit notamment le paramètre <code>batch_size</code> qui permet de déterminer combien d'images le modèle va traiter avant d'ajuster ses coefficients. Le paramètre <code>epochs</code> définit le nombre de fois où le modèle passe sur toutes les données. Enfin, on split nos données d'entraînement dont on conserve 30% comme données de validation afin de d'<strong>évaluer correctement les performances de notre modèle</strong> :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">history</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">my_first_r_cnn</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span>
+<span class="w">  </span><span class="n">x_train</span><span class="p">,</span><span class="w"> </span><span class="n">y_train</span><span class="p">,</span>
+<span class="w">  </span><span class="n">epochs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="p">,</span>
+<span class="w">  </span><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">64</span><span class="p">,</span>
+<span class="w">  </span><span class="n">validation_split</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> Epoch 1/30
+<span class="gu">##</span> 657/657 - 5s - 8ms/step - accuracy: 0.9120 - loss: 0.2766 - val_accuracy: 0.9623 - val_loss: 0.1200
+<span class="gu">##</span> Epoch 2/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9766 - loss: 0.0753 - val_accuracy: 0.9774 - val_loss: 0.0733
+<span class="gu">##</span> Epoch 3/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9849 - loss: 0.0507 - val_accuracy: 0.9799 - val_loss: 0.0608
+<span class="gu">##</span> Epoch 4/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9878 - loss: 0.0395 - val_accuracy: 0.9832 - val_loss: 0.0553
+<span class="gu">##</span> Epoch 5/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9895 - loss: 0.0316 - val_accuracy: 0.9859 - val_loss: 0.0490
+<span class="gu">##</span> Epoch 6/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9923 - loss: 0.0234 - val_accuracy: 0.9826 - val_loss: 0.0640
+<span class="gu">##</span> Epoch 7/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9929 - loss: 0.0207 - val_accuracy: 0.9855 - val_loss: 0.0533
+<span class="gu">##</span> Epoch 8/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9946 - loss: 0.0165 - val_accuracy: 0.9866 - val_loss: 0.0507
+<span class="gu">##</span> Epoch 9/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9941 - loss: 0.0165 - val_accuracy: 0.9835 - val_loss: 0.0632
+<span class="gu">##</span> Epoch 10/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9960 - loss: 0.0123 - val_accuracy: 0.9870 - val_loss: 0.0501
+<span class="gu">##</span> Epoch 11/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9958 - loss: 0.0123 - val_accuracy: 0.9853 - val_loss: 0.0613
+<span class="gu">##</span> Epoch 12/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9965 - loss: 0.0103 - val_accuracy: 0.9872 - val_loss: 0.0570
+<span class="gu">##</span> Epoch 13/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9968 - loss: 0.0095 - val_accuracy: 0.9871 - val_loss: 0.0544
+<span class="gu">##</span> Epoch 14/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9970 - loss: 0.0082 - val_accuracy: 0.9871 - val_loss: 0.0583
+<span class="gu">##</span> Epoch 15/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9972 - loss: 0.0091 - val_accuracy: 0.9867 - val_loss: 0.0624
+<span class="gu">##</span> Epoch 16/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9988 - loss: 0.0043 - val_accuracy: 0.9871 - val_loss: 0.0623
+<span class="gu">##</span> Epoch 17/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9976 - loss: 0.0070 - val_accuracy: 0.9857 - val_loss: 0.0693
+<span class="gu">##</span> Epoch 18/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9970 - loss: 0.0096 - val_accuracy: 0.9853 - val_loss: 0.0693
+<span class="gu">##</span> Epoch 19/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9983 - loss: 0.0051 - val_accuracy: 0.9862 - val_loss: 0.0690
+<span class="gu">##</span> Epoch 20/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9988 - loss: 0.0040 - val_accuracy: 0.9882 - val_loss: 0.0612
+<span class="gu">##</span> Epoch 21/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9983 - loss: 0.0054 - val_accuracy: 0.9881 - val_loss: 0.0596
+<span class="gu">##</span> Epoch 22/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9986 - loss: 0.0042 - val_accuracy: 0.9789 - val_loss: 0.1290
+<span class="gu">##</span> Epoch 23/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9976 - loss: 0.0074 - val_accuracy: 0.9876 - val_loss: 0.0682
+<span class="gu">##</span> Epoch 24/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9996 - loss: 0.0017 - val_accuracy: 0.9879 - val_loss: 0.0690
+<span class="gu">##</span> Epoch 25/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9996 - loss: 0.0016 - val_accuracy: 0.9843 - val_loss: 0.0981
+<span class="gu">##</span> Epoch 26/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9970 - loss: 0.0094 - val_accuracy: 0.9863 - val_loss: 0.0723
+<span class="gu">##</span> Epoch 27/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9985 - loss: 0.0049 - val_accuracy: 0.9884 - val_loss: 0.0659
+<span class="gu">##</span> Epoch 28/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9994 - loss: 0.0019 - val_accuracy: 0.9879 - val_loss: 0.0725
+<span class="gu">##</span> Epoch 29/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9997 - loss: 9.4193e-04 - val_accuracy: 0.9889 - val_loss: 0.0674
+<span class="gu">##</span> Epoch 30/30
+<span class="gu">##</span> 657/657 - 1s - 2ms/step - accuracy: 0.9971 - loss: 0.0086 - val_accuracy: 0.9856 - val_loss: 0.0672
+</code></pre></div>
+
+<p>On peut illustrer l'évolution de la qualité du modèle au fur et à mesure des epochs avec <code>plot</code> :  </p>
+<div class="highlight"><pre><span></span><code><span class="nf">plot</span><span class="p">(</span><span class="n">history</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="Pelican" src="../images/cnn_r_keras/unnamed-chunk-8-1.png"><!-- --></p>
+<p>Enfin, on sort la <strong>performance du modèle sur nos données test</strong> avec <code>evaluate</code>:  </p>
+<div class="highlight"><pre><span></span><code><span class="n">accuracy_test</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">my_first_r_cnn</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## 313/313 - 1s - 3ms/step - accuracy: 0.9898 - loss: 0.0522
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nf">print</span><span class="p">(</span><span class="n">accuracy_test</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## $accuracy
+## [1] 0.9898
+## 
+## $loss
+## [1] 0.05221168
+</code></pre></div>
+
+<blockquote>
+<p>Inutile bien sûr de préciser que nous sommes dans un cas de classification relativement simple et avec énormément de données de bonne qualité, donc ne cherchez pas à atteindre de tels niveaux de précision sur des données un peu plus compliquées! </p>
+</blockquote>
+<h1 id="predictions-a-partir-du-modele-pre-entraine">Prédictions à partir du modèle pré-entraîné</h1>
+<p>Prenons par exemple la 20e image de l'échantillon test : </p>
+<div class="highlight"><pre><span></span><code><span class="n">index</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="c1"># On prend la 20e image&quot;</span>
+<span class="n">image_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x_test</span><span class="p">[</span><span class="n">index</span><span class="p">,,]</span><span class="w">  </span><span class="c1"># Sélection de l&#39;image</span>
+<span class="n">label</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">mnist</span><span class="o">$</span><span class="n">test</span><span class="o">$</span><span class="n">y</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="w">  </span><span class="c1"># Label associé</span>
+
+<span class="c1"># Inverser les couleurs pour un affichage correct</span>
+<span class="n">image_data</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">t</span><span class="p">(</span><span class="nf">apply</span><span class="p">(</span><span class="n">image_data</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="n">rev</span><span class="p">))</span>
+
+<span class="c1"># Afficher l&#39;image en niveaux de gris</span>
+<span class="nf">image</span><span class="p">(</span><span class="n">image_data</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">gray</span><span class="p">((</span><span class="m">0</span><span class="o">:</span><span class="m">255</span><span class="p">)</span><span class="o">/</span><span class="m">255</span><span class="p">),</span><span class="w"> </span>
+<span class="w">      </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;Label :&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="p">),</span>
+<span class="w">      </span><span class="n">axes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">asp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="Pelican" src="../images/cnn_r_keras/unnamed-chunk-10-1.png"><!-- --></p>
+<p>On peut sortir les <strong>prédictions des probabilités associées à chaque classe avec la fonction <code>predict()</code></strong>. La prédiction associée à l'image précédente donne le résultat suivant :  </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># On prédit l&#39;ensemble des X_test</span>
+<span class="n">matrice_pred</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">my_first_r_cnn</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>## 313/313 - 1s - 2ms/step
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># On sort l&#39;index max - 1 (qui correspond à la classe) de l&#39;observation n°20</span>
+<span class="n">pred_obs</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">which.max</span><span class="p">(</span><span class="n">matrice_pred</span><span class="p">[</span><span class="m">20</span><span class="p">,])</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span>
+
+<span class="nf">image</span><span class="p">(</span><span class="n">image_data</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">gray</span><span class="p">((</span><span class="m">0</span><span class="o">:</span><span class="m">255</span><span class="p">)</span><span class="o">/</span><span class="m">255</span><span class="p">),</span><span class="w"> </span>
+<span class="w">      </span><span class="n">main</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;Label :&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Prédiction :&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pred_obs</span><span class="p">),</span>
+<span class="w">      </span><span class="n">axes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">asp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
+</code></pre></div>
+
+<p><img alt="Pelican" src="../images/cnn_r_keras/unnamed-chunk-11-1.png"><!-- --></p>
+<h1 id="deep-learning-avec-r-ou-python">Deep Learning avec R ou Python?</h1>
+<p>Le package <code>keras3</code> est <strong>très complet et semble offrir autant de possibilités que le module Python</strong>. Il dispose aussi d'une <a href="https://keras3.posit.co">documentation complète et très détaillée</a>. Cependant, il faut garder en tête qu'il fait tourner Python en arrière-plan.   </p>
+<p>Le gros avantage pour un utilisateur non aguerri de Python est qu'il va <strong>gérer pour vous l'environnement anaconda et les dépendances</strong>, qui peuvent être un vrai casse-tête quand on se met à Python. Enfin, la <strong>syntaxe très proche de celle de Python peut vous permettre de commencer à vous accoutumer en vue d'un futur changement de langage</strong>, tout en restant sur votre langage favori en attendant!  </p>
+<p>Enfin, on peut imaginer que l'utilisation d'un package R peut être très pratique dans le cadre de la mise en oeuvre de méthodes de statistiques inférentielles sur des prédictions de modèles de Machine Learning, comme par exemple dans <a href="https://www.science.org/doi/10.1126/science.adi6000">ce papier très intéressant</a>.</p>
+<p>C'est la fin de cet article! N'hésitez pas à <a href="https://www.statoscop.fr">visiter notre site</a> et à nous suivre sur <a href="https://bsky.app/profile/statoscop.fr">BlueSky</a> et <a href="https://www.linkedin.com/company/statoscop">Linkedin</a>. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le <a href="https://github.com/Statoscop/notebooks-blog">github de Statoscop</a>.  </p>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>  </p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Réseaux neuronaux convolutifs avec R et Keras&amp;url=https://blog.statoscop.fr/reseaux-neuronaux-convolutifs-avec-r-et-keras.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://blog.statoscop.fr/tag/r.html">R</a><a href="https://blog.statoscop.fr/tag/keras.html">Keras</a><a href="https://blog.statoscop.fr/tag/cnn.html">CNN</a><a href="https://blog.statoscop.fr/tag/machine-learning.html">Machine Learning</a><a href="https://blog.statoscop.fr/tag/data-science.html">Data Science</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+    
+    <!-- Footer-->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-left"> © Statoscop</div>
+                <div class="col-lg-4 my-3 my-lg-0">
+                    <a class="btn btn-dark btn-social mx-2" href="https://twitter.com/stato_scop" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="col-lg-4 text-lg-left"> 
+                    Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
+                     déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
+
+  </body>
+</html>
