@@ -89,7 +89,7 @@ On **applique ensuite aux matrices obtenues une couche de _max pooling_** qui pe
 
 On peut ensuite refaire des nouvelles couches de convolution suivies de pooling, en **fonction de la complexité et de la taille de nos matrices de pixel en entrée du modèle**. On termine ces étapes par une couche `flatten()` qui permet d'obtenir un input en deux dimensions sur lequel on va pouvoir construire notre réseau de neurones profond avec des couches `dense()`. On choisit ici une couche avec 128 neurones, suivie d'une couche avec 64 neurones. La couche de sortie contient **10 neurones correspondant aux 10 classes possibles**.
 
-Le package R `keras3` permet une syntaxe **très proche de celle que l'on utiliserait sur Python**. On peut en plus relier ces couches avec l'opérateur `|>`, rendant le code encore plus lisible et aéré : 
+Le package R `keras3` permet une syntaxe **très proche de celle que l'on utiliserait sur Python**. On peut en plus relier ces couches avec l'opérateur `|>`, rendant le code encore plus lisible et aéré.  À noter qu'une fois que le modèle `my_first_r_cnn` est créé, **il n'est pas nécessaire de le réassigner à chaque ajout de layers**. L'opérateur `|>` met à jour directement l'objet `my_first_r_cnn`.
 
 
 ```r
@@ -97,7 +97,7 @@ Le package R `keras3` permet une syntaxe **très proche de celle que l'on utilis
 my_first_r_cnn <- keras_model_sequential(input_shape = c(28,28,1))
 
 # convolution et max pooling
-my_first_r_cnn <- my_first_r_cnn |> 
+my_first_r_cnn |> 
   # on définit les dimension des inputs dans une couche dédiée
   layer_conv_2d(filters = 32, kernel_size = c(3, 3), 
                 # l'activation relu "casse" une linéarité qui a pu
