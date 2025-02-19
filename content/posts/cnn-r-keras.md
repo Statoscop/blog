@@ -1,11 +1,11 @@
 Title: Réseaux neuronaux convolutifs avec R et Keras
 Author: Antoine
 Date: '2025-02-18'
-Category: R, Deep learning
+Category: R, Deep Learning
 Tags: R, Keras, CNN, Machine Learning, Data Science
 Cover: images/cover_22.png
 twitter_image: images/cover_22.png
-Summary: Démonstration de l'utilisation du package `keras3` pour faire du Deep learning avec R.
+Summary: Démonstration de l'utilisation du package `keras3` pour faire du Deep Learning avec R.
 
 [TOC]
 
