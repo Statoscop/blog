@@ -31,7 +31,7 @@ library(keras3)
 install_keras()
 ```
 
-Si vous avez du GPU, vous pouvez vérifier que **votre devise a bien été repérée** avec l'instruction suivante (normalement, `tensorflow` a été installé au moment de l'installation de `keras3`) :    
+Si vous avez du GPU, vous pouvez vérifier que **votre device a bien été repéré** avec l'instruction suivante (normalement, `tensorflow` a été installé au moment de l'installation de `keras3`) :    
 
 
 ```r
@@ -149,7 +149,7 @@ summary(my_first_r_cnn)
 
 ## Entraîner et évaluer les performances de votre modèle
 
-La première étape est de compiler l'objet créé précédemment, **en définissant l'_optimizer_ qui sera utilisé**, la fonction de perte et la métrique sur laquelle on souhaite optimiser le résultat du modèel :  
+La première étape est de compiler l'objet créé précédemment, **en définissant l'_optimizer_ qui sera utilisé**, la fonction de perte et la métrique sur laquelle on souhaite optimiser le résultat du modèle :  
   
 
 
