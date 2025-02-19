@@ -1,6 +1,6 @@
 Title: Réseaux neuronaux convolutifs avec R et Keras
 Author: Antoine
-Date: '2025-02-18'
+Date: '2025-02-19'
 Category: R, Deep Learning
 Tags: R, Keras, CNN, Machine Learning, Data Science
 Cover: images/cover_22.png
