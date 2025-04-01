@@ -30,7 +30,7 @@ Comme pour `across`, __le paramètre `.cols` permet de sélectionner les variabl
 
 Le __paramètre `.fns` permet de définir la fonction de filtrage__ sur les variables sélectionnées. Ce sera soit une fonction déjà existante (`is.na` par exemple), soit une fonction définie en par l'utilisateur en amont ou à la volée (avec la syntaxe `~ .x > 50` par exemple).   
 
-Ces deux fonctions vont créer en sortie un vecteur booléen sur lequel on va pouvoir filtrer nos observations de deux façons :   
+Ces deux fonctions vont __créer en sortie un vecteur booléen__ qui va nous pemettre de filtrer nos observations de deux façons :   
 
 - avec `if_any` si la condition définie dans `.fns` est respectée pour au moins une des variables. Cela revient à __coder la condition pour chaque colonne avec l'opérateur ` | ` (`OU`).__   
 - avec `if_all` si cette condition est respectée pour toutes les variables. Cela revient à __coder la condition pour chaque colonne avec l'opérateur ` & ` (`ET`).__ 
@@ -181,7 +181,7 @@ On voit ainsi __qu'on peut combiner des conditions de `if_any` et `if_all` avec 
 ```
 
 
-C'est tout pour aujourd'hui! On espère que cette note vous permettra de mieux exploiter la puissance de ces deux petits verbes bien pratiques. Si vous avez besoin de [conseils en programmation pour l'analyse de données'](https://statoscop.fr), n'hésitez pas à continuer votre navigation sur notre site ou à nous suivre sur [BlueSky](https://bsky.app/profile/statoscop.fr) et [Linkedin](https://www.linkedin.com/company/statoscop). Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le [github de Statoscop](https://github.com/Statoscop/notebooks-blog).  
+C'est tout pour aujourd'hui! On espère que cette note vous permettra de mieux exploiter la puissance de ces deux petits verbes bien pratiques. Si vous avez besoin de [conseils en programmation pour l'analyse de données](https://statoscop.fr), n'hésitez pas à continuer votre navigation sur notre site ou à nous suivre sur [BlueSky](https://bsky.app/profile/statoscop.fr) et [Linkedin](https://www.linkedin.com/company/statoscop). Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le [github de Statoscop](https://github.com/Statoscop/notebooks-blog).  
 
 
 
