@@ -1,6 +1,6 @@
-Title: Filtrage simultané sur plusieurs variables dans dplyr : présentation de `if_any` et `if_all`
+Title: if_any et if_all : appliquer la même condition sur plusieurs variables dans dplyr
 Author: Antoine
-Date: '2025-03-27'
+Date: '2025-04-03'
 Category: R
 Tags: R, dplyr, tidyverse, if_any, if_all, across
 Cover: images/cover_23.png
@@ -11,10 +11,10 @@ Summary: Quelques exemples d'utilisation de `if_any` et `if_all` dans le traitem
 
 
 Au début de l'année 2021, [la sortie de dplyr 1.0.4](https://www.tidyverse.org/blog/2021/02/dplyr-1-0-4-if-any/) consacre l'arrivée de deux petits nouveaux : `if_any` et `if_all`. Ces deux fonctions viennent notamment __compléter le verbe `across`__, qui avait été introduit quelques mois plus tôt dans dplyr 1.0.0, et [que nous avons déjà présenté dans un précédent article](https://blog.statoscop.fr/fonctionnement-et-performances-dacross-dans-dplyr.html).  
-Ici nous vous proposons donc un rapide tour des possibilités offertes par ces fonctions. Nous commençons par montrer __comment ils peuvent être utilisées dans `filter()`__ pour filtrer les observations dynamiquement sur des conditions portant sur plusieurs variables à la fois. Puis nous montrons comment ils peuvent être avantageusement __utilisés dans des instructions `mutate()`__ pour synthétiser les valeurs de plusieurs variables. 
+Ici nous vous proposons donc un rapide tour des possibilités offertes par ces fonctions. Nous commençons par montrer comment ils peuvent être utilisés dans `filter()` pour filtrer facilement notre dataframe __en appliquant la même condition à plusieurs variables__. Puis nous montrons comment ils peuvent être avantageusement __utilisés dans des instructions `mutate()` pour synthétiser les valeurs de plusieurs variables__. 
 
 
-# Syntaxe de if_any et if_all  
+# Syntaxe de `if_any` et `if_all`  
 
 La syntaxe de ces deux verbes est exactement la même que celle d'`across()` :  
 
@@ -30,7 +30,7 @@ Comme pour `across`, __le paramètre `.cols` permet de sélectionner les variabl
 
 Le __paramètre `.fns` permet de définir la fonction de filtrage__ sur les variables sélectionnées. Ce sera soit une fonction déjà existante (`is.na` par exemple), soit une fonction définie en par l'utilisateur en amont ou à la volée (avec la syntaxe `~ .x > 50` par exemple).   
 
-Ces deux fonctions vont __créer en sortie un vecteur booléen__ qui va nous pemettre de filtrer nos observations de deux façons :   
+Ces deux fonctions vont __créer en sortie un vecteur booléen__ qui va nous permettre de filtrer nos observations de deux façons :   
 
 - avec `if_any` si la condition définie dans `.fns` est respectée pour au moins une des variables. Cela revient à __coder la condition pour chaque colonne avec l'opérateur ` | ` (`OU`).__   
 - avec `if_all` si cette condition est respectée pour toutes les variables. Cela revient à __coder la condition pour chaque colonne avec l'opérateur ` & ` (`ET`).__ 
@@ -46,7 +46,7 @@ Voyons concrètement comment nous pouvons les utiliser dans deux cas distincts :
 <br>        
 
 
-# Filtrer un dataframe avec if_any et if_all  
+# Filtrer un dataframe avec `if_any` et `if_all`  
 
 Pour __illustrer l'utilisation de ces deux verbes__, on s'appuie sur [des données Kaggle de notes d'étudiants à différentes matières](https://www.kaggle.com/datasets/simranjitkhehra/student-grades-dataset). On a modifié ces données pour avoir __une colonne pour chaque note de chaque matière__. Notre dataset `stud_grades` a maintenant ce format :  
 
@@ -122,7 +122,7 @@ stud_grades |>
 ## 1       6933 A     A       A       A       A                 
 ## 2       8749 A     A       A       A       A
 ```
-On voit ainsi directement que seulement deux élèves ont réussi cet exploit.  
+On voit ainsi directement que seulement deux élèves ont réussi cet exploit, avec une syntaxe bien plus directe que de coder `math == "A" & science == "A" & history == "A" & english == "A" & physical_education == "A"`.    
 
 On peut bien sûr également __repérer les élèves en difficulté__, en regardant ceux qui n'ont eu que des "F" à toutes les matières.
 
