@@ -522,7 +522,7 @@ mark,
 
 code {
   font-size: 87.5%;
-  color: #e83e8c;
+  color: rgb(0,152,117);
   word-wrap: break-word;
 }
 a > code {
