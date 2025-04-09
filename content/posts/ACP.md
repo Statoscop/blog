@@ -11,15 +11,15 @@ Summary: Présentation et exemples d'utilisation de l'ACP en statistiques et dat
 
 Dans cet article, nous allons essayer de comprendre intuitivement comment fonctionne l'analyse en composantes principales. Nous présenterons ensuite à quoi celle-ci peut servir en prenant les exemples d'une analyse exploratoire des données et d'une problématique de réduction de dimension.   
 
-# Explication introductive
+# Comprendre et interpréter une ACP
 
-L'analyse en composantes principales est une méthode consistant à transformer des variables corrélées entre elles en nouvelles variables. Chacune de ces nouvelles variables est le résultat d'une combinaison linéaire des anciennes variables. 
+L'analyse en composantes principales est une __méthode consistant à transformer des variables corrélées entre elles en nouvelles variables__. Chacune de ces nouvelles variables est le résultat d'une combinaison linéaire des anciennes variables. 
 
 *Note : une combinaison linéaire de 3 variables $V_1$, $V_2$ et $V_3$ s'écrit $\alpha_1.V_1 + \alpha_2.V_2 + \alpha_3.V_3$ où les $\alpha_i$ sont des coefficients réels.*
 
 Ces nouvelles variables sont appelées __composantes principales__ et sont, par contruction, décorrélées les unes des autres.  
 
-Autrement dit, l'ACP projette vos données dans un nouvel espace. La première composante principale est construite de manière à capter la plus grande variance possible de vos données, la seconde la part la plus importante de la variance possible __restant à expliquer__, et ainsi de suite.  
+Autrement dit, l'ACP projette vos données dans un nouvel espace. La __première composante principale est construite de manière à capter la plus grande variance possible de vos données__, la seconde la part la plus importante de __la variance possible restant à expliquer__, et ainsi de suite.  
 
 Une illustration brillante de ce processus est proposée par <a href="https://www.allisonhorst.com/" target="_blank">Allison Horst</a>. Elle <a href="https://twitter.com/allison_horst/status/1288904459490213888" target="_blank">représente</a> un jeu de données à deux dimensions avec des crevettes et l'analyse en composantes principales comme les passages d'un requin-baleine affamé :  
 
@@ -31,7 +31,7 @@ Une illustration brillante de ce processus est proposée par <a href="https://ww
 
 
 
-La problématique du requin-baleine est en effet la même que celle de la création d'une première composante principale : quel axe choisir pour avaler un maximum de crevettes dès le premier passage? L'axe choisi va ressembler à celui-ci :  
+La problématique du requin-baleine est en effet la même que celle de la création d'une première composante principale : __quel axe choisir pour avaler un maximum de crevettes__ dès le premier passage? L'axe choisi va ressembler à celui-ci :  
 
 
 
@@ -39,7 +39,7 @@ La problématique du requin-baleine est en effet la même que celle de la créat
 
 
 
-Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient le plus proche possible de cette droite. Mathématiquement, la première composante principale est la combinaison linéaire des deux axes $x$ et $y$ qui maximise l'inertie projetée ce qui revient à minimiser les écarts entre les points et cette droite.
+Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient __le plus proche possible de cette droite__. Mathématiquement, la première composante principale est __la combinaison linéaire des deux axes $x$ et $y$ qui maximise l'inertie projetée__, ce qui revient à minimiser les écarts entre les points et cette droite.
 
 Dans cet exemple, la seconde composante principale sera l'axe perpendiculaire à ce premier axe.
 
@@ -55,13 +55,14 @@ Si les points étaient parfaitement alignés sur une ligne, l'ensemble de la var
 <br>    
 
 
-# Mise en oeuvre d'une ACP
+# Mise en oeuvre d'une ACP avec Python 
+
 D'accord, on a projeté notre jeu de données dans un nouvel espace avec des nouvelles "variables" décrites comme combinaisons linéaires des précédentes telles que la première explique la plus grande partie de la variance possible, la seconde la plus grande partie de la variance restant à expliquer, etc... Mais ça nous sert à quoi?   
 
 ## Analyse exploratoire de nos données  
-La caractéristique des composantes principales par rapport au jeu de données non transformé est que les premières composantes principales ont un fort pouvoir discriminant, puisqu'elles expliquent une grande partie de la variance totale du jeu de données. Ainsi, représenter notre jeu de données par rapport aux deux premiers axes de l'ACP peut permettre de vérifier que ces données permettent bien de distinguer différentes classes.  
+La caractéristique des composantes principales par rapport au jeu de données non transformé est que __les premières composantes principales ont un fort pouvoir discriminant__, puisqu'elles expliquent une grande partie de la variance totale du jeu de données. Ainsi, représenter notre jeu de données par rapport aux deux premiers axes de l'ACP peut permettre de vérifier que __ces données permettent bien de distinguer différentes classes__.  
 
-Prenons comme exemple la base de données `wine` que l'on peut charger directement depuis le module `sklearn`. Cette base de données contient des résultats d'analyses chimiques de 178 vins de 3 différents producteurs. Ces résultats sont synthétisés par 13 mesures différentes que l'on retrouve dans les données. Pour voir si ces mesures permettent ou non de distinguer les vins des trois producteurs, nous allons commencer par représenter les vins sur l'espace des deux premières composantes principales. Pour cela, on importe les données et on les centre-réduit avant d'appliquer notre ACP avec la fonction `sklearn.decomposition.PCA`. On paramètre celle-ci pour qu'elle nous renvoie seulement les deux premières composantes :  
+Prenons comme exemple la base de données `wine` que l'on peut charger directement depuis le module `sklearn`. Cette base de données contient des résultats d'analyses chimiques de 178 vins de 3 différents producteurs. Ces résultats sont synthétisés par 13 mesures différentes que l'on retrouve dans les données. Pour __voir si ces mesures permettent ou non de distinguer les vins des trois producteurs__, nous allons commencer par représenter les vins sur __l'espace des deux premières composantes principales__. Pour cela, on importe les données et on les centre-réduit avant d'appliquer notre ACP avec la fonction `sklearn.decomposition.PCA`. On paramètre celle-ci pour qu'elle nous renvoie seulement les deux premières composantes :  
 
 
 ```python
@@ -96,7 +97,7 @@ pca_wine.shape
 
 
 
-En sortie, nous obtenons les vecteurs des deux premières composantes dans l'objet `pca_wine`. Notons que nous aurions pu paramétrer la fonction `PCA` de manière à ce qu'elle nous renvoie le nombre de composantes nécessaire à expliquer `X`% de la variance, comme nous le ferons par la suite. Depuis l'objet `pca`, on peut voir le vecteur de la variance expliquée par chaque composante avec `pca.explained_variance_ratio_` et donc la variance totale expliquée par nos deux composantes en sommant les éléments de ce vecteur :  
+En sortie, __nous obtenons les vecteurs des deux premières composantes dans l'objet `pca_wine`__. Notons que nous aurions pu paramétrer la fonction `PCA` de manière à ce qu'elle nous renvoie le nombre de composantes nécessaire à expliquer `X`% de la variance, comme nous le ferons par la suite. Depuis l'objet `pca`, on peut voir __le vecteur de la variance expliquée par chaque composante__ avec `pca.explained_variance_ratio_` et donc la variance totale expliquée par nos deux composantes en sommant les éléments de ce vecteur :  
 
 
 ```python
@@ -115,13 +116,13 @@ On explique donc 55 % de la variance totale de nos données avec 2 composantes, 
 <!--- ![Pelican](../images/acp/output_13_0.png)-->
 <img alt="Pelican" src="../images/acp/output_13_0.png" style="max-width:80% !important" >
 
-On constate ici que les 3 producteurs sont bien répartis dans des zones distinctes du plan et ce résultat semble montrer que chacun produit des types de vin caractéristiques.
+On constate ici que __les 3 producteurs sont bien répartis dans des zones distinctes du plan__ et ce résultat semble montrer que chacun produit des types de vin caractéristiques.
 
-On peut se convaincre que l'ACP a bien joué son rôle en produisant le même type de schéma avec deux autres variables originales du jeu de données (sans transformation linéaire), disons le degré d'alcool et l'intensité de la couleur. On s'attend bien sûr à ce que les classes soient moins discriminées qu'avec les deux premières composantes principales :  
+On peut se convaincre que l'ACP a bien joué son rôle en produisant le même type de schéma avec deux autres variables originales du jeu de données (sans transformation linéaire), disons le degré d'alcool et l'intensité de la couleur. On s'attend bien sûr à ce que __les classes soient moins discriminées qu'avec les deux premières composantes principales__ :  
 
 <img alt="Pelican" src="../images/acp/output_15_0.png" style="max-width:80% !important" >
 
-Ces variables permettent de distinguer des tendances, comme le fait que le producteur 1 produit des vins plutôt moins alcoolisés et dont la couleur est peu intense alors que le producteur 0 produit des vins plus alcoolisés. Mais ces variables seules ne permettent pas de partitionner nos classes aussi clairement qu'avec les deux premières composantes de notre ACP.   
+Ces variables permettent de distinguer des tendances, comme le fait que le producteur 1 produit des vins plutôt moins alcoolisés et dont la couleur est peu intense alors que le producteur 0 produit des vins plus alcoolisés. Mais __ces variables seules ne permettent pas de partitionner nos classes aussi clairement qu'avec les deux premières composantes de notre ACP__.   
 
 L'ACP ne permet certes pas au premier coup d'oeil de proposer une interprétation des résultats, mais il est néanmoins possible d'étudier comment chaque variable contribue aux composantes avec l'instruction `pca.components_` :  
 
@@ -233,17 +234,18 @@ L'ACP ne permet certes pas au premier coup d'oeil de proposer une interprétatio
 
 
 
-Ce tableau représente les coefficients de la combinaison linéaire des variables pour chaque composante. Il nous permet par exemple de constater que l'intensité de la couleur et l'alcool jouent fortement et négativement sur la seconde composante. Cela correspond à ce que l'on observait dans les deux graphiques précédents puisque les vins des producteurs 0 et 2 ont des valeurs négatives sur l'axe de la seconde composante (1er graphique) et ce sont bien ceux dont le taux en alcool et l'intensité de la couleur sont les plus importants (2e graphique)
+Ce tableau représente __les coefficients de la combinaison linéaire des variables pour chaque composante__. Il nous permet par exemple de constater que l'intensité de la couleur et l'alcool jouent fortement et négativement sur la seconde composante. Cela correspond à ce que l'on observait dans les deux graphiques précédents puisque les vins des producteurs 0 et 2 ont des valeurs négatives sur l'axe de la seconde composante (1er graphique) et ce sont bien ceux dont le taux en alcool et l'intensité de la couleur sont les plus importants (2e graphique)
 
-## Utilisation de l'ACP pour la réduction de dimensions  
-La propriété de l'ACP de capter une partie importante de la variance des données à partir de moins de variables est particulièrement intéressante dans le domaine du Machine Learning pour être capable de fournir des prédictions avec des modèles plus légers (car utilisant moins de variables) et des résultats au moins aussi performants.  
+## Utilisation de l'ACP pour la réduction de dimensions en Machine Learning  
+
+La propriété de l'ACP de __capter une partie importante de la variance des données à partir de moins de variables__ est particulièrement intéressante dans le domaine du Machine Learning pour être capable de fournir des prédictions avec des modèles plus légers (car utilisant moins de variables) et des résultats au moins aussi performants.  
 Pour notre exemple, même si la réduction de dimensions n'est pas un enjeu fondamental vu le faible nombre de variables, nous pouvons tester si nous parvenons à faire un modèle de prédiction de l'origine du vin (producteur 0, 1 ou 2) en réduisant le nombre de dimensions.  
-Tout d'abord, commençons par déterminer ce nombre de dimensions. Le graphique suivant nous donne l'évolution de la variance expliquée en fonction du nombre de composantes :   
+Tout d'abord, commençons par déterminer ce nombre de dimensions. Le graphique suivant nous donne __l'évolution de la variance expliquée en fonction du nombre de composantes__ :   
 
 <img alt="Pelican" src="../images/acp/output_20_0.png" style="max-width:80% !important" >
 
 
-L'ACP permettrait d'expliquer plus de 70% de la variance totale dès 4 composantes. Pour voir si cela est suffisant pour entraîner un modèle de prédiction, on peut comparer les performances d'un arbre de classification sur les données transformées après PCA et sur les données brutes. On utilise une méthode de validation croisée pour estimer les performances du modèle qui consiste à partitionner les données en 5 groupes et à entraîner les données sur 4 groupes et les tester sur celui restant. On fait cela 5 fois pour parcourir le champ des possibles et on évalue la précision globale du modèle en faisant la moyenne de ces 5 résultats. Cette méthode doit permettre d'estimer la qualité du modèle sur des données sur lesquelles il n'a pas été entraîné et de ne pas prendre en compte le surapprentissage dans son évaluation. Le tableau suivant donne les taux de précision obtenus pour chaque méthode, c'est à dire le nombre de vins correctement classifiés sur le nombre de vins total.
+L'ACP permettrait d'expliquer plus de 70% de la variance totale dès 4 composantes. Pour voir si cela est suffisant pour entraîner un modèle de prédiction, on peut __comparer les performances d'un arbre de classification sur les données transformées après PCA et sur les données brutes__. On utilise une méthode de validation croisée pour estimer les performances du modèle qui consiste à partitionner les données en 5 groupes et à entraîner les données sur 4 groupes et les tester sur celui restant. On fait cela 5 fois pour parcourir le champ des possibles et on évalue la précision globale du modèle en faisant la moyenne de ces 5 résultats. Cette méthode doit permettre d'estimer la qualité du modèle sur des données sur lesquelles il n'a pas été entraîné et de ne pas prendre en compte le surapprentissage dans son évaluation. Le tableau suivant donne les taux de précision obtenus pour chaque méthode, c'est à dire le nombre de vins correctement classifiés sur le nombre de vins total.
 
 
 ```python
@@ -305,9 +307,9 @@ pd.DataFrame({"Précision moyenne après ACP" : [mean_pca],
 
 
 
-On constate que l'ACP n'a pas seulement permis de réduire le nombre de dimensions de notre problème, elle nous offre aussi une précision globale du modèle supérieure. Cela n'est pas toujours le cas - puisque ça dépend de votre problématique, des variables explicatives dont vous disposez et du nombre de composantes que vous retenez - mais ici c'est dû au fait qu'elle permet de réduire le bruit associé aux données en ne conservant qu'une partie de l'information totale. Cela permet ainsi de prévenir les problèmes de surapprentissage, c'est à dire le fait que le modèle explique parfaitement les données d'entraînement mais se généralise mal à de nouvelles données. Ce sujet est abordé dans [cet article de notre blog sur l'arbitrage biais/variance](https://blog.statoscop.fr/larbitrage-biaisvariance-dans-la-modelisation-de-donnees.html).  
+On constate que __l'ACP n'a pas seulement permis de réduire le nombre de dimensions de notre problème, elle nous offre aussi une précision globale du modèle supérieure__. Cela n'est pas toujours le cas - puisque ça dépend de votre problématique, des variables explicatives dont vous disposez et du nombre de composantes que vous retenez - mais ici c'est dû au fait qu'elle permet de __réduire le bruit associé aux données en ne conservant qu'une partie de l'information totale__. Cela permet ainsi de prévenir les problèmes de surapprentissage, c'est à dire le fait que __le modèle explique parfaitement les données d'entraînement mais se généralise mal à de nouvelles données__. Ce sujet est abordé dans [cet article de notre blog sur l'arbitrage biais/variance](https://blog.statoscop.fr/larbitrage-biaisvariance-dans-la-modelisation-de-donnees.html).  
 
-C'est tout pour aujourd'hui! Si vous voulez voir d'autres exemples d'utilisation de l'ACP, je vous conseille <a href="https://jakevdp.github.io/PythonDataScienceHandbook/05.09-principal-component-analysis.html" target="_blank">cet article</a> qui aborde notamment le cas du traitement des images, pour lequel il est particulièrement intéressant de réduire le nombre de dimensions. N'hésitez pas à [visiter notre site](https://www.statoscop.fr) et à nous suivre sur [Twitter](https://twitter.com/stato_scop) pour ne pas rater les prochains articles! Vous pouvez trouver le notebook avec l'ensemble du code ayant servi à générer cette note sur le <a href="https://github.com/Statoscop/notebooks-blog" target="_blank">github de Statoscop</a>.   
+C'est tout pour aujourd'hui! Si vous voulez voir d'autres exemples d'utilisation de l'ACP, je vous conseille <a href="https://jakevdp.github.io/PythonDataScienceHandbook/05.09-principal-component-analysis.html" target="_blank">cet article</a> qui aborde notamment le cas du traitement des images, pour lequel il est particulièrement intéressant de réduire le nombre de dimensions. N'hésitez pas à [visiter notre site](https://www.statoscop.fr) et à nous suivre sur [BlueSky](https://bsky.app/profile/statoscop.fr) pour ne pas rater les prochains articles! Vous pouvez trouver le notebook avec l'ensemble du code ayant servi à générer cette note sur le <a href="https://github.com/Statoscop/notebooks-blog" target="_blank">github de Statoscop</a>.   
   
 
 <div class = "d-flex justify-content-center mt-4">
