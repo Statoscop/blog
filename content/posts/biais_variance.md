@@ -67,8 +67,6 @@ Dans le cadre d'une __démarche prédictive__, il est donc tout à fait naturel 
 Il me reste à remercier [Emmanuel Paroissien](https://twitter.com/EParoissien), chercheur à l'Inra, pour nos échanges qui m'ont aidé à construire cette note. N'hésitez pas à [visiter notre site](https://www.statoscop.fr) et à nous suivre sur [Twitter](https://twitter.com/stato_scop) et [Linkedin](https://www.linkedin.com/company/statoscop). Pour retrouver le code ayant servi à générer cette note, vous pouvez vous rendre sur le [dépôt github de nos notes de blog](https://github.com/Statoscop/notebooks-blog).  
 
 
-> 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
-> Vous voulez en savoir plus sur ce que l'on fait?
 <div class = "d-flex justify-content-center mt-4">
    <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
    <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
