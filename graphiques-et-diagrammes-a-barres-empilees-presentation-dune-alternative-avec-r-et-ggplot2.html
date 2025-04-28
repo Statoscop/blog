@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<title>Graphiques et diagrammes à barres empilées : présentation d'une alternative avec R et ggplot2</title>    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="Le blog statistiques et data science de la coopérative Statoscop" />
+  <meta name="author" content="" />
+
+  <!-- Font Awesome icons (free version)-->
+  <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+
+
+
+  <!-- <title>Le blog de Statoscop - études de cas en R et Python</title> -->
+  <link rel="icon" type="image/x-icon" href="https://blog.statoscop.fr/themes/statoscop/static/images/favicon-v1.ico" />
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://blog.statoscop.fr/graphiques-et-diagrammes-a-barres-empilees-presentation-dune-alternative-avec-r-et-ggplot2.html" rel="canonical" />
+  <!-- Feed -->
+        <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
+          <link href="https://blog.statoscop.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
+
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />-->
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style-site.css" type="text/css" rel="stylesheet" /> 
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style_fusion.css" type="text/css" rel="stylesheet" /> -->
+  <!-- Code highlight color scheme -->
+      <link href="https://blog.statoscop.fr/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!-- [if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  ![endif] -->
+
+
+
+    <meta name="description" content="Une alternative pour visualiser des sous-ensembles et leur total sans les empiler">
+
+    <meta name="author" content="Antoine">
+
+    <meta name="tags" content="R">
+    <meta name="tags" content="ggplot2">
+    <meta name="tags" content="dataviz">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="Graphiques et diagrammes à barres empilées : présentation d'une alternative avec R et ggplot2"/>
+<meta property="og:description" content="Une alternative pour visualiser des sous-ensembles et leur total sans les empiler"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.statoscop.fr/graphiques-et-diagrammes-a-barres-empilees-presentation-dune-alternative-avec-r-et-ggplot2.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2025-04-28 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://blog.statoscop.fr/author/antoine.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="R"/>
+<meta property="article:tag" content="ggplot2"/>
+<meta property="article:tag" content="dataviz"/>
+<meta property="og:image" content="https://blog.statoscop.fr/images/cover_24.png">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Graphiques et diagrammes à barres empilées : présentation d'une alternative avec R et ggplot2",
+  "headline": "Graphiques et diagrammes à barres empilées : présentation d'une alternative avec R et ggplot2",
+  "datePublished": "2025-04-28 00:00:00+02:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Antoine",
+    "url": "https://blog.statoscop.fr/author/antoine.html"
+  },
+  "image": "https://blog.statoscop.fr/images/cover_24.png",
+  "url": "https://blog.statoscop.fr/graphiques-et-diagrammes-a-barres-empilees-presentation-dune-alternative-avec-r-et-ggplot2.html",
+  "description": "Une alternative pour visualiser des sous-ensembles et leur total sans les empiler"
+}
+</script>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//matomo.statoscop.fr/matomo/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+  
+
+</head>
+<!-- TODO : Body class -->
+  <body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
+
+        <a class="navbar-brand" href="https://statoscop.fr"><img src="https://blog.statoscop.fr/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Statoscop.logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ml-auto">
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr"> Accueil </a>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr/about"> À propos </a>
+              </li>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle font-weight-bold "
+                  id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false"> Prestations </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <li><a class="dropdown-item" href="https://statoscop.fr/etudes">Conseils & études statistiques</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/recodages">Migrations de code & Recodages</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/formations">Formations</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/applis">Dashboards & Applications</a></li>
+                  </ul>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr/contact">Contact</a>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger active" href="https://blog.statoscop.fr/">Le blog</a>
+              </li>
+          </ul>
+      </div>
+      </div>
+    </nav>
+    
+
+
+    <!-- Post content -->
+    <main class="content" role="main">
+      
+      <div>
+      </div>
+
+      <article class="post">
+        <div class="inner">
+
+
+
+
+            <section class="post-content">
+              <h1 class="post-title">Graphiques et diagrammes à barres empilées : présentation d'une alternative avec R et ggplot2</h1>
+                <!-- Le titres et meta infos-->
+                <span class="post-meta">
+                        <a href="https://blog.statoscop.fr/author/antoine.html">Antoine</a>
+                    | <time datetime="lun. 28 avril 2025">lun. 28 avril 2025</time>
+                </span>
+
+                <!--Table des matieres
+-->
+                
+                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+<li><a href="#dechiffrer-un-diagramme-a-barres-empilees">Déchiffrer un diagramme à barres empilées</a></li>
+<li><a href="#segmenter-plutot-quempiler-vos-barres-avec-ggplot2">Segmenter plutôt qu'empiler vos barres avec ggplot2</a><ul>
+<li><a href="#visualiser-levolution-de-la-pauvrete-dans-le-monde-par-regions">Visualiser l'évolution de la pauvreté dans le monde par régions</a></li>
+<li><a href="#le-graphique-a-barres-segmentees-avec-total">Le graphique à barres segmentées avec total</a></li>
+</ul>
+</li>
+<li><a href="#choisir-le-graphique-adapte-a-son-probleme">Choisir le graphique adapté à son problème</a></li>
+</ul>
+</div>
+<p>Aujourd'hui nous vous proposons un petit article dataviz avec ggplot2 pour apporter notre modeste contribution à des discussions vues ici et là sur <strong>la pertinence des graphiques à barres empilées</strong>, en anglais <strong>stacked bar charts</strong>. Plus spécifiquement, on se propose de coder en ggplot2 une visualisation vue sur <a href="https://www.flerlagetwins.com/2025/04/the-best-alternative-to-stacked-bar.html">un article présentant la meilleur alternative aux graphiques empilées</a> (selon son auteur).  </p>
+<h1 id="dechiffrer-un-diagramme-a-barres-empilees">Déchiffrer un diagramme à barres empilées</h1>
+<p>Un graphique à barres empilées permet <strong>d'illustrer l'évolution ou la comparaison d'une mesure globale, tout en la déclinant par des sous-ensembles</strong>. Par exemple, on peut utiliser la base <code>diamonds</code> de ggplot2 pour présenter la pureté de la coupe des diamants (variable <code>clarity</code>) en fonction de la qualité de leur taille (variable <code>cut</code>) : </p>
+<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="n">diamonds</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cut</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clarity</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="c1"># par défaut, geom_bar s&#39;exécute avec position = &quot;stack&quot; :</span>
+<span class="w">  </span><span class="nf">geom_bar</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">theme_minimal</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="Pelican" src="../images/graph_bar_empilees/unnamed-chunk-2-1.png"><!-- --></p>
+<p>Que nous indique ce graphique? Pas grand chose en réalité, si ça n'est que notre base contient d'autant plus de diamants que la qualité de leur taille est bonne. Mais pour déduire la même chose de chaque niveau de pureté de diamants, il faut se livrer à un exercice de concentration intense que ne devrait pas nécessiter une bonne visualisation. À part pour le niveau <code>IF</code>, le plus pur, dont ont voit clairement que le nombre augmente avec la qualité de la taille, <strong>il est difficile d'évaluer l'augmentation relative de chaque sous-ensemble, d'autant plus que les effectifs totaux diffèrent</strong>.  </p>
+<p>Bien sûr, on peut décider de changer légèrement le type de notre graphique et de représenter plutôt la répartition relative du niveau de pureté des diamants <strong>pour chaque qualité de taille</strong>, en spécifiant le paramètre <code>position</code> de geom_bar à <code>fill</code> :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">diamonds</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cut</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clarity</span><span class="p">))</span><span class="w"> </span><span class="o">+</span>
+<span class="w">  </span><span class="nf">geom_bar</span><span class="p">(</span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;fill&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">theme_minimal</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="Pelican" src="../images/graph_bar_empilees/unnamed-chunk-3-1.png"><!-- --></p>
+<p>À part pour les niveaux extrêmes de pureté (<code>I1</code> et <code>IF</code>), l'évolution de la répartition pour chaque catégorie de diamants demeure assez obscur, et on a en plus perdu l'information sur le nombre de diamants totaux que chaque catégorie représente!<br>
+Ce problème, soulevé par nombre de spécialistes de la dataviz, et notamment <a href="https://www.data-to-viz.com/caveat/stacking.html">Yan Holtz dans un article récent</a>, a poussé certains à chercher des alternatives. L'idée est de pouvoir <strong>présenter clairement à la fois l'évolution d'un total et de ses sous-ensembles</strong>. </p>
+<blockquote>
+<p>👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?</p>
+</blockquote>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>    </p>
+<h1 id="segmenter-plutot-quempiler-vos-barres-avec-ggplot2">Segmenter plutôt qu'empiler vos barres avec ggplot2</h1>
+<p>Nous proposons ici <a href="https://www.flerlagetwins.com/2025/04/the-best-alternative-to-stacked-bar.html">d'appliquer la méthode présentée par Kevin Flerlage</a>. La solution qu'il propose avec l'outil Tableau nous semble élégante et <strong>nous montrons ici comment la mettre en oeuvre avec</strong> <code>ggplot2</code>.  </p>
+<h2 id="visualiser-levolution-de-la-pauvrete-dans-le-monde-par-regions">Visualiser l'évolution de la pauvreté dans le monde par régions</h2>
+<p>On s'appuie ici sur des données de <a href="https://ourworldindata.org">World In Data</a> en 2010, 2016, 2020 et 2024. On choisit de regarder l'évolution du nombre de personnes sous le seuil de 2.15$ par jour, déclinée par grande région du monde.  </p>
+<p>Avec <code>ggplot2</code> et <code>geom_col</code>, on peut facilement proposer une représentation avec un graphique à barres empilées :  </p>
+<div class="highlight"><pre><span></span><code><span class="nf">library</span><span class="p">(</span><span class="n">scales</span><span class="p">)</span><span class="w"> </span><span class="c1"># pour scale du y-axis</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggtext</span><span class="p">)</span><span class="w"> </span><span class="c1"># pour mise en forme du titre</span>
+
+<span class="n">data_wid_country</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">ggplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_col</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Year</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">`Number below $2.15 a day`</span><span class="p">,</span>
+<span class="w">               </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Region</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">label_number</span><span class="p">(</span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1e-6</span><span class="p">,</span><span class="w"> </span><span class="n">suffix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;M&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;The evolution of poverty in the World&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="n">caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Source : World Bank (2024) – processed by Our World in Data (https://ourworldindata.org)</span>
+<span class="s">       This data is adjusted for inflation and for differences in living costs between countries.&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">theme_minimal</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_markdown</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">17</span><span class="p">,</span>
+<span class="w">                                      </span><span class="n">hjust</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.5</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bottom&quot;</span><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+
+<p><img alt="Pelican" src="../images/graph_bar_empilees/unnamed-chunk-4-1.png"><!-- --></p>
+<p>Ce graphique nous permet de voir une baisse du nombre de personnes pauvres entre 2010 et 2016 puis une stagnation de cet indicateur entre 2016 et 2024. Il <strong>ne nous permet cependant pas d'évaluer précisément l'évolution au sein de chaque région du monde</strong>. </p>
+<h2 id="le-graphique-a-barres-segmentees-avec-total">Le graphique à barres segmentées avec total</h2>
+<p>Nous traduisons ici le terme proposé par Kevin Flerlage. L'idée est la suivante : on va juxtaposer plutôt qu'empiler les différents sous-ensembles. On va pour cela utiliser le paramètre <code>position = "dodge"</code> de <code>geom_col</code>.  </p>
+<p>Le problème à ce stade est bien sûr <strong>qu'on ne dispose plus d'estimation du total</strong>. Il s'agit donc d'ajouter <strong>une barre totale qui englobe les barres des sous-ensembles</strong>, avec une transparence pour permettre une bonne visibilité. C'est un jeu d'enfant avec <code>ggplot2</code> puisqu'il s'agit simplement d'ajouter un <code>geom_col</code> et de lui choisir une couleur avec <code>fill</code> et un niveau de transparence avec <code>alpha</code>.  </p>
+<p>Si on considère qu'il n'est pas assez explicite que la barre ajoutée correspond au total, on peut s'en sortir en ajoutant dans le titre la même couleur que celle de la barre transparente. Le résultat est le suivant :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">data_wid_country</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">ggplot</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">geom_col</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Year</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">`Number below $2.15 a day`</span><span class="p">,</span>
+<span class="w">               </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Region</span><span class="p">),</span>
+<span class="w">           </span><span class="c1"># changement de la position</span>
+<span class="w">           </span><span class="n">position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;dodge&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="c1"># ajout d&#39;un geom_col</span>
+<span class="w">  </span><span class="nf">geom_col</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Year</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">`Number below $2.15 a day`</span><span class="p">),</span>
+<span class="w">           </span><span class="n">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.2</span><span class="p">,</span><span class="w"> </span><span class="n">fill</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;#C77CFF&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">scale_y_continuous</span><span class="p">(</span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">label_number</span><span class="p">(</span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1e-6</span><span class="p">,</span><span class="w"> </span><span class="n">suffix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;M&quot;</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">labs</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;The evolution of poverty &lt;span style=&#39;color:#C77CFF;&#39;&gt;in the World&lt;/span&gt;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">caption</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Source : World Bank (2024) – processed by Our World in Data (https://ourworldindata.org)</span>
+<span class="s">       This data is adjusted for inflation and for differences in living costs between countries.&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">theme_minimal</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">theme</span><span class="p">(</span><span class="n">plot.title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">element_markdown</span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">17</span><span class="p">,</span>
+<span class="w">                                      </span><span class="n">hjust</span><span class="o">=</span><span class="m">0.5</span><span class="p">),</span>
+<span class="w">        </span><span class="n">legend.position</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;bottom&quot;</span><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+
+<p><img alt="Pelican" src="../images/graph_bar_empilees/unnamed-chunk-5-1.png"><!-- --></p>
+<p>On constate en effet que la lecture nous semble plus explicite : au niveau mondial sur notre période de temps, le nombre de pauvres a baissé. Cela se traduit cependant par deux trajectoires différentes : une baisse très marquée dans la région Asie-Pacifique et un hausse en Afrique.</p>
+<h1 id="choisir-le-graphique-adapte-a-son-probleme">Choisir le graphique adapté à son problème</h1>
+<p>Cette proposition d'alternatives aux graphiques à barres empilées nous semble intéressante, notamment dans ce cas spécifique ou <strong>le total représente la somme de ses sous-ensembles</strong>. Dans le cas où on voudrait par exemple <strong>représenter une moyenne totale et la comparer à des moyennes de sous-ensembles</strong>, on préconiserait sans doute de présenter celle-ci avec une forme différente, comme un point ou un losange. Le code présenté ci-dessus peut-être utilisé de la même manière en changeant le <code>geom_col</code> par ce qui vous semble approprié.  </p>
+<p>Enfin, lorsque votre problématique contient de nombreux sous-ensembles, <strong>ce choix n'est probablement pas adapté car le total peut avoir une échelle trop différente de chacun des sous-ensembles</strong>. C'est le cas par exemple pour la problématique des diamants que je présentais en début de post, et pour laquelle le graphique à barres segmentées n'aurait pas donné un résultat satisfaisant :  </p>
+<p><img alt="Pelican" src="../images/graph_bar_empilees/unnamed-chunk-6-1.png"><!-- --></p>
+<p>Pour autant, <strong>on ne vous recommande pas non plus de faire un graphique avec deux axes verticaux</strong>. Cela pourra faire l'objet d'une prochaine note de blog! </p>
+<p>C'est tout pour aujourd'hui! On espère que cette note vous débloquera dans le choix de votre prochaine représentation graphique. Si vous avez besoin de <a href="https://statoscop.fr">conseils en programmation pour la statistique et la data science</a>, n'hésitez pas à nous contacter sur notre site, <a href="https://bsky.app/profile/statoscop.fr">BlueSky</a> ou <a href="https://www.linkedin.com/company/statoscop">Linkedin</a>.</p>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>  </p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Graphiques et diagrammes à barres empilées : présentation d'une alternative avec R et ggplot2&amp;url=https://blog.statoscop.fr/graphiques-et-diagrammes-a-barres-empilees-presentation-dune-alternative-avec-r-et-ggplot2.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://blog.statoscop.fr/tag/r.html">R</a><a href="https://blog.statoscop.fr/tag/ggplot2.html">ggplot2</a><a href="https://blog.statoscop.fr/tag/dataviz.html">dataviz</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+    
+    <!-- Footer-->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-left"> © Statoscop</div>
+                <div class="col-lg-4 my-3 my-lg-0">
+                    <a class="btn btn-dark btn-social mx-2" href="https://twitter.com/stato_scop" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="col-lg-4 text-lg-left"> 
+                    Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
+                     déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
+
+  </body>
+</html>
