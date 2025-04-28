@@ -1,4 +1,4 @@
-Title: Graphiques, diagrammes à barres empilées : présentation d'une alternative avec R et ggplot2
+Title: Graphiques et diagrammes à barres empilées : présentation d'une alternative avec R et ggplot2
 Author: Antoine
 Date: '2025-04-28'
 Category: R
@@ -31,7 +31,7 @@ diamonds |>
 
 Que nous indique ce graphique? Pas grand chose en réalité, si ça n'est que notre base contient d'autant plus de diamants que la qualité de leur taille est bonne. Mais pour déduire la même chose de chaque niveau de pureté de diamants, il faut se livrer à un exercice de concentration intense que ne devrait pas nécessiter une bonne visualisation. À part pour le niveau `IF`, le plus pur, dont ont voit clairement que le nombre augmente avec la qualité de la taille, __il est difficile d'évaluer l'augmentation relative de chaque sous-ensemble, d'autant plus que les effectifs totaux diffèrent__.  
 
-Bien sûr, on peut décider de changer légèrement le type de notre graphique et de représenter plutôt la répartition relative du niveau de pureté des diamants __pour chaque qualité de taille__, en spécifiant le paramètre `position` de geom_bar à "fill" :  
+Bien sûr, on peut décider de changer légèrement le type de notre graphique et de représenter plutôt la répartition relative du niveau de pureté des diamants __pour chaque qualité de taille__, en spécifiant le paramètre `position` de geom_bar à `fill` :  
 
 
 ```r
@@ -128,9 +128,9 @@ Enfin, lorsque votre problématique contient de nombreux sous-ensembles, __ce ch
 
 ![Pelican](../images/graph_bar_empilees/unnamed-chunk-6-1.png)<!-- -->
 
-Pour autant, __on ne vous recommande pas non plus de faire un graphiques avec deux axes verticaux__. Cela pourra faire l'objet d'une prochaine note de blog! 
+Pour autant, __on ne vous recommande pas non plus de faire un graphique avec deux axes verticaux__. Cela pourra faire l'objet d'une prochaine note de blog! 
 
-C'est tout pour aujourd'hui! On espère que cette note vous débloquera dans le choix de votre prochaine représentation graphique. Si vous avez besoin de [conseils en programmation pour la statistique et la data science](https://statoscop.fr), n'hésitez pas à nous contacter sur notre site ou sur [BlueSky](https://bsky.app/profile/statoscop.fr) et [Linkedin](https://www.linkedin.com/company/statoscop).
+C'est tout pour aujourd'hui! On espère que cette note vous débloquera dans le choix de votre prochaine représentation graphique. Si vous avez besoin de [conseils en programmation pour la statistique et la data science](https://statoscop.fr), n'hésitez pas à nous contacter sur notre site, [BlueSky](https://bsky.app/profile/statoscop.fr) ou [Linkedin](https://www.linkedin.com/company/statoscop).
 
 
 <div class = "d-flex justify-content-center mt-4">
