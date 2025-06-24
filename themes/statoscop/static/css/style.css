@@ -543,7 +543,7 @@ ol {
 }
 
 ul {
-    list-style: none
+    list-style: circle;
 }
 
 li {
