@@ -1344,7 +1344,7 @@ Copying images to TEST directory
 &lt;p&gt;Après une toute petite ellipse temporelle de plus d'un an, ce quatrième post s'attaque au vrai problème à savoir la décomposition, la modélisation et la prédiction des séries temporelles à l'aide des modèles statistiques classiques.&lt;/p&gt;
 &lt;h1 id="decomposition-dune-serie-temporelle"&gt;Décomposition d'une série temporelle&lt;/h1&gt;
 &lt;p&gt;Le principe de la décomposition des séries temporelles est de découper les séries originales en plusieurs composants indépendants (vus dans le post précédent) : tendance, saisonnalité, cycle et bruit.&lt;/p&gt;
-&lt;p&gt;Pour illustrer tout ça, on va utiliser des données qui sont aux séries temporelles ce que le dataset "Titanic" est au machine learning : la série AirPassenger qui mesure le nombre mensuel de passagers aériens, en milliers, de janvier 1949 à décembre 1960. Dans la suite, on notera &lt;span class="math"&gt;\(X_{t}\)&lt;/span&gt;  la série AirPassengers et &lt;span class="math"&gt;\(Y_t=ln(X_t)\)&lt;/span&gt;. &lt;/p&gt;
+&lt;p&gt;Pour illustrer tout ça, on va utiliser des données qui sont aux séries temporelles ce que le dataset "Titanic" est au machine learning : la série AirPassenger qui mesure le nombre mensuel de passagers aériens, en milliers, de janvier 1949 à décembre 1960. Dans la suite, on notera $X_{t}$  la série AirPassengers et $Y_t=ln(X_t)$. &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
@@ -1369,7 +1369,7 @@ Copying images to TEST directory
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp4/output_4_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;On voit sur la série initiale (en rouge) que l'amplitude des variations augmente chaque année de manière exponentielle. Or dans un cadre théorique parfait, on voudrait une variance constante au court du temps. Pour s'en approcher on peut passer par la fonction logarithme. En effet, comme &lt;span class="math"&gt;\(log(ab) = log(a) + log(b)\)&lt;/span&gt;, le &lt;span class="math"&gt;\(log\)&lt;/span&gt; transforme un modèle &lt;strong&gt;multiplicatif&lt;/strong&gt; en un modèle &lt;strong&gt;additif&lt;/strong&gt;. Ainsi l'accroissement de l'amplitude des pics (donc de la variance) pour la série &lt;span class="math"&gt;\(X\)&lt;/span&gt; disparaît avec la transformation logarithmique. C'est visible sur la courbe bleue.  &lt;/p&gt;
+&lt;p&gt;On voit sur la série initiale (en rouge) que l'amplitude des variations augmente chaque année de manière exponentielle. Or dans un cadre théorique parfait, on voudrait une variance constante au court du temps. Pour s'en approcher on peut passer par la fonction logarithme. En effet, comme $log(ab) = log(a) + log(b)$, le $log$ transforme un modèle &lt;strong&gt;multiplicatif&lt;/strong&gt; en un modèle &lt;strong&gt;additif&lt;/strong&gt;. Ainsi l'accroissement de l'amplitude des pics (donc de la variance) pour la série $X$ disparaît avec la transformation logarithmique. C'est visible sur la courbe bleue.  &lt;/p&gt;
 &lt;h2 id="la-tendance"&gt;La tendance&lt;/h2&gt;
 &lt;p&gt;On a présenté dans le premier post une façon de visualiser la tendance en lissant la courbe à l'aide des moyennes mobiles sur une fenêtre glissante d'observations. Lorsqu'on choisit différentes tailles de fenêtres glissantes, on obtient les résultats suivants.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;win&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;18&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;21&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;36&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -1446,71 +1446,69 @@ Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp4/output_12_0.png"&gt;&lt;/p&gt;
 &lt;h1 id="prevision-a-laide-dun-modele-arima"&gt;Prévision à l'aide d'un modèle ARIMA&lt;/h1&gt;
-&lt;p&gt;Un modèle autoréfressif intégré à moyennes mobiles (ARIMA) est une généralisation du modèle ARMA, aperçu dans le post précédent. Ils sont utilisés dans certains cas où les données montrent une non-stationnarité. Une étape de différenciation initiale (correspondant à la partie "intégrée" du modèle) peut alors être appliquée une ou plusieurs fois afin d'éliminer la non-stationnarité. Dans le modèle de base, trois paramètres &lt;span class="math"&gt;\((p,d,q)\)&lt;/span&gt; sont utilisés pour caractériser les modèles ARIMA. On les note donc &lt;span class="math"&gt;\(ARIMA(p,d,q)\)&lt;/span&gt; et ils sont définis par :
-&lt;/p&gt;
-&lt;div class="math"&gt;$$
+&lt;p&gt;Un modèle autoréfressif intégré à moyennes mobiles (ARIMA) est une généralisation du modèle ARMA, aperçu dans le post précédent. Ils sont utilisés dans certains cas où les données montrent une non-stationnarité. Une étape de différenciation initiale (correspondant à la partie "intégrée" du modèle) peut alors être appliquée une ou plusieurs fois afin d'éliminer la non-stationnarité. Dans le modèle de base, trois paramètres $(p,d,q)$ sont utilisés pour caractériser les modèles ARIMA. On les note donc $ARIMA(p,d,q)$ et ils sont définis par :
+$$
 \left(1 - \sum_{i=1}^p \phi_i L^i \right) (1 - L)^d y_t = \mu + \left(1 + \sum_{i=1}^q \theta_i L^i \right) \varepsilon_t
-$$&lt;/div&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(L\)&lt;/span&gt; est l'opérateur &lt;em&gt;retard&lt;/em&gt; qui consiste à décaler la série d'une observation.&lt;/p&gt;
-&lt;p&gt;SARIMA, ou ARIMA saisonnier, est une généralisation du modèle ARIMA qui permet de tenir compte de la saisonnalité. Ce modèle est caractérisé non plus par 3 paramètres &lt;span class="math"&gt;\((p,d,q)\)&lt;/span&gt; mais par 7 ! Il est noté &lt;span class="math"&gt;\(SARIMA(p,d,q)(P,D,Q)_s\)&lt;/span&gt; où :
-- &lt;span class="math"&gt;\(s\)&lt;/span&gt; est la période de la saisonnalité
-- &lt;span class="math"&gt;\((P,D,Q)\)&lt;/span&gt; sont les ordres de la partie saisonnière&lt;/p&gt;
+$$&lt;/p&gt;
+&lt;p&gt;$L$ est l'opérateur &lt;em&gt;retard&lt;/em&gt; qui consiste à décaler la série d'une observation.&lt;/p&gt;
+&lt;p&gt;SARIMA, ou ARIMA saisonnier, est une généralisation du modèle ARIMA qui permet de tenir compte de la saisonnalité. Ce modèle est caractérisé non plus par 3 paramètres $(p,d,q)$ mais par 7 ! Il est noté $SARIMA(p,d,q)(P,D,Q)_s$ où :
+- $s$ est la période de la saisonnalité
+- $(P,D,Q)$ sont les ordres de la partie saisonnière&lt;/p&gt;
 &lt;h2 id="stationnarisation-de-la-serie"&gt;Stationnarisation de la série&lt;/h2&gt;
 &lt;p&gt;Les séries ont généralement une tendance et une saisonnalité toutefois afin de pouvoir les modéliser par des processus stationnaires comme les ARMA, il faut qu'elles soient stationnaires. Or elles ne le sont que rarement, il faut donc les stationnariser.&lt;/p&gt;
-&lt;p&gt;On sait que notre série n'est pas stationnaire (c'est vérifiable en regardant l'autocorrélogramme qui doit présenter une décroissance lente vers 0). Par ailleurs, on a déjà identifié la saisonnalité de nos observations qui est annuelle. On peut déjà effectuer une différenciation en appliquant l'opérateur &lt;span class="math"&gt;\((1-L^{12})\)&lt;/span&gt; .&lt;/p&gt;
+&lt;p&gt;On sait que notre série n'est pas stationnaire (c'est vérifiable en regardant l'autocorrélogramme qui doit présenter une décroissance lente vers 0). Par ailleurs, on a déjà identifié la saisonnalité de nos observations qui est annuelle. On peut déjà effectuer une différenciation en appliquant l'opérateur $(1-L^{12})$ .&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;y_diff_12&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shift&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;fct&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot_acf_pacf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y_diff_12&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;:],&lt;/span&gt; &lt;span class="n"&gt;fig_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp4/output_14_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;La sortie ACF présente bien une décroissance lente vers 0, ce qui traduit la non-stationnarité. On effectue donc une différenciation en appliquant cette fois l'opérateur &lt;span class="math"&gt;\((1-L)\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;La sortie ACF présente bien une décroissance lente vers 0, ce qui traduit la non-stationnarité. On effectue donc une différenciation en appliquant cette fois l'opérateur $(1-L)$.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;y_diff_12_1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;y_diff_12&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;y_diff_12&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shift&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;fct&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot_acf_pacf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y_diff_12_1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;13&lt;/span&gt;&lt;span class="p"&gt;:],&lt;/span&gt; &lt;span class="n"&gt;fig_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp4/output_16_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;Avec cette double différenciation, on s'approche d'un autocorrélogramme simple empirique. On va donc modéliser la série &lt;span class="math"&gt;\((1-L)(1-L^{12})ln(X_t)\)&lt;/span&gt; par un modèle ARMA.&lt;/p&gt;
+&lt;p&gt;Avec cette double différenciation, on s'approche d'un autocorrélogramme simple empirique. On va donc modéliser la série $(1-L)(1-L^{12})ln(X_t)$ par un modèle ARMA.&lt;/p&gt;
 &lt;h2 id="identification-estimation-et-validation-de-modeles"&gt;Identification, estimation et validation de modèles&lt;/h2&gt;
 &lt;p&gt;On va s'appuyer sur les sorties ACF et PACF donc on peut utiliser une des fonctions disponibles dans &lt;code&gt;fonctions.py&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;fct&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ts_plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y_diff_12_1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;13&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Airpass&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fig_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp4/output_19_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;Les graphiques ACF et PACF permettent de voir empiriquement qu'on va avoir un modèle &lt;span class="math"&gt;\(SARIMA(p,d,q)(P,D,Q)_s\)&lt;/span&gt; avec &lt;span class="math"&gt;\(s=12\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;Il est possible de trouver empiriquement un ordre de grandeur maximum pour les parties &lt;em&gt;autorégressive&lt;/em&gt; et &lt;em&gt;moyenne mobile&lt;/em&gt;, c'est-à-dire pour les valeurs &lt;span class="math"&gt;\(p_{max}\)&lt;/span&gt; et &lt;span class="math"&gt;\(q_{max}\)&lt;/span&gt; d'un modèle &lt;span class="math"&gt;\(ARMA(p,q)\)&lt;/span&gt;. La détermination de bornes supérieures concernant l'ordre de la partie &lt;span class="math"&gt;\(AR\)&lt;/span&gt; et de la partie &lt;span class="math"&gt;\(MA\)&lt;/span&gt; passe par l'étude des autocorrélogrammes et des autocorrélogrammes partiels. En effet, si la série stationnaire suit un modèle &lt;span class="math"&gt;\(ARMA(p,q)\)&lt;/span&gt; alors :  &lt;/p&gt;
+&lt;p&gt;Les graphiques ACF et PACF permettent de voir empiriquement qu'on va avoir un modèle $SARIMA(p,d,q)(P,D,Q)_s$ avec $s=12$.&lt;/p&gt;
+&lt;p&gt;Il est possible de trouver empiriquement un ordre de grandeur maximum pour les parties &lt;em&gt;autorégressive&lt;/em&gt; et &lt;em&gt;moyenne mobile&lt;/em&gt;, c'est-à-dire pour les valeurs $p_{max}$ et $q_{max}$ d'un modèle $ARMA(p,q)$. La détermination de bornes supérieures concernant l'ordre de la partie $AR$ et de la partie $MA$ passe par l'étude des autocorrélogrammes et des autocorrélogrammes partiels. En effet, si la série stationnaire suit un modèle $ARMA(p,q)$ alors :  &lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;l'autocorrélogramme ACF devient nul à partir du rang &lt;span class="math"&gt;\(q+1\)&lt;/span&gt;  &lt;/li&gt;
-&lt;li&gt;l'autocorrélogramme partiel PACF devient nul à partir du rang &lt;span class="math"&gt;\(p+1\)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;l'autocorrélogramme ACF devient nul à partir du rang $q+1$  &lt;/li&gt;
+&lt;li&gt;l'autocorrélogramme partiel PACF devient nul à partir du rang $p+1$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Le tableau suivant résume les propriétés des tracés de l'ACF et de la PACF empiriques :&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
 &lt;th&gt;&lt;/th&gt;
-&lt;th align="center"&gt;MA(q)&lt;/th&gt;
-&lt;th align="center"&gt;AR(p)&lt;/th&gt;
-&lt;th align="center"&gt;ARMA(p,q)&lt;/th&gt;
+&lt;th style="text-align: center;"&gt;MA(q)&lt;/th&gt;
+&lt;th style="text-align: center;"&gt;AR(p)&lt;/th&gt;
+&lt;th style="text-align: center;"&gt;ARMA(p,q)&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;ACF&lt;/td&gt;
-&lt;td align="center"&gt;0 si k &amp;gt; q&lt;/td&gt;
-&lt;td align="center"&gt;&lt;span class="math"&gt;\(\searrow\)&lt;/span&gt;&lt;/td&gt;
-&lt;td align="center"&gt;&lt;span class="math"&gt;\(\searrow\)&lt;/span&gt;&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;0 si k &amp;gt; q&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;$\searrow$&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;$\searrow$&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;PACF&lt;/td&gt;
-&lt;td align="center"&gt;&lt;span class="math"&gt;\(\searrow\)&lt;/span&gt;&lt;/td&gt;
-&lt;td align="center"&gt;0 si k &amp;gt; p&lt;/td&gt;
-&lt;td align="center"&gt;&lt;span class="math"&gt;\(\searrow\)&lt;/span&gt;&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;$\searrow$&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;0 si k &amp;gt; p&lt;/td&gt;
+&lt;td style="text-align: center;"&gt;$\searrow$&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;Dès lors, en se basant sur les autocorrélogrammes, il est possible de déterminer empiriquement les ordres maximum en regardant à partir de quel rang les autocorrélogrammes sont statistiquement nuls. Dans notre cas, on peut considérer que &lt;span class="math"&gt;\(p_{max} = q_{max} = 1\)&lt;/span&gt; et on va donc tester différents modèles compte tenu de ces bornes.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Modèle 1 :&lt;/strong&gt; pour commencer on modélise un &lt;span class="math"&gt;\(SARIMA(1,1,1)(1,1,1)_{12}\)&lt;/span&gt; qui s'écrit :
-&lt;/p&gt;
-&lt;div class="math"&gt;$$(1-\phi_{1}L)(1-\phi'_{1}L^{12})(1-L)(1-L^{12})ln(X_{t})=(1+\theta_{1}L)(1+\theta'_{1}L^{12})\epsilon_{t} $$&lt;/div&gt;
+&lt;p&gt;Dès lors, en se basant sur les autocorrélogrammes, il est possible de déterminer empiriquement les ordres maximum en regardant à partir de quel rang les autocorrélogrammes sont statistiquement nuls. Dans notre cas, on peut considérer que $p_{max} = q_{max} = 1$ et on va donc tester différents modèles compte tenu de ces bornes.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Modèle 1 :&lt;/strong&gt; pour commencer on modélise un $SARIMA(1,1,1)(1,1,1)&lt;em 1&gt;{12}$ qui s'écrit :
+$$(1-\phi&lt;/em&gt;L)(1-\phi'&lt;em t&gt;{1}L^{12})(1-L)(1-L^{12})ln(X&lt;/em&gt;L)(1+\theta'})=(1+\theta_{1&lt;em t&gt;{1}L^{12})\epsilon&lt;/em&gt; $$&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;statsmodels.tsa.statespace.sarimax&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
 
 &lt;span class="n"&gt;m1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SARIMAX&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;seasonal_order&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
@@ -1547,9 +1545,8 @@ Warnings:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Ce modèle a des coefficients non significatifs, on en teste un second en retirant dans le paramètre associé à la plus grande p-value : ici c'est le terme autorégressif saisonnier.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Modèle 2 :&lt;/strong&gt; on modélise donc un &lt;span class="math"&gt;\(SARIMA(1,1,1)(0,1,1)_{12}\)&lt;/span&gt; qui s'écrit :
-&lt;/p&gt;
-&lt;div class="math"&gt;$$(1-\phi_{1}L)(1-L)(1-L^{12})ln(X_{t})=(1+\theta_{1}L)(1+\theta'_{1}L^{12})\epsilon_{t} $$&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Modèle 2 :&lt;/strong&gt; on modélise donc un $SARIMA(1,1,1)(0,1,1)&lt;em 1&gt;{12}$ qui s'écrit :
+$$(1-\phi&lt;/em&gt;L)(1+\theta'}L)(1-L)(1-L^{12})ln(X_{t})=(1+\theta_{1&lt;em t&gt;{1}L^{12})\epsilon&lt;/em&gt; $$&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;m2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SARIMAX&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;seasonal_order&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;res2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;m2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;disp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;summary&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
@@ -1583,9 +1580,8 @@ Warnings:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Ce modèle a toujours un coefficient non significatif, on en teste un 3ème modèle en retirant le terme autorégressif d'ordre 1.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Modèle 3 :&lt;/strong&gt; on modélise donc un &lt;span class="math"&gt;\(SARIMA(0,1,1)(0,1,1)_{12}\)&lt;/span&gt; qui s'écrit :
-&lt;/p&gt;
-&lt;div class="math"&gt;$$(1-L)(1-L^{12})ln(X_{t})=(1+\theta_{1}L)(1+\theta'_{1}L^{12})\epsilon_{t} $$&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Modèle 3 :&lt;/strong&gt; on modélise donc un $SARIMA(0,1,1)(0,1,1)&lt;em t&gt;{12}$ qui s'écrit :
+$$(1-L)(1-L^{12})ln(X&lt;/em&gt;L)(1+\theta'})=(1+\theta_{1&lt;em t&gt;{1}L^{12})\epsilon&lt;/em&gt; $$&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;m3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SARIMAX&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;seasonal_order&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;res3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;m3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;disp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;summary&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
@@ -1634,8 +1630,8 @@ Pour ça on peut utiliser le test de Ljung-Box d'autocorrélation des résidus q
 &lt;span class="mi"&gt;36&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;0.560395354197207&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Toutes les p-values sont élevées ce qui signifie qu'on ne peut pas rejeter l'hypothèse nulle du test. Or, l'hypothèse &lt;span class="math"&gt;\(H_0\)&lt;/span&gt; est qu'il n'y a pas d'autocorrélation des résidus, on peut pas la rejeter, donc on est bon !&lt;/p&gt;
-&lt;p&gt;On peut enfin tester la normalité des résidus avec le test de Shapiro-Wilk implémenté dans la fonction &lt;code&gt;scipy.stats.shapiro&lt;/code&gt;, l'hypothèse nulle étant que les étant que les observations sont normalement distribuées, on souhaite encore une fois une p-value élevée pour ne pas rejeter &lt;span class="math"&gt;\(H_0\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Toutes les p-values sont élevées ce qui signifie qu'on ne peut pas rejeter l'hypothèse nulle du test. Or, l'hypothèse $H_0$ est qu'il n'y a pas d'autocorrélation des résidus, on peut pas la rejeter, donc on est bon !&lt;/p&gt;
+&lt;p&gt;On peut enfin tester la normalité des résidus avec le test de Shapiro-Wilk implémenté dans la fonction &lt;code&gt;scipy.stats.shapiro&lt;/code&gt;, l'hypothèse nulle étant que les étant que les observations sont normalement distribuées, on souhaite encore une fois une p-value élevée pour ne pas rejeter $H_0$.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scipy.stats&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;shapiro&lt;/span&gt;
 &lt;span class="n"&gt;shapiro&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;resid&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;13&lt;/span&gt;&lt;span class="p"&gt;:])&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -1669,8 +1665,8 @@ Pour ça on peut utiliser le test de Ljung-Box d'autocorrélation des résidus q
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp4/output_33_0.png"&gt;&lt;/p&gt;
 &lt;h2 id="evaluation-de-la-qualite-predictive-du-modele"&gt;Évaluation de la qualité prédictive du modèle&lt;/h2&gt;
 &lt;p&gt;On n'en a pas parlé jusqu'ici mais pour construire un modèle prédictif, il faut mettre en place, entraîner, tester et évaluer votre modèle. Pour cela, il est nécessaire de découper nos données en échantillons d'entraînement et de test. Pour des observations non chronologiques, on découpe de manière aléatoire mais pour des données temporelles, on est obligé de conserver la chronologie dans l'échantillon d'entraînement. Pour cela, on va tout simplement tronquer la série : les &lt;strong&gt;données d'entraînement sont les observations jusqu'en 1958&lt;/strong&gt; et les &lt;strong&gt;données de test sont celles des années 1959 et 1960&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;On va utiliser directement le modèle &lt;span class="math"&gt;\(SARIMA(0,1,1)(0,1,1)_{12}\)&lt;/span&gt; obtenu avec toutes les observations de la série. Toutefois, il est plus rigoureux de s'assurer que le modèle retenu précédemment est toujours valide sur la série tronquée &lt;code&gt;y_train&lt;/code&gt;. Pour cela on regarde la significativité des coefficients, l'autocorrélation et la normalité des résidus.&lt;/p&gt;
-&lt;p&gt;Le modèle &lt;span class="math"&gt;\(SARIMA(0,1,1)(0,1,1)_{12}\)&lt;/span&gt; étant bien valide sur les données tronquées, on peut prédire les valeurs des années 1959 et 1960 et les afficher sur le graphique suivant avec les valeurs réelles, prédites et les intervalles de confiance.&lt;/p&gt;
+&lt;p&gt;On va utiliser directement le modèle $SARIMA(0,1,1)(0,1,1)_{12}$ obtenu avec toutes les observations de la série. Toutefois, il est plus rigoureux de s'assurer que le modèle retenu précédemment est toujours valide sur la série tronquée &lt;code&gt;y_train&lt;/code&gt;. Pour cela on regarde la significativité des coefficients, l'autocorrélation et la normalité des résidus.&lt;/p&gt;
+&lt;p&gt;Le modèle $SARIMA(0,1,1)(0,1,1)_{12}$ étant bien valide sur les données tronquées, on peut prédire les valeurs des années 1959 et 1960 et les afficher sur le graphique suivant avec les valeurs réelles, prédites et les intervalles de confiance.&lt;/p&gt;
 &lt;p&gt;Enfin, on ajoute des métriques d'erreur : RMSE et MAPE.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# série x : série des passagers&lt;/span&gt;
 &lt;span class="n"&gt;x_train&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loc&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;1958&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Airpass&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -1753,13 +1749,13 @@ ShapiroResult(statistic=0.9883859157562256, pvalue=0.48699426651000977)
 
 &lt;p&gt;Ainsi on obtient su les 2 années 1959 et 1960, une erreur moyenne de prédiction de 43,2 passagers (RMSE) et une erreur moyenne absolue en pourcentage de 8,5%.&lt;/p&gt;
 &lt;h2 id="une-autre-approche-pour-la-determination-du-modele"&gt;Une autre approche pour la détermination du modèle&lt;/h2&gt;
-&lt;p&gt;Pour ajuster un modèle SARIMA aux données d'une série temporelle, il faut déterminer le jeu de paramètres &lt;span class="math"&gt;\((p,d,q)(P,D,Q)s\)&lt;/span&gt; optimaux. On peut faire de la recherche sur grille qui consiste à tester de manière itérative plusieurs valeurs possibles des paramètres et d'évaluer les modèles en utilisant des critères tels que AIC ou BIC.&lt;/p&gt;
-&lt;p&gt;On utilisera nous le critère d'information Akaike (&lt;span class="math"&gt;\(AIC\)&lt;/span&gt;) qui mesure la qualité relative des modèles statistiques pour un ensemble d'observations donné. À partir d'un ensemble de modèles, le critère &lt;span class="math"&gt;\(AIC\)&lt;/span&gt; permet d'estimer la qualité de chacun des modèles par rapport aux autres. Cela permet donc de sélectionner des modèles. Intuitivement, le critère &lt;span class="math"&gt;\(AIC\)&lt;/span&gt; mesure le compromis entre la qualité de l'ajustement du modèle aux observations fournies et la complexité du modèle (nombre de paramètres inclus et estimés). Le critère &lt;span class="math"&gt;\(AIC\)&lt;/span&gt; est calculé par :&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(AIC=2k-2ln(L)\)&lt;/span&gt; avec :
-- &lt;span class="math"&gt;\(k\)&lt;/span&gt; nombre de paramètres estimés
-- &lt;span class="math"&gt;\(L\)&lt;/span&gt; valeur maximale de la vraisemblance (pour simplifier maximiser la vraisemblance revient plus ou moins à minimiser l'erreur)&lt;/p&gt;
-&lt;p&gt;Le meilleur modèle est celui qui minimise le critère &lt;span class="math"&gt;\(AIC\)&lt;/span&gt;. À titre de comparaison, on regarde aussi selon le critère BIC.&lt;/p&gt;
-&lt;p&gt;Dans on premier temps, on va générer toutes les valeurs possibles des paramètres que nous aimerions évaluer, à savoir &lt;span class="math"&gt;\((p,d,q)(P,D,Q)\)&lt;/span&gt; puisqu'on sait déjà que &lt;span class="math"&gt;\(s=12\)&lt;/span&gt;. On testera les modèles pour toutes les combinaisons possibles pour des valeurs entre 0 et 1 pour chacun des 6 paramètres c'est-à-dire &lt;span class="math"&gt;\(2^6 = 64\)&lt;/span&gt; possibilités. Si on va jusqu'à 2 pour chaque paramêtre, on passe à &lt;span class="math"&gt;\(3^6 = 729\)&lt;/span&gt; possibilités, ce qui va commencer à faire un peu long...&lt;/p&gt;
+&lt;p&gt;Pour ajuster un modèle SARIMA aux données d'une série temporelle, il faut déterminer le jeu de paramètres $(p,d,q)(P,D,Q)s$ optimaux. On peut faire de la recherche sur grille qui consiste à tester de manière itérative plusieurs valeurs possibles des paramètres et d'évaluer les modèles en utilisant des critères tels que AIC ou BIC.&lt;/p&gt;
+&lt;p&gt;On utilisera nous le critère d'information Akaike ($AIC$) qui mesure la qualité relative des modèles statistiques pour un ensemble d'observations donné. À partir d'un ensemble de modèles, le critère $AIC$ permet d'estimer la qualité de chacun des modèles par rapport aux autres. Cela permet donc de sélectionner des modèles. Intuitivement, le critère $AIC$ mesure le compromis entre la qualité de l'ajustement du modèle aux observations fournies et la complexité du modèle (nombre de paramètres inclus et estimés). Le critère $AIC$ est calculé par :&lt;/p&gt;
+&lt;p&gt;$AIC=2k-2ln(L)$ avec :
+- $k$ nombre de paramètres estimés
+- $L$ valeur maximale de la vraisemblance (pour simplifier maximiser la vraisemblance revient plus ou moins à minimiser l'erreur)&lt;/p&gt;
+&lt;p&gt;Le meilleur modèle est celui qui minimise le critère $AIC$. À titre de comparaison, on regarde aussi selon le critère BIC.&lt;/p&gt;
+&lt;p&gt;Dans on premier temps, on va générer toutes les valeurs possibles des paramètres que nous aimerions évaluer, à savoir $(p,d,q)(P,D,Q)$ puisqu'on sait déjà que $s=12$. On testera les modèles pour toutes les combinaisons possibles pour des valeurs entre 0 et 1 pour chacun des 6 paramètres c'est-à-dire $2^6 = 64$ possibilités. Si on va jusqu'à 2 pour chaque paramêtre, on passe à $3^6 = 729$ possibilités, ce qui va commencer à faire un peu long...&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;statsmodels.tsa.statespace.sarimax&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tqdm&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;tqdm&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;itertools&lt;/span&gt;
@@ -1809,7 +1805,7 @@ ShapiroResult(statistic=0.9883859157562256, pvalue=0.48699426651000977)
 &lt;span class="nv"&gt;Modèle&lt;/span&gt; &lt;span class="s s-Atom"&gt;retenu&lt;/span&gt; &lt;span class="s s-Atom"&gt;selon&lt;/span&gt; &lt;span class="s s-Atom"&gt;le&lt;/span&gt; &lt;span class="s s-Atom"&gt;critère&lt;/span&gt; &lt;span class="nv"&gt;BIC&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nv"&gt;SARIMA&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;AIC&lt;/span&gt;&lt;span class="o"&gt;:-&lt;/span&gt;&lt;span class="mf"&gt;405.4220890824692&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;BIC&lt;/span&gt;&lt;span class="o"&gt;:-&lt;/span&gt;&lt;span class="mf"&gt;394.3055951100231&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Le meilleur modèle selon le critère AIC est le &lt;span class="math"&gt;\(SARIMA(0,1,1)(1,0,1)_{12}\)&lt;/span&gt; qui diffère légèrement de celui obtenu avec la méthode précédente. Il convient de noter cependant que le modèle précédent &lt;span class="math"&gt;\(SARIMA(0,1,1)(0,1,1)_{12}\)&lt;/span&gt; a été obtenu sur toutes les observations.&lt;/p&gt;
+&lt;p&gt;Le meilleur modèle selon le critère AIC est le $SARIMA(0,1,1)(1,0,1)&lt;em 12&gt;{12}$ qui diffère légèrement de celui obtenu avec la méthode précédente. Il convient de noter cependant que le modèle précédent $SARIMA(0,1,1)(0,1,1)&lt;/em&gt;$ a été obtenu sur toutes les observations.&lt;/p&gt;
 &lt;p&gt;Passons à la prédiction pour terminer.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# modèle retenu&lt;/span&gt;
 &lt;span class="n"&gt;res&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;best&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;aic&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;model&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -1891,72 +1887,9 @@ Test de Shapiro : ShapiroResult(statistic=0.988020658493042, pvalue=0.4595574438
 &lt;div class = "d-flex justify-content-center mt-4"&gt;
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
-&lt;/div&gt;
-
-&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent;
-        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category><category term="ARMA"></category><category term="SARIMA"></category><category term="Time Series"></category></entry><entry><title>Manipulation de données avec pandas</title><link href="https://blog.statoscop.fr/manip-donnees-pandas.html" rel="alternate"></link><published>2022-10-12T00:00:00+02:00</published><updated>2022-10-12T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2022-10-12:/manip-donnees-pandas.html</id><summary type="html">&lt;p&gt;Tour d'horizon des manières de filtrer des observations et sélectionner des colonnes avec pandas&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;/div&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category><category term="ARMA"></category><category term="SARIMA"></category><category term="Time Series"></category></entry><entry><title>Manipulation de données avec pandas</title><link href="https://blog.statoscop.fr/manip-donnees-pandas.html" rel="alternate"></link><published>2022-10-12T00:00:00+02:00</published><updated>2022-10-12T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2022-10-12:/manip-donnees-pandas.html</id><summary type="html">&lt;p&gt;Tour d'horizon des manières de filtrer des observations et sélectionner des colonnes avec pandas&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#filtrer-des-observations"&gt;Filtrer des observations&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href="#a-partir-de-leur-position-avec-iloc"&gt;À partir de leur position  avec iloc&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#a-partir-de-leur-position-avec-iloc"&gt;À partir de leur position avec iloc&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#a-partir-de-leur-index-avec-loc"&gt;À partir de leur index avec loc&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#a-partir-de-conditions-avec-loc-et"&gt;À partir de conditions avec loc et []&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -3670,7 +3603,7 @@ Il vous revient donc de choisir ce qui vous convient le mieux. Dans le cas où o
 &lt;p&gt;Dans ce troisième post, nous entrons dans le coeur du sujet avec l'introduction des notions fondamentales des séries temporelles puis nous illustrerons ces concepts par quelques "vraies" séries de données.&lt;/p&gt;
 &lt;h1 id="notions-de-bases"&gt;Notions de bases&lt;/h1&gt;
 &lt;h2 id="definition"&gt;Définition&lt;/h2&gt;
-&lt;p&gt;Une série temporelle (ou chronologique), est une suite de valeurs numériques représentant l’évolution d’une quantité au cours du temps. On la note généralement &lt;span class="math"&gt;\(\{y_t\}_{t=1}^{T}\)&lt;/span&gt; c'est-à-dire l'ensemble des &lt;span class="math"&gt;\(T\)&lt;/span&gt; valeurs &lt;span class="math"&gt;\(y_1, y_2, y_3,..., y_{T-1}, y_T\)&lt;/span&gt;.  &lt;/p&gt;
+&lt;p&gt;Une série temporelle (ou chronologique), est une suite de valeurs numériques représentant l’évolution d’une quantité au cours du temps. On la note généralement ${y_t}&lt;em T-1&gt;{t=1}^{T}$ c'est-à-dire l'ensemble des $T$ valeurs $y_1, y_2, y_3,..., y&lt;/em&gt;, y_T$.  &lt;/p&gt;
 &lt;p&gt;On rencontre parfois les termes "processus" ou "processus stochastique". Cela fait référence au mécanisme, &lt;strong&gt;inconnu et non observable&lt;/strong&gt;, qui a entraîné ces observations.&lt;/p&gt;
 &lt;h2 id="les-composantes-dune-serie-temporelle"&gt;Les composantes d'une série temporelle&lt;/h2&gt;
 &lt;p&gt;Une série temporelle peut se décomposer en 4 composantes :&lt;br&gt;
@@ -3679,14 +3612,10 @@ Il vous revient donc de choisir ce qui vous convient le mieux. Dans le cas où o
 - &lt;strong&gt;Cycle&lt;/strong&gt; : cycles économiques à long terme, sur plusieurs années&lt;br&gt;
 - &lt;strong&gt;Bruit&lt;/strong&gt; : ce qui reste après avoir extrait les composants précédents  &lt;/p&gt;
 &lt;h2 id="la-stationnarite"&gt;La stationnarité&lt;/h2&gt;
-&lt;p&gt;Un processus &lt;span class="math"&gt;\(\{y_t\}_{t=1}^{T}\)&lt;/span&gt; est dit stationnaire lorsque :  &lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(E(y_t) = \mu\)&lt;/span&gt;  &lt;/li&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(V(y_t) = \sigma²\)&lt;/span&gt;  &lt;/li&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(\gamma(t,s) = \gamma(t-s)\)&lt;/span&gt; où &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; est la fonction d'autocorrélation qu'on va découvrir de suite  &lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;Un processus ${y_t}_{t=1}^{T}$ est dit stationnaire lorsque :&lt;br&gt;
+- $E(y_t) = \mu$&lt;br&gt;
+- $V(y_t) = \sigma²$&lt;br&gt;
+- $\gamma(t,s) = \gamma(t-s)$ où $\gamma$ est la fonction d'autocorrélation qu'on va découvrir de suite  &lt;/p&gt;
 &lt;p&gt;Ok c'est joli les formules, mais concrètement ça veut dire quoi qu'une série est stationnaire ?&lt;/p&gt;
 &lt;p&gt;Premièrement, la moyenne de la série est constante et ne dépend donc pas du temps. La courbe rouge ci-dessous n'est dès lors pas stationnaire puisque sa moyenne augmente en fonction du temps&lt;/p&gt;
 &lt;p&gt;&lt;img src='../images/SeriesTemp3/station1.png' width=700&gt;&lt;/p&gt;
@@ -3696,13 +3625,11 @@ Il vous revient donc de choisir ce qui vous convient le mieux. Dans le cas où o
 &lt;p&gt;&lt;img src='../images/SeriesTemp3/station3.png' width=700&gt;&lt;/p&gt;
 &lt;h2 id="lautocorrelation-et-lautocorrelation-partielle"&gt;L'autocorrélation et l'autocorrélation partielle&lt;/h2&gt;
 &lt;p&gt;L'autocorrélation est un indicateur montrant comment les observations d'une série temporelle sont liées entre elles. Il s'agit de la corrélation entre la série et cette même série décalée dans le temps :
-&lt;/p&gt;
-&lt;div class="math"&gt;$$\gamma(t,s) = \frac{1}{\sigma²} Cov(y_t,y_s) = \frac{1}{\sigma²} E[(y_t-\mu)(y_s-\mu)]$$&lt;/div&gt;
-&lt;p&gt;Une autre notation qui peut paraître plus claire et qui fait justement intervenir le décalage &lt;span class="math"&gt;\(k\)&lt;/span&gt; considéré entre les 2 séries &lt;span class="math"&gt;\(\{y\}\)&lt;/span&gt; :
-&lt;/p&gt;
-&lt;div class="math"&gt;$$\gamma(k) = \frac{1}{\sigma²} Cov(y_t,y_{t+k}) = \frac{1}{\sigma²} E[(y_t-\mu)(y_{t+k}-\mu)]$$&lt;/div&gt;
-&lt;p&gt;Si on ne normalise pas par &lt;span class="math"&gt;\(\sigma²\)&lt;/span&gt; on retrouve l'autocovariance. Dans le cadre des séries temporelles (et plus largement du traitement du signal) on utilise un peu indistinctement les 2 termes.&lt;/p&gt;
-&lt;p&gt;Comme la corrélation, l'autocorrélation prend ses valeurs entre &lt;span class="math"&gt;\([-1,1]\)&lt;/span&gt;. Une valeur de &lt;span class="math"&gt;\(1\)&lt;/span&gt; signifie que la série et la série décalée se superposent parfaitement.&lt;/p&gt;
+$$\gamma(t,s) = \frac{1}{\sigma²} Cov(y_t,y_s) = \frac{1}{\sigma²} E[(y_t-\mu)(y_s-\mu)]$$&lt;/p&gt;
+&lt;p&gt;Une autre notation qui peut paraître plus claire et qui fait justement intervenir le décalage $k$ considéré entre les 2 séries ${y}$ :
+$$\gamma(k) = \frac{1}{\sigma²} Cov(y_t,y_{t+k}) = \frac{1}{\sigma²} E[(y_t-\mu)(y_{t+k}-\mu)]$$&lt;/p&gt;
+&lt;p&gt;Si on ne normalise pas par $\sigma²$ on retrouve l'autocovariance. Dans le cadre des séries temporelles (et plus largement du traitement du signal) on utilise un peu indistinctement les 2 termes.&lt;/p&gt;
+&lt;p&gt;Comme la corrélation, l'autocorrélation prend ses valeurs entre $[-1,1]$. Une valeur de $1$ signifie que la série et la série décalée se superposent parfaitement.&lt;/p&gt;
 &lt;p&gt;La &lt;strong&gt;fonction d'autocorrélation (ACF)&lt;/strong&gt; et la &lt;strong&gt;fonction d'autocorrélation partielle (PACF)&lt;/strong&gt; permettent de mesurer l'association entre des valeurs actuelles et passées. Elles indiquent les valeurs passées les plus corrélées aux valeurs suivantes et donc les plus utiles à la prévision de valeurs futures. Pour parler &lt;em&gt;"avec les mains"&lt;/em&gt;, la fonction ACF mesure la similitude entre 2 observations en fonction du décalage temporel entre les 2.&lt;/p&gt;
 &lt;p&gt;Concrètement :&lt;br&gt;
 - ACF au décalage k = corrélation entre les valeurs séparées par k intervalles&lt;br&gt;
@@ -3710,25 +3637,17 @@ Il vous revient donc de choisir ce qui vous convient le mieux. Dans le cas où o
 &lt;p&gt;&lt;img src='../images/SeriesTemp3/acf_pacf.png'&gt;&lt;/p&gt;
 &lt;p&gt;Ces graphiques, qui répondent au doux nom de corrélogramme, interviennent dans la détermination de l'ordre des processus d'un modèle ARIMA qu'on ne présente plus mais qu'on aura l'occasion de croiser prochainement c'est promis.&lt;/p&gt;
 &lt;h2 id="bruit-blanc"&gt;Bruit blanc&lt;/h2&gt;
-&lt;p&gt;Un &lt;strong&gt;bruit blanc&lt;/strong&gt; est un processus &lt;span class="math"&gt;\(\{\epsilon_t\}_{t=1}^{T}\)&lt;/span&gt; qui vérifie :  &lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(E[\epsilon_t] = 0\)&lt;/span&gt;  &lt;/li&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(E[\epsilon_t²] = \sigma²\)&lt;/span&gt;  &lt;/li&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(E[\epsilon_t\epsilon_s] = 0\)&lt;/span&gt; pour &lt;span class="math"&gt;\(s \neq t\)&lt;/span&gt;  &lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;Un &lt;strong&gt;bruit blanc&lt;/strong&gt; est un processus ${\epsilon_t}_{t=1}^{T}$ qui vérifie :&lt;br&gt;
+- $E[\epsilon_t] = 0$&lt;br&gt;
+- $E[\epsilon_t²] = \sigma²$&lt;br&gt;
+- $E[\epsilon_t\epsilon_s] = 0$ pour $s \neq t$  &lt;/p&gt;
 &lt;p&gt;C'est donc une série de moyenne constante et nulle, de variance constante et de covariance nulle entre 2 observations (indépendamment du décalage entre les 2). Ce dernier point signifie donc que les observations sont &lt;strong&gt;non corrélées&lt;/strong&gt; entre elles.&lt;/p&gt;
-&lt;p&gt;Un &lt;strong&gt;bruit blanc indépendant&lt;/strong&gt; est un processus &lt;span class="math"&gt;\(\{\epsilon_t\}_{t=1}^{T}\)&lt;/span&gt; qui vérifie :  &lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(E[\epsilon_t] = 0\)&lt;/span&gt;  &lt;/li&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(E[\epsilon_t²] = \sigma²\)&lt;/span&gt;  &lt;/li&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; et &lt;span class="math"&gt;\(\epsilon_s\)&lt;/span&gt; indépendants pour &lt;span class="math"&gt;\(s \neq t\)&lt;/span&gt;  &lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Les deux premières hypothèses sont identiques. En revanche, la 3ème hypothèse est plus forte puisque l'indépendance implique que la covariance soit nulle mais la réciproque n'est pas vraie (&lt;a href="https://fr.wikipedia.org/wiki/Ind%C3%A9pendance_(probabilit%C3%A9s)#Ind%C3%A9pendance_et_corr%C3%A9lation" target="_blank"&gt;Maître Wiki&lt;/a&gt;) vous fournira un contre-exemple avec des variables aléatoires discrètes ; un autre contre-exemple classique avec des variables aléatoires continues &lt;span class="math"&gt;\(X \hookrightarrow \mathcal{N}(0,1)\)&lt;/span&gt; et &lt;span class="math"&gt;\(Y=X²\)&lt;/span&gt; sont dépendantes et de covariance nulle).  &lt;/p&gt;
-&lt;p&gt;Un &lt;strong&gt;bruit blanc gaussien&lt;/strong&gt; &lt;span class="math"&gt;\(\{\epsilon_t\}_{t=1}^{T}\)&lt;/span&gt; est un bruit blanc indépendant qui suit une loi normale centrée : &lt;span class="math"&gt;\(\epsilon_t \hookrightarrow \mathcal{N}(0,\sigma²)\)&lt;/span&gt;  &lt;/p&gt;
+&lt;p&gt;Un &lt;strong&gt;bruit blanc indépendant&lt;/strong&gt; est un processus ${\epsilon_t}_{t=1}^{T}$ qui vérifie :&lt;br&gt;
+- $E[\epsilon_t] = 0$&lt;br&gt;
+- $E[\epsilon_t²] = \sigma²$&lt;br&gt;
+- $\epsilon_t$ et $\epsilon_s$ indépendants pour $s \neq t$  &lt;/p&gt;
+&lt;p&gt;Les deux premières hypothèses sont identiques. En revanche, la 3ème hypothèse est plus forte puisque l'indépendance implique que la covariance soit nulle mais la réciproque n'est pas vraie (&lt;a href="https://fr.wikipedia.org/wiki/Ind%C3%A9pendance_(probabilit%C3%A9s)#Ind%C3%A9pendance_et_corr%C3%A9lation" target="_blank"&gt;Maître Wiki&lt;/a&gt; vous fournira un contre-exemple avec des variables aléatoires discrètes ; un autre contre-exemple classique avec des variables aléatoires continues $X \hookrightarrow \mathcal{N}(0,1)$ et $Y=X²$ sont dépendantes et de covariance nulle).  &lt;/p&gt;
+&lt;p&gt;Un &lt;strong&gt;bruit blanc gaussien&lt;/strong&gt; ${\epsilon_t}_{t=1}^{T}$ est un bruit blanc indépendant qui suit une loi normale centrée : $\epsilon_t \hookrightarrow \mathcal{N}(0,\sigma²)$  &lt;/p&gt;
 &lt;p&gt;On ajoute donc une hypothèse supplémentaire sur la distribution qui doit être une loi normale de moyenne nulle.&lt;/p&gt;
 &lt;p&gt;Intuitivement, un bruit blanc dans le cadre des séries temporelles, c'est &lt;strong&gt;la partie purement aléatoire du processus&lt;/strong&gt;. Effectivement, j'imagine bien ce que vous pensez et vous avez tout à fait raison, les bruits blancs sont des séries stationnaires (moyenne, variance et covariance constantes).&lt;/p&gt;
 &lt;p&gt;Dans les lignes de code ci-dessous, on génère un bruit blanc gaussien qu'on visualise ensuite en utilisant la fonction &lt;code&gt;ts_plot&lt;/code&gt; qui est disponible sur le github de Statoscop, &lt;a href="https://github.com/Statoscop/notebooks-blog/blob/main/Series%20temporelles/fonctions.py" target="_blank"&gt;ici précisément&lt;/a&gt; dans le fichier &lt;code&gt;fonction.py&lt;/code&gt; du dossier Séries Temporelles.&lt;/p&gt;
@@ -3745,11 +3664,9 @@ Il vous revient donc de choisir ce qui vous convient le mieux. Dans le cas où o
 - le QQ-plot et l'histogramme indiquent un comportement normal  &lt;/p&gt;
 &lt;p&gt;Petite parenthèse, on essaiera de faire prochainement un post sur la normalité des résidus, l'interprétation des QQ-plot ou encore les différents tests de normalité.&lt;/p&gt;
 &lt;h2 id="la-marche-aleatoire"&gt;La marche aléatoire&lt;/h2&gt;
-&lt;p&gt;Un processus de marche aléatoire &lt;span class="math"&gt;\(\{x_t\}_{t=1}^{T}\)&lt;/span&gt; est une série qui vérifie :&lt;br&gt;
-&lt;/p&gt;
-&lt;div class="math"&gt;$$x_t = x_{t-1} + \epsilon_t$$&lt;/div&gt;
-&lt;p&gt;
-avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&gt;
+&lt;p&gt;Un processus de marche aléatoire ${x_t}&lt;em t-1&gt;{t=1}^{T}$ est une série qui vérifie :&lt;br&gt;
+$$x_t = x&lt;/em&gt; + \epsilon_t$$
+avec $\epsilon_t$ un bruit blanc&lt;/p&gt;
 &lt;p&gt;Ci-dessous, on simule et visualise une marche aléatoire.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#paramètres&lt;/span&gt;
 &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
@@ -3766,17 +3683,15 @@ avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&g
 &lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; on voit la ressemblance entre ce processus de marche aléatoire et les cours d'actifs en bourse qui sont caractérisés par : &lt;br&gt;
 - un ACF élevé pour toute longueur de décalage et un PACF élevé pour le premier décalage uniquement &lt;br&gt;
 - un QQ-plot et un histogramme indiquant que la série n'est pas un bruit blanc  &lt;/p&gt;
-&lt;p&gt;La marche aléatoire n'est clairement pas une série stationnaire. Par contre, la série différenciée &lt;span class="math"&gt;\((x_t - x_{t-1})\)&lt;/span&gt; est stationnaire puisqu'elle vaut &lt;span class="math"&gt;\((\epsilon_t)\)&lt;/span&gt; qui est un bruit blanc. &lt;/p&gt;
+&lt;p&gt;La marche aléatoire n'est clairement pas une série stationnaire. Par contre, la série différenciée $(x_t - x_{t-1})$ est stationnaire puisqu'elle vaut $(\epsilon_t)$ qui est un bruit blanc. &lt;/p&gt;
 &lt;h2 id="modele-autoregressif"&gt;Modèle autorégressif&lt;/h2&gt;
-&lt;p&gt;Une série temporelle &lt;span class="math"&gt;\(\{x_t\}_{t=1}^{T}\)&lt;/span&gt; qui suit un modèle autorégressif d'ordre &lt;span class="math"&gt;\(p\)&lt;/span&gt; (et noté &lt;span class="math"&gt;\(AR(p)\)&lt;/span&gt;) est telle que :&lt;br&gt;
-&lt;/p&gt;
-&lt;div class="math"&gt;$$x_t = \mu + \Sigma_{i=1}^{p}\phi_i x_{t-i} + \epsilon_t$$&lt;/div&gt;
-&lt;p&gt;
-avec &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; une constante et &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&gt;
-&lt;p&gt;Concrètement, cela signifie que la valeur de la série au temps &lt;span class="math"&gt;\(t\)&lt;/span&gt; est une combinaison linéaire des &lt;span class="math"&gt;\(p\)&lt;/span&gt; valeurs précédentes (à un terme d'erreur &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; près).&lt;/p&gt;
+&lt;p&gt;Une série temporelle ${x_t}&lt;em i="1"&gt;{t=1}^{T}$ qui suit un modèle autorégressif d'ordre $p$ (et noté $AR(p)$) est telle que :&lt;br&gt;
+$$x_t = \mu + \Sigma&lt;/em&gt; + \epsilon_t$$
+avec $\mu$ une constante et $\epsilon_t$ un bruit blanc}^{p}\phi_i x_{t-i&lt;/p&gt;
+&lt;p&gt;Concrètement, cela signifie que la valeur de la série au temps $t$ est une combinaison linéaire des $p$ valeurs précédentes (à un terme d'erreur $\epsilon_t$ près).&lt;/p&gt;
 &lt;p&gt;Un processus autorégressif d'ordre 1 est donc donné par :
-&lt;span class="math"&gt;\(AR(1)\)&lt;/span&gt; : &lt;span class="math"&gt;\(x_t = \mu + \phi x_{t-1} + \epsilon_t\)&lt;/span&gt; &lt;/p&gt;
-&lt;p&gt;On simule et visualise un processus &lt;span class="math"&gt;\(AR(1)\)&lt;/span&gt; ci-dessous.&lt;/p&gt;
+$AR(1)$ : $x_t = \mu + \phi x_{t-1} + \epsilon_t$ &lt;/p&gt;
+&lt;p&gt;On simule et visualise un processus $AR(1)$ ci-dessous.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#paramètres&lt;/span&gt;
 &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
 &lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;normal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -3791,15 +3706,13 @@ avec &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; une constante et &lt;span cla
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp3/output_7_0.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt;&lt;br&gt;
-- pour un processus AR(1) avec &lt;span class="math"&gt;\(\phi=0.3\)&lt;/span&gt;,on voit sur les graphiques ACF et PACF, un pic au premier décalage qui tend tout de suite vers 0.&lt;br&gt;
+- pour un processus AR(1) avec $\phi=0.3$,on voit sur les graphiques ACF et PACF, un pic au premier décalage qui tend tout de suite vers 0.&lt;br&gt;
 - l'histogramme et le QQ-plot indiquent des résidus presque aléatoires.  &lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Remarque pas anodine&lt;/em&gt; : la marche aléatoire introduite précédemment est un processus AR(1) avec &lt;span class="math"&gt;\(\phi=1\)&lt;/span&gt; et n'est pas stationnaire. Or ici, on peut voir qu'avec &lt;span class="math"&gt;\(\phi=0.3\)&lt;/span&gt;, le processus AR(1) semble stationnaire. Bizarre...vous avez dit bizarre ? En fait, la stationnarité d'un processus &lt;span class="math"&gt;\(AR(1)\)&lt;/span&gt; dépend de si &lt;span class="math"&gt;\(|\phi|&amp;lt;1\)&lt;/span&gt;. On peut généraliser cette propriété aux processus &lt;span class="math"&gt;\(AR(p)\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Remarque pas anodine&lt;/em&gt; : la marche aléatoire introduite précédemment est un processus AR(1) avec $\phi=1$ et n'est pas stationnaire. Or ici, on peut voir qu'avec $\phi=0.3$, le processus AR(1) semble stationnaire. Bizarre...vous avez dit bizarre ? En fait, la stationnarité d'un processus $AR(1)$ dépend de si $|\phi|&amp;lt;1$. On peut généraliser cette propriété aux processus $AR(p)$.&lt;/p&gt;
 &lt;h2 id="modele-moyenne-mobile"&gt;Modèle moyenne mobile&lt;/h2&gt;
-&lt;p&gt;Le modèle de moyenne mobile d'ordre &lt;span class="math"&gt;\(q\)&lt;/span&gt; noté &lt;span class="math"&gt;\(MA(q)\)&lt;/span&gt; (pour &lt;em&gt;moving-average&lt;/em&gt;) suppose que la série temporelle observée peut être représentée par une combinaison linéaire de termes d'erreur de bruit blanc. Cela s'écrit donc :&lt;br&gt;
-&lt;/p&gt;
-&lt;div class="math"&gt;$$x_t = \epsilon_t + \Sigma_{i=1}^{q}\theta_i\epsilon_{t-i}$$&lt;/div&gt;
-&lt;p&gt; avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&gt;
-&lt;p&gt;Et c'est parti pour la simulation et la visualisation d'un processus &lt;span class="math"&gt;\(MA(2)\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Le modèle de moyenne mobile d'ordre $q$ noté $MA(q)$ (pour &lt;em&gt;moving-average&lt;/em&gt;) suppose que la série temporelle observée peut être représentée par une combinaison linéaire de termes d'erreur de bruit blanc. Cela s'écrit donc :&lt;br&gt;
+$$x_t = \epsilon_t + \Sigma_{i=1}^{q}\theta_i\epsilon_{t-i}$$ avec $\epsilon_t$ un bruit blanc&lt;/p&gt;
+&lt;p&gt;Et c'est parti pour la simulation et la visualisation d'un processus $MA(2)$.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#paramètres&lt;/span&gt;
 &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
 &lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;normal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -3814,16 +3727,14 @@ avec &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; une constante et &lt;span cla
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp3/output_9_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; pour le processus &lt;span class="math"&gt;\(MA(2)\)&lt;/span&gt; avec les paramètres choisis, on voit un pic plus important pour le deuxième décalage dans les tracés ACF et PACF. 
+&lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; pour le processus $MA(2)$ avec les paramètres choisis, on voit un pic plus important pour le deuxième décalage dans les tracés ACF et PACF. 
 On peut observer également que le pic dans le graphique PACF ne décroît pas immédiatement mais prend quelques périodes pour se "désintégrer".&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Remarque toujours pas anodine&lt;/em&gt; : en tant que combinaison linéaire de processus stationnaires, un processus &lt;span class="math"&gt;\(MA(q)\)&lt;/span&gt; est toujours stationnaire.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Remarque toujours pas anodine&lt;/em&gt; : en tant que combinaison linéaire de processus stationnaires, un processus $MA(q)$ est toujours stationnaire.&lt;/p&gt;
 &lt;h2 id="modele-autoregressif-et-moyenne-mobile"&gt;Modèle autorégressif et moyenne mobile&lt;/h2&gt;
-&lt;p&gt;Ça va commencer à se corser un peu avec le processus &lt;span class="math"&gt;\(ARMA(p,q)\)&lt;/span&gt; qui est une combinaison des deux modèles précédents et s'écrit donc :&lt;br&gt;
-&lt;/p&gt;
-&lt;div class="math"&gt;$$x_t = \epsilon_t + \Sigma_{i=1}^{p}\phi_i x_{t-i} + \Sigma_{i=1}^{q}\theta_i\epsilon_{t-i}$$&lt;/div&gt;
-&lt;p&gt;
-avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&gt;
-&lt;p&gt;Regardons à quoi ressemble un &lt;span class="math"&gt;\(ARMA(2,3)\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Ça va commencer à se corser un peu avec le processus $ARMA(p,q)$ qui est une combinaison des deux modèles précédents et s'écrit donc :&lt;br&gt;
+$$x_t = \epsilon_t + \Sigma_{i=1}^{p}\phi_i x_{t-i} + \Sigma_{i=1}^{q}\theta_i\epsilon_{t-i}$$
+avec $\epsilon_t$ un bruit blanc&lt;/p&gt;
+&lt;p&gt;Regardons à quoi ressemble un $ARMA(2,3)$.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#paramètres&lt;/span&gt;
 &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
 &lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;normal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -3897,69 +3808,7 @@ Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
-&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent;
-        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Les séries temporelles avec Python (2/4) - Visualisations et opérations sur les séries temporelles</title><link href="https://blog.statoscop.fr/timeseries-2.html" rel="alternate"></link><published>2021-05-27T00:00:00+02:00</published><updated>2021-05-27T00:00:00+02:00</updated><author><name>Louis</name></author><id>tag:blog.statoscop.fr,2021-05-27:/timeseries-2.html</id><summary type="html">&lt;p&gt;Quelques opérations sur les séries temporelles, illustré par une petite étude de cas à bicyclette.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Les séries temporelles avec Python (2/4) - Visualisations et opérations sur les séries temporelles</title><link href="https://blog.statoscop.fr/timeseries-2.html" rel="alternate"></link><published>2021-05-27T00:00:00+02:00</published><updated>2021-05-27T00:00:00+02:00</updated><author><name>Louis</name></author><id>tag:blog.statoscop.fr,2021-05-27:/timeseries-2.html</id><summary type="html">&lt;p&gt;Quelques opérations sur les séries temporelles, illustré par une petite étude de cas à bicyclette.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#un-peu-danglicisme-resampling-shifting-and-windowing"&gt;Un peu d'anglicisme : Resampling, Shifting, and Windowing&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#reechantillonage-et-conversion-de-frequences"&gt;Rééchantillonage et conversion de fréquences&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#deplacements"&gt;Déplacements&lt;/a&gt;&lt;/li&gt;
@@ -4435,14 +4284,10 @@ Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
 &lt;a href="https://fr.wikipedia.org/wiki/S%C3%A9rie_temporelle" target="_blank"&gt;Maître Wiki&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Une série temporelle peut être vue comme un cas très particulier des données panel puisqu'il s'agit de l'évolution d'une seule observation au cours du temps.&lt;/p&gt;
-&lt;p&gt;Nous allons donc nous intéresser à ces données temporelles et pour commencer, un peu de vocabulaire et d'anglicisme :  &lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Timestamps&lt;/strong&gt; correspond à un moment précis (par exemple &lt;em&gt;03 juin 2020, 14:15:16&lt;/em&gt;)  &lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Time intervals&lt;/strong&gt; et &lt;strong&gt;periods&lt;/strong&gt; correspondent à une durée ayant des dates de début et de fin précises (par exemple, &lt;em&gt;l'année 2020&lt;/em&gt;)  &lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Time deltas&lt;/strong&gt; ou &lt;strong&gt;durations&lt;/strong&gt; correspondent à une durée exacte (par exemple &lt;em&gt;123.45 secondes&lt;/em&gt;)  &lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;Nous allons donc nous intéresser à ces données temporelles et pour commencer, un peu de vocabulaire et d'anglicisme :&lt;br&gt;
+- &lt;strong&gt;Timestamps&lt;/strong&gt; correspond à un moment précis (par exemple &lt;em&gt;03 juin 2020, 14:15:16&lt;/em&gt;)&lt;br&gt;
+- &lt;strong&gt;Time intervals&lt;/strong&gt; et &lt;strong&gt;periods&lt;/strong&gt; correspondent à une durée ayant des dates de début et de fin précises (par exemple, &lt;em&gt;l'année 2020&lt;/em&gt;)&lt;br&gt;
+- &lt;strong&gt;Time deltas&lt;/strong&gt; ou &lt;strong&gt;durations&lt;/strong&gt; correspondent à une durée exacte (par exemple &lt;em&gt;123.45 secondes&lt;/em&gt;)  &lt;/p&gt;
 &lt;p&gt;On va voir comment utiliser et manipuler ces objets date/time avec Python d'une part, puis avec &lt;code&gt;Pandas&lt;/code&gt; plus particulièrement.&lt;/p&gt;
 &lt;h1 id="les-dates-et-heures-avec-python"&gt;Les dates (et heures) avec Python&lt;/h1&gt;
 &lt;p&gt;Python a de nombreuses représentations et formats possibles des dates, heures, durées...un petit tour d'horizon s'impose.&lt;/p&gt;
@@ -4499,8 +4344,8 @@ Une autre aide utile sur les manipulation de dates est la &lt;a href="http://lab
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Grâce au type de données uniforme dans les tableaux &lt;code&gt;datetime64&lt;/code&gt;, ce genre d'opérations vectorielles peut être effectué bien plus rapidement qu'en travaillant directement avec les objets &lt;code&gt;datetime&lt;/code&gt; de Python, particulièrement pour de grands tableaux.&lt;/p&gt;
-&lt;p&gt;Une particularité des objets &lt;code&gt;datetime64&lt;/code&gt; et &lt;code&gt;timedelta64&lt;/code&gt; est qu'ils sont construits sur une &lt;em&gt;unité fondamentale de temps (UFT)&lt;/em&gt;. Comme le &lt;code&gt;datetime64&lt;/code&gt; est limité à une précision de 64-bit, le nombre de datetime qu'on peut encoder est &lt;span class="math"&gt;\(2^{64}\)&lt;/span&gt; fois l'UFT. En d'autres termes, &lt;code&gt;datetime64&lt;/code&gt; nécessite un arbitrage entre &lt;em&gt;résolution temporelle&lt;/em&gt; et &lt;em&gt;intervalle maximal de temps&lt;/em&gt; .&lt;br&gt;
-Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir la place pour encoder &lt;span class="math"&gt;\(2^{64}\)&lt;/span&gt; nanosecondes, soit un peu moins de 600 ans.&lt;/p&gt;
+&lt;p&gt;Une particularité des objets &lt;code&gt;datetime64&lt;/code&gt; et &lt;code&gt;timedelta64&lt;/code&gt; est qu'ils sont construits sur une &lt;em&gt;unité fondamentale de temps (UFT)&lt;/em&gt;. Comme le &lt;code&gt;datetime64&lt;/code&gt; est limité à une précision de 64-bit, le nombre de datetime qu'on peut encoder est $2^{64}$ fois l'UFT. En d'autres termes, &lt;code&gt;datetime64&lt;/code&gt; nécessite un arbitrage entre &lt;em&gt;résolution temporelle&lt;/em&gt; et &lt;em&gt;intervalle maximal de temps&lt;/em&gt; .&lt;br&gt;
+Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir la place pour encoder $2^{64}$ nanosecondes, soit un peu moins de 600 ans.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;numpy&lt;/code&gt; déduit l'UFT désirée à partir de l'input mais on peut bien sûr aussi le spécifier.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# un datetime basé sur le jour&lt;/span&gt;
 &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;datetime64&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2021-04-30&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -4990,69 +4835,7 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
-&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent;
-        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Analyse en composantes principales avec Python</title><link href="https://blog.statoscop.fr/acp-python.html" rel="alternate"></link><published>2021-04-16T00:00:00+02:00</published><updated>2021-04-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-04-16:/acp-python.html</id><summary type="html">&lt;p&gt;Présentation et exemples d'utilisation de l'ACP en statistiques et data science.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Analyse en composantes principales avec Python</title><link href="https://blog.statoscop.fr/acp-python.html" rel="alternate"></link><published>2021-04-16T00:00:00+02:00</published><updated>2021-04-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-04-16:/acp-python.html</id><summary type="html">&lt;p&gt;Présentation et exemples d'utilisation de l'ACP en statistiques et data science.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#comprendre-et-interpreter-une-acp"&gt;Comprendre et interpréter une ACP&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#mise-en-oeuvre-dune-acp-avec-python"&gt;Mise en oeuvre d'une ACP avec Python&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#analyse-exploratoire-de-nos-donnees"&gt;Analyse exploratoire de nos données&lt;/a&gt;&lt;/li&gt;
@@ -5064,7 +4847,7 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;p&gt;Dans cet article, nous allons essayer de comprendre intuitivement comment fonctionne l'analyse en composantes principales. Nous présenterons ensuite à quoi celle-ci peut servir en prenant les exemples d'une analyse exploratoire des données et d'une problématique de réduction de dimension.   &lt;/p&gt;
 &lt;h1 id="comprendre-et-interpreter-une-acp"&gt;Comprendre et interpréter une ACP&lt;/h1&gt;
 &lt;p&gt;L'analyse en composantes principales est une &lt;strong&gt;méthode consistant à transformer des variables corrélées entre elles en nouvelles variables&lt;/strong&gt;. Chacune de ces nouvelles variables est le résultat d'une combinaison linéaire des anciennes variables. &lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Note : une combinaison linéaire de 3 variables &lt;span class="math"&gt;\(V_1\)&lt;/span&gt;, &lt;span class="math"&gt;\(V_2\)&lt;/span&gt; et &lt;span class="math"&gt;\(V_3\)&lt;/span&gt; s'écrit &lt;span class="math"&gt;\(\alpha_1.V_1 + \alpha_2.V_2 + \alpha_3.V_3\)&lt;/span&gt; où les &lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt; sont des coefficients réels.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note : une combinaison linéaire de 3 variables $V_1$, $V_2$ et $V_3$ s'écrit $\alpha_1.V_1 + \alpha_2.V_2 + \alpha_3.V_3$ où les $\alpha_i$ sont des coefficients réels.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Ces nouvelles variables sont appelées &lt;strong&gt;composantes principales&lt;/strong&gt; et sont, par contruction, décorrélées les unes des autres.  &lt;/p&gt;
 &lt;p&gt;Autrement dit, l'ACP projette vos données dans un nouvel espace. La &lt;strong&gt;première composante principale est construite de manière à capter la plus grande variance possible de vos données&lt;/strong&gt;, la seconde la part la plus importante de &lt;strong&gt;la variance possible restant à expliquer&lt;/strong&gt;, et ainsi de suite.  &lt;/p&gt;
 &lt;p&gt;Une illustration brillante de ce processus est proposée par &lt;a href="https://www.allisonhorst.com/" target="_blank"&gt;Allison Horst&lt;/a&gt;. Elle &lt;a href="https://twitter.com/allison_horst/status/1288904459490213888" target="_blank"&gt;représente&lt;/a&gt; un jeu de données à deux dimensions avec des crevettes et l'analyse en composantes principales comme les passages d'un requin-baleine affamé :  &lt;/p&gt;
@@ -5072,7 +4855,7 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_4_0.png"&gt;&lt;/p&gt;
 &lt;p&gt;La problématique du requin-baleine est en effet la même que celle de la création d'une première composante principale : &lt;strong&gt;quel axe choisir pour avaler un maximum de crevettes&lt;/strong&gt; dès le premier passage? L'axe choisi va ressembler à celui-ci :  &lt;/p&gt;
 &lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_6_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient &lt;strong&gt;le plus proche possible de cette droite&lt;/strong&gt;. Mathématiquement, la première composante principale est &lt;strong&gt;la combinaison linéaire des deux axes &lt;span class="math"&gt;\(x\)&lt;/span&gt; et &lt;span class="math"&gt;\(y\)&lt;/span&gt; qui maximise l'inertie projetée&lt;/strong&gt;, ce qui revient à minimiser les écarts entre les points et cette droite.&lt;/p&gt;
+&lt;p&gt;Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient &lt;strong&gt;le plus proche possible de cette droite&lt;/strong&gt;. Mathématiquement, la première composante principale est &lt;strong&gt;la combinaison linéaire des deux axes $x$ et $y$ qui maximise l'inertie projetée&lt;/strong&gt;, ce qui revient à minimiser les écarts entre les points et cette droite.&lt;/p&gt;
 &lt;p&gt;Dans cet exemple, la seconde composante principale sera l'axe perpendiculaire à ce premier axe.&lt;/p&gt;
 &lt;p&gt;Si les points étaient parfaitement alignés sur une ligne, l'ensemble de la variance serait expliqué par la première composante et on serait parvenus à réduire le nombre de dimensions de notre problème sans perte d'information.&lt;/p&gt;
 &lt;blockquote&gt;
@@ -5303,66 +5086,4 @@ Tout d'abord, commençons par déterminer ce nombre de dimensions. Le graphique 
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
-&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent;
-        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category></entry></feed>
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category></entry></feed>
