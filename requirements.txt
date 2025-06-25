@@ -4,3 +4,5 @@
 python
 pelican
 markdown
+jupyter
+ghp-import
