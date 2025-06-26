@@ -211,7 +211,7 @@ Vous cherchez un prestataire pour vous aider analyser, modéliser et visualiser 
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;En résumé, le &lt;strong&gt;MLOps&lt;/strong&gt; permet de passer du &lt;strong&gt;PoC à la production&lt;/strong&gt; de manière fiable et industrialisée, avec tous les enjeux que cela implique autour des données et des modèles.&lt;/p&gt;
+&lt;p&gt;En résumé, le &lt;strong&gt;MLOps&lt;/strong&gt; permet de passer du de la preuve de concept (&lt;em&gt;PoC&lt;/em&gt; en anglais) à la production de manière fiable et industrialisée, avec tous les enjeux que cela implique autour des données et des modèles.&lt;/p&gt;
 &lt;h1 id="conclusion"&gt;Conclusion&lt;/h1&gt;
 &lt;p&gt;Adopter une approche &lt;strong&gt;DevOps&lt;/strong&gt;, ce n'est pas installer Jenkins ou Docker du jour au lendemain. C'est amorcer une &lt;strong&gt;transformation culturelle&lt;/strong&gt;, &lt;strong&gt;technique&lt;/strong&gt; et &lt;strong&gt;humaine&lt;/strong&gt;. C'est une manière de penser, de collaborer, et de livrer en continu un contenu de qualité.&lt;br&gt;
 Et avec le &lt;strong&gt;MLOps&lt;/strong&gt;, cette logique s'étend à la gestion des projets de machine learning, encore trop souvent cantonnés à l'expérimentation.   &lt;/p&gt;
