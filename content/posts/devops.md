@@ -180,7 +180,7 @@ Au delà d'une simple approche méthodologique, le **DevOps** ne fonctionne pas 
 
 Chaque entreprise fait ses choix en fonction de son environnement technique et de ses priorités.
 
-# Et le MLOps alors ?
+# MLOps : entre data science et DevOps
 
 Si le **DevOps** optimise le **cycle de vie des applications**, le **MLOps** (pour *Machine Learning Operations*) s'intéresse à la **mise en production des modèles de machine learning**. Il en reprend les grands principes (CI/CD, monitoring, collaboration...), tout en y ajoutant les spécificités de la data science :
 
@@ -237,7 +237,7 @@ Voici quelques outils souvent utilisés :
 </tbody>
 </table>
 
-En résumé, le **MLOps** permet de passer du **PoC à la production** de manière fiable et industrialisée, avec tous les enjeux que cela implique autour des données et des modèles.
+En résumé, le **MLOps** permet de passer du de la preuve de concept (*PoC* en anglais) à la production de manière fiable et industrialisée, avec tous les enjeux que cela implique autour des données et des modèles.
 
 # Conclusion  
 
