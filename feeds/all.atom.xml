@@ -5,7 +5,7 @@
 &lt;li&gt;&lt;a href="#le-devops-en-entreprise"&gt;Le DevOps en entreprise&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#les-defis-du-devops"&gt;Les défis du DevOps&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#les-outils-devops"&gt;Les outils DevOps&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="#et-le-mlops-alors"&gt;Et le MLOps alors ?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#mlops-entre-data-science-et-devops"&gt;MLOps : entre data science et DevOps&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#conclusion"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
@@ -156,7 +156,7 @@ Vous cherchez un prestataire pour vous aider analyser, modéliser et visualiser 
 &lt;/table&gt;
 
 &lt;p&gt;Chaque entreprise fait ses choix en fonction de son environnement technique et de ses priorités.&lt;/p&gt;
-&lt;h1 id="et-le-mlops-alors"&gt;Et le MLOps alors ?&lt;/h1&gt;
+&lt;h1 id="mlops-entre-data-science-et-devops"&gt;MLOps : entre data science et DevOps&lt;/h1&gt;
 &lt;p&gt;Si le &lt;strong&gt;DevOps&lt;/strong&gt; optimise le &lt;strong&gt;cycle de vie des applications&lt;/strong&gt;, le &lt;strong&gt;MLOps&lt;/strong&gt; (pour &lt;em&gt;Machine Learning Operations&lt;/em&gt;) s'intéresse à la &lt;strong&gt;mise en production des modèles de machine learning&lt;/strong&gt;. Il en reprend les grands principes (CI/CD, monitoring, collaboration...), tout en y ajoutant les spécificités de la data science :&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Suivi des données d'entraînement&lt;/li&gt;
