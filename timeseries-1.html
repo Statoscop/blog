@@ -215,10 +215,14 @@
 <a href="https://fr.wikipedia.org/wiki/S%C3%A9rie_temporelle" target="_blank">Maître Wiki</a></p>
 </blockquote>
 <p>Une série temporelle peut être vue comme un cas très particulier des données panel puisqu'il s'agit de l'évolution d'une seule observation au cours du temps.</p>
-<p>Nous allons donc nous intéresser à ces données temporelles et pour commencer, un peu de vocabulaire et d'anglicisme :<br>
-- <strong>Timestamps</strong> correspond à un moment précis (par exemple <em>03 juin 2020, 14:15:16</em>)<br>
-- <strong>Time intervals</strong> et <strong>periods</strong> correspondent à une durée ayant des dates de début et de fin précises (par exemple, <em>l'année 2020</em>)<br>
-- <strong>Time deltas</strong> ou <strong>durations</strong> correspondent à une durée exacte (par exemple <em>123.45 secondes</em>)  </p>
+<p>Nous allons donc nous intéresser à ces données temporelles et pour commencer, un peu de vocabulaire et d'anglicisme :  </p>
+<blockquote>
+<ul>
+<li><strong>Timestamps</strong> correspond à un moment précis (par exemple <em>03 juin 2020, 14:15:16</em>)  </li>
+<li><strong>Time intervals</strong> et <strong>periods</strong> correspondent à une durée ayant des dates de début et de fin précises (par exemple, <em>l'année 2020</em>)  </li>
+<li><strong>Time deltas</strong> ou <strong>durations</strong> correspondent à une durée exacte (par exemple <em>123.45 secondes</em>)  </li>
+</ul>
+</blockquote>
 <p>On va voir comment utiliser et manipuler ces objets date/time avec Python d'une part, puis avec <code>Pandas</code> plus particulièrement.</p>
 <h1 id="les-dates-et-heures-avec-python">Les dates (et heures) avec Python</h1>
 <p>Python a de nombreuses représentations et formats possibles des dates, heures, durées...un petit tour d'horizon s'impose.</p>
@@ -275,8 +279,8 @@ Une autre aide utile sur les manipulation de dates est la <a href="http://labix.
 </code></pre></div>
 
 <p>Grâce au type de données uniforme dans les tableaux <code>datetime64</code>, ce genre d'opérations vectorielles peut être effectué bien plus rapidement qu'en travaillant directement avec les objets <code>datetime</code> de Python, particulièrement pour de grands tableaux.</p>
-<p>Une particularité des objets <code>datetime64</code> et <code>timedelta64</code> est qu'ils sont construits sur une <em>unité fondamentale de temps (UFT)</em>. Comme le <code>datetime64</code> est limité à une précision de 64-bit, le nombre de datetime qu'on peut encoder est $2^{64}$ fois l'UFT. En d'autres termes, <code>datetime64</code> nécessite un arbitrage entre <em>résolution temporelle</em> et <em>intervalle maximal de temps</em> .<br>
-Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir la place pour encoder $2^{64}$ nanosecondes, soit un peu moins de 600 ans.</p>
+<p>Une particularité des objets <code>datetime64</code> et <code>timedelta64</code> est qu'ils sont construits sur une <em>unité fondamentale de temps (UFT)</em>. Comme le <code>datetime64</code> est limité à une précision de 64-bit, le nombre de datetime qu'on peut encoder est <span class="math">\(2^{64}\)</span> fois l'UFT. En d'autres termes, <code>datetime64</code> nécessite un arbitrage entre <em>résolution temporelle</em> et <em>intervalle maximal de temps</em> .<br>
+Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir la place pour encoder <span class="math">\(2^{64}\)</span> nanosecondes, soit un peu moins de 600 ans.</p>
 <p><code>numpy</code> déduit l'UFT désirée à partir de l'input mais on peut bien sûr aussi le spécifier.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># un datetime basé sur le jour</span>
 <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2021-04-30&#39;</span><span class="p">)</span>
@@ -767,6 +771,68 @@ On a déjà croisé les codes <code>M</code> (month), <code>D</code> (day) et <c
    <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
 </div>
 <p><br>  </p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
             </section>
 
             <section class="post-info">

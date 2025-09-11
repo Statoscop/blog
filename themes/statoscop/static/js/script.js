@@ -181,7 +181,7 @@ $(window).scroll(function() {
 	"use strict"; // Start of use strict
 
 	// Smooth scrolling using jQuery easing
-	$('a[href^="#"]').click(function () {
+	$('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
 		if (
 			location.pathname.replace(/^\//, "") ==
 				this.pathname.replace(/^\//, "") &&

@@ -121,7 +121,7 @@ ul ol {
 }
 
 ul {
-  list-style: circle
+  list-style: none
 }
 
 dt {
@@ -11972,22 +11972,3 @@ table td:after {
   background: #faf9f7
 }
 
-.table-no-scroll {
-  table-layout: auto;
-  width: 100%;
-  white-space: normal;
-  word-break: break-word;
-}
-
-.table-no-scroll td,
-.table-no-scroll th {
-  padding: 0.5em;
-  vertical-align: top;
-  text-align: left;
-}
-
-.break-word {
-  white-space: normal;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
