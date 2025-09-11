@@ -6,7 +6,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -27,84 +27,91 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/archives.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/author/antoine.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/author/antoine2.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/author/louis.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/authors.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/categories.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/category/deep-learning.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/category/dev.html</loc>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/category/python.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/category/r.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/category/r2.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/category/series-temporelles.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/category/stats-ml.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -126,6 +133,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://blog.statoscop.fr/comprendre-et-interpreter-les-p-values.html</loc>
 <lastmod>2024-07-09T00:00:00+02:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/devops-et-mlops-comprendre-lessentiel.html</loc>
+<lastmod>2025-06-26T00:00:00+02:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
@@ -167,14 +181,14 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/index2.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/index3.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -230,448 +244,490 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://blog.statoscop.fr/tag/</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/across.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/anaconda.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/arma.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/automatisation.html</loc>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/barplot.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/benchmark.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/cicd.html</loc>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/cnn.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/codes.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/colonnes.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/computer-vision.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/conda.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/cran.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/data-science.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/data-science2.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/datatable.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/dataviz.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/datetime.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/deep-learning.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/devops.html</loc>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/devweb.html</loc>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/dplyr.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/ggplot2.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/gpu-cloud.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/gpu-training.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/graphiques.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/if_all.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/if_any.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/iloc.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/image-segmentation.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/keras.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/lignes.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/loc.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/machine-learning.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/migration.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/mlops.html</loc>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/notebook.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/object-detection.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/odds-ratio.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/or.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/p-values.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/packages.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/paperspace-gradient.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/paperspace.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/probabilites.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/python.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/pytorch.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/quarto.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/r.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/r2.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/rapport.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/recodage.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/renv.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/rmarkdown.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/rstats.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/sarima.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/sas.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/scripts.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/series-temporelles.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/statistiques.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/statistiques2.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/tests.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/tidyverse.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/time-series.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/transfer-learning.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://blog.statoscop.fr/tag/versionning.html</loc>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/vscode.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tag/yolo.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://blog.statoscop.fr/tags.html</loc>
-<lastmod>2025-09-11T16:20:05-00:00</lastmod>
+<lastmod>2025-09-11T16:21:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

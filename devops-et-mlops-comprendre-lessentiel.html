@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<title>DevOps et MLOps : comprendre l'essentiel</title>    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="Le blog statistiques et data science de la coopérative Statoscop" />
+  <meta name="author" content="" />
+
+  <!-- Font Awesome icons (free version)-->
+  <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+
+
+
+  <!-- <title>Le blog de Statoscop - études de cas en R et Python</title> -->
+  <link rel="icon" type="image/x-icon" href="https://blog.statoscop.fr/themes/statoscop/static/images/favicon-v1.ico" />
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://blog.statoscop.fr/devops-et-mlops-comprendre-lessentiel.html" rel="canonical" />
+  <!-- Feed -->
+        <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
+          <link href="https://blog.statoscop.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
+
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />-->
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style-site.css" type="text/css" rel="stylesheet" /> 
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style_fusion.css" type="text/css" rel="stylesheet" /> -->
+  <!-- Code highlight color scheme -->
+      <link href="https://blog.statoscop.fr/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!-- [if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  ![endif] -->
+
+
+
+    <meta name="description" content="Les concepts et outils cachés derrière le DevOps et son cousin MLOps">
+
+    <meta name="author" content="Louis">
+
+    <meta name="tags" content="DevOps">
+    <meta name="tags" content="DevWeb">
+    <meta name="tags" content="automatisation">
+    <meta name="tags" content="versionning">
+    <meta name="tags" content="codes">
+    <meta name="tags" content="scripts">
+    <meta name="tags" content="MLOps">
+    <meta name="tags" content="CI/CD">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="DevOps et MLOps : comprendre l'essentiel"/>
+<meta property="og:description" content="Les concepts et outils cachés derrière le DevOps et son cousin MLOps"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.statoscop.fr/devops-et-mlops-comprendre-lessentiel.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2025-06-26 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://blog.statoscop.fr/author/louis.html">
+<meta property="article:section" content="Dev"/>
+<meta property="article:tag" content="DevOps"/>
+<meta property="article:tag" content="DevWeb"/>
+<meta property="article:tag" content="automatisation"/>
+<meta property="article:tag" content="versionning"/>
+<meta property="article:tag" content="codes"/>
+<meta property="article:tag" content="scripts"/>
+<meta property="article:tag" content="MLOps"/>
+<meta property="article:tag" content="CI/CD"/>
+<meta property="og:image" content="https://blog.statoscop.fr/images/cover_25.png">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "DevOps et MLOps : comprendre l'essentiel",
+  "headline": "DevOps et MLOps : comprendre l'essentiel",
+  "datePublished": "2025-06-26 00:00:00+02:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Louis",
+    "url": "https://blog.statoscop.fr/author/louis.html"
+  },
+  "image": "https://blog.statoscop.fr/images/cover_25.png",
+  "url": "https://blog.statoscop.fr/devops-et-mlops-comprendre-lessentiel.html",
+  "description": "Les concepts et outils cachés derrière le DevOps et son cousin MLOps"
+}
+</script>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//matomo.statoscop.fr/matomo/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+  
+
+</head>
+<!-- TODO : Body class -->
+  <body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
+
+        <a class="navbar-brand" href="https://statoscop.fr"><img src="https://blog.statoscop.fr/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Statoscop.logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ml-auto">
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr"> Accueil </a>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr/about"> À propos </a>
+              </li>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle font-weight-bold "
+                  id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false"> Prestations </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <li><a class="dropdown-item" href="https://statoscop.fr/etudes">Conseils & études statistiques</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/recodages">Migrations de code & Recodages</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/formations">Formations</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/applis">Dashboards & Applications</a></li>
+                  </ul>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr/contact">Contact</a>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger active" href="https://blog.statoscop.fr/">Le blog</a>
+              </li>
+          </ul>
+      </div>
+      </div>
+    </nav>
+    
+
+
+    <!-- Post content -->
+    <main class="content" role="main">
+      
+      <div>
+      </div>
+
+      <article class="post">
+        <div class="inner">
+
+
+
+
+            <section class="post-content">
+              <h1 class="post-title">DevOps et MLOps : comprendre l'essentiel</h1>
+                <!-- Le titres et meta infos-->
+                <span class="post-meta">
+                        <a href="https://blog.statoscop.fr/author/louis.html">Louis</a>
+                    | <time datetime="jeu. 26 juin 2025">jeu. 26 juin 2025</time>
+                </span>
+
+                <!--Table des matieres
+-->
+                
+                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+<li><a href="#le-devops-de-quoi-parle-t-on">Le DevOps : de quoi parle-t-on ?</a></li>
+<li><a href="#les-origines-du-devops">Les origines du DevOps</a></li>
+<li><a href="#le-devops-en-entreprise">Le DevOps en entreprise</a></li>
+<li><a href="#les-defis-du-devops">Les défis du DevOps</a></li>
+<li><a href="#les-outils-devops">Les outils DevOps</a></li>
+<li><a href="#mlops-entre-data-science-et-devops">MLOps : entre data science et DevOps</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+<p>Plus qu'un simple buzzword technique, le <strong>DevOps</strong> est une manière de travailler, un ensemble d'outils et de pratiques pour les entreprises qui veulent livrer/déployer plus rapidement, plus souvent et avec plus de fiabilité. Si vous vous interrogez sur ce qui se cache derrière ce mot-valise, cet article est une introduction aux grands principes et outils du <strong>DevOps</strong>.</p>
+<h1 id="le-devops-de-quoi-parle-t-on">Le DevOps : de quoi parle-t-on ?</h1>
+<p>Avant tout, le <strong>DevOps</strong> est une <strong>démarche</strong> qui vise à rapprocher les équipes de <strong>développement (Dev)</strong> et d'<strong>exploitation (Ops)</strong>. L'objectif ? Briser les silos organisationnels, fluidifier la collaboration et automatiser tout ce qui peut l'être, avec, pour bénéfices directs, une <strong>accélération des déploiements</strong> et une <strong>réduction du <em>time-to-market</em></strong> (le temps entre la conception d'une fonctionnalité et sa mise à disposition aux utilisateurs).</p>
+<p>La mise en place de méthodes <strong>DevOps</strong> doit permettre de :</p>
+<ul>
+<li>Améliorer la <strong>confiance entre les équipes</strong>  </li>
+<li>Accélérer les <strong>livraisons</strong>  </li>
+<li>Résoudre plus vite les <strong>incidents</strong>  </li>
+<li>Mieux gérer les <strong>urgences</strong> et les imprévus  </li>
+</ul>
+<p>L'adoption du <strong>DevOps</strong> transforme non seulement les processus, mais aussi la <strong>culture d'entreprise</strong>.</p>
+<h1 id="les-origines-du-devops">Les origines du DevOps</h1>
+<p>Le terme <strong>DevOps</strong> est apparu autour de <strong>2008</strong>, dans un contexte où les équipes de développement et d'exploitation poursuivaient des objectifs souvent contradictoires avec d'un côté, les <strong>devs</strong> qui veulent livrer rapidement des fonctionnalités et de l'autre côté, les <strong>ops</strong> qui cherchent à garantir la stabilité et la disponibilité.</p>
+<p>Ce conflit, souvent appelé <strong>"le mur de la confusion"</strong>, rend les mises en production longues, risquées et stressantes.</p>
+<p>Le <strong>DevOps</strong> est né comme une réponse à cette problématique : un <strong>modèle collaboratif</strong>, basé sur l'<strong>automatisation des processus</strong>, l'<strong>intégration continue</strong> et le <strong>déploiement continu</strong>.</p>
+<blockquote>
+<p>👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous cherchez un prestataire pour vous aider analyser, modéliser et visualiser vos données ?</p>
+</blockquote>
+<div class="d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>   </p>
+<h1 id="le-devops-en-entreprise">Le DevOps en entreprise</h1>
+<p>Entre une méthodologie théorique et son application au sein d'une organisation, petite ou grande, la marche peut sembler haute. Il peut donc être rassurant de voir comment cela a été mis en place ailleurs.</p>
+<p><strong>Les approches DevOps</strong></p>
+<p>Il n'y a pas une seule bonne manière d'implémenter <strong>DevOps</strong>. L'organisation, la culture et les contraintes techniques dictent souvent l'approche. Certaines configurations sont efficaces, d'autres sont à éviter. Allez donc visiter le site <a href="https://web.devopstopologies.com/">DevOps Topologies</a> qui propose des <strong>patterns</strong> et <strong>anti-patterns</strong> d'implémentation <strong>DevOps</strong>.</p>
+<p><strong>Le modèle CALMS</strong></p>
+<p>Le modèle <strong>CALMS</strong> est souvent utilisé pour évaluer la maturité <strong>DevOps</strong> d'une organisation. Il repose sur 5 piliers :</p>
+<ul>
+<li><strong>Culture</strong> : Dev et Ops collaborent autour d'objectifs communs.</li>
+<li><strong>Automation</strong> : tout ce qui peut être automatisé doit l'être.</li>
+<li><strong>Lean</strong> : éliminer les gaspillages, optimiser les flux de travail.</li>
+<li><strong>Mesure</strong> : mesurer pour comprendre et améliorer.</li>
+<li><strong>Sharing</strong> : partager les responsabilités, les réussites… et les échecs.</li>
+</ul>
+<p><strong>Des exemples d'entreprises</strong></p>
+<p>Parmi les nombreuses entreprises converties à cette méthodologie <strong>DevOps</strong>, les géants du numérique sont précurseurs dans cette transition.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Entreprise</strong></th>
+<th><strong>Création</strong></th>
+<th><strong>Début</strong></th>
+<th class="break-word"><strong>Avant</strong></th>
+<th class="break-word"><strong>Après</strong></th>
+<th><strong>Résultat</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Amazon</strong></td>
+<td>1994</td>
+<td>~2011</td>
+<td class="break-word">Déploiements manuels, très longs et risqués. Problèmes fréquents de coordination entre développeurs et équipes opérationnelles. Faible fréquence de mise en production</td>
+<td class="break-word">Automatisation complète des déploiements (CI/CD). Des milliers de déploiements par jour. Forte amélioration de la résilience, de la vitesse de livraison et du retour client</td>
+<td class="break-word">1 déploiement toutes les <strong>11,6 secondes</strong></td>
+</tr>
+<tr>
+<td><strong>Netflix</strong></td>
+<td>1997</td>
+<td>~2009</td>
+<td class="break-word">Monolithes complexes. Dépendance à une infrastructure physique. Temps d'indisponibilité importants lors de bugs ou d'erreurs de déploiement</td>
+<td class="break-word">Passage au cloud et microservices. Automatisation poussée avec Chaos Monkey. Culture DevOps forte : "You build it, you run it"</td>
+<td class="break-word">Disponibilité quasi <strong>totale</strong>, déploiements rapides</td>
+</tr>
+<tr>
+<td><strong>Etsy</strong></td>
+<td>2005</td>
+<td>~2009</td>
+<td class="break-word">Déploiements peu fréquents, manuels et risqués. Environnements de test et de production très différents. Développeurs peu impliqués dans la gestion de production</td>
+<td class="break-word">Mise en place de pipelines CI/CD automatisés. Culture de l'amélioration continue et de la transparence. Déploiements plusieurs fois par jour sans interruption de service</td>
+<td class="break-word">50+ déploiements/jour, <strong>MTTR réduit de plusieurs heures à &lt; 4 minutes</strong></td>
+</tr>
+<tr>
+<td><strong>Facebook</strong></td>
+<td>2004</td>
+<td>~2010</td>
+<td class="break-word">Croissance rapide qui rendait difficile la gestion manuelle des infrastructures. Intégration et déploiement complexes à l'échelle</td>
+<td class="break-word">Automatisation avancée. Chaque commit peut aller en production rapidement. Culture "move fast and break things"</td>
+<td class="break-word"><strong>Centaines de déploiements/jour</strong></td>
+</tr>
+</tbody>
+</table>
+
+<p>Le <strong>MTTR</strong> est le <strong>Mean Time to Recovery</strong> : il correspond au temps moyen nécessaire à la restauration d'un service.</p>
+<h1 id="les-defis-du-devops">Les défis du DevOps</h1>
+<p>Même si la promesse est forte, <strong>adopter DevOps peut aussi soulever des difficultés</strong> :</p>
+<ul>
+<li><strong>Inertie organisationnelle</strong> : changer la culture et les processus internes demande du temps.</li>
+<li><strong>Endettement technique</strong> : difficile d'automatiser si le code est mal structuré ou mal documenté.</li>
+<li><strong>Complexité des outils</strong> : la diversité des solutions peut rendre le choix et l'intégration délicats.</li>
+<li><strong>Surcharge cognitive</strong> : les développeurs doivent parfois gérer des aspects d'infrastructure or tout le monde ne le souhaite pas...</li>
+<li><strong>Sécurité</strong> : l'automatisation sans garde-fous peut ouvrir des failles (par exemple, des secrets exposés dans les pipelines).</li>
+</ul>
+<p>Il est donc essentiel de <strong>progressivement embarquer les équipes</strong>, d'avoir une stratégie d'adoption par petits pas et d'investir dans la formation continue.</p>
+<h1 id="les-outils-devops">Les outils DevOps</h1>
+<p>Au delà d'une simple approche méthodologique, le <strong>DevOps</strong> ne fonctionne pas sans outillage adapté. Le tableau ci-dessous référence une liste, loin d'être exhaustive, des outils les plus utilisés :</p>
+<table>
+<thead>
+<tr>
+<th><strong>Domaine</strong></th>
+<th class="break-word"><strong>Définition</strong></th>
+<th><strong>Exemples d'outils</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CI/CD</strong></td>
+<td class="break-word">Intégration et déploiement continus : automatisation du cycle de vie de développement, de l'intégration du code jusqu'à la mise en production</td>
+<td>Jenkins, GitLab CI, GitHub Actions</td>
+</tr>
+<tr>
+<td><strong>Conteneurisation</strong></td>
+<td class="break-word">Technique de packaging d'une application avec ses dépendances pour garantir son exécution sur tout environnement</td>
+<td>Docker</td>
+</tr>
+<tr>
+<td><strong>Orchestration</strong></td>
+<td class="break-word">Gestion automatisée du déploiement, de la mise à l'échelle et du fonctionnement de conteneurs dans un cluster</td>
+<td>Kubernetes</td>
+</tr>
+<tr>
+<td><strong>Versioning</strong></td>
+<td class="break-word">Suivi et gestion des modifications du code source dans le temps, avec historique et collaboration</td>
+<td>Git</td>
+</tr>
+<tr>
+<td><strong>Automatisation / Configuration</strong></td>
+<td class="break-word">Outils pour déployer et configurer automatiquement des infrastructures et des environnements</td>
+<td>Ansible, Terraform</td>
+</tr>
+<tr>
+<td><strong>Monitoring &amp; Observabilité</strong></td>
+<td class="break-word">Surveillance des performances, collecte de métriques, visualisation des logs et analyse du comportement en temps réel</td>
+<td>Prometheus, Grafana, ELK Stack</td>
+</tr>
+<tr>
+<td><strong>Sécurité / Secrets</strong></td>
+<td class="break-word">Gestion sécurisée des identifiants, mots de passe, clés API et autres données sensibles utilisées</td>
+<td>HashiCorp Vault</td>
+</tr>
+</tbody>
+</table>
+
+<p>Chaque entreprise fait ses choix en fonction de son environnement technique et de ses priorités.</p>
+<h1 id="mlops-entre-data-science-et-devops">MLOps : entre data science et DevOps</h1>
+<p>Si le <strong>DevOps</strong> optimise le <strong>cycle de vie des applications</strong>, le <strong>MLOps</strong> (pour <em>Machine Learning Operations</em>) s'intéresse à la <strong>mise en production des modèles de machine learning</strong>. Il en reprend les grands principes (CI/CD, monitoring, collaboration...), tout en y ajoutant les spécificités de la data science :</p>
+<ul>
+<li>Suivi des données d'entraînement</li>
+<li>Versioning des modèles</li>
+<li>Tests sur la dérive des performances</li>
+<li>Automatisation du retraining</li>
+<li>Déploiement multi-environnements (batch, temps réel)</li>
+</ul>
+<p>Mettre un modèle en production, ce n'est pas juste lancer un script Python. Il faut gérer :</p>
+<ul>
+<li>Des <strong>pipelines complexes</strong> (prétraitement, entraînement, validation, etc.)</li>
+<li>Des <strong>données changeantes</strong> (data drift / concept drift)</li>
+<li>Des métriques métiers spécifiques (précision, rappel, F1, etc.)</li>
+<li>La <strong>collaboration inter-équipes</strong> (data scientists, devs, ops, métiers)</li>
+<li>Le suivi <strong>post-prod</strong> (monitoring, logs, triggers de retraining…)</li>
+</ul>
+<p>Voici quelques outils souvent utilisés :</p>
+<table>
+<thead>
+<tr>
+<th><strong>Domaine</strong></th>
+<th><strong>Définition</strong></th>
+<th><strong>Exemples</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Suivi des expériences</td>
+<td>Log des essais, paramètres, résultats</td>
+<td>MLflow, Weights &amp; Biases</td>
+</tr>
+<tr>
+<td>Versioning modèles/data</td>
+<td>Historique complet et reproductible</td>
+<td>DVC, MLflow Models</td>
+</tr>
+<tr>
+<td>Orchestration ML</td>
+<td>Enchaînement des étapes ML</td>
+<td>Kubeflow, Airflow, Metaflow</td>
+</tr>
+<tr>
+<td>Déploiement</td>
+<td>Packaging et serveurs de modèles</td>
+<td>Seldon, BentoML, SageMaker</td>
+</tr>
+<tr>
+<td>Monitoring</td>
+<td>Suivi performance / drift</td>
+<td>Evidently, Arize AI, Fiddler</td>
+</tr>
+</tbody>
+</table>
+
+<p>En résumé, le <strong>MLOps</strong> permet de passer du de la preuve de concept (<em>PoC</em> en anglais) à la production de manière fiable et industrialisée, avec tous les enjeux que cela implique autour des données et des modèles.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Adopter une approche <strong>DevOps</strong>, ce n'est pas installer Jenkins ou Docker du jour au lendemain. C'est amorcer une <strong>transformation culturelle</strong>, <strong>technique</strong> et <strong>humaine</strong>. C'est une manière de penser, de collaborer, et de livrer en continu un contenu de qualité.<br>
+Et avec le <strong>MLOps</strong>, cette logique s'étend à la gestion des projets de machine learning, encore trop souvent cantonnés à l'expérimentation.   </p>
+<p>Quoiqu'il en soit, si cet article vous a donné envie de réagir ou d'en savoir plus, vous pouvez <a href="https://www.statoscop.fr/contact">nous contacter sur le site de Statoscop</a> pour discuter des prochaines étapes !  </p>
+<div class="d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br></p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=DevOps et MLOps : comprendre l'essentiel&amp;url=https://blog.statoscop.fr/devops-et-mlops-comprendre-lessentiel.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://blog.statoscop.fr/tag/devops.html">DevOps</a><a href="https://blog.statoscop.fr/tag/devweb.html">DevWeb</a><a href="https://blog.statoscop.fr/tag/automatisation.html">automatisation</a><a href="https://blog.statoscop.fr/tag/versionning.html">versionning</a><a href="https://blog.statoscop.fr/tag/codes.html">codes</a><a href="https://blog.statoscop.fr/tag/scripts.html">scripts</a><a href="https://blog.statoscop.fr/tag/mlops.html">MLOps</a><a href="https://blog.statoscop.fr/tag/cicd.html">CI/CD</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+    
+    <!-- Footer-->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-left"> © Statoscop</div>
+                <div class="col-lg-4 my-3 my-lg-0">
+                    <a class="btn btn-dark btn-social mx-2" href="https://twitter.com/stato_scop" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="col-lg-4 text-lg-left"> 
+                    Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
+                     déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
+
+  </body>
+</html>
