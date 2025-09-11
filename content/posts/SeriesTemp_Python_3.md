@@ -35,9 +35,9 @@ Une série temporelle peut se décomposer en 4 composantes :
 ## La stationnarité
 
 Un processus $\{y_t\}_{t=1}^{T}$ est dit stationnaire lorsque :  
->- $E(y_t) = \mu$  
->- $V(y_t) = \sigma²$  
->- $\gamma(t,s) = \gamma(t-s)$ où $\gamma$ est la fonction d'autocorrélation qu'on va découvrir de suite  
+- $E(y_t) = \mu$  
+- $V(y_t) = \sigma²$  
+- $\gamma(t,s) = \gamma(t-s)$ où $\gamma$ est la fonction d'autocorrélation qu'on va découvrir de suite  
 
 Ok c'est joli les formules, mais concrètement ça veut dire quoi qu'une série est stationnaire ?
 
@@ -79,18 +79,18 @@ Ces graphiques, qui répondent au doux nom de corrélogramme, interviennent dans
 ## Bruit blanc
 
 Un **bruit blanc** est un processus $\{\epsilon_t\}_{t=1}^{T}$ qui vérifie :  
->- $E[\epsilon_t] = 0$  
->- $E[\epsilon_t²] = \sigma²$  
->- $E[\epsilon_t\epsilon_s] = 0$ pour $s \neq t$  
+- $E[\epsilon_t] = 0$  
+- $E[\epsilon_t²] = \sigma²$  
+- $E[\epsilon_t\epsilon_s] = 0$ pour $s \neq t$  
 
 C'est donc une série de moyenne constante et nulle, de variance constante et de covariance nulle entre 2 observations (indépendamment du décalage entre les 2). Ce dernier point signifie donc que les observations sont **non corrélées** entre elles.
 
 Un **bruit blanc indépendant** est un processus $\{\epsilon_t\}_{t=1}^{T}$ qui vérifie :  
->- $E[\epsilon_t] = 0$  
->- $E[\epsilon_t²] = \sigma²$  
->- $\epsilon_t$ et $\epsilon_s$ indépendants pour $s \neq t$  
+- $E[\epsilon_t] = 0$  
+- $E[\epsilon_t²] = \sigma²$  
+- $\epsilon_t$ et $\epsilon_s$ indépendants pour $s \neq t$  
 
-Les deux premières hypothèses sont identiques. En revanche, la 3ème hypothèse est plus forte puisque l'indépendance implique que la covariance soit nulle mais la réciproque n'est pas vraie (<a href="https://fr.wikipedia.org/wiki/Ind%C3%A9pendance_(probabilit%C3%A9s)#Ind%C3%A9pendance_et_corr%C3%A9lation" target="_blank">Maître Wiki</a>) vous fournira un contre-exemple avec des variables aléatoires discrètes ; un autre contre-exemple classique avec des variables aléatoires continues $X \hookrightarrow \mathcal{N}(0,1)$ et $Y=X²$ sont dépendantes et de covariance nulle).  
+Les deux premières hypothèses sont identiques. En revanche, la 3ème hypothèse est plus forte puisque l'indépendance implique que la covariance soit nulle mais la réciproque n'est pas vraie (<a href="https://fr.wikipedia.org/wiki/Ind%C3%A9pendance_(probabilit%C3%A9s)#Ind%C3%A9pendance_et_corr%C3%A9lation" target="_blank">Maître Wiki</a> vous fournira un contre-exemple avec des variables aléatoires discrètes ; un autre contre-exemple classique avec des variables aléatoires continues $X \hookrightarrow \mathcal{N}(0,1)$ et $Y=X²$ sont dépendantes et de covariance nulle).  
 
 Un **bruit blanc gaussien** $\{\epsilon_t\}_{t=1}^{T}$ est un bruit blanc indépendant qui suit une loi normale centrée : $\epsilon_t \hookrightarrow \mathcal{N}(0,\sigma²)$  
 

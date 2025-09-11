@@ -40,9 +40,7 @@ THEME_STATIC_DIR = 'themes/statoscop/static'
 
 MARKDOWN = {
   'extension_configs': {
-    'markdown.extensions.toc': {
-      'title': 'Table of contents:' 
-    },
+    'markdown.extensions.toc': {'title': 'Table of contents:'},
     'markdown.extensions.codehilite': {'css_class': 'highlight'},
     'markdown.extensions.extra': {},
     'markdown.extensions.meta': {},

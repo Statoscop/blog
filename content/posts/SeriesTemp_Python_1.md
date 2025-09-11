@@ -26,9 +26,9 @@ La libraire `Pandas` a été développée dans un contexte de données financiè
 Une série temporelle peut être vue comme un cas très particulier des données panel puisqu'il s'agit de l'évolution d'une seule observation au cours du temps.
 
 Nous allons donc nous intéresser à ces données temporelles et pour commencer, un peu de vocabulaire et d'anglicisme :  
->- **Timestamps** correspond à un moment précis (par exemple *03 juin 2020, 14:15:16*)  
->- **Time intervals** et **periods** correspondent à une durée ayant des dates de début et de fin précises (par exemple, *l'année 2020*)  
->- **Time deltas** ou **durations** correspondent à une durée exacte (par exemple *123.45 secondes*)  
+- **Timestamps** correspond à un moment précis (par exemple *03 juin 2020, 14:15:16*)  
+- **Time intervals** et **periods** correspondent à une durée ayant des dates de début et de fin précises (par exemple, *l'année 2020*)  
+- **Time deltas** ou **durations** correspondent à une durée exacte (par exemple *123.45 secondes*)  
 
 On va voir comment utiliser et manipuler ces objets date/time avec Python d'une part, puis avec `Pandas` plus particulièrement.
 
