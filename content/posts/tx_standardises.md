@@ -113,7 +113,7 @@ titanic_data %>% group_by(pclass, tr_age) %>%
 |      3|50 ans ou + | 0.0769231|
 
 On constate là plusieurs choses :  
-- Au sein de chaque classe économique il y a un lien très clair entre l'âge et le taux de survie : plus on vieillit pluys celui-ci baisse.  
+- Au sein de chaque classe économique il y a un lien très clair entre l'âge et le taux de survie : plus on vieillit plus celui-ci baisse.  
 - Au sein de chaque tranche d'âge, plus la classe économique est élevée plus la chance de survie augmente. La seule exception est la tranche d'âge 0 - 17 ans de la seconde classe qui a un taux de survie légèrement supérieur à la population du même âge de la 1ere classe (87,9% contre 86,7%).  
 
 Au vu de ces éléments il apparaît légitime de calculer des taux standardisés pour comparer des fréquences de survie au sein de chaque classe corrigées de l'effet de l'âge.  
