@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<title>Utilisation de case_when dans dplyr : cas des variables facteurs</title>    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="Le blog statistiques et data science de la coopérative Statoscop" />
+  <meta name="author" content="" />
+
+  <!-- Font Awesome icons (free version)-->
+  <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+
+
+
+  <!-- <title>Le blog de Statoscop - études de cas en R et Python</title> -->
+  <link rel="icon" type="image/x-icon" href="https://blog.statoscop.fr/themes/statoscop/static/images/favicon-v1.ico" />
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://blog.statoscop.fr/utilisation-de-case_when-dans-dplyr-cas-des-variables-facteurs.html" rel="canonical" />
+  <!-- Feed -->
+        <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
+          <link href="https://blog.statoscop.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
+
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style.css" type="text/css" rel="stylesheet" />-->
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style-site.css" type="text/css" rel="stylesheet" /> 
+  <!-- <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style_fusion.css" type="text/css" rel="stylesheet" /> -->
+  <!-- Code highlight color scheme -->
+      <link href="https://blog.statoscop.fr/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!-- [if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  ![endif] -->
+
+
+
+    <meta name="description" content="Astuces pour bien définir sa variable facteur dans une instruction case_when suite aux dernières mises à jour de dplyr.">
+
+    <meta name="author" content="Antoine">
+
+    <meta name="tags" content="R">
+    <meta name="tags" content="dplyr">
+    <meta name="tags" content="case_when">
+    <meta name="tags" content="code">
+    <meta name="tags" content="Data Science">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="Utilisation de case_when dans dplyr : cas des variables facteurs"/>
+<meta property="og:description" content="Astuces pour bien définir sa variable facteur dans une instruction case_when suite aux dernières mises à jour de dplyr."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.statoscop.fr/utilisation-de-case_when-dans-dplyr-cas-des-variables-facteurs.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2025-09-16 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://blog.statoscop.fr/author/antoine.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="R"/>
+<meta property="article:tag" content="dplyr"/>
+<meta property="article:tag" content="case_when"/>
+<meta property="article:tag" content="code"/>
+<meta property="article:tag" content="Data Science"/>
+<meta property="og:image" content="https://blog.statoscop.fr/images/cover_26.png">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Utilisation de case_when dans dplyr : cas des variables facteurs",
+  "headline": "Utilisation de case_when dans dplyr : cas des variables facteurs",
+  "datePublished": "2025-09-16 00:00:00+02:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Antoine",
+    "url": "https://blog.statoscop.fr/author/antoine.html"
+  },
+  "image": "https://blog.statoscop.fr/images/cover_26.png",
+  "url": "https://blog.statoscop.fr/utilisation-de-case_when-dans-dplyr-cas-des-variables-facteurs.html",
+  "description": "Astuces pour bien définir sa variable facteur dans une instruction case_when suite aux dernières mises à jour de dplyr."
+}
+</script>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//matomo.statoscop.fr/matomo/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+  
+
+</head>
+<!-- TODO : Body class -->
+  <body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
+
+        <a class="navbar-brand" href="https://statoscop.fr"><img src="https://blog.statoscop.fr/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Statoscop.logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ml-auto">
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr"> Accueil </a>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr/about"> À propos </a>
+              </li>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle font-weight-bold "
+                  id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false"> Prestations </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <li><a class="dropdown-item" href="https://statoscop.fr/etudes">Conseils & études statistiques</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/recodages">Migrations de code & Recodages</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/formations">Formations</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/applis">Dashboards & Applications</a></li>
+                  </ul>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr/contact">Contact</a>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger active" href="https://blog.statoscop.fr/">Le blog</a>
+              </li>
+          </ul>
+      </div>
+      </div>
+    </nav>
+    
+
+
+    <!-- Post content -->
+    <main class="content" role="main">
+      
+      <div>
+      </div>
+
+      <article class="post">
+        <div class="inner">
+
+
+
+
+            <section class="post-content">
+              <h1 class="post-title">Utilisation de case_when dans dplyr : cas des variables facteurs</h1>
+                <!-- Le titres et meta infos-->
+                <span class="post-meta">
+                        <a href="https://blog.statoscop.fr/author/antoine.html">Antoine</a>
+                    | <time datetime="mar. 16 septembre 2025">mar. 16 septembre 2025</time>
+                </span>
+
+                <!--Table des matieres
+-->
+                
+                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+<li><a href="#syntaxe-de-case_when-dans-dplyr-et-differences-avec-if_else">Syntaxe de case_when dans dplyr et différences avec if_else</a><ul>
+<li><a href="#defintion-de-conditions-multiples">Défintion de conditions multiples</a></li>
+<li><a href="#gestion-des-valeurs-manquantes">Gestion des valeurs manquantes</a></li>
+</ul>
+</li>
+<li><a href="#gestion-des-types-facteur-avec-case_when">Gestion des types facteur avec case_when</a><ul>
+<li><a href="#default-pour-definir-la-valeur-de-base">.default pour définir la valeur de base</a></li>
+<li><a href="#ptype-pour-creer-directement-un-facteur">.ptype pour créer directement un facteur</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Le verbe <code>case_when</code> est un <strong>incontournable du traitement de données avec <code>dplyr</code></strong>. Il permet de créer une variable conditionnellement à une ou plusieurs variables existantes. Sa syntaxe est <strong>très lisible et permet à votre code de rester clair</strong>. Cependant, vous avez peut-être déjà eu quelques <strong>problèmes de compatibilité avec les variables facteurs</strong>. Dans cette note, on vous présente ce verbe bien pratique de <code>dplyr</code>, ses nouveautés et comment <strong>l'utiliser pour créer directement des variables facteurs</strong>. </p>
+<h1 id="syntaxe-de-case_when-dans-dplyr-et-differences-avec-if_else">Syntaxe de case_when dans dplyr et différences avec if_else</h1>
+<p>Pour cet article, nous nous reposons sur un dataset complètement fictif qui a la structure suivante :  </p>
+<div class="highlight"><pre><span></span><code><span class="c1">## tibble [200 × 4] (S3: tbl_df/tbl/data.frame)</span>
+<span class="c1">##  $ id    : int [1:200] 1 2 3 4 5 6 7 8 9 10 ...</span>
+<span class="c1">##  $ groupe: chr [1:200] &quot;C&quot; &quot;C&quot; &quot;C&quot; &quot;B&quot; ...</span>
+<span class="c1">##  $ var1  : int [1:200] NA 20 10 28 19 30 NA 22 20 20 ...</span>
+<span class="c1">##  $ statut: Factor w/ 2 levels &quot;ko&quot;,&quot;ok&quot;: NA 1 NA 1 1 2 1 NA 2 2 ...</span>
+</code></pre></div>
+
+<p>Vous pouvez retrouver le code ayant servi à le générer sur <a href="https://github.com/Statoscop/notebooks-blog">le dépôt github des notes de blog de Statoscop</a>.  </p>
+<p>Le verbe <code>case_when</code> comporte plusieurs différences avec <code>if_else</code>, mais deux nous semblent particulièrement importantes :   </p>
+<ul>
+<li>sa syntaxe rend <strong>la lecture de plusieurs conditions</strong> bien plus aisée    </li>
+<li>par défaut, <strong>il ne renvoie pas NA s'il croise une valeur manquante</strong> dans la condition   </li>
+</ul>
+<h2 id="defintion-de-conditions-multiples">Défintion de conditions multiples</h2>
+<p>Pour <strong>la première différence</strong>, la syntaxe de <code>case_when</code> va permettre de <strong>définir les différentes conditions</strong> et la valeur associée sur une ligne dédiée alors que <strong>celle de <code>if_else</code> oblige à chaîner les appels à la fonction</strong>. En fait, <code>case_when</code> a même été créé pour mettre de généraliser <code>if_else</code> à des multiples conditions puisqu'il est indiqué dans sa description de la page d'aide que c'est une fonction <strong>permettant de vectoriser l'appel à plusieurs <code>if_else</code></strong>. Illustrons cela en codant des deux manières une variable égale à :  </p>
+<ul>
+<li>"cas 1" si groupe = "A" et var1 &lt; 25 </li>
+<li>"cas 2" si groupe = "B" ou "C" et var1 &gt;= 25 </li>
+<li>"cas 3" sinon</li>
+</ul>
+<p>Le code avec les deux syntaxes est le suivant :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span>
+
+<span class="w">  </span><span class="c1"># syntaxe case_when</span>
+<span class="w">  </span><span class="n">cond_case</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">case_when</span><span class="p">(</span>
+<span class="w">    </span><span class="n">groupe</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">var1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">25</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;cas 1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">groupe</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;B&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">var1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">25</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;cas 2&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">.default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;cas 3&quot;</span><span class="p">),</span>
+
+<span class="w">  </span><span class="c1"># syntaxe if_else</span>
+<span class="w">  </span><span class="n">cond_ifelse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">if_else</span><span class="p">(</span>
+<span class="w">    </span><span class="n">groupe</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">var1</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">25</span><span class="p">,</span>
+<span class="w">    </span><span class="s">&quot;cas 1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nf">if_else</span><span class="p">(</span>
+<span class="w">      </span><span class="n">groupe</span><span class="w"> </span><span class="o">%in%</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;B&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">var1</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">25</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;cas 2&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s">&quot;cas 3&quot;</span><span class="p">))</span>
+<span class="w">  </span><span class="p">)</span><span class="w"> </span>
+</code></pre></div>
+
+<p>La syntaxe de case_when permet de <strong>produire un code plus lisible et aéré</strong>. À noter que si l'on ne définissait pas de valeur par défaut explicitement, on aurait à la place des valeurs manquantes.  </p>
+<h2 id="gestion-des-valeurs-manquantes">Gestion des valeurs manquantes</h2>
+<p>Pour <strong>la seconde différence</strong>, <code>case_when</code> considère les valeurs manquantes <strong>comme une valeur à part entière</strong> alors que <code>if_else</code> <strong>renvoie automatiquement une valeur manquante</strong> s'il trouve une valeur manquante dans la condition. Si l'on observe nos deux variables on constate en effet qu'elles ne sont pas toujours égales :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="n">knitr</span><span class="o">::</span><span class="nf">kable</span><span class="p">()</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th align="right">id</th>
+<th align="left">groupe</th>
+<th align="right">var1</th>
+<th align="left">statut</th>
+<th align="left">cond_case</th>
+<th align="left">cond_ifelse</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">1</td>
+<td align="left">C</td>
+<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">cas 3</td>
+<td align="left">NA</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td align="left">C</td>
+<td align="right">20</td>
+<td align="left">ko</td>
+<td align="left">cas 3</td>
+<td align="left">cas 3</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td align="left">C</td>
+<td align="right">10</td>
+<td align="left">NA</td>
+<td align="left">cas 3</td>
+<td align="left">cas 3</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td align="left">B</td>
+<td align="right">28</td>
+<td align="left">ko</td>
+<td align="left">cas 2</td>
+<td align="left">cas 2</td>
+</tr>
+<tr>
+<td align="right">5</td>
+<td align="left">C</td>
+<td align="right">19</td>
+<td align="left">ko</td>
+<td align="left">cas 3</td>
+<td align="left">cas 3</td>
+</tr>
+<tr>
+<td align="right">6</td>
+<td align="left">B</td>
+<td align="right">30</td>
+<td align="left">ok</td>
+<td align="left">cas 2</td>
+<td align="left">cas 2</td>
+</tr>
+<tr>
+<td align="right">7</td>
+<td align="left">B</td>
+<td align="right">NA</td>
+<td align="left">ko</td>
+<td align="left">cas 3</td>
+<td align="left">NA</td>
+</tr>
+<tr>
+<td align="right">8</td>
+<td align="left">B</td>
+<td align="right">22</td>
+<td align="left">NA</td>
+<td align="left">cas 3</td>
+<td align="left">cas 3</td>
+</tr>
+<tr>
+<td align="right">9</td>
+<td align="left">C</td>
+<td align="right">20</td>
+<td align="left">ok</td>
+<td align="left">cas 3</td>
+<td align="left">cas 3</td>
+</tr>
+<tr>
+<td align="right">10</td>
+<td align="left">A</td>
+<td align="right">20</td>
+<td align="left">ok</td>
+<td align="left">cas 1</td>
+<td align="left">cas 1</td>
+</tr>
+</tbody>
+</table>
+<p>Ainsi, <strong>lorsque la valeur de la variable <code>var1</code> est manquante</strong>, la méthode <code>if_else</code> renvoie une valeur manquante alors que <code>case_when</code> lui donne la valeur "cas 3" car elle ne correspond pas aux deux premières conditions. Il faut donc <strong>traiter explicitement les valeurs manquantes dans les conditions de <code>case_when</code> si l'on souhaite qu'elles ne soient pas prises en compte</strong>.    </p>
+<blockquote>
+<p>👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?</p>
+</blockquote>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>      </p>
+<h1 id="gestion-des-types-facteur-avec-case_when">Gestion des types facteur avec <code>case_when</code></h1>
+<p>La création d'une variable avec <code>case_when</code> doit <strong>respecter le fait que la variable créée ait un type unique</strong>. Cela peut poser problème lorsque l'on souhaite créer directement une variable facteur.  </p>
+<h2 id="default-pour-definir-la-valeur-de-base"><code>.default</code> pour définir la valeur de base</h2>
+<p>Le paramètre <code>.default</code> permet de définir la valeur que prend la variable lorsqu'aucune des conditions n'est respectée. Il remplace l'utilisation de la syntaxe <code>.TRUE ~ valeur</code> <a href="https://cran.r-project.org/web/packages/dplyr/news/news.html">depuis dplyr 1.1.0</a>. Il peut <strong>correspondre à une valeur</strong>, comme dans l'exemple précédent, <strong>ou à une variable existante</strong>. Il faut veiller à ce que <strong>le type de la variable corresponde bien à celui des modalités définies précédemment</strong>. En effet, on obtient sinon l'erreur suivante :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">  </span><span class="n">statut_bis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">case_when</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">is.na</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="kc">FALSE</span><span class="p">,</span><span class="w"> </span><span class="c1"># modalité booléen</span>
+<span class="w">    </span><span class="n">.default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">statut</span><span class="p">))</span><span class="w"> </span><span class="c1"># variable facteur</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">## Error in `mutate()`:</span>
+<span class="c1">## ℹ In argument: `statut_bis = case_when(is.na(var1) ~ FALSE, .default =</span>
+<span class="c1">##   statut)`.</span>
+<span class="c1">## Caused by error in `case_when()`:</span>
+<span class="c1">## ! Can&#39;t combine `..1 (right)` &lt;logical&gt; and `.default` &lt;factor&lt;3d285&gt;&gt;.</span>
+</code></pre></div>
+
+<p>Le message d'erreur nous indique bien l'impossibilité pour <code>case_when</code> de <strong>combiner des valeurs booléennes</strong> (le <code>FALSE</code>) <strong>et une variable facteur</strong> (la variable <code>statut</code> donnant la valeur par défaut).  </p>
+<p>À noter qu'auparavant, <code>case_when</code> sortait également une erreur lorsqu'on définissait des modalités caractères et une variable facteur par défaut. Cela n'est plus le cas <a href="https://cran.r-project.org/web/packages/dplyr/news/news.html">depuis dplyr 1.1.0</a>, puisque <code>case_when</code> <strong>transforme automatiquement les variables facteur en variable caractère</strong>. Ainsi, le code suivant fonctionne :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">  </span><span class="n">statut_bis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">case_when</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">is.na</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;inconnu&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1"># modalité caractère</span>
+<span class="w">    </span><span class="n">.default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">statut</span><span class="p">))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="c1"># variable facteur convertie automatiquement en caractère</span>
+<span class="w">  </span><span class="nf">count</span><span class="p">(</span><span class="n">statut_bis</span><span class="p">)</span><span class="w"> </span><span class="c1"># affichage des modalités de statut_bis</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 4 × 2
+<span class="gu">##</span>   statut_bis     n
+<span class="gu">##</span>   &lt;chr&gt;      &lt;int&gt;
+<span class="gu">##</span> 1 inconnu        5
+<span class="gu">##</span> 2 ko            62
+<span class="gu">##</span> 3 ok            61
+<span class="gu">##</span> 4 &lt;NA&gt;          72
+</code></pre></div>
+
+<h2 id="ptype-pour-creer-directement-un-facteur"><code>.ptype</code> pour créer directement un facteur</h2>
+<p>Il n'est ici pas possible de <strong>définir directement un facteur et l'ordre de ses niveaux</strong>, à moins de le faire dans une nouvelle instruction dédiée. C'est là qu'entre en jeu l'argument <code>.ptype</code> de la fonction <code>case_when</code>. Par défaut, le type de la variable est en effet <strong>déduit des valeurs définies après les conditions</strong>. L'argument <code>ptype</code> permet d'imposer un type spécifique <strong>quand cela est compatible avec les expressions utilisées</strong>. Dans notre exemple précédent, on peut ainsi spécifier que l'on souhaite une variable facteur en sortie, <strong>à condition de bien en définir les niveaux</strong>  :  </p>
+<div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">mutate</span><span class="p">(</span>
+<span class="w">  </span><span class="n">statut_bis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">case_when</span><span class="p">(</span>
+<span class="w">    </span><span class="nf">is.na</span><span class="p">(</span><span class="n">var1</span><span class="p">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="s">&quot;inconnu&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1"># modalité caractère</span>
+<span class="w">    </span><span class="n">.default</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">statut</span><span class="p">,</span>
+<span class="w">    </span><span class="n">.ptype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">factor</span><span class="p">(</span><span class="n">levels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;ok&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ko&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;inconnu&quot;</span><span class="p">))))</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>
+<span class="w">  </span><span class="nf">count</span><span class="p">(</span><span class="n">statut_bis</span><span class="p">)</span><span class="w"> </span><span class="c1"># affichage des modalités de statut_bis</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="gu">##</span> # A tibble: 4 × 2
+<span class="gu">##</span>   statut_bis     n
+<span class="gu">##</span>   &lt;fct&gt;      &lt;int&gt;
+<span class="gu">##</span> 1 ok            61
+<span class="gu">##</span> 2 ko            62
+<span class="gu">##</span> 3 inconnu        5
+<span class="gu">##</span> 4 &lt;NA&gt;          72
+</code></pre></div>
+
+<p>On a ainsi pu définir notre variable facteur avec l'ordre des niveaux voulu directement dans <code>case_when</code>.  </p>
+<p>C'est la fin de cet article! N'hésitez pas à <a href="https://www.statoscop.fr">visiter notre site</a> et à nous suivre sur <a href="https://bsky.app/profile/statoscop.fr">BlueSky</a> et <a href="https://www.linkedin.com/company/statoscop">Linkedin</a>. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le <a href="https://github.com/Statoscop/notebooks-blog">github de Statoscop</a>.  </p>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>    </p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Utilisation de case_when dans dplyr : cas des variables facteurs&amp;url=https://blog.statoscop.fr/utilisation-de-case_when-dans-dplyr-cas-des-variables-facteurs.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://blog.statoscop.fr/tag/r.html">R</a><a href="https://blog.statoscop.fr/tag/dplyr.html">dplyr</a><a href="https://blog.statoscop.fr/tag/case_when.html">case_when</a><a href="https://blog.statoscop.fr/tag/code.html">code</a><a href="https://blog.statoscop.fr/tag/data-science.html">Data Science</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+    
+    <!-- Footer-->
+    <footer class="footer py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-lg-left"> © Statoscop</div>
+                <div class="col-lg-4 my-3 my-lg-0">
+                    <a class="btn btn-dark btn-social mx-2" href="https://twitter.com/stato_scop" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="col-lg-4 text-lg-left"> 
+                    Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
+                     déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
+
+  </body>
+</html>

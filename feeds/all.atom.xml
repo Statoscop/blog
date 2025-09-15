@@ -1,5 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog</title><link href="https://blog.statoscop.fr/" rel="alternate"></link><link href="https://blog.statoscop.fr/feeds/all.atom.xml" rel="self"></link><id>https://blog.statoscop.fr/</id><updated>2025-06-26T00:00:00+02:00</updated><entry><title>DevOps et MLOps : comprendre l'essentiel</title><link href="https://blog.statoscop.fr/devops-et-mlops-comprendre-lessentiel.html" rel="alternate"></link><published>2025-06-26T00:00:00+02:00</published><updated>2025-06-26T00:00:00+02:00</updated><author><name>Louis</name></author><id>tag:blog.statoscop.fr,2025-06-26:/devops-et-mlops-comprendre-lessentiel.html</id><summary type="html">&lt;p&gt;Les concepts et outils cachés derrière le DevOps et son cousin MLOps&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog</title><link href="https://blog.statoscop.fr/" rel="alternate"></link><link href="https://blog.statoscop.fr/feeds/all.atom.xml" rel="self"></link><id>https://blog.statoscop.fr/</id><updated>2025-09-16T00:00:00+02:00</updated><entry><title>Utilisation de case_when dans dplyr : cas des variables facteurs</title><link href="https://blog.statoscop.fr/utilisation-de-case_when-dans-dplyr-cas-des-variables-facteurs.html" rel="alternate"></link><published>2025-09-16T00:00:00+02:00</published><updated>2025-09-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2025-09-16:/utilisation-de-case_when-dans-dplyr-cas-des-variables-facteurs.html</id><summary type="html">&lt;p&gt;Astuces pour bien définir sa variable facteur dans une instruction case_when suite aux dernières mises à jour de dplyr.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#syntaxe-de-case_when-dans-dplyr-et-differences-avec-if_else"&gt;Syntaxe de case_when dans dplyr et différences avec if_else&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#defintion-de-conditions-multiples"&gt;Défintion de conditions multiples&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#gestion-des-valeurs-manquantes"&gt;Gestion des valeurs manquantes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#gestion-des-types-facteur-avec-case_when"&gt;Gestion des types facteur avec case_when&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#default-pour-definir-la-valeur-de-base"&gt;.default pour définir la valeur de base&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#ptype-pour-creer-directement-un-facteur"&gt;.ptype pour créer directement un facteur&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;p&gt;Le verbe &lt;code&gt;case_when&lt;/code&gt; est un &lt;strong&gt;incontournable du traitement de données avec &lt;code&gt;dplyr&lt;/code&gt;&lt;/strong&gt;. Il permet de créer une variable conditionnellement à une ou plusieurs variables existantes. Sa syntaxe est &lt;strong&gt;très lisible et permet à votre code de rester clair&lt;/strong&gt;. Cependant, vous avez peut-être déjà eu quelques &lt;strong&gt;problèmes de compatibilité avec les variables facteurs&lt;/strong&gt;. Dans cette note, on vous présente ce verbe bien pratique de &lt;code&gt;dplyr&lt;/code&gt;, ses nouveautés et comment &lt;strong&gt;l'utiliser pour créer directement des variables facteurs&lt;/strong&gt;. &lt;/p&gt;
+&lt;h1 id="syntaxe-de-case_when-dans-dplyr-et-differences-avec-if_else"&gt;Syntaxe de case_when dans dplyr et différences avec if_else&lt;/h1&gt;
+&lt;p&gt;Pour cet article, nous nous reposons sur un dataset complètement fictif qui a la structure suivante :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## tibble [200 × 4] (S3: tbl_df/tbl/data.frame)&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ id    : int [1:200] 1 2 3 4 5 6 7 8 9 10 ...&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ groupe: chr [1:200] &amp;quot;C&amp;quot; &amp;quot;C&amp;quot; &amp;quot;C&amp;quot; &amp;quot;B&amp;quot; ...&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ var1  : int [1:200] NA 20 10 28 19 30 NA 22 20 20 ...&lt;/span&gt;
+&lt;span class="c1"&gt;##  $ statut: Factor w/ 2 levels &amp;quot;ko&amp;quot;,&amp;quot;ok&amp;quot;: NA 1 NA 1 1 2 1 NA 2 2 ...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Vous pouvez retrouver le code ayant servi à le générer sur &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;le dépôt github des notes de blog de Statoscop&lt;/a&gt;.  &lt;/p&gt;
+&lt;p&gt;Le verbe &lt;code&gt;case_when&lt;/code&gt; comporte plusieurs différences avec &lt;code&gt;if_else&lt;/code&gt;, mais deux nous semblent particulièrement importantes :   &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;sa syntaxe rend &lt;strong&gt;la lecture de plusieurs conditions&lt;/strong&gt; bien plus aisée    &lt;/li&gt;
+&lt;li&gt;par défaut, &lt;strong&gt;il ne renvoie pas NA s'il croise une valeur manquante&lt;/strong&gt; dans la condition   &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="defintion-de-conditions-multiples"&gt;Défintion de conditions multiples&lt;/h2&gt;
+&lt;p&gt;Pour &lt;strong&gt;la première différence&lt;/strong&gt;, la syntaxe de &lt;code&gt;case_when&lt;/code&gt; va permettre de &lt;strong&gt;définir les différentes conditions&lt;/strong&gt; et la valeur associée sur une ligne dédiée alors que &lt;strong&gt;celle de &lt;code&gt;if_else&lt;/code&gt; oblige à chaîner les appels à la fonction&lt;/strong&gt;. En fait, &lt;code&gt;case_when&lt;/code&gt; a même été créé pour mettre de généraliser &lt;code&gt;if_else&lt;/code&gt; à des multiples conditions puisqu'il est indiqué dans sa description de la page d'aide que c'est une fonction &lt;strong&gt;permettant de vectoriser l'appel à plusieurs &lt;code&gt;if_else&lt;/code&gt;&lt;/strong&gt;. Illustrons cela en codant des deux manières une variable égale à :  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;"cas 1" si groupe = "A" et var1 &amp;lt; 25 &lt;/li&gt;
+&lt;li&gt;"cas 2" si groupe = "B" ou "C" et var1 &amp;gt;= 25 &lt;/li&gt;
+&lt;li&gt;"cas 3" sinon&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Le code avec les deux syntaxes est le suivant :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;mutate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# syntaxe case_when&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;cond_case&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;case_when&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;groupe&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;A&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;var1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;25&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;cas 1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;groupe&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;%in%&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;B&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;C&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;var1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;25&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;cas 2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;.default&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;cas 3&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="c1"&gt;# syntaxe if_else&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;cond_ifelse&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;if_else&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;groupe&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;A&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;var1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;cas 1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nf"&gt;if_else&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="n"&gt;groupe&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;%in%&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;B&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;C&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;var1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;cas 2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;cas 3&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;La syntaxe de case_when permet de &lt;strong&gt;produire un code plus lisible et aéré&lt;/strong&gt;. À noter que si l'on ne définissait pas de valeur par défaut explicitement, on aurait à la place des valeurs manquantes.  &lt;/p&gt;
+&lt;h2 id="gestion-des-valeurs-manquantes"&gt;Gestion des valeurs manquantes&lt;/h2&gt;
+&lt;p&gt;Pour &lt;strong&gt;la seconde différence&lt;/strong&gt;, &lt;code&gt;case_when&lt;/code&gt; considère les valeurs manquantes &lt;strong&gt;comme une valeur à part entière&lt;/strong&gt; alors que &lt;code&gt;if_else&lt;/code&gt; &lt;strong&gt;renvoie automatiquement une valeur manquante&lt;/strong&gt; s'il trouve une valeur manquante dans la condition. Si l'on observe nos deux variables on constate en effet qu'elles ne sont pas toujours égales :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;head&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;knitr&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="nf"&gt;kable&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align="right"&gt;id&lt;/th&gt;
+&lt;th align="left"&gt;groupe&lt;/th&gt;
+&lt;th align="right"&gt;var1&lt;/th&gt;
+&lt;th align="left"&gt;statut&lt;/th&gt;
+&lt;th align="left"&gt;cond_case&lt;/th&gt;
+&lt;th align="left"&gt;cond_ifelse&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="left"&gt;C&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;td align="left"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="left"&gt;C&lt;/td&gt;
+&lt;td align="right"&gt;20&lt;/td&gt;
+&lt;td align="left"&gt;ko&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;3&lt;/td&gt;
+&lt;td align="left"&gt;C&lt;/td&gt;
+&lt;td align="right"&gt;10&lt;/td&gt;
+&lt;td align="left"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;4&lt;/td&gt;
+&lt;td align="left"&gt;B&lt;/td&gt;
+&lt;td align="right"&gt;28&lt;/td&gt;
+&lt;td align="left"&gt;ko&lt;/td&gt;
+&lt;td align="left"&gt;cas 2&lt;/td&gt;
+&lt;td align="left"&gt;cas 2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;5&lt;/td&gt;
+&lt;td align="left"&gt;C&lt;/td&gt;
+&lt;td align="right"&gt;19&lt;/td&gt;
+&lt;td align="left"&gt;ko&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;6&lt;/td&gt;
+&lt;td align="left"&gt;B&lt;/td&gt;
+&lt;td align="right"&gt;30&lt;/td&gt;
+&lt;td align="left"&gt;ok&lt;/td&gt;
+&lt;td align="left"&gt;cas 2&lt;/td&gt;
+&lt;td align="left"&gt;cas 2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;7&lt;/td&gt;
+&lt;td align="left"&gt;B&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;ko&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;td align="left"&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;8&lt;/td&gt;
+&lt;td align="left"&gt;B&lt;/td&gt;
+&lt;td align="right"&gt;22&lt;/td&gt;
+&lt;td align="left"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;9&lt;/td&gt;
+&lt;td align="left"&gt;C&lt;/td&gt;
+&lt;td align="right"&gt;20&lt;/td&gt;
+&lt;td align="left"&gt;ok&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align="right"&gt;10&lt;/td&gt;
+&lt;td align="left"&gt;A&lt;/td&gt;
+&lt;td align="right"&gt;20&lt;/td&gt;
+&lt;td align="left"&gt;ok&lt;/td&gt;
+&lt;td align="left"&gt;cas 1&lt;/td&gt;
+&lt;td align="left"&gt;cas 1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Ainsi, &lt;strong&gt;lorsque la valeur de la variable &lt;code&gt;var1&lt;/code&gt; est manquante&lt;/strong&gt;, la méthode &lt;code&gt;if_else&lt;/code&gt; renvoie une valeur manquante alors que &lt;code&gt;case_when&lt;/code&gt; lui donne la valeur "cas 3" car elle ne correspond pas aux deux premières conditions. Il faut donc &lt;strong&gt;traiter explicitement les valeurs manquantes dans les conditions de &lt;code&gt;case_when&lt;/code&gt; si l'on souhaite qu'elles ne soient pas prises en compte&lt;/strong&gt;.    &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;      &lt;/p&gt;
+&lt;h1 id="gestion-des-types-facteur-avec-case_when"&gt;Gestion des types facteur avec &lt;code&gt;case_when&lt;/code&gt;&lt;/h1&gt;
+&lt;p&gt;La création d'une variable avec &lt;code&gt;case_when&lt;/code&gt; doit &lt;strong&gt;respecter le fait que la variable créée ait un type unique&lt;/strong&gt;. Cela peut poser problème lorsque l'on souhaite créer directement une variable facteur.  &lt;/p&gt;
+&lt;h2 id="default-pour-definir-la-valeur-de-base"&gt;&lt;code&gt;.default&lt;/code&gt; pour définir la valeur de base&lt;/h2&gt;
+&lt;p&gt;Le paramètre &lt;code&gt;.default&lt;/code&gt; permet de définir la valeur que prend la variable lorsqu'aucune des conditions n'est respectée. Il remplace l'utilisation de la syntaxe &lt;code&gt;.TRUE ~ valeur&lt;/code&gt; &lt;a href="https://cran.r-project.org/web/packages/dplyr/news/news.html"&gt;depuis dplyr 1.1.0&lt;/a&gt;. Il peut &lt;strong&gt;correspondre à une valeur&lt;/strong&gt;, comme dans l'exemple précédent, &lt;strong&gt;ou à une variable existante&lt;/strong&gt;. Il faut veiller à ce que &lt;strong&gt;le type de la variable corresponde bien à celui des modalités définies précédemment&lt;/strong&gt;. En effet, on obtient sinon l'erreur suivante :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;mutate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;statut_bis&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;case_when&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nf"&gt;is.na&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;var1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kc"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# modalité booléen&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;.default&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;statut&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# variable facteur&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;## Error in `mutate()`:&lt;/span&gt;
+&lt;span class="c1"&gt;## ℹ In argument: `statut_bis = case_when(is.na(var1) ~ FALSE, .default =&lt;/span&gt;
+&lt;span class="c1"&gt;##   statut)`.&lt;/span&gt;
+&lt;span class="c1"&gt;## Caused by error in `case_when()`:&lt;/span&gt;
+&lt;span class="c1"&gt;## ! Can&amp;#39;t combine `..1 (right)` &amp;lt;logical&amp;gt; and `.default` &amp;lt;factor&amp;lt;3d285&amp;gt;&amp;gt;.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Le message d'erreur nous indique bien l'impossibilité pour &lt;code&gt;case_when&lt;/code&gt; de &lt;strong&gt;combiner des valeurs booléennes&lt;/strong&gt; (le &lt;code&gt;FALSE&lt;/code&gt;) &lt;strong&gt;et une variable facteur&lt;/strong&gt; (la variable &lt;code&gt;statut&lt;/code&gt; donnant la valeur par défaut).  &lt;/p&gt;
+&lt;p&gt;À noter qu'auparavant, &lt;code&gt;case_when&lt;/code&gt; sortait également une erreur lorsqu'on définissait des modalités caractères et une variable facteur par défaut. Cela n'est plus le cas &lt;a href="https://cran.r-project.org/web/packages/dplyr/news/news.html"&gt;depuis dplyr 1.1.0&lt;/a&gt;, puisque &lt;code&gt;case_when&lt;/code&gt; &lt;strong&gt;transforme automatiquement les variables facteur en variable caractère&lt;/strong&gt;. Ainsi, le code suivant fonctionne :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;mutate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;statut_bis&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;case_when&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nf"&gt;is.na&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;var1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;inconnu&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# modalité caractère&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;.default&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;statut&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# variable facteur convertie automatiquement en caractère&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;count&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;statut_bis&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# affichage des modalités de statut_bis&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gu"&gt;##&lt;/span&gt; # A tibble: 4 × 2
+&lt;span class="gu"&gt;##&lt;/span&gt;   statut_bis     n
+&lt;span class="gu"&gt;##&lt;/span&gt;   &amp;lt;chr&amp;gt;      &amp;lt;int&amp;gt;
+&lt;span class="gu"&gt;##&lt;/span&gt; 1 inconnu        5
+&lt;span class="gu"&gt;##&lt;/span&gt; 2 ko            62
+&lt;span class="gu"&gt;##&lt;/span&gt; 3 ok            61
+&lt;span class="gu"&gt;##&lt;/span&gt; 4 &amp;lt;NA&amp;gt;          72
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id="ptype-pour-creer-directement-un-facteur"&gt;&lt;code&gt;.ptype&lt;/code&gt; pour créer directement un facteur&lt;/h2&gt;
+&lt;p&gt;Il n'est ici pas possible de &lt;strong&gt;définir directement un facteur et l'ordre de ses niveaux&lt;/strong&gt;, à moins de le faire dans une nouvelle instruction dédiée. C'est là qu'entre en jeu l'argument &lt;code&gt;.ptype&lt;/code&gt; de la fonction &lt;code&gt;case_when&lt;/code&gt;. Par défaut, le type de la variable est en effet &lt;strong&gt;déduit des valeurs définies après les conditions&lt;/strong&gt;. L'argument &lt;code&gt;ptype&lt;/code&gt; permet d'imposer un type spécifique &lt;strong&gt;quand cela est compatible avec les expressions utilisées&lt;/strong&gt;. Dans notre exemple précédent, on peut ainsi spécifier que l'on souhaite une variable facteur en sortie, &lt;strong&gt;à condition de bien en définir les niveaux&lt;/strong&gt;  :  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;mutate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;statut_bis&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;case_when&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nf"&gt;is.na&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;var1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;~&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;inconnu&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# modalité caractère&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;.default&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;statut&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;.ptype&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;factor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;levels&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;ok&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;ko&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;quot;inconnu&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nf"&gt;count&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;statut_bis&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="c1"&gt;# affichage des modalités de statut_bis&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="gu"&gt;##&lt;/span&gt; # A tibble: 4 × 2
+&lt;span class="gu"&gt;##&lt;/span&gt;   statut_bis     n
+&lt;span class="gu"&gt;##&lt;/span&gt;   &amp;lt;fct&amp;gt;      &amp;lt;int&amp;gt;
+&lt;span class="gu"&gt;##&lt;/span&gt; 1 ok            61
+&lt;span class="gu"&gt;##&lt;/span&gt; 2 ko            62
+&lt;span class="gu"&gt;##&lt;/span&gt; 3 inconnu        5
+&lt;span class="gu"&gt;##&lt;/span&gt; 4 &amp;lt;NA&amp;gt;          72
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;On a ainsi pu définir notre variable facteur avec l'ordre des niveaux voulu directement dans &lt;code&gt;case_when&lt;/code&gt;.  &lt;/p&gt;
+&lt;p&gt;C'est la fin de cet article! N'hésitez pas à &lt;a href="https://www.statoscop.fr"&gt;visiter notre site&lt;/a&gt; et à nous suivre sur &lt;a href="https://bsky.app/profile/statoscop.fr"&gt;BlueSky&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.  &lt;/p&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;    &lt;/p&gt;</content><category term="R"></category><category term="R"></category><category term="dplyr"></category><category term="case_when"></category><category term="code"></category><category term="Data Science"></category></entry><entry><title>DevOps et MLOps : comprendre l'essentiel</title><link href="https://blog.statoscop.fr/devops-et-mlops-comprendre-lessentiel.html" rel="alternate"></link><published>2025-06-26T00:00:00+02:00</published><updated>2025-06-26T00:00:00+02:00</updated><author><name>Louis</name></author><id>tag:blog.statoscop.fr,2025-06-26:/devops-et-mlops-comprendre-lessentiel.html</id><summary type="html">&lt;p&gt;Les concepts et outils cachés derrière le DevOps et son cousin MLOps&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#le-devops-de-quoi-parle-t-on"&gt;Le DevOps : de quoi parle-t-on ?&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#les-origines-du-devops"&gt;Les origines du DevOps&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#le-devops-en-entreprise"&gt;Le DevOps en entreprise&lt;/a&gt;&lt;/li&gt;
