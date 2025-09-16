@@ -185,7 +185,7 @@
                 
                 <div class="toc"><span class="toctitle">Table des matières</span><ul>
 <li><a href="#syntaxe-de-case_when-dans-dplyr-et-differences-avec-if_else">Syntaxe de case_when dans dplyr et différences avec if_else</a><ul>
-<li><a href="#defintion-de-conditions-multiples">Défintion de conditions multiples</a></li>
+<li><a href="#definition-de-conditions-multiples">Définition de conditions multiples</a></li>
 <li><a href="#gestion-des-valeurs-manquantes">Gestion des valeurs manquantes</a></li>
 </ul>
 </li>
@@ -212,8 +212,8 @@
 <li>sa syntaxe rend <strong>la lecture de plusieurs conditions</strong> bien plus aisée    </li>
 <li>par défaut, <strong>il ne renvoie pas NA s'il croise une valeur manquante</strong> dans la condition   </li>
 </ul>
-<h2 id="defintion-de-conditions-multiples">Défintion de conditions multiples</h2>
-<p>Pour <strong>la première différence</strong>, la syntaxe de <code>case_when</code> va permettre de <strong>définir les différentes conditions</strong> et la valeur associée sur une ligne dédiée alors que <strong>celle de <code>if_else</code> oblige à chaîner les appels à la fonction</strong>. En fait, <code>case_when</code> a même été créé pour mettre de généraliser <code>if_else</code> à des multiples conditions puisqu'il est indiqué dans sa description de la page d'aide que c'est une fonction <strong>permettant de vectoriser l'appel à plusieurs <code>if_else</code></strong>. Illustrons cela en codant des deux manières une variable égale à :  </p>
+<h2 id="definition-de-conditions-multiples">Définition de conditions multiples</h2>
+<p>Pour <strong>la première différence</strong>, la syntaxe de <code>case_when</code> va permettre de <strong>définir les différentes conditions</strong> et la valeur associée sur une ligne dédiée alors que <strong>celle de <code>if_else</code> oblige à chaîner les appels à la fonction</strong>. En fait, <code>case_when</code> a même été créé pour permettre de généraliser <code>if_else</code> à des multiples conditions puisqu'il est indiqué dans sa description de la page d'aide que c'est une fonction <strong>permettant de vectoriser l'appel à plusieurs <code>if_else</code></strong>. Illustrons cela en codant des deux manières une variable égale à :  </p>
 <ul>
 <li>"cas 1" si groupe = "A" et var1 &lt; 25 </li>
 <li>"cas 2" si groupe = "B" ou "C" et var1 &gt;= 25 </li>
@@ -239,7 +239,7 @@
 <span class="w">  </span><span class="p">)</span><span class="w"> </span>
 </code></pre></div>
 
-<p>La syntaxe de case_when permet de <strong>produire un code plus lisible et aéré</strong>. À noter que si l'on ne définissait pas de valeur par défaut explicitement, on aurait à la place des valeurs manquantes.  </p>
+<p>La syntaxe de case_when permet de <strong>produire un code plus lisible et aéré</strong>. Chaque ligne de condition est évaluée <strong>si aucune des conditions précédentes n'est respectée</strong>. À noter que si l'on ne définissait pas de valeur par défaut explicitement, on aurait à la place des valeurs manquantes.  </p>
 <h2 id="gestion-des-valeurs-manquantes">Gestion des valeurs manquantes</h2>
 <p>Pour <strong>la seconde différence</strong>, <code>case_when</code> considère les valeurs manquantes <strong>comme une valeur à part entière</strong> alors que <code>if_else</code> <strong>renvoie automatiquement une valeur manquante</strong> s'il trouve une valeur manquante dans la condition. Si l'on observe nos deux variables on constate en effet qu'elles ne sont pas toujours égales :  </p>
 <div class="highlight"><pre><span></span><code><span class="n">df</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nf">head</span><span class="p">(</span><span class="m">10</span><span class="p">)</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span>

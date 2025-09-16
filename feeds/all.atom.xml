@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog</title><link href="https://blog.statoscop.fr/" rel="alternate"></link><link href="https://blog.statoscop.fr/feeds/all.atom.xml" rel="self"></link><id>https://blog.statoscop.fr/</id><updated>2025-09-16T00:00:00+02:00</updated><entry><title>Utilisation de case_when dans dplyr : cas des variables facteurs</title><link href="https://blog.statoscop.fr/utilisation-de-case_when-dans-dplyr-cas-des-variables-facteurs.html" rel="alternate"></link><published>2025-09-16T00:00:00+02:00</published><updated>2025-09-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2025-09-16:/utilisation-de-case_when-dans-dplyr-cas-des-variables-facteurs.html</id><summary type="html">&lt;p&gt;Astuces pour bien définir sa variable facteur dans une instruction case_when suite aux dernières mises à jour de dplyr.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#syntaxe-de-case_when-dans-dplyr-et-differences-avec-if_else"&gt;Syntaxe de case_when dans dplyr et différences avec if_else&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href="#defintion-de-conditions-multiples"&gt;Défintion de conditions multiples&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#definition-de-conditions-multiples"&gt;Définition de conditions multiples&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#gestion-des-valeurs-manquantes"&gt;Gestion des valeurs manquantes&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -28,8 +28,8 @@
 &lt;li&gt;sa syntaxe rend &lt;strong&gt;la lecture de plusieurs conditions&lt;/strong&gt; bien plus aisée    &lt;/li&gt;
 &lt;li&gt;par défaut, &lt;strong&gt;il ne renvoie pas NA s'il croise une valeur manquante&lt;/strong&gt; dans la condition   &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="defintion-de-conditions-multiples"&gt;Défintion de conditions multiples&lt;/h2&gt;
-&lt;p&gt;Pour &lt;strong&gt;la première différence&lt;/strong&gt;, la syntaxe de &lt;code&gt;case_when&lt;/code&gt; va permettre de &lt;strong&gt;définir les différentes conditions&lt;/strong&gt; et la valeur associée sur une ligne dédiée alors que &lt;strong&gt;celle de &lt;code&gt;if_else&lt;/code&gt; oblige à chaîner les appels à la fonction&lt;/strong&gt;. En fait, &lt;code&gt;case_when&lt;/code&gt; a même été créé pour mettre de généraliser &lt;code&gt;if_else&lt;/code&gt; à des multiples conditions puisqu'il est indiqué dans sa description de la page d'aide que c'est une fonction &lt;strong&gt;permettant de vectoriser l'appel à plusieurs &lt;code&gt;if_else&lt;/code&gt;&lt;/strong&gt;. Illustrons cela en codant des deux manières une variable égale à :  &lt;/p&gt;
+&lt;h2 id="definition-de-conditions-multiples"&gt;Définition de conditions multiples&lt;/h2&gt;
+&lt;p&gt;Pour &lt;strong&gt;la première différence&lt;/strong&gt;, la syntaxe de &lt;code&gt;case_when&lt;/code&gt; va permettre de &lt;strong&gt;définir les différentes conditions&lt;/strong&gt; et la valeur associée sur une ligne dédiée alors que &lt;strong&gt;celle de &lt;code&gt;if_else&lt;/code&gt; oblige à chaîner les appels à la fonction&lt;/strong&gt;. En fait, &lt;code&gt;case_when&lt;/code&gt; a même été créé pour permettre de généraliser &lt;code&gt;if_else&lt;/code&gt; à des multiples conditions puisqu'il est indiqué dans sa description de la page d'aide que c'est une fonction &lt;strong&gt;permettant de vectoriser l'appel à plusieurs &lt;code&gt;if_else&lt;/code&gt;&lt;/strong&gt;. Illustrons cela en codant des deux manières une variable égale à :  &lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;"cas 1" si groupe = "A" et var1 &amp;lt; 25 &lt;/li&gt;
 &lt;li&gt;"cas 2" si groupe = "B" ou "C" et var1 &amp;gt;= 25 &lt;/li&gt;
@@ -55,7 +55,7 @@
 &lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;La syntaxe de case_when permet de &lt;strong&gt;produire un code plus lisible et aéré&lt;/strong&gt;. À noter que si l'on ne définissait pas de valeur par défaut explicitement, on aurait à la place des valeurs manquantes.  &lt;/p&gt;
+&lt;p&gt;La syntaxe de case_when permet de &lt;strong&gt;produire un code plus lisible et aéré&lt;/strong&gt;. Chaque ligne de condition est évaluée &lt;strong&gt;si aucune des conditions précédentes n'est respectée&lt;/strong&gt;. À noter que si l'on ne définissait pas de valeur par défaut explicitement, on aurait à la place des valeurs manquantes.  &lt;/p&gt;
 &lt;h2 id="gestion-des-valeurs-manquantes"&gt;Gestion des valeurs manquantes&lt;/h2&gt;
 &lt;p&gt;Pour &lt;strong&gt;la seconde différence&lt;/strong&gt;, &lt;code&gt;case_when&lt;/code&gt; considère les valeurs manquantes &lt;strong&gt;comme une valeur à part entière&lt;/strong&gt; alors que &lt;code&gt;if_else&lt;/code&gt; &lt;strong&gt;renvoie automatiquement une valeur manquante&lt;/strong&gt; s'il trouve une valeur manquante dans la condition. Si l'on observe nos deux variables on constate en effet qu'elles ne sont pas toujours égales :  &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;head&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
