@@ -31,9 +31,9 @@ Le verbe `case_when` comporte plusieurs différences avec `if_else`, mais deux n
 - sa syntaxe rend __la lecture de plusieurs conditions__ bien plus aisée    
 - par défaut, __il ne renvoie pas NA s'il croise une valeur manquante__ dans la condition   
 
-## Défintion de conditions multiples 
+## Définition de conditions multiples 
 
-Pour __la première différence__, la syntaxe de `case_when` va permettre de __définir les différentes conditions__ et la valeur associée sur une ligne dédiée alors que __celle de `if_else` oblige à chaîner les appels à la fonction__. En fait, `case_when` a même été créé pour mettre de généraliser `if_else` à des multiples conditions puisqu'il est indiqué dans sa description de la page d'aide que c'est une fonction __permettant de vectoriser l'appel à plusieurs `if_else`__. Illustrons cela en codant des deux manières une variable égale à :  
+Pour __la première différence__, la syntaxe de `case_when` va permettre de __définir les différentes conditions__ et la valeur associée sur une ligne dédiée alors que __celle de `if_else` oblige à chaîner les appels à la fonction__. En fait, `case_when` a même été créé pour permettre de généraliser `if_else` à des multiples conditions puisqu'il est indiqué dans sa description de la page d'aide que c'est une fonction __permettant de vectoriser l'appel à plusieurs `if_else`__. Illustrons cela en codant des deux manières une variable égale à :  
 
 - "cas 1" si groupe = "A" et var1 < 25 
 - "cas 2" si groupe = "B" ou "C" et var1 >= 25 
@@ -62,7 +62,7 @@ df <- df |> mutate(
   ) 
 ```
 
-La syntaxe de case_when permet de __produire un code plus lisible et aéré__. À noter que si l'on ne définissait pas de valeur par défaut explicitement, on aurait à la place des valeurs manquantes.  
+La syntaxe de case_when permet de __produire un code plus lisible et aéré__. Chaque ligne de condition est évaluée __si aucune des conditions précédentes n'est respectée__. À noter que si l'on ne définissait pas de valeur par défaut explicitement, on aurait à la place des valeurs manquantes.  
 
 ## Gestion des valeurs manquantes  
 

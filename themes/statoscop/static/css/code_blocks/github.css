@@ -1,8 +1,21 @@
 /* to make lines scroll instead of wrap */
 /* from http://stackoverflow.com/a/23393920 */
 
+pre {
+  white-space: pre;
+  overflow: auto;
+  word-wrap: normal; /* horizontal scrolling */
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  padding: 20px;
+  background: #343642;
+  color: #C1C2C3;
+}
+ 
+
 .highlight pre code * {
-  white-space: nowrap;    /* this sets all children inside to nowrap */
+  white-space: inherit;    /* this sets all children inside to nowrap */
 }
 
 .highlight pre {
