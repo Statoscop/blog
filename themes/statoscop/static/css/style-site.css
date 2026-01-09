@@ -11010,15 +11010,12 @@ section#contact form#contactForm :-ms-input-placeholder {
 }
 
 .container .post:after {
-  position: relative; 
+  content: '';
+  display: block;
   width: 50%;
   height: 1px;
-  left: 75%;
-  bottom: -60px;
-  margin-left: -50%;
-  content: '';
-  background: #e5e4e1; 
-  display: block;
+  margin: 2em auto 0;
+  background: #e5e4e1;
 }
 
 .container .post.featured .post-title:after {
