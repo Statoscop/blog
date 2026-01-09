@@ -63,7 +63,7 @@ MARKDOWN = {
         'markdown.extensions.meta': {},
         # This is for enabling the TOC generation
         'markdown.extensions.toc': {
-            'title': 'Table des matières',
+            'title': 'Dans cet article',
         },
     },
     

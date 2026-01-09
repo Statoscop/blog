@@ -19,9 +19,11 @@
       {% endif %}  -->
 
     <div class="nav_accueil"><span class="nav_title">Par catégorie</span>
-      {% for cat, articles in categories|sort %}
-            <ul><li><a href="/{{ cat.url }}">{{ cat }} ({{ articles|count }} article{% if articles|length > 1 %}s{% endif %})</a></li></ul>
-      {% endfor %}
+      <ul>
+        {% for cat, articles in categories|sort %}
+          <li><a href="/{{ cat.url }}">{{ cat }} ({{ articles|count }} article{% if articles|length > 1 %}s{% endif %})</a></li>
+        {% endfor %}
+      </ul>
       
       <!-- <span class="nav_title">Par tag</span>
       {% for tag, articles in tags|sort %}
