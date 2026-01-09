@@ -122,7 +122,12 @@ dd {
 }
 
 blockquote {
-  margin: 0 0 1rem;
+  border-left: 4px solid var(--green);
+  padding-left: 16px;
+  margin: 16px 0;
+  color: #6c757d;
+  font-size: 1.1em;
+  font-style: italic;   
 }
 
 b,
@@ -2463,10 +2468,11 @@ textarea.form-control {
   }
 }
 .btn:hover {
-  color: #212529;
+  color: #fff !important;
   text-decoration: none;
 }
 .btn:focus, .btn.focus {
+  color: #fff !important;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(254, 209, 54, 0.25);
 }
@@ -2483,7 +2489,7 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #5176c5;
+  background-color: var(--blue);
   border-color: #eceef3;
 }
 .btn-primary:hover {
