@@ -8,7 +8,7 @@
   <meta name="author" content="" />
 
   <!-- Font Awesome icons (free version)-->
-  <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <!-- Google fonts-->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
@@ -181,7 +181,7 @@
                 <!--Table des matieres
 -->
                 
-                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+                <div class="toc"><span class="toctitle">Dans cet article</span><ul>
 <li><a href="#principe-de-la-standardisation-directe">Principe de la standardisation directe</a></li>
 <li><a href="#analyses-exploratoires-des-donnees">Analyses exploratoires des données</a></li>
 <li><a href="#calcul-pas-a-pas-des-taux-standardises-de-survie-au-naufrage-du-titanic">Calcul pas-à-pas des taux standardisés de survie au naufrage du Titanic</a></li>
@@ -204,22 +204,22 @@ C'est précisément ce que permet de faire la standardisation directe. Il est n�
 <table>
 <thead>
 <tr>
-<th align="right">pclass</th>
-<th align="right">tx_survie</th>
+<th style="text-align: right;">pclass</th>
+<th style="text-align: right;">tx_survie</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="right">1</td>
-<td align="right">0.6373239</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.6373239</td>
 </tr>
 <tr>
-<td align="right">2</td>
-<td align="right">0.4406130</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.4406130</td>
 </tr>
 <tr>
-<td align="right">3</td>
-<td align="right">0.2614770</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.2614770</td>
 </tr>
 </tbody>
 </table>
@@ -237,71 +237,71 @@ Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économ
 <table>
 <thead>
 <tr>
-<th align="right">pclass</th>
-<th align="left">tr_age</th>
-<th align="right">Proportion</th>
+<th style="text-align: right;">pclass</th>
+<th style="text-align: left;">tr_age</th>
+<th style="text-align: right;">Proportion</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="right">1</td>
-<td align="left">0 - 17 ans</td>
-<td align="right">0.0528169</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">0 - 17 ans</td>
+<td style="text-align: right;">0.0528169</td>
 </tr>
 <tr>
-<td align="right">1</td>
-<td align="left">18 - 34 ans</td>
-<td align="right">0.3239437</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">18 - 34 ans</td>
+<td style="text-align: right;">0.3239437</td>
 </tr>
 <tr>
-<td align="right">1</td>
-<td align="left">35 - 49 ans</td>
-<td align="right">0.3697183</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">35 - 49 ans</td>
+<td style="text-align: right;">0.3697183</td>
 </tr>
 <tr>
-<td align="right">1</td>
-<td align="left">50 ans ou +</td>
-<td align="right">0.2535211</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">50 ans ou +</td>
+<td style="text-align: right;">0.2535211</td>
 </tr>
 <tr>
-<td align="right">2</td>
-<td align="left">0 - 17 ans</td>
-<td align="right">0.1264368</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">0 - 17 ans</td>
+<td style="text-align: right;">0.1264368</td>
 </tr>
 <tr>
-<td align="right">2</td>
-<td align="left">18 - 34 ans</td>
-<td align="right">0.5823755</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">18 - 34 ans</td>
+<td style="text-align: right;">0.5823755</td>
 </tr>
 <tr>
-<td align="right">2</td>
-<td align="left">35 - 49 ans</td>
-<td align="right">0.1954023</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">35 - 49 ans</td>
+<td style="text-align: right;">0.1954023</td>
 </tr>
 <tr>
-<td align="right">2</td>
-<td align="left">50 ans ou +</td>
-<td align="right">0.0957854</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">50 ans ou +</td>
+<td style="text-align: right;">0.0957854</td>
 </tr>
 <tr>
-<td align="right">3</td>
-<td align="left">0 - 17 ans</td>
-<td align="right">0.2115768</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">0 - 17 ans</td>
+<td style="text-align: right;">0.2115768</td>
 </tr>
 <tr>
-<td align="right">3</td>
-<td align="left">18 - 34 ans</td>
-<td align="right">0.6047904</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">18 - 34 ans</td>
+<td style="text-align: right;">0.6047904</td>
 </tr>
 <tr>
-<td align="right">3</td>
-<td align="left">35 - 49 ans</td>
-<td align="right">0.1576846</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">35 - 49 ans</td>
+<td style="text-align: right;">0.1576846</td>
 </tr>
 <tr>
-<td align="right">3</td>
-<td align="left">50 ans ou +</td>
-<td align="right">0.0259481</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">50 ans ou +</td>
+<td style="text-align: right;">0.0259481</td>
 </tr>
 </tbody>
 </table>
@@ -314,26 +314,26 @@ Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économ
 <table>
 <thead>
 <tr>
-<th align="left">tr_age</th>
-<th align="right">tx_survie</th>
+<th style="text-align: left;">tr_age</th>
+<th style="text-align: right;">tx_survie</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">0 - 17 ans</td>
-<td align="right">0.5259740</td>
+<td style="text-align: left;">0 - 17 ans</td>
+<td style="text-align: right;">0.5259740</td>
 </tr>
 <tr>
-<td align="left">18 - 34 ans</td>
-<td align="right">0.3765996</td>
+<td style="text-align: left;">18 - 34 ans</td>
+<td style="text-align: right;">0.3765996</td>
 </tr>
 <tr>
-<td align="left">35 - 49 ans</td>
-<td align="right">0.4085106</td>
+<td style="text-align: left;">35 - 49 ans</td>
+<td style="text-align: right;">0.4085106</td>
 </tr>
 <tr>
-<td align="left">50 ans ou +</td>
-<td align="right">0.4000000</td>
+<td style="text-align: left;">50 ans ou +</td>
+<td style="text-align: right;">0.4000000</td>
 </tr>
 </tbody>
 </table>
@@ -346,71 +346,71 @@ Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économ
 <table>
 <thead>
 <tr>
-<th align="right">pclass</th>
-<th align="left">tr_age</th>
-<th align="right">tx_survie</th>
+<th style="text-align: right;">pclass</th>
+<th style="text-align: left;">tr_age</th>
+<th style="text-align: right;">tx_survie</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="right">1</td>
-<td align="left">0 - 17 ans</td>
-<td align="right">0.8666667</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">0 - 17 ans</td>
+<td style="text-align: right;">0.8666667</td>
 </tr>
 <tr>
-<td align="right">1</td>
-<td align="left">18 - 34 ans</td>
-<td align="right">0.7065217</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">18 - 34 ans</td>
+<td style="text-align: right;">0.7065217</td>
 </tr>
 <tr>
-<td align="right">1</td>
-<td align="left">35 - 49 ans</td>
-<td align="right">0.6285714</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">35 - 49 ans</td>
+<td style="text-align: right;">0.6285714</td>
 </tr>
 <tr>
-<td align="right">1</td>
-<td align="left">50 ans ou +</td>
-<td align="right">0.5138889</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">50 ans ou +</td>
+<td style="text-align: right;">0.5138889</td>
 </tr>
 <tr>
-<td align="right">2</td>
-<td align="left">0 - 17 ans</td>
-<td align="right">0.8787879</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">0 - 17 ans</td>
+<td style="text-align: right;">0.8787879</td>
 </tr>
 <tr>
-<td align="right">2</td>
-<td align="left">18 - 34 ans</td>
-<td align="right">0.4144737</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">18 - 34 ans</td>
+<td style="text-align: right;">0.4144737</td>
 </tr>
 <tr>
-<td align="right">2</td>
-<td align="left">35 - 49 ans</td>
-<td align="right">0.3333333</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">35 - 49 ans</td>
+<td style="text-align: right;">0.3333333</td>
 </tr>
 <tr>
-<td align="right">2</td>
-<td align="left">50 ans ou +</td>
-<td align="right">0.2400000</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">50 ans ou +</td>
+<td style="text-align: right;">0.2400000</td>
 </tr>
 <tr>
-<td align="right">3</td>
-<td align="left">0 - 17 ans</td>
-<td align="right">0.3679245</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">0 - 17 ans</td>
+<td style="text-align: right;">0.3679245</td>
 </tr>
 <tr>
-<td align="right">3</td>
-<td align="left">18 - 34 ans</td>
-<td align="right">0.2574257</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">18 - 34 ans</td>
+<td style="text-align: right;">0.2574257</td>
 </tr>
 <tr>
-<td align="right">3</td>
-<td align="left">35 - 49 ans</td>
-<td align="right">0.1645570</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">35 - 49 ans</td>
+<td style="text-align: right;">0.1645570</td>
 </tr>
 <tr>
-<td align="right">3</td>
-<td align="left">50 ans ou +</td>
-<td align="right">0.0769231</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">50 ans ou +</td>
+<td style="text-align: right;">0.0769231</td>
 </tr>
 </tbody>
 </table>
@@ -430,26 +430,26 @@ Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économ
 <table>
 <thead>
 <tr>
-<th align="left">tr_age</th>
-<th align="right">eff</th>
+<th style="text-align: left;">tr_age</th>
+<th style="text-align: right;">eff</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">0 - 17 ans</td>
-<td align="right">154</td>
+<td style="text-align: left;">0 - 17 ans</td>
+<td style="text-align: right;">154</td>
 </tr>
 <tr>
-<td align="left">18 - 34 ans</td>
-<td align="right">547</td>
+<td style="text-align: left;">18 - 34 ans</td>
+<td style="text-align: right;">547</td>
 </tr>
 <tr>
-<td align="left">35 - 49 ans</td>
-<td align="right">235</td>
+<td style="text-align: left;">35 - 49 ans</td>
+<td style="text-align: right;">235</td>
 </tr>
 <tr>
-<td align="left">50 ans ou +</td>
-<td align="right">110</td>
+<td style="text-align: left;">50 ans ou +</td>
+<td style="text-align: right;">110</td>
 </tr>
 </tbody>
 </table>
@@ -469,36 +469,36 @@ Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économ
 <table>
 <thead>
 <tr>
-<th align="left">tr_age</th>
-<th align="right">survie_1</th>
-<th align="right">survie_2</th>
-<th align="right">survie_3</th>
+<th style="text-align: left;">tr_age</th>
+<th style="text-align: right;">survie_1</th>
+<th style="text-align: right;">survie_2</th>
+<th style="text-align: right;">survie_3</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">0 - 17 ans</td>
-<td align="right">0.8666667</td>
-<td align="right">0.8787879</td>
-<td align="right">0.3679245</td>
+<td style="text-align: left;">0 - 17 ans</td>
+<td style="text-align: right;">0.8666667</td>
+<td style="text-align: right;">0.8787879</td>
+<td style="text-align: right;">0.3679245</td>
 </tr>
 <tr>
-<td align="left">18 - 34 ans</td>
-<td align="right">0.7065217</td>
-<td align="right">0.4144737</td>
-<td align="right">0.2574257</td>
+<td style="text-align: left;">18 - 34 ans</td>
+<td style="text-align: right;">0.7065217</td>
+<td style="text-align: right;">0.4144737</td>
+<td style="text-align: right;">0.2574257</td>
 </tr>
 <tr>
-<td align="left">35 - 49 ans</td>
-<td align="right">0.6285714</td>
-<td align="right">0.3333333</td>
-<td align="right">0.1645570</td>
+<td style="text-align: left;">35 - 49 ans</td>
+<td style="text-align: right;">0.6285714</td>
+<td style="text-align: right;">0.3333333</td>
+<td style="text-align: right;">0.1645570</td>
 </tr>
 <tr>
-<td align="left">50 ans ou +</td>
-<td align="right">0.5138889</td>
-<td align="right">0.2400000</td>
-<td align="right">0.0769231</td>
+<td style="text-align: left;">50 ans ou +</td>
+<td style="text-align: right;">0.5138889</td>
+<td style="text-align: right;">0.2400000</td>
+<td style="text-align: right;">0.0769231</td>
 </tr>
 </tbody>
 </table>
@@ -512,41 +512,41 @@ Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économ
 <table>
 <thead>
 <tr>
-<th align="left">tr_age</th>
-<th align="right">eff</th>
-<th align="right">survie_1</th>
-<th align="right">survie_2</th>
-<th align="right">survie_3</th>
+<th style="text-align: left;">tr_age</th>
+<th style="text-align: right;">eff</th>
+<th style="text-align: right;">survie_1</th>
+<th style="text-align: right;">survie_2</th>
+<th style="text-align: right;">survie_3</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">0 - 17 ans</td>
-<td align="right">154</td>
-<td align="right">133.46667</td>
-<td align="right">135.33333</td>
-<td align="right">56.660377</td>
+<td style="text-align: left;">0 - 17 ans</td>
+<td style="text-align: right;">154</td>
+<td style="text-align: right;">133.46667</td>
+<td style="text-align: right;">135.33333</td>
+<td style="text-align: right;">56.660377</td>
 </tr>
 <tr>
-<td align="left">18 - 34 ans</td>
-<td align="right">547</td>
-<td align="right">386.46739</td>
-<td align="right">226.71711</td>
-<td align="right">140.811881</td>
+<td style="text-align: left;">18 - 34 ans</td>
+<td style="text-align: right;">547</td>
+<td style="text-align: right;">386.46739</td>
+<td style="text-align: right;">226.71711</td>
+<td style="text-align: right;">140.811881</td>
 </tr>
 <tr>
-<td align="left">35 - 49 ans</td>
-<td align="right">235</td>
-<td align="right">147.71429</td>
-<td align="right">78.33333</td>
-<td align="right">38.670886</td>
+<td style="text-align: left;">35 - 49 ans</td>
+<td style="text-align: right;">235</td>
+<td style="text-align: right;">147.71429</td>
+<td style="text-align: right;">78.33333</td>
+<td style="text-align: right;">38.670886</td>
 </tr>
 <tr>
-<td align="left">50 ans ou +</td>
-<td align="right">110</td>
-<td align="right">56.52778</td>
-<td align="right">26.40000</td>
-<td align="right">8.461538</td>
+<td style="text-align: left;">50 ans ou +</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">56.52778</td>
+<td style="text-align: right;">26.40000</td>
+<td style="text-align: right;">8.461538</td>
 </tr>
 </tbody>
 </table>
@@ -562,16 +562,16 @@ Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économ
 <table>
 <thead>
 <tr>
-<th align="right">survie_1</th>
-<th align="right">survie_2</th>
-<th align="right">survie_3</th>
+<th style="text-align: right;">survie_1</th>
+<th style="text-align: right;">survie_2</th>
+<th style="text-align: right;">survie_3</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="right">0.692329</td>
-<td align="right">0.446256</td>
-<td align="right">0.2338477</td>
+<td style="text-align: right;">0.692329</td>
+<td style="text-align: right;">0.446256</td>
+<td style="text-align: right;">0.2338477</td>
 </tr>
 </tbody>
 </table>
@@ -607,21 +607,21 @@ Est-on bien sûr cependant que l'on observe <strong>l'effet de la classe économ
         </article>
     </main>
     
-    <!-- Footer-->
-    <footer class="footer py-4">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-4 text-lg-left"> © Statoscop</div>
-                <div class="col-lg-4 my-3 my-lg-0">
-                    <a class="btn btn-dark btn-social mx-2" href="https://twitter.com/stato_scop" target="_blank"><i class="fab fa-twitter"></i></a>
-                </div>
-                <div class="col-lg-4 text-lg-left"> 
-                    Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
-                     déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+        <!-- Footer-->
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 text-lg-left"> © Statoscop<br> 3 rue Jacques Roudil 31300 Toulouse</div>
+                    <div class="col-lg-4 my-3 my-lg-0">
+                        <a class="btn btn-dark btn-social mx-2" href="https://fr.linkedin.com/company/statoscop" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <div class="col-lg-4 text-lg-left"> 
+                        Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
+                        déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
 
     <!-- Bootstrap core JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

@@ -8,7 +8,7 @@
   <meta name="author" content="" />
 
   <!-- Font Awesome icons (free version)-->
-  <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <!-- Google fonts-->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
@@ -185,7 +185,7 @@
                 <!--Table des matieres
 -->
                 
-                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+                <div class="toc"><span class="toctitle">Dans cet article</span><ul>
 <li><a href="#les-dates-et-heures-avec-python">Les dates (et heures) avec Python</a><ul>
 <li><a href="#les-packages-datetime-and-dateutil">Les packages datetime and dateutil</a></li>
 <li><a href="#le-type-de-donnees-date-des-tableaux-numpy-datetime64">Le type de données date des tableaux numpy : datetime64</a></li>
@@ -275,8 +275,8 @@ Une autre aide utile sur les manipulation de dates est la <a href="http://labix.
 </code></pre></div>
 
 <p>Grâce au type de données uniforme dans les tableaux <code>datetime64</code>, ce genre d'opérations vectorielles peut être effectué bien plus rapidement qu'en travaillant directement avec les objets <code>datetime</code> de Python, particulièrement pour de grands tableaux.</p>
-<p>Une particularité des objets <code>datetime64</code> et <code>timedelta64</code> est qu'ils sont construits sur une <em>unité fondamentale de temps (UFT)</em>. Comme le <code>datetime64</code> est limité à une précision de 64-bit, le nombre de datetime qu'on peut encoder est <span class="math">\(2^{64}\)</span> fois l'UFT. En d'autres termes, <code>datetime64</code> nécessite un arbitrage entre <em>résolution temporelle</em> et <em>intervalle maximal de temps</em> .<br>
-Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir la place pour encoder <span class="math">\(2^{64}\)</span> nanosecondes, soit un peu moins de 600 ans.</p>
+<p>Une particularité des objets <code>datetime64</code> et <code>timedelta64</code> est qu'ils sont construits sur une <em>unité fondamentale de temps (UFT)</em>. Comme le <code>datetime64</code> est limité à une précision de 64-bit, le nombre de datetime qu'on peut encoder est $2^{64}$ fois l'UFT. En d'autres termes, <code>datetime64</code> nécessite un arbitrage entre <em>résolution temporelle</em> et <em>intervalle maximal de temps</em> .<br>
+Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir la place pour encoder $2^{64}$ nanosecondes, soit un peu moins de 600 ans.</p>
 <p><code>numpy</code> déduit l'UFT désirée à partir de l'input mais on peut bien sûr aussi le spécifier.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># un datetime basé sur le jour</span>
 <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s1">&#39;2021-04-30&#39;</span><span class="p">)</span>
@@ -767,68 +767,6 @@ On a déjà croisé les codes <code>M</code> (month), <code>D</code> (day) et <c
    <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
 </div>
 <p><br>  </p>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>
             </section>
 
             <section class="post-info">
@@ -856,21 +794,21 @@ On a déjà croisé les codes <code>M</code> (month), <code>D</code> (day) et <c
         </article>
     </main>
     
-    <!-- Footer-->
-    <footer class="footer py-4">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-4 text-lg-left"> © Statoscop</div>
-                <div class="col-lg-4 my-3 my-lg-0">
-                    <a class="btn btn-dark btn-social mx-2" href="https://twitter.com/stato_scop" target="_blank"><i class="fab fa-twitter"></i></a>
-                </div>
-                <div class="col-lg-4 text-lg-left"> 
-                    Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
-                     déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+        <!-- Footer-->
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 text-lg-left"> © Statoscop<br> 3 rue Jacques Roudil 31300 Toulouse</div>
+                    <div class="col-lg-4 my-3 my-lg-0">
+                        <a class="btn btn-dark btn-social mx-2" href="https://fr.linkedin.com/company/statoscop" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <div class="col-lg-4 text-lg-left"> 
+                        Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
+                        déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
 
     <!-- Bootstrap core JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

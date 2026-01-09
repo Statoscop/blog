@@ -8,7 +8,7 @@
   <meta name="author" content="" />
 
   <!-- Font Awesome icons (free version)-->
-  <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <!-- Google fonts-->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
   <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
@@ -181,7 +181,7 @@
                 <!--Table des matieres
 -->
                 
-                <div class="toc"><span class="toctitle">Table des matières</span><ul>
+                <div class="toc"><span class="toctitle">Dans cet article</span><ul>
 <li><a href="#principes-du-propensity-score-matching">Principes du Propensity Score Matching</a><ul>
 <li><a href="#calcul-du-score-de-propension">Calcul du score de propension</a></li>
 <li><a href="#appariement-de-vos-donnees">Appariement de vos données</a></li>
@@ -204,8 +204,8 @@ Comme on a décidé de manière complètement aléatoire l'assignation à l'un o
 <p>L'appariement par score de propension vise à <strong>recréer les conditions d'un essai clinique à partir de données observationnelles</strong>. On a ainsi un ensemble de données avec par exemple un certain nombre de patients qui ont pris un traitement (le <em>groupe traitement</em>) et d'autres qui ne l'ont pas pris (le <em>groupe contrôle</em>). Problème : ces population qui n'ont pas été séparées de manière aléatoire <strong>peuvent être très différentes</strong> et il n'est pas possible en l'état de conclure qu'une différence entre elles soit imputable au traitement en question. Il faut donc recréer deux groupes de contrôle et de traitement qui puissent être comparables.    </p>
 <h2 id="calcul-du-score-de-propension">Calcul du score de propension</h2>
 <p>La première étape est de <strong>calculer le score de propension</strong>. Il est nécessaire en premier lieu <strong>d'identifier les variables observables</strong> sur lesquelles on souhaiterait rééquilibrer les deux groupes. Il n'y a pas de méthode magique pour choisir ces variables : il faut que ce soit la connaissance technique du cas qui guide votre choix. L'idée est d'identifier les variables dont vous imaginez qu'elles peuvent être <strong>déséquilibrées entre vos deux groupes</strong> pour différentes raisons (par exemple, le traitement A est plus souvent donné aux femmes donc je sais qu'il y aura plus de femmes dans ce groupe que dans un autre). Il faut aussi bien sûr contrôler par les variables dont on sait qu'elles peuvent avoir <strong>un impact sur le résultat indépendemment de l'efficacité du médicament</strong> (l'âge impacte souvent la probabilité de guérison par exemple).  </p>
-<p>Une fois ces variables identifiées, il ne vous reste plus qu'à faire <strong>sur l'ensemble de vos données un modèle de régression logistique.</strong> Par exemple, si votre groupe traitement prend un médicament A et le reste du groupe ne prend pas ce médicament, votre variable <code>Y</code> sera l'indicatrice <em>Prend le médicament A</em> et vos variables <span class="math">\(X_i\)</span> les variables sur lesquelles vous souhaitez contrôler (sexe, âge, etc...). La formule est la suivante :  </p>
-<p><span class="math">\(\log \left( \frac{P(Y=1)}{1 - P(Y=1)} \right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots\)</span></p>
+<p>Une fois ces variables identifiées, il ne vous reste plus qu'à faire <strong>sur l'ensemble de vos données un modèle de régression logistique.</strong> Par exemple, si votre groupe traitement prend un médicament A et le reste du groupe ne prend pas ce médicament, votre variable <code>Y</code> sera l'indicatrice <em>Prend le médicament A</em> et vos variables $X_i$ les variables sur lesquelles vous souhaitez contrôler (sexe, âge, etc...). La formule est la suivante :  </p>
+<p>$\log \left( \frac{P(Y=1)}{1 - P(Y=1)} \right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots$</p>
 <h2 id="appariement-de-vos-donnees">Appariement de vos données</h2>
 <p>La mise en oeuvre de cette régression logistique nous permet <strong>d'obtenir un score de propension</strong>. Celui-ci représente pour chaque individu la probabilité prédite qu'il appartienne au groupe traitement. Ce score de propension peut-être utilisé dans différentes méthodes (IPTW, variable d'ajustement dans la modèle...). Pour le PSM, nous l'utilisons pour <strong>apparier les données</strong>.  </p>
 <p>En effet, pour chaque observation du groupe traité, l'idée est de lui attribuer une (ou plusieurs, selon vos données) observation(s) du groupe contrôle, ayant <strong>un score de propension le plus proche possible</strong>, donc des caractéristiques semblables. Différentes méthodes d'appariement existent, la plus courante étant celle du plus proche voisin.  </p>
@@ -227,18 +227,18 @@ Vous voulez en savoir plus sur ce que l'on fait?</p>
 <table>
 <thead>
 <tr>
-<th align="left">high_blood_pressure</th>
-<th align="right">n</th>
+<th style="text-align: left;">high_blood_pressure</th>
+<th style="text-align: right;">n</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">Non</td>
-<td align="right">194</td>
+<td style="text-align: left;">Non</td>
+<td style="text-align: right;">194</td>
 </tr>
 <tr>
-<td align="left">Oui</td>
-<td align="right">105</td>
+<td style="text-align: left;">Oui</td>
+<td style="text-align: right;">105</td>
 </tr>
 </tbody>
 </table>
@@ -257,21 +257,21 @@ Vous voulez en savoir plus sur ce que l'on fait?</p>
 <table>
 <thead>
 <tr>
-<th align="left">high_blood_pressure</th>
-<th align="right">Effectifs</th>
-<th align="right">Part de décès</th>
+<th style="text-align: left;">high_blood_pressure</th>
+<th style="text-align: right;">Effectifs</th>
+<th style="text-align: right;">Part de décès</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">Non</td>
-<td align="right">194</td>
-<td align="right">0.29</td>
+<td style="text-align: left;">Non</td>
+<td style="text-align: right;">194</td>
+<td style="text-align: right;">0.29</td>
 </tr>
 <tr>
-<td align="left">Oui</td>
-<td align="right">105</td>
-<td align="right">0.37</td>
+<td style="text-align: left;">Oui</td>
+<td style="text-align: right;">105</td>
+<td style="text-align: right;">0.37</td>
 </tr>
 </tbody>
 </table>
@@ -301,156 +301,156 @@ Le paramètre <code>method = "ATT"</code> permet d'évaluer un <strong>effet du 
 <table>
 <thead>
 <tr>
-<th align="left"></th>
-<th align="right">Means Treated</th>
-<th align="right">Means Control</th>
-<th align="right">Std. Mean Diff.</th>
-<th align="right">Var. Ratio</th>
-<th align="right">eCDF Mean</th>
-<th align="right">eCDF Max</th>
-<th align="right">Std. Pair Dist.</th>
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Means Treated</th>
+<th style="text-align: right;">Means Control</th>
+<th style="text-align: right;">Std. Mean Diff.</th>
+<th style="text-align: right;">Var. Ratio</th>
+<th style="text-align: right;">eCDF Mean</th>
+<th style="text-align: right;">eCDF Max</th>
+<th style="text-align: right;">Std. Pair Dist.</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">distance</td>
-<td align="right">0.37</td>
-<td align="right">0.34</td>
-<td align="right">0.36</td>
-<td align="right">1.01</td>
-<td align="right">0.11</td>
-<td align="right">0.23</td>
-<td align="right">NA</td>
+<td style="text-align: left;">distance</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">1.01</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">NA</td>
 </tr>
 <tr>
-<td align="left">age</td>
-<td align="right">62.34</td>
-<td align="right">60.02</td>
-<td align="right">0.20</td>
-<td align="right">0.91</td>
-<td align="right">0.06</td>
-<td align="right">0.13</td>
-<td align="right">NA</td>
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">62.34</td>
+<td style="text-align: right;">60.02</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">0.91</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">NA</td>
 </tr>
 <tr>
-<td align="left">sexFemme</td>
-<td align="right">0.42</td>
-<td align="right">0.31</td>
-<td align="right">0.21</td>
-<td align="right">NA</td>
-<td align="right">0.10</td>
-<td align="right">0.10</td>
-<td align="right">NA</td>
+<td style="text-align: left;">sexFemme</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">NA</td>
 </tr>
 <tr>
-<td align="left">sexHomme</td>
-<td align="right">0.58</td>
-<td align="right">0.69</td>
-<td align="right">-0.21</td>
-<td align="right">NA</td>
-<td align="right">0.10</td>
-<td align="right">0.10</td>
-<td align="right">NA</td>
+<td style="text-align: left;">sexHomme</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">-0.21</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">NA</td>
 </tr>
 <tr>
-<td align="left">anaemiaNon</td>
-<td align="right">0.54</td>
-<td align="right">0.58</td>
-<td align="right">-0.08</td>
-<td align="right">NA</td>
-<td align="right">0.04</td>
-<td align="right">0.04</td>
-<td align="right">NA</td>
+<td style="text-align: left;">anaemiaNon</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">-0.08</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">NA</td>
 </tr>
 <tr>
-<td align="left">anaemiaOui</td>
-<td align="right">0.46</td>
-<td align="right">0.42</td>
-<td align="right">0.08</td>
-<td align="right">NA</td>
-<td align="right">0.04</td>
-<td align="right">0.04</td>
-<td align="right">NA</td>
+<td style="text-align: left;">anaemiaOui</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">NA</td>
 </tr>
 <tr>
-<td align="left">creatinine_phosphokinase</td>
-<td align="right">488.90</td>
-<td align="right">632.14</td>
-<td align="right">-0.16</td>
-<td align="right">0.73</td>
-<td align="right">0.05</td>
-<td align="right">0.11</td>
-<td align="right">NA</td>
+<td style="text-align: left;">creatinine_phosphokinase</td>
+<td style="text-align: right;">488.90</td>
+<td style="text-align: right;">632.14</td>
+<td style="text-align: right;">-0.16</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">NA</td>
 </tr>
 <tr>
-<td align="left">diabetesNon</td>
-<td align="right">0.59</td>
-<td align="right">0.58</td>
-<td align="right">0.03</td>
-<td align="right">NA</td>
-<td align="right">0.01</td>
-<td align="right">0.01</td>
-<td align="right">NA</td>
+<td style="text-align: left;">diabetesNon</td>
+<td style="text-align: right;">0.59</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">NA</td>
 </tr>
 <tr>
-<td align="left">diabetesOui</td>
-<td align="right">0.41</td>
-<td align="right">0.42</td>
-<td align="right">-0.03</td>
-<td align="right">NA</td>
-<td align="right">0.01</td>
-<td align="right">0.01</td>
-<td align="right">NA</td>
+<td style="text-align: left;">diabetesOui</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">-0.03</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">NA</td>
 </tr>
 <tr>
-<td align="left">platelets</td>
-<td align="right">269989.18</td>
-<td align="right">259769.00</td>
-<td align="right">0.12</td>
-<td align="right">0.66</td>
-<td align="right">0.04</td>
-<td align="right">0.10</td>
-<td align="right">NA</td>
+<td style="text-align: left;">platelets</td>
+<td style="text-align: right;">269989.18</td>
+<td style="text-align: right;">259769.00</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">NA</td>
 </tr>
 <tr>
-<td align="left">serum_creatinine</td>
-<td align="right">1.39</td>
-<td align="right">1.40</td>
-<td align="right">-0.01</td>
-<td align="right">1.99</td>
-<td align="right">0.03</td>
-<td align="right">0.13</td>
-<td align="right">NA</td>
+<td style="text-align: left;">serum_creatinine</td>
+<td style="text-align: right;">1.39</td>
+<td style="text-align: right;">1.40</td>
+<td style="text-align: right;">-0.01</td>
+<td style="text-align: right;">1.99</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">NA</td>
 </tr>
 <tr>
-<td align="left">serum_sodium</td>
-<td align="right">136.85</td>
-<td align="right">136.51</td>
-<td align="right">0.08</td>
-<td align="right">0.82</td>
-<td align="right">0.01</td>
-<td align="right">0.05</td>
-<td align="right">NA</td>
+<td style="text-align: left;">serum_sodium</td>
+<td style="text-align: right;">136.85</td>
+<td style="text-align: right;">136.51</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">0.82</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">NA</td>
 </tr>
 <tr>
-<td align="left">smokingNon</td>
-<td align="right">0.71</td>
-<td align="right">0.66</td>
-<td align="right">0.12</td>
-<td align="right">NA</td>
-<td align="right">0.05</td>
-<td align="right">0.05</td>
-<td align="right">NA</td>
+<td style="text-align: left;">smokingNon</td>
+<td style="text-align: right;">0.71</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">NA</td>
 </tr>
 <tr>
-<td align="left">smokingOui</td>
-<td align="right">0.29</td>
-<td align="right">0.34</td>
-<td align="right">-0.12</td>
-<td align="right">NA</td>
-<td align="right">0.05</td>
-<td align="right">0.05</td>
-<td align="right">NA</td>
+<td style="text-align: left;">smokingOui</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: right;">-0.12</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">NA</td>
 </tr>
 </tbody>
 </table>
@@ -463,166 +463,166 @@ Le paramètre <code>method = "ATT"</code> permet d'évaluer un <strong>effet du 
 <table>
 <thead>
 <tr>
-<th align="left"></th>
-<th align="right">Means Treated</th>
-<th align="right">Means Control</th>
-<th align="right">Std. Mean Diff.</th>
-<th align="right">Var. Ratio</th>
-<th align="right">eCDF Mean</th>
-<th align="right">eCDF Max</th>
-<th align="right">Std. Pair Dist.</th>
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Means Treated</th>
+<th style="text-align: right;">Means Control</th>
+<th style="text-align: right;">Std. Mean Diff.</th>
+<th style="text-align: right;">Var. Ratio</th>
+<th style="text-align: right;">eCDF Mean</th>
+<th style="text-align: right;">eCDF Max</th>
+<th style="text-align: right;">Std. Pair Dist.</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">distance</td>
-<td align="right">0.37</td>
-<td align="right">0.37</td>
-<td align="right">0.04</td>
-<td align="right">1.10</td>
-<td align="right">0.01</td>
-<td align="right">0.10</td>
-<td align="right">0.05</td>
+<td style="text-align: left;">distance</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">1.10</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">0.05</td>
 </tr>
 <tr>
-<td align="left">age</td>
-<td align="right">62.34</td>
-<td align="right">62.36</td>
-<td align="right">0.00</td>
-<td align="right">0.93</td>
-<td align="right">0.03</td>
-<td align="right">0.07</td>
-<td align="right">0.89</td>
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">62.34</td>
+<td style="text-align: right;">62.36</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.89</td>
 </tr>
 <tr>
-<td align="left">sexFemme</td>
-<td align="right">0.42</td>
-<td align="right">0.40</td>
-<td align="right">0.04</td>
-<td align="right">NA</td>
-<td align="right">0.02</td>
-<td align="right">0.02</td>
-<td align="right">0.54</td>
+<td style="text-align: left;">sexFemme</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.54</td>
 </tr>
 <tr>
-<td align="left">sexHomme</td>
-<td align="right">0.58</td>
-<td align="right">0.60</td>
-<td align="right">-0.04</td>
-<td align="right">NA</td>
-<td align="right">0.02</td>
-<td align="right">0.02</td>
-<td align="right">0.54</td>
+<td style="text-align: left;">sexHomme</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;">-0.04</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.54</td>
 </tr>
 <tr>
-<td align="left">anaemiaNon</td>
-<td align="right">0.54</td>
-<td align="right">0.56</td>
-<td align="right">-0.04</td>
-<td align="right">NA</td>
-<td align="right">0.02</td>
-<td align="right">0.02</td>
-<td align="right">0.96</td>
+<td style="text-align: left;">anaemiaNon</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">0.56</td>
+<td style="text-align: right;">-0.04</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.96</td>
 </tr>
 <tr>
-<td align="left">anaemiaOui</td>
-<td align="right">0.46</td>
-<td align="right">0.44</td>
-<td align="right">0.04</td>
-<td align="right">NA</td>
-<td align="right">0.02</td>
-<td align="right">0.02</td>
-<td align="right">0.96</td>
+<td style="text-align: left;">anaemiaOui</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.96</td>
 </tr>
 <tr>
-<td align="left">creatinine_phosphokinase</td>
-<td align="right">488.90</td>
-<td align="right">481.78</td>
-<td align="right">0.01</td>
-<td align="right">0.89</td>
-<td align="right">0.02</td>
-<td align="right">0.07</td>
-<td align="right">0.46</td>
+<td style="text-align: left;">creatinine_phosphokinase</td>
+<td style="text-align: right;">488.90</td>
+<td style="text-align: right;">481.78</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.89</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.46</td>
 </tr>
 <tr>
-<td align="left">diabetesNon</td>
-<td align="right">0.59</td>
-<td align="right">0.63</td>
-<td align="right">-0.08</td>
-<td align="right">NA</td>
-<td align="right">0.04</td>
-<td align="right">0.04</td>
-<td align="right">1.01</td>
+<td style="text-align: left;">diabetesNon</td>
+<td style="text-align: right;">0.59</td>
+<td style="text-align: right;">0.63</td>
+<td style="text-align: right;">-0.08</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">1.01</td>
 </tr>
 <tr>
-<td align="left">diabetesOui</td>
-<td align="right">0.41</td>
-<td align="right">0.37</td>
-<td align="right">0.08</td>
-<td align="right">NA</td>
-<td align="right">0.04</td>
-<td align="right">0.04</td>
-<td align="right">1.01</td>
+<td style="text-align: left;">diabetesOui</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">1.01</td>
 </tr>
 <tr>
-<td align="left">platelets</td>
-<td align="right">269989.18</td>
-<td align="right">264619.41</td>
-<td align="right">0.06</td>
-<td align="right">0.87</td>
-<td align="right">0.03</td>
-<td align="right">0.10</td>
-<td align="right">1.02</td>
+<td style="text-align: left;">platelets</td>
+<td style="text-align: right;">269989.18</td>
+<td style="text-align: right;">264619.41</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.87</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">1.02</td>
 </tr>
 <tr>
-<td align="left">serum_creatinine</td>
-<td align="right">1.39</td>
-<td align="right">1.43</td>
-<td align="right">-0.03</td>
-<td align="right">2.09</td>
-<td align="right">0.04</td>
-<td align="right">0.18</td>
-<td align="right">0.66</td>
+<td style="text-align: left;">serum_creatinine</td>
+<td style="text-align: right;">1.39</td>
+<td style="text-align: right;">1.43</td>
+<td style="text-align: right;">-0.03</td>
+<td style="text-align: right;">2.09</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">0.66</td>
 </tr>
 <tr>
-<td align="left">serum_sodium</td>
-<td align="right">136.85</td>
-<td align="right">136.60</td>
-<td align="right">0.06</td>
-<td align="right">0.88</td>
-<td align="right">0.01</td>
-<td align="right">0.05</td>
-<td align="right">1.07</td>
+<td style="text-align: left;">serum_sodium</td>
+<td style="text-align: right;">136.85</td>
+<td style="text-align: right;">136.60</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.88</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">1.07</td>
 </tr>
 <tr>
-<td align="left">smokingNon</td>
-<td align="right">0.71</td>
-<td align="right">0.74</td>
-<td align="right">-0.06</td>
-<td align="right">NA</td>
-<td align="right">0.03</td>
-<td align="right">0.03</td>
-<td align="right">0.74</td>
+<td style="text-align: left;">smokingNon</td>
+<td style="text-align: right;">0.71</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">-0.06</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.74</td>
 </tr>
 <tr>
-<td align="left">smokingOui</td>
-<td align="right">0.29</td>
-<td align="right">0.26</td>
-<td align="right">0.06</td>
-<td align="right">NA</td>
-<td align="right">0.03</td>
-<td align="right">0.03</td>
-<td align="right">0.74</td>
+<td style="text-align: left;">smokingOui</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.74</td>
 </tr>
 <tr>
-<td align="left">On constate que la plupart des variables sont maintenant plus équilibrées entre les deux groupes. Au global, la variable <code>distance</code> montre la grande proximité du score de propension entre les deux groupes. On peut également mettre en évidence l'effet de l'appariement visuellement sur quelques unes des variables avec la fonction <code>plot</code> :</td>
-<td align="right"></td>
-<td align="right"></td>
-<td align="right"></td>
-<td align="right"></td>
-<td align="right"></td>
-<td align="right"></td>
-<td align="right"></td>
+<td style="text-align: left;">On constate que la plupart des variables sont maintenant plus équilibrées entre les deux groupes. Au global, la variable <code>distance</code> montre la grande proximité du score de propension entre les deux groupes. On peut également mettre en évidence l'effet de l'appariement visuellement sur quelques unes des variables avec la fonction <code>plot</code> :</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
 </tr>
 </tbody>
 </table>
@@ -654,34 +654,34 @@ Le paramètre <code>method = "ATT"</code> permet d'évaluer un <strong>effet du 
 <table>
 <thead>
 <tr>
-<th align="left">term</th>
-<th align="left">contrast</th>
-<th align="right">estimate</th>
-<th align="right">std.error</th>
-<th align="right">statistic</th>
-<th align="right">p.value</th>
-<th align="right">s.value</th>
-<th align="right">conf.low</th>
-<th align="right">conf.high</th>
-<th align="right">predicted_lo</th>
-<th align="right">predicted_hi</th>
-<th align="right">predicted</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: left;">contrast</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: right;">s.value</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+<th style="text-align: right;">predicted_lo</th>
+<th style="text-align: right;">predicted_hi</th>
+<th style="text-align: right;">predicted</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">high_blood_pressure</td>
-<td align="left">Oui - Non</td>
-<td align="right">0.05</td>
-<td align="right">0.06</td>
-<td align="right">0.76</td>
-<td align="right">0.45</td>
-<td align="right">1.16</td>
-<td align="right">-0.08</td>
-<td align="right">0.17</td>
-<td align="right">0.32</td>
-<td align="right">0.37</td>
-<td align="right">0.37</td>
+<td style="text-align: left;">high_blood_pressure</td>
+<td style="text-align: left;">Oui - Non</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">1.16</td>
+<td style="text-align: right;">-0.08</td>
+<td style="text-align: right;">0.17</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">0.37</td>
 </tr>
 </tbody>
 </table>
@@ -694,69 +694,6 @@ Le paramètre <code>method = "ATT"</code> permet d'évaluer un <strong>effet du 
    <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
    <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
 </div>
-
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>
             </section>
 
             <section class="post-info">
@@ -784,21 +721,21 @@ Le paramètre <code>method = "ATT"</code> permet d'évaluer un <strong>effet du 
         </article>
     </main>
     
-    <!-- Footer-->
-    <footer class="footer py-4">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-4 text-lg-left"> © Statoscop</div>
-                <div class="col-lg-4 my-3 my-lg-0">
-                    <a class="btn btn-dark btn-social mx-2" href="https://twitter.com/stato_scop" target="_blank"><i class="fab fa-twitter"></i></a>
-                </div>
-                <div class="col-lg-4 text-lg-left"> 
-                    Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
-                     déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+        <!-- Footer-->
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 text-lg-left"> © Statoscop<br> 3 rue Jacques Roudil 31300 Toulouse</div>
+                    <div class="col-lg-4 my-3 my-lg-0">
+                        <a class="btn btn-dark btn-social mx-2" href="https://fr.linkedin.com/company/statoscop" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <div class="col-lg-4 text-lg-left"> 
+                        Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
+                        déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
 
     <!-- Bootstrap core JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

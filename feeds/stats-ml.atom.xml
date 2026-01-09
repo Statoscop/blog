@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog - Stats &amp; ML</title><link href="https://blog.statoscop.fr/" rel="alternate"></link><link href="https://blog.statoscop.fr/feeds/stats-ml.atom.xml" rel="self"></link><id>https://blog.statoscop.fr/</id><updated>2025-02-04T00:00:00+01:00</updated><entry><title>Appariement par score de propension (PSM) : mise en oeuvre avec R et discussions méthodologiques</title><link href="https://blog.statoscop.fr/appariement-score-propension.html" rel="alternate"></link><published>2025-02-04T00:00:00+01:00</published><updated>2025-02-04T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2025-02-04:/appariement-score-propension.html</id><summary type="html">&lt;p&gt;Implications théoriques des méthodes d'appariement par score de propension et implémentation avec le package R &lt;code&gt;MatchIt&lt;/code&gt;.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog - Stats &amp; ML</title><link href="https://blog.statoscop.fr/" rel="alternate"></link><link href="https://blog.statoscop.fr/feeds/stats-ml.atom.xml" rel="self"></link><id>https://blog.statoscop.fr/</id><updated>2025-02-04T00:00:00+01:00</updated><entry><title>Appariement par score de propension (PSM) : mise en oeuvre avec R et discussions méthodologiques</title><link href="https://blog.statoscop.fr/appariement-score-propension.html" rel="alternate"></link><published>2025-02-04T00:00:00+01:00</published><updated>2025-02-04T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2025-02-04:/appariement-score-propension.html</id><summary type="html">&lt;p&gt;Implications théoriques des méthodes d'appariement par score de propension et implémentation avec le package R &lt;code&gt;MatchIt&lt;/code&gt;.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#principes-du-propensity-score-matching"&gt;Principes du Propensity Score Matching&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#calcul-du-score-de-propension"&gt;Calcul du score de propension&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#appariement-de-vos-donnees"&gt;Appariement de vos données&lt;/a&gt;&lt;/li&gt;
@@ -22,8 +22,8 @@ Comme on a décidé de manière complètement aléatoire l'assignation à l'un o
 &lt;p&gt;L'appariement par score de propension vise à &lt;strong&gt;recréer les conditions d'un essai clinique à partir de données observationnelles&lt;/strong&gt;. On a ainsi un ensemble de données avec par exemple un certain nombre de patients qui ont pris un traitement (le &lt;em&gt;groupe traitement&lt;/em&gt;) et d'autres qui ne l'ont pas pris (le &lt;em&gt;groupe contrôle&lt;/em&gt;). Problème : ces population qui n'ont pas été séparées de manière aléatoire &lt;strong&gt;peuvent être très différentes&lt;/strong&gt; et il n'est pas possible en l'état de conclure qu'une différence entre elles soit imputable au traitement en question. Il faut donc recréer deux groupes de contrôle et de traitement qui puissent être comparables.    &lt;/p&gt;
 &lt;h2 id="calcul-du-score-de-propension"&gt;Calcul du score de propension&lt;/h2&gt;
 &lt;p&gt;La première étape est de &lt;strong&gt;calculer le score de propension&lt;/strong&gt;. Il est nécessaire en premier lieu &lt;strong&gt;d'identifier les variables observables&lt;/strong&gt; sur lesquelles on souhaiterait rééquilibrer les deux groupes. Il n'y a pas de méthode magique pour choisir ces variables : il faut que ce soit la connaissance technique du cas qui guide votre choix. L'idée est d'identifier les variables dont vous imaginez qu'elles peuvent être &lt;strong&gt;déséquilibrées entre vos deux groupes&lt;/strong&gt; pour différentes raisons (par exemple, le traitement A est plus souvent donné aux femmes donc je sais qu'il y aura plus de femmes dans ce groupe que dans un autre). Il faut aussi bien sûr contrôler par les variables dont on sait qu'elles peuvent avoir &lt;strong&gt;un impact sur le résultat indépendemment de l'efficacité du médicament&lt;/strong&gt; (l'âge impacte souvent la probabilité de guérison par exemple).  &lt;/p&gt;
-&lt;p&gt;Une fois ces variables identifiées, il ne vous reste plus qu'à faire &lt;strong&gt;sur l'ensemble de vos données un modèle de régression logistique.&lt;/strong&gt; Par exemple, si votre groupe traitement prend un médicament A et le reste du groupe ne prend pas ce médicament, votre variable &lt;code&gt;Y&lt;/code&gt; sera l'indicatrice &lt;em&gt;Prend le médicament A&lt;/em&gt; et vos variables &lt;span class="math"&gt;\(X_i\)&lt;/span&gt; les variables sur lesquelles vous souhaitez contrôler (sexe, âge, etc...). La formule est la suivante :  &lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(\log \left( \frac{P(Y=1)}{1 - P(Y=1)} \right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Une fois ces variables identifiées, il ne vous reste plus qu'à faire &lt;strong&gt;sur l'ensemble de vos données un modèle de régression logistique.&lt;/strong&gt; Par exemple, si votre groupe traitement prend un médicament A et le reste du groupe ne prend pas ce médicament, votre variable &lt;code&gt;Y&lt;/code&gt; sera l'indicatrice &lt;em&gt;Prend le médicament A&lt;/em&gt; et vos variables $X_i$ les variables sur lesquelles vous souhaitez contrôler (sexe, âge, etc...). La formule est la suivante :  &lt;/p&gt;
+&lt;p&gt;$\log \left( \frac{P(Y=1)}{1 - P(Y=1)} \right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots$&lt;/p&gt;
 &lt;h2 id="appariement-de-vos-donnees"&gt;Appariement de vos données&lt;/h2&gt;
 &lt;p&gt;La mise en oeuvre de cette régression logistique nous permet &lt;strong&gt;d'obtenir un score de propension&lt;/strong&gt;. Celui-ci représente pour chaque individu la probabilité prédite qu'il appartienne au groupe traitement. Ce score de propension peut-être utilisé dans différentes méthodes (IPTW, variable d'ajustement dans la modèle...). Pour le PSM, nous l'utilisons pour &lt;strong&gt;apparier les données&lt;/strong&gt;.  &lt;/p&gt;
 &lt;p&gt;En effet, pour chaque observation du groupe traité, l'idée est de lui attribuer une (ou plusieurs, selon vos données) observation(s) du groupe contrôle, ayant &lt;strong&gt;un score de propension le plus proche possible&lt;/strong&gt;, donc des caractéristiques semblables. Différentes méthodes d'appariement existent, la plus courante étant celle du plus proche voisin.  &lt;/p&gt;
@@ -45,18 +45,18 @@ Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align="left"&gt;high_blood_pressure&lt;/th&gt;
-&lt;th align="right"&gt;n&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;high_blood_pressure&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;n&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;Non&lt;/td&gt;
-&lt;td align="right"&gt;194&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Non&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;194&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;Oui&lt;/td&gt;
-&lt;td align="right"&gt;105&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Oui&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;105&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -75,21 +75,21 @@ Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align="left"&gt;high_blood_pressure&lt;/th&gt;
-&lt;th align="right"&gt;Effectifs&lt;/th&gt;
-&lt;th align="right"&gt;Part de décès&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;high_blood_pressure&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;Effectifs&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;Part de décès&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;Non&lt;/td&gt;
-&lt;td align="right"&gt;194&lt;/td&gt;
-&lt;td align="right"&gt;0.29&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Non&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;194&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.29&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;Oui&lt;/td&gt;
-&lt;td align="right"&gt;105&lt;/td&gt;
-&lt;td align="right"&gt;0.37&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Oui&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;105&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.37&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -119,156 +119,156 @@ Le paramètre &lt;code&gt;method = "ATT"&lt;/code&gt; permet d'évaluer un &lt;s
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align="left"&gt;&lt;/th&gt;
-&lt;th align="right"&gt;Means Treated&lt;/th&gt;
-&lt;th align="right"&gt;Means Control&lt;/th&gt;
-&lt;th align="right"&gt;Std. Mean Diff.&lt;/th&gt;
-&lt;th align="right"&gt;Var. Ratio&lt;/th&gt;
-&lt;th align="right"&gt;eCDF Mean&lt;/th&gt;
-&lt;th align="right"&gt;eCDF Max&lt;/th&gt;
-&lt;th align="right"&gt;Std. Pair Dist.&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;Means Treated&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;Means Control&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;Std. Mean Diff.&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;Var. Ratio&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;eCDF Mean&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;eCDF Max&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;Std. Pair Dist.&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;distance&lt;/td&gt;
-&lt;td align="right"&gt;0.37&lt;/td&gt;
-&lt;td align="right"&gt;0.34&lt;/td&gt;
-&lt;td align="right"&gt;0.36&lt;/td&gt;
-&lt;td align="right"&gt;1.01&lt;/td&gt;
-&lt;td align="right"&gt;0.11&lt;/td&gt;
-&lt;td align="right"&gt;0.23&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;distance&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.37&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.34&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.36&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1.01&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.11&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.23&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;age&lt;/td&gt;
-&lt;td align="right"&gt;62.34&lt;/td&gt;
-&lt;td align="right"&gt;60.02&lt;/td&gt;
-&lt;td align="right"&gt;0.20&lt;/td&gt;
-&lt;td align="right"&gt;0.91&lt;/td&gt;
-&lt;td align="right"&gt;0.06&lt;/td&gt;
-&lt;td align="right"&gt;0.13&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;age&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;62.34&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;60.02&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.20&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.91&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.06&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.13&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;sexFemme&lt;/td&gt;
-&lt;td align="right"&gt;0.42&lt;/td&gt;
-&lt;td align="right"&gt;0.31&lt;/td&gt;
-&lt;td align="right"&gt;0.21&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.10&lt;/td&gt;
-&lt;td align="right"&gt;0.10&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;sexFemme&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.42&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.31&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.21&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.10&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.10&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;sexHomme&lt;/td&gt;
-&lt;td align="right"&gt;0.58&lt;/td&gt;
-&lt;td align="right"&gt;0.69&lt;/td&gt;
-&lt;td align="right"&gt;-0.21&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.10&lt;/td&gt;
-&lt;td align="right"&gt;0.10&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;sexHomme&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.58&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.69&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;-0.21&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.10&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.10&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;anaemiaNon&lt;/td&gt;
-&lt;td align="right"&gt;0.54&lt;/td&gt;
-&lt;td align="right"&gt;0.58&lt;/td&gt;
-&lt;td align="right"&gt;-0.08&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.04&lt;/td&gt;
-&lt;td align="right"&gt;0.04&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;anaemiaNon&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.54&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.58&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;-0.08&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;anaemiaOui&lt;/td&gt;
-&lt;td align="right"&gt;0.46&lt;/td&gt;
-&lt;td align="right"&gt;0.42&lt;/td&gt;
-&lt;td align="right"&gt;0.08&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.04&lt;/td&gt;
-&lt;td align="right"&gt;0.04&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;anaemiaOui&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.46&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.42&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.08&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;creatinine_phosphokinase&lt;/td&gt;
-&lt;td align="right"&gt;488.90&lt;/td&gt;
-&lt;td align="right"&gt;632.14&lt;/td&gt;
-&lt;td align="right"&gt;-0.16&lt;/td&gt;
-&lt;td align="right"&gt;0.73&lt;/td&gt;
-&lt;td align="right"&gt;0.05&lt;/td&gt;
-&lt;td align="right"&gt;0.11&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;creatinine_phosphokinase&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;488.90&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;632.14&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;-0.16&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.73&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.11&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;diabetesNon&lt;/td&gt;
-&lt;td align="right"&gt;0.59&lt;/td&gt;
-&lt;td align="right"&gt;0.58&lt;/td&gt;
-&lt;td align="right"&gt;0.03&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.01&lt;/td&gt;
-&lt;td align="right"&gt;0.01&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;diabetesNon&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.59&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.58&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;diabetesOui&lt;/td&gt;
-&lt;td align="right"&gt;0.41&lt;/td&gt;
-&lt;td align="right"&gt;0.42&lt;/td&gt;
-&lt;td align="right"&gt;-0.03&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.01&lt;/td&gt;
-&lt;td align="right"&gt;0.01&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;diabetesOui&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.41&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.42&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;-0.03&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;platelets&lt;/td&gt;
-&lt;td align="right"&gt;269989.18&lt;/td&gt;
-&lt;td align="right"&gt;259769.00&lt;/td&gt;
-&lt;td align="right"&gt;0.12&lt;/td&gt;
-&lt;td align="right"&gt;0.66&lt;/td&gt;
-&lt;td align="right"&gt;0.04&lt;/td&gt;
-&lt;td align="right"&gt;0.10&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;platelets&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;269989.18&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;259769.00&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.12&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.66&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.10&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;serum_creatinine&lt;/td&gt;
-&lt;td align="right"&gt;1.39&lt;/td&gt;
-&lt;td align="right"&gt;1.40&lt;/td&gt;
-&lt;td align="right"&gt;-0.01&lt;/td&gt;
-&lt;td align="right"&gt;1.99&lt;/td&gt;
-&lt;td align="right"&gt;0.03&lt;/td&gt;
-&lt;td align="right"&gt;0.13&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;serum_creatinine&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1.39&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1.40&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;-0.01&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1.99&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.13&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;serum_sodium&lt;/td&gt;
-&lt;td align="right"&gt;136.85&lt;/td&gt;
-&lt;td align="right"&gt;136.51&lt;/td&gt;
-&lt;td align="right"&gt;0.08&lt;/td&gt;
-&lt;td align="right"&gt;0.82&lt;/td&gt;
-&lt;td align="right"&gt;0.01&lt;/td&gt;
-&lt;td align="right"&gt;0.05&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;serum_sodium&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;136.85&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;136.51&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.08&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.82&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;smokingNon&lt;/td&gt;
-&lt;td align="right"&gt;0.71&lt;/td&gt;
-&lt;td align="right"&gt;0.66&lt;/td&gt;
-&lt;td align="right"&gt;0.12&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.05&lt;/td&gt;
-&lt;td align="right"&gt;0.05&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;smokingNon&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.71&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.66&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.12&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;smokingOui&lt;/td&gt;
-&lt;td align="right"&gt;0.29&lt;/td&gt;
-&lt;td align="right"&gt;0.34&lt;/td&gt;
-&lt;td align="right"&gt;-0.12&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.05&lt;/td&gt;
-&lt;td align="right"&gt;0.05&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;smokingOui&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.29&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.34&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;-0.12&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -281,166 +281,166 @@ Le paramètre &lt;code&gt;method = "ATT"&lt;/code&gt; permet d'évaluer un &lt;s
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align="left"&gt;&lt;/th&gt;
-&lt;th align="right"&gt;Means Treated&lt;/th&gt;
-&lt;th align="right"&gt;Means Control&lt;/th&gt;
-&lt;th align="right"&gt;Std. Mean Diff.&lt;/th&gt;
-&lt;th align="right"&gt;Var. Ratio&lt;/th&gt;
-&lt;th align="right"&gt;eCDF Mean&lt;/th&gt;
-&lt;th align="right"&gt;eCDF Max&lt;/th&gt;
-&lt;th align="right"&gt;Std. Pair Dist.&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;Means Treated&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;Means Control&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;Std. Mean Diff.&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;Var. Ratio&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;eCDF Mean&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;eCDF Max&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;Std. Pair Dist.&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;distance&lt;/td&gt;
-&lt;td align="right"&gt;0.37&lt;/td&gt;
-&lt;td align="right"&gt;0.37&lt;/td&gt;
-&lt;td align="right"&gt;0.04&lt;/td&gt;
-&lt;td align="right"&gt;1.10&lt;/td&gt;
-&lt;td align="right"&gt;0.01&lt;/td&gt;
-&lt;td align="right"&gt;0.10&lt;/td&gt;
-&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;distance&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.37&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.37&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1.10&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.10&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;age&lt;/td&gt;
-&lt;td align="right"&gt;62.34&lt;/td&gt;
-&lt;td align="right"&gt;62.36&lt;/td&gt;
-&lt;td align="right"&gt;0.00&lt;/td&gt;
-&lt;td align="right"&gt;0.93&lt;/td&gt;
-&lt;td align="right"&gt;0.03&lt;/td&gt;
-&lt;td align="right"&gt;0.07&lt;/td&gt;
-&lt;td align="right"&gt;0.89&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;age&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;62.34&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;62.36&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.00&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.93&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.07&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.89&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;sexFemme&lt;/td&gt;
-&lt;td align="right"&gt;0.42&lt;/td&gt;
-&lt;td align="right"&gt;0.40&lt;/td&gt;
-&lt;td align="right"&gt;0.04&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.02&lt;/td&gt;
-&lt;td align="right"&gt;0.02&lt;/td&gt;
-&lt;td align="right"&gt;0.54&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;sexFemme&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.42&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.40&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.54&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;sexHomme&lt;/td&gt;
-&lt;td align="right"&gt;0.58&lt;/td&gt;
-&lt;td align="right"&gt;0.60&lt;/td&gt;
-&lt;td align="right"&gt;-0.04&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.02&lt;/td&gt;
-&lt;td align="right"&gt;0.02&lt;/td&gt;
-&lt;td align="right"&gt;0.54&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;sexHomme&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.58&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.60&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;-0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.54&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;anaemiaNon&lt;/td&gt;
-&lt;td align="right"&gt;0.54&lt;/td&gt;
-&lt;td align="right"&gt;0.56&lt;/td&gt;
-&lt;td align="right"&gt;-0.04&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.02&lt;/td&gt;
-&lt;td align="right"&gt;0.02&lt;/td&gt;
-&lt;td align="right"&gt;0.96&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;anaemiaNon&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.54&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.56&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;-0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.96&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;anaemiaOui&lt;/td&gt;
-&lt;td align="right"&gt;0.46&lt;/td&gt;
-&lt;td align="right"&gt;0.44&lt;/td&gt;
-&lt;td align="right"&gt;0.04&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.02&lt;/td&gt;
-&lt;td align="right"&gt;0.02&lt;/td&gt;
-&lt;td align="right"&gt;0.96&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;anaemiaOui&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.46&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.44&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.96&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;creatinine_phosphokinase&lt;/td&gt;
-&lt;td align="right"&gt;488.90&lt;/td&gt;
-&lt;td align="right"&gt;481.78&lt;/td&gt;
-&lt;td align="right"&gt;0.01&lt;/td&gt;
-&lt;td align="right"&gt;0.89&lt;/td&gt;
-&lt;td align="right"&gt;0.02&lt;/td&gt;
-&lt;td align="right"&gt;0.07&lt;/td&gt;
-&lt;td align="right"&gt;0.46&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;creatinine_phosphokinase&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;488.90&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;481.78&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.89&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.07&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.46&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;diabetesNon&lt;/td&gt;
-&lt;td align="right"&gt;0.59&lt;/td&gt;
-&lt;td align="right"&gt;0.63&lt;/td&gt;
-&lt;td align="right"&gt;-0.08&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.04&lt;/td&gt;
-&lt;td align="right"&gt;0.04&lt;/td&gt;
-&lt;td align="right"&gt;1.01&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;diabetesNon&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.59&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.63&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;-0.08&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1.01&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;diabetesOui&lt;/td&gt;
-&lt;td align="right"&gt;0.41&lt;/td&gt;
-&lt;td align="right"&gt;0.37&lt;/td&gt;
-&lt;td align="right"&gt;0.08&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.04&lt;/td&gt;
-&lt;td align="right"&gt;0.04&lt;/td&gt;
-&lt;td align="right"&gt;1.01&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;diabetesOui&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.41&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.37&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.08&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1.01&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;platelets&lt;/td&gt;
-&lt;td align="right"&gt;269989.18&lt;/td&gt;
-&lt;td align="right"&gt;264619.41&lt;/td&gt;
-&lt;td align="right"&gt;0.06&lt;/td&gt;
-&lt;td align="right"&gt;0.87&lt;/td&gt;
-&lt;td align="right"&gt;0.03&lt;/td&gt;
-&lt;td align="right"&gt;0.10&lt;/td&gt;
-&lt;td align="right"&gt;1.02&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;platelets&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;269989.18&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;264619.41&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.06&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.87&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.10&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1.02&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;serum_creatinine&lt;/td&gt;
-&lt;td align="right"&gt;1.39&lt;/td&gt;
-&lt;td align="right"&gt;1.43&lt;/td&gt;
-&lt;td align="right"&gt;-0.03&lt;/td&gt;
-&lt;td align="right"&gt;2.09&lt;/td&gt;
-&lt;td align="right"&gt;0.04&lt;/td&gt;
-&lt;td align="right"&gt;0.18&lt;/td&gt;
-&lt;td align="right"&gt;0.66&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;serum_creatinine&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1.39&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1.43&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;-0.03&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;2.09&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.18&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.66&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;serum_sodium&lt;/td&gt;
-&lt;td align="right"&gt;136.85&lt;/td&gt;
-&lt;td align="right"&gt;136.60&lt;/td&gt;
-&lt;td align="right"&gt;0.06&lt;/td&gt;
-&lt;td align="right"&gt;0.88&lt;/td&gt;
-&lt;td align="right"&gt;0.01&lt;/td&gt;
-&lt;td align="right"&gt;0.05&lt;/td&gt;
-&lt;td align="right"&gt;1.07&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;serum_sodium&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;136.85&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;136.60&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.06&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.88&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1.07&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;smokingNon&lt;/td&gt;
-&lt;td align="right"&gt;0.71&lt;/td&gt;
-&lt;td align="right"&gt;0.74&lt;/td&gt;
-&lt;td align="right"&gt;-0.06&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.03&lt;/td&gt;
-&lt;td align="right"&gt;0.03&lt;/td&gt;
-&lt;td align="right"&gt;0.74&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;smokingNon&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.71&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.74&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;-0.06&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.74&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;smokingOui&lt;/td&gt;
-&lt;td align="right"&gt;0.29&lt;/td&gt;
-&lt;td align="right"&gt;0.26&lt;/td&gt;
-&lt;td align="right"&gt;0.06&lt;/td&gt;
-&lt;td align="right"&gt;NA&lt;/td&gt;
-&lt;td align="right"&gt;0.03&lt;/td&gt;
-&lt;td align="right"&gt;0.03&lt;/td&gt;
-&lt;td align="right"&gt;0.74&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;smokingOui&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.29&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.26&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.06&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.74&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;On constate que la plupart des variables sont maintenant plus équilibrées entre les deux groupes. Au global, la variable &lt;code&gt;distance&lt;/code&gt; montre la grande proximité du score de propension entre les deux groupes. On peut également mettre en évidence l'effet de l'appariement visuellement sur quelques unes des variables avec la fonction &lt;code&gt;plot&lt;/code&gt; :&lt;/td&gt;
-&lt;td align="right"&gt;&lt;/td&gt;
-&lt;td align="right"&gt;&lt;/td&gt;
-&lt;td align="right"&gt;&lt;/td&gt;
-&lt;td align="right"&gt;&lt;/td&gt;
-&lt;td align="right"&gt;&lt;/td&gt;
-&lt;td align="right"&gt;&lt;/td&gt;
-&lt;td align="right"&gt;&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;On constate que la plupart des variables sont maintenant plus équilibrées entre les deux groupes. Au global, la variable &lt;code&gt;distance&lt;/code&gt; montre la grande proximité du score de propension entre les deux groupes. On peut également mettre en évidence l'effet de l'appariement visuellement sur quelques unes des variables avec la fonction &lt;code&gt;plot&lt;/code&gt; :&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -472,34 +472,34 @@ Le paramètre &lt;code&gt;method = "ATT"&lt;/code&gt; permet d'évaluer un &lt;s
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align="left"&gt;term&lt;/th&gt;
-&lt;th align="left"&gt;contrast&lt;/th&gt;
-&lt;th align="right"&gt;estimate&lt;/th&gt;
-&lt;th align="right"&gt;std.error&lt;/th&gt;
-&lt;th align="right"&gt;statistic&lt;/th&gt;
-&lt;th align="right"&gt;p.value&lt;/th&gt;
-&lt;th align="right"&gt;s.value&lt;/th&gt;
-&lt;th align="right"&gt;conf.low&lt;/th&gt;
-&lt;th align="right"&gt;conf.high&lt;/th&gt;
-&lt;th align="right"&gt;predicted_lo&lt;/th&gt;
-&lt;th align="right"&gt;predicted_hi&lt;/th&gt;
-&lt;th align="right"&gt;predicted&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;term&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;contrast&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;estimate&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;std.error&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;statistic&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;p.value&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;s.value&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;conf.low&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;conf.high&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;predicted_lo&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;predicted_hi&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;predicted&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;high_blood_pressure&lt;/td&gt;
-&lt;td align="left"&gt;Oui - Non&lt;/td&gt;
-&lt;td align="right"&gt;0.05&lt;/td&gt;
-&lt;td align="right"&gt;0.06&lt;/td&gt;
-&lt;td align="right"&gt;0.76&lt;/td&gt;
-&lt;td align="right"&gt;0.45&lt;/td&gt;
-&lt;td align="right"&gt;1.16&lt;/td&gt;
-&lt;td align="right"&gt;-0.08&lt;/td&gt;
-&lt;td align="right"&gt;0.17&lt;/td&gt;
-&lt;td align="right"&gt;0.32&lt;/td&gt;
-&lt;td align="right"&gt;0.37&lt;/td&gt;
-&lt;td align="right"&gt;0.37&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;high_blood_pressure&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;Oui - Non&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.06&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.76&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.45&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1.16&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;-0.08&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.17&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.32&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.37&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.37&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -511,70 +511,7 @@ Le paramètre &lt;code&gt;method = "ATT"&lt;/code&gt; permet d'évaluer un &lt;s
 &lt;div class = "d-flex justify-content-center mt-4"&gt;
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
-&lt;/div&gt;
-
-&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent;
-        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-&lt;/script&gt;</content><category term="R"></category><category term="R"></category><category term="Rstats"></category><category term="data science"></category><category term="statistiques"></category></entry><entry><title>Passer de RMarkdown à Quarto pour vos rapports statistiques</title><link href="https://blog.statoscop.fr/quarto-rmarkdown.html" rel="alternate"></link><published>2024-12-12T00:00:00+01:00</published><updated>2024-12-12T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-12-12:/quarto-rmarkdown.html</id><summary type="html">&lt;p&gt;Petit exemple pour vous accompagner dans la transition de RMarkdown vers Quarto, et pourquoi ça va rendre vos rapports encore plus ergonomiques!&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;/div&gt;</content><category term="R"></category><category term="R"></category><category term="Rstats"></category><category term="data science"></category><category term="statistiques"></category></entry><entry><title>Passer de RMarkdown à Quarto pour vos rapports statistiques</title><link href="https://blog.statoscop.fr/quarto-rmarkdown.html" rel="alternate"></link><published>2024-12-12T00:00:00+01:00</published><updated>2024-12-12T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-12-12:/quarto-rmarkdown.html</id><summary type="html">&lt;p&gt;Petit exemple pour vous accompagner dans la transition de RMarkdown vers Quarto, et pourquoi ça va rendre vos rapports encore plus ergonomiques!&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#configuration-de-quarto"&gt;Configuration de Quarto&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#utilisation-des-onglets"&gt;Utilisation des onglets&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#generation-dynamique-de-contenu-markdown"&gt;Génération dynamique de contenu markdown&lt;/a&gt;&lt;/li&gt;
@@ -757,7 +694,7 @@ L&amp;#39;utilisation des blocs d&amp;#39;annotation de Quarto peut être addict
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="R"></category><category term="quarto"></category><category term="rmarkdown"></category><category term="rapport"></category></entry><entry><title>Python pour la Data Science : configurer son environnement de travail</title><link href="https://blog.statoscop.fr/setup-python.html" rel="alternate"></link><published>2024-10-16T00:00:00+02:00</published><updated>2024-10-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-10-16:/setup-python.html</id><summary type="html">&lt;p&gt;Les essentiels et rien que les essentiels pour se lancer en Data Science avec Python.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="R"></category><category term="quarto"></category><category term="rmarkdown"></category><category term="rapport"></category></entry><entry><title>Python pour la Data Science : configurer son environnement de travail</title><link href="https://blog.statoscop.fr/setup-python.html" rel="alternate"></link><published>2024-10-16T00:00:00+02:00</published><updated>2024-10-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-10-16:/setup-python.html</id><summary type="html">&lt;p&gt;Les essentiels et rien que les essentiels pour se lancer en Data Science avec Python.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#installer-python-et-vscode"&gt;Installer Python et VSCode&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#installation-de-python"&gt;Installation de Python&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#installation-de-vscode"&gt;Installation de VSCode&lt;/a&gt;&lt;/li&gt;
@@ -850,7 +787,7 @@ On vous recommande les notebooks pour la partie exploration de vos données car 
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Data Science"></category><category term="conda"></category><category term="anaconda"></category><category term="vscode"></category><category term="notebook"></category></entry><entry><title>Comprendre et interpréter les p-values</title><link href="https://blog.statoscop.fr/comprendre-et-interpreter-les-p-values.html" rel="alternate"></link><published>2024-07-09T00:00:00+02:00</published><updated>2024-07-09T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-07-09:/comprendre-et-interpreter-les-p-values.html</id><summary type="html">&lt;p&gt;Petite présentation intuitive des p-values et de leur utilisation dans nos modèles statistiques.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Data Science"></category><category term="conda"></category><category term="anaconda"></category><category term="vscode"></category><category term="notebook"></category></entry><entry><title>Comprendre et interpréter les p-values</title><link href="https://blog.statoscop.fr/comprendre-et-interpreter-les-p-values.html" rel="alternate"></link><published>2024-07-09T00:00:00+02:00</published><updated>2024-07-09T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-07-09:/comprendre-et-interpreter-les-p-values.html</id><summary type="html">&lt;p&gt;Petite présentation intuitive des p-values et de leur utilisation dans nos modèles statistiques.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#les-p-values-et-les-tests-statistiques"&gt;Les p-values et les tests statistiques&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#interpretation-des-p-values"&gt;Interprétation des p-values&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#conclusion"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
@@ -858,11 +795,11 @@ On vous recommande les notebooks pour la partie exploration de vos données car 
 &lt;/div&gt;
 &lt;p&gt;Aujourd'hui c'est à un grand classique de la statistique que l'on s'attaque : la &lt;strong&gt;p-value, ou valeur p&lt;/strong&gt;. Fondamentale dans l'analyse des résultats de la recherche scientifique, elle est pourtant &lt;strong&gt;souvent mal interprétée&lt;/strong&gt;. C'est sur elle que l'on s'appuie pour &lt;strong&gt;confirmer ou infirmer une hypothèse&lt;/strong&gt; et juger de la &lt;strong&gt;significativé de nos résultats&lt;/strong&gt;. Mais qu'est-ce que cela implique et comment bien appréhender ce qu'elle permet (et surtout ce qu'elle ne permet pas) de conclure? On essaye de voir ça ensemble, de la manière la plus intuitive possible!  &lt;/p&gt;
 &lt;h1 id="les-p-values-et-les-tests-statistiques"&gt;Les p-values et les tests statistiques&lt;/h1&gt;
-&lt;p&gt;Pour comprendre les p-values, il faut aborder la notion de &lt;strong&gt;tests statistiques&lt;/strong&gt;. Ils permettent de tester une &lt;strong&gt;Hypothèse nulle &lt;code&gt;H0&lt;/code&gt;&lt;/strong&gt; contre une &lt;strong&gt;hypothèse alternative &lt;code&gt;H1&lt;/code&gt;&lt;/strong&gt;. Par exemple, prenons le cas d'une régression linéaire où on cherche à estimer des coefficients &lt;span class="math"&gt;\(\beta_i\)&lt;/span&gt; décrivant le lien entre une variable d'intérêt  &lt;span class="math"&gt;\(Y\)&lt;/span&gt; et des variables explicatives &lt;span class="math"&gt;\(X_i\)&lt;/span&gt; :  &lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Pour chaque coefficient estimé &lt;span class="math"&gt;\(\beta_i\)&lt;/span&gt;, on utilise le &lt;strong&gt;test t de Student&lt;/strong&gt; qui nous permet de tester les hypothèses :&lt;br&gt;
-- &lt;code&gt;H0&lt;/code&gt; : &lt;span class="math"&gt;\(\beta_i  = 0\)&lt;/span&gt;&lt;br&gt;
-- &lt;code&gt;H1&lt;/code&gt; : &lt;span class="math"&gt;\(\beta_i \neq 0\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Pour comprendre les p-values, il faut aborder la notion de &lt;strong&gt;tests statistiques&lt;/strong&gt;. Ils permettent de tester une &lt;strong&gt;Hypothèse nulle &lt;code&gt;H0&lt;/code&gt;&lt;/strong&gt; contre une &lt;strong&gt;hypothèse alternative &lt;code&gt;H1&lt;/code&gt;&lt;/strong&gt;. Par exemple, prenons le cas d'une régression linéaire où on cherche à estimer des coefficients $\beta_i$ décrivant le lien entre une variable d'intérêt  $Y$ et des variables explicatives $X_i$ :  &lt;/p&gt;
+&lt;p&gt;$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots$&lt;/p&gt;
+&lt;p&gt;Pour chaque coefficient estimé $\beta_i$, on utilise le &lt;strong&gt;test t de Student&lt;/strong&gt; qui nous permet de tester les hypothèses :&lt;br&gt;
+- &lt;code&gt;H0&lt;/code&gt; : $\beta_i  = 0$&lt;br&gt;
+- &lt;code&gt;H1&lt;/code&gt; : $\beta_i \neq 0$&lt;/p&gt;
 &lt;p&gt;Le principe du test est le suivant : on va &lt;strong&gt;partir du principe que H0 est vrai&lt;/strong&gt; et on va voir &lt;strong&gt;quelle est la chance d'observer notre résultat dans ce monde théorique&lt;/strong&gt;. Ce test statistique va ainsi nous donner la &lt;strong&gt;distribution possible des résultats que l'on pourrait obtenir à partir de différents échantillons si &lt;code&gt;H0&lt;/code&gt; était vraie&lt;/strong&gt;. Selon où l'on se situe dans cette distribution, on va pouvoir juger de la &lt;strong&gt;vraisemblance de cette hypothèse H0&lt;/strong&gt;, en fonction d'un &lt;strong&gt;seuil alpha que l'on peut faire varier&lt;/strong&gt;. En fonction de la valeur de &lt;code&gt;t&lt;/code&gt; obtenue avec notre échantillon, on peut décider de rejeter ou non l'hypothèse &lt;code&gt;H0&lt;/code&gt; :  &lt;/p&gt;
 &lt;p&gt;&lt;img alt="Pelican" src="../images/p_values/unnamed-chunk-1-1.png"&gt;&lt;!-- --&gt;&lt;/p&gt;
 &lt;p&gt;Sur le graphique ci-dessus, la zone rouge représente &lt;strong&gt;5% de l'aire de la courbe de densité&lt;/strong&gt;. Si la valeur obtenue par notre test est dans cette zone, on sait que &lt;strong&gt;cela représenterait 5% ou moins des résultats possibles que l'on aurait obtenus si &lt;code&gt;H0&lt;/code&gt; était vraie&lt;/strong&gt;. On peut donc en déduire que &lt;strong&gt;la nullité du coefficient est peu probable&lt;/strong&gt;. &lt;/p&gt;
@@ -898,69 +835,7 @@ Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
-&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent;
-        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-&lt;/script&gt;</content><category term="Stats &amp; ML"></category><category term="statistiques"></category><category term="p-values"></category><category term="R"></category><category term="tests"></category></entry><entry><title>Taux standardisés : calcul et interprétation avec R</title><link href="https://blog.statoscop.fr/taux-standardises-calcul-et-interpretation-avec-r.html" rel="alternate"></link><published>2023-05-17T00:00:00+02:00</published><updated>2023-05-17T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2023-05-17:/taux-standardises-calcul-et-interpretation-avec-r.html</id><summary type="html">&lt;p&gt;Présentation de la méthode de standardisation directe sur les taux de survie des passagers du Titanic.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Stats &amp; ML"></category><category term="statistiques"></category><category term="p-values"></category><category term="R"></category><category term="tests"></category></entry><entry><title>Taux standardisés : calcul et interprétation avec R</title><link href="https://blog.statoscop.fr/taux-standardises-calcul-et-interpretation-avec-r.html" rel="alternate"></link><published>2023-05-17T00:00:00+02:00</published><updated>2023-05-17T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2023-05-17:/taux-standardises-calcul-et-interpretation-avec-r.html</id><summary type="html">&lt;p&gt;Présentation de la méthode de standardisation directe sur les taux de survie des passagers du Titanic.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#principe-de-la-standardisation-directe"&gt;Principe de la standardisation directe&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#analyses-exploratoires-des-donnees"&gt;Analyses exploratoires des données&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#calcul-pas-a-pas-des-taux-standardises-de-survie-au-naufrage-du-titanic"&gt;Calcul pas-à-pas des taux standardisés de survie au naufrage du Titanic&lt;/a&gt;&lt;/li&gt;
@@ -983,22 +858,22 @@ C'est précisément ce que permet de faire la standardisation directe. Il est n�
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align="right"&gt;pclass&lt;/th&gt;
-&lt;th align="right"&gt;tx_survie&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;pclass&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;tx_survie&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;1&lt;/td&gt;
-&lt;td align="right"&gt;0.6373239&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.6373239&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;2&lt;/td&gt;
-&lt;td align="right"&gt;0.4406130&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.4406130&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;3&lt;/td&gt;
-&lt;td align="right"&gt;0.2614770&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.2614770&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1016,71 +891,71 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align="right"&gt;pclass&lt;/th&gt;
-&lt;th align="left"&gt;tr_age&lt;/th&gt;
-&lt;th align="right"&gt;Proportion&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;pclass&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;tr_age&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;Proportion&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;1&lt;/td&gt;
-&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.0528169&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.0528169&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;1&lt;/td&gt;
-&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.3239437&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.3239437&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;1&lt;/td&gt;
-&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.3697183&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.3697183&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;1&lt;/td&gt;
-&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
-&lt;td align="right"&gt;0.2535211&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.2535211&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;2&lt;/td&gt;
-&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.1264368&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.1264368&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;2&lt;/td&gt;
-&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.5823755&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.5823755&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;2&lt;/td&gt;
-&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.1954023&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.1954023&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;2&lt;/td&gt;
-&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
-&lt;td align="right"&gt;0.0957854&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.0957854&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;3&lt;/td&gt;
-&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.2115768&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.2115768&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;3&lt;/td&gt;
-&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.6047904&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.6047904&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;3&lt;/td&gt;
-&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.1576846&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.1576846&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;3&lt;/td&gt;
-&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
-&lt;td align="right"&gt;0.0259481&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.0259481&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1093,26 +968,26 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align="left"&gt;tr_age&lt;/th&gt;
-&lt;th align="right"&gt;tx_survie&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;tr_age&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;tx_survie&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.5259740&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.5259740&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.3765996&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.3765996&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.4085106&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.4085106&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
-&lt;td align="right"&gt;0.4000000&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.4000000&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1125,71 +1000,71 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align="right"&gt;pclass&lt;/th&gt;
-&lt;th align="left"&gt;tr_age&lt;/th&gt;
-&lt;th align="right"&gt;tx_survie&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;pclass&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;tr_age&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;tx_survie&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;1&lt;/td&gt;
-&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.8666667&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.8666667&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;1&lt;/td&gt;
-&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.7065217&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.7065217&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;1&lt;/td&gt;
-&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.6285714&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.6285714&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;1&lt;/td&gt;
-&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
-&lt;td align="right"&gt;0.5138889&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.5138889&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;2&lt;/td&gt;
-&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.8787879&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.8787879&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;2&lt;/td&gt;
-&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.4144737&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.4144737&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;2&lt;/td&gt;
-&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.3333333&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.3333333&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;2&lt;/td&gt;
-&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
-&lt;td align="right"&gt;0.2400000&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.2400000&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;3&lt;/td&gt;
-&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.3679245&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.3679245&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;3&lt;/td&gt;
-&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.2574257&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.2574257&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;3&lt;/td&gt;
-&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.1645570&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.1645570&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;3&lt;/td&gt;
-&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
-&lt;td align="right"&gt;0.0769231&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.0769231&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1209,26 +1084,26 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align="left"&gt;tr_age&lt;/th&gt;
-&lt;th align="right"&gt;eff&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;tr_age&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;eff&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td align="right"&gt;154&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;154&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td align="right"&gt;547&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;547&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td align="right"&gt;235&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;235&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
-&lt;td align="right"&gt;110&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;110&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1248,36 +1123,36 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align="left"&gt;tr_age&lt;/th&gt;
-&lt;th align="right"&gt;survie_1&lt;/th&gt;
-&lt;th align="right"&gt;survie_2&lt;/th&gt;
-&lt;th align="right"&gt;survie_3&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;tr_age&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;survie_1&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;survie_2&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;survie_3&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.8666667&lt;/td&gt;
-&lt;td align="right"&gt;0.8787879&lt;/td&gt;
-&lt;td align="right"&gt;0.3679245&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.8666667&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.8787879&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.3679245&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.7065217&lt;/td&gt;
-&lt;td align="right"&gt;0.4144737&lt;/td&gt;
-&lt;td align="right"&gt;0.2574257&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.7065217&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.4144737&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.2574257&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td align="right"&gt;0.6285714&lt;/td&gt;
-&lt;td align="right"&gt;0.3333333&lt;/td&gt;
-&lt;td align="right"&gt;0.1645570&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.6285714&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.3333333&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.1645570&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
-&lt;td align="right"&gt;0.5138889&lt;/td&gt;
-&lt;td align="right"&gt;0.2400000&lt;/td&gt;
-&lt;td align="right"&gt;0.0769231&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.5138889&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.2400000&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.0769231&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1291,41 +1166,41 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align="left"&gt;tr_age&lt;/th&gt;
-&lt;th align="right"&gt;eff&lt;/th&gt;
-&lt;th align="right"&gt;survie_1&lt;/th&gt;
-&lt;th align="right"&gt;survie_2&lt;/th&gt;
-&lt;th align="right"&gt;survie_3&lt;/th&gt;
+&lt;th style="text-align: left;"&gt;tr_age&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;eff&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;survie_1&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;survie_2&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;survie_3&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td align="right"&gt;154&lt;/td&gt;
-&lt;td align="right"&gt;133.46667&lt;/td&gt;
-&lt;td align="right"&gt;135.33333&lt;/td&gt;
-&lt;td align="right"&gt;56.660377&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;154&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;133.46667&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;135.33333&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;56.660377&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td align="right"&gt;547&lt;/td&gt;
-&lt;td align="right"&gt;386.46739&lt;/td&gt;
-&lt;td align="right"&gt;226.71711&lt;/td&gt;
-&lt;td align="right"&gt;140.811881&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;547&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;386.46739&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;226.71711&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;140.811881&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td align="right"&gt;235&lt;/td&gt;
-&lt;td align="right"&gt;147.71429&lt;/td&gt;
-&lt;td align="right"&gt;78.33333&lt;/td&gt;
-&lt;td align="right"&gt;38.670886&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;235&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;147.71429&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;78.33333&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;38.670886&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
-&lt;td align="right"&gt;110&lt;/td&gt;
-&lt;td align="right"&gt;56.52778&lt;/td&gt;
-&lt;td align="right"&gt;26.40000&lt;/td&gt;
-&lt;td align="right"&gt;8.461538&lt;/td&gt;
+&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;110&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;56.52778&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;26.40000&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;8.461538&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1341,16 +1216,16 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align="right"&gt;survie_1&lt;/th&gt;
-&lt;th align="right"&gt;survie_2&lt;/th&gt;
-&lt;th align="right"&gt;survie_3&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;survie_1&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;survie_2&lt;/th&gt;
+&lt;th style="text-align: right;"&gt;survie_3&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align="right"&gt;0.692329&lt;/td&gt;
-&lt;td align="right"&gt;0.446256&lt;/td&gt;
-&lt;td align="right"&gt;0.2338477&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.692329&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.446256&lt;/td&gt;
+&lt;td style="text-align: right;"&gt;0.2338477&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1358,7 +1233,7 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;h1 id="pour-conclure"&gt;Pour conclure&lt;/h1&gt;
 &lt;p&gt;J'espère que cet exemple vous aura permis de mieux appréhender la question de la standardisation directe. Bien sûr, la méthode utilisée ici comporte des limites, notamment l'utilisation de tranches d'âge très larges qui pourraient fausser le résultat. On peut par exemple penser que les enfants en bas âge ont bénéficié d'une attention toute particulière, et ils se retrouvent ici dans la même tranche d'âge que des adolescents. Mais nous sommes également contraints par les effectifs qui nous empêchent de faire une analyse trop fine de ces subtilités. Si ces questions vous intéressent, vous pouvez vous reporter à notre article sur &lt;a href="https://blog.statoscop.fr/le-dilemme-biais-variance-dans-la-modelisation-de-donnees.html"&gt;le dilemme biais-variance&lt;/a&gt;.   &lt;/p&gt;
 &lt;p&gt;Enfin, nous avons passé sous silence une variable explicative très importante : le sexe des passagers. Les taux de survie sont en effet très différents pour les hommes et pour les femmes. Il est possible de reproduire cette analyse en prenant en compte cette variable, croisée également avec l'âge. Cependant, toujours en raison de trop faibles effectifs, il sera sans doute nécessaire d'agréger encore plus les tranches d'âge. Vous avez les cartes en main pour le faire, et mieux comprendre les fortunes diverses de Jack et Rose dans le célèbre film de la tragédie...  &lt;/p&gt;
-&lt;p&gt;C'est la fin de cet article! N'hésitez pas à &lt;a href="https://www.statoscop.fr"&gt;visiter notre site&lt;/a&gt; et à nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.  &lt;/p&gt;</content><category term="R"></category><category term="R"></category><category term="Rstats"></category><category term="data science"></category><category term="statistiques"></category></entry><entry><title>Risques relatifs et odds-ratios : comment les interpréter et les comparer?</title><link href="https://blog.statoscop.fr/risques-relatifs-et-odds-ratios-comment-les-interpreter-et-les-comparer.html" rel="alternate"></link><published>2022-03-04T00:00:00+01:00</published><updated>2022-03-04T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2022-03-04:/risques-relatifs-et-odds-ratios-comment-les-interpreter-et-les-comparer.html</id><summary type="html">&lt;p&gt;Petite présentation des OR et des RR, et ce qu'ils veulent dire.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;C'est la fin de cet article! N'hésitez pas à &lt;a href="https://www.statoscop.fr"&gt;visiter notre site&lt;/a&gt; et à nous suivre sur &lt;a href="https://twitter.com/stato_scop"&gt;Twitter&lt;/a&gt; et &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;. Pour retrouver l'ensemble du code ayant servi à générer cette note, vous pouvez vous rendre sur le &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;github de Statoscop&lt;/a&gt;.  &lt;/p&gt;</content><category term="R"></category><category term="R"></category><category term="Rstats"></category><category term="data science"></category><category term="statistiques"></category></entry><entry><title>Risques relatifs et odds-ratios : comment les interpréter et les comparer?</title><link href="https://blog.statoscop.fr/risques-relatifs-et-odds-ratios-comment-les-interpreter-et-les-comparer.html" rel="alternate"></link><published>2022-03-04T00:00:00+01:00</published><updated>2022-03-04T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2022-03-04:/risques-relatifs-et-odds-ratios-comment-les-interpreter-et-les-comparer.html</id><summary type="html">&lt;p&gt;Petite présentation des OR et des RR, et ce qu'ils veulent dire.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#probabilites-et-cotes"&gt;Probabilités et cotes&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#definitions"&gt;Définitions&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#lien-entre-cote-et-probabilite"&gt;Lien entre cote et probabilité&lt;/a&gt;&lt;/li&gt;
@@ -1409,7 +1284,7 @@ C'est tout pour aujourd'hui! N'hésitez pas à &lt;a href="https://www.statoscop
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Stats &amp; ML"></category><category term="statistiques"></category><category term="odds-ratio"></category><category term="OR"></category><category term="probabilités"></category></entry><entry><title>Le dilemme biais variance dans la modélisation de données</title><link href="https://blog.statoscop.fr/le-dilemme-biais-variance-dans-la-modelisation-de-donnees.html" rel="alternate"></link><published>2021-11-08T00:00:00+01:00</published><updated>2021-11-08T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-11-08:/le-dilemme-biais-variance-dans-la-modelisation-de-donnees.html</id><summary type="html">&lt;p&gt;Présentation des enjeux théoriques et pratiques de l'arbitrage biais variance dans la construction d'un modèle de prédiction.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Stats &amp; ML"></category><category term="statistiques"></category><category term="odds-ratio"></category><category term="OR"></category><category term="probabilités"></category></entry><entry><title>Le dilemme biais variance dans la modélisation de données</title><link href="https://blog.statoscop.fr/le-dilemme-biais-variance-dans-la-modelisation-de-donnees.html" rel="alternate"></link><published>2021-11-08T00:00:00+01:00</published><updated>2021-11-08T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-11-08:/le-dilemme-biais-variance-dans-la-modelisation-de-donnees.html</id><summary type="html">&lt;p&gt;Présentation des enjeux théoriques et pratiques de l'arbitrage biais variance dans la construction d'un modèle de prédiction.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#que-sont-le-biais-et-la-variance"&gt;Que sont le biais et la variance?&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#enjeux-de-larbitrage-biais-variance"&gt;Enjeux de l'arbitrage biais variance&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#liens-avec-loverfitting-et-lunderfitting-dans-les-modeles-de-machine-learning"&gt;Liens avec l'overfitting et l'underfitting dans les modèles de Machine Learning&lt;/a&gt;&lt;ul&gt;
@@ -1463,7 +1338,7 @@ Il me reste à remercier &lt;a href="https://twitter.com/EParoissien"&gt;Emmanue
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="R"></category><category term="R"></category><category term="Rstats"></category><category term="data science"></category><category term="statistiques"></category><category term="Machine Learning"></category></entry><entry><title>Analyse en composantes principales avec Python</title><link href="https://blog.statoscop.fr/acp-python.html" rel="alternate"></link><published>2021-04-16T00:00:00+02:00</published><updated>2021-04-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-04-16:/acp-python.html</id><summary type="html">&lt;p&gt;Présentation et exemples d'utilisation de l'ACP en statistiques et data science.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Table des matières&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="R"></category><category term="R"></category><category term="Rstats"></category><category term="data science"></category><category term="statistiques"></category><category term="Machine Learning"></category></entry><entry><title>Analyse en composantes principales avec Python</title><link href="https://blog.statoscop.fr/acp-python.html" rel="alternate"></link><published>2021-04-16T00:00:00+02:00</published><updated>2021-04-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-04-16:/acp-python.html</id><summary type="html">&lt;p&gt;Présentation et exemples d'utilisation de l'ACP en statistiques et data science.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#comprendre-et-interpreter-une-acp"&gt;Comprendre et interpréter une ACP&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#mise-en-oeuvre-dune-acp-avec-python"&gt;Mise en oeuvre d'une ACP avec Python&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#analyse-exploratoire-de-nos-donnees"&gt;Analyse exploratoire de nos données&lt;/a&gt;&lt;/li&gt;
@@ -1475,7 +1350,7 @@ Il me reste à remercier &lt;a href="https://twitter.com/EParoissien"&gt;Emmanue
 &lt;p&gt;Dans cet article, nous allons essayer de comprendre intuitivement comment fonctionne l'analyse en composantes principales. Nous présenterons ensuite à quoi celle-ci peut servir en prenant les exemples d'une analyse exploratoire des données et d'une problématique de réduction de dimension.   &lt;/p&gt;
 &lt;h1 id="comprendre-et-interpreter-une-acp"&gt;Comprendre et interpréter une ACP&lt;/h1&gt;
 &lt;p&gt;L'analyse en composantes principales est une &lt;strong&gt;méthode consistant à transformer des variables corrélées entre elles en nouvelles variables&lt;/strong&gt;. Chacune de ces nouvelles variables est le résultat d'une combinaison linéaire des anciennes variables. &lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Note : une combinaison linéaire de 3 variables &lt;span class="math"&gt;\(V_1\)&lt;/span&gt;, &lt;span class="math"&gt;\(V_2\)&lt;/span&gt; et &lt;span class="math"&gt;\(V_3\)&lt;/span&gt; s'écrit &lt;span class="math"&gt;\(\alpha_1.V_1 + \alpha_2.V_2 + \alpha_3.V_3\)&lt;/span&gt; où les &lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt; sont des coefficients réels.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note : une combinaison linéaire de 3 variables $V_1$, $V_2$ et $V_3$ s'écrit $\alpha_1.V_1 + \alpha_2.V_2 + \alpha_3.V_3$ où les $\alpha_i$ sont des coefficients réels.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Ces nouvelles variables sont appelées &lt;strong&gt;composantes principales&lt;/strong&gt; et sont, par contruction, décorrélées les unes des autres.  &lt;/p&gt;
 &lt;p&gt;Autrement dit, l'ACP projette vos données dans un nouvel espace. La &lt;strong&gt;première composante principale est construite de manière à capter la plus grande variance possible de vos données&lt;/strong&gt;, la seconde la part la plus importante de &lt;strong&gt;la variance possible restant à expliquer&lt;/strong&gt;, et ainsi de suite.  &lt;/p&gt;
 &lt;p&gt;Une illustration brillante de ce processus est proposée par &lt;a href="https://www.allisonhorst.com/" target="_blank"&gt;Allison Horst&lt;/a&gt;. Elle &lt;a href="https://twitter.com/allison_horst/status/1288904459490213888" target="_blank"&gt;représente&lt;/a&gt; un jeu de données à deux dimensions avec des crevettes et l'analyse en composantes principales comme les passages d'un requin-baleine affamé :  &lt;/p&gt;
@@ -1483,7 +1358,7 @@ Il me reste à remercier &lt;a href="https://twitter.com/EParoissien"&gt;Emmanue
 &lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_4_0.png"&gt;&lt;/p&gt;
 &lt;p&gt;La problématique du requin-baleine est en effet la même que celle de la création d'une première composante principale : &lt;strong&gt;quel axe choisir pour avaler un maximum de crevettes&lt;/strong&gt; dès le premier passage? L'axe choisi va ressembler à celui-ci :  &lt;/p&gt;
 &lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_6_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient &lt;strong&gt;le plus proche possible de cette droite&lt;/strong&gt;. Mathématiquement, la première composante principale est &lt;strong&gt;la combinaison linéaire des deux axes &lt;span class="math"&gt;\(x\)&lt;/span&gt; et &lt;span class="math"&gt;\(y\)&lt;/span&gt; qui maximise l'inertie projetée&lt;/strong&gt;, ce qui revient à minimiser les écarts entre les points et cette droite.&lt;/p&gt;
+&lt;p&gt;Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient &lt;strong&gt;le plus proche possible de cette droite&lt;/strong&gt;. Mathématiquement, la première composante principale est &lt;strong&gt;la combinaison linéaire des deux axes $x$ et $y$ qui maximise l'inertie projetée&lt;/strong&gt;, ce qui revient à minimiser les écarts entre les points et cette droite.&lt;/p&gt;
 &lt;p&gt;Dans cet exemple, la seconde composante principale sera l'axe perpendiculaire à ce premier axe.&lt;/p&gt;
 &lt;p&gt;Si les points étaient parfaitement alignés sur une ligne, l'ensemble de la variance serait expliqué par la première composante et on serait parvenus à réduire le nombre de dimensions de notre problème sans perte d'information.&lt;/p&gt;
 &lt;blockquote&gt;
@@ -1714,66 +1589,4 @@ Tout d'abord, commençons par déterminer ce nombre de dimensions. Le graphique 
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
-&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent;
-        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category></entry></feed>
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category></entry></feed>
