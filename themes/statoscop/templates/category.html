@@ -20,39 +20,12 @@
   {% set selected_color = HEADER_COLOR %}
 {% endif %}
 
-{% block header %}
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="blog-header" {% if selected_cover or selected_color %}class="has-cover"{% endif %}>
-      <div class="inner">
-        <nav id="navigation">
-          {% if SITE_LOGO %}
-            <span class="blog-logo">
-                <a href="{{ SITEURL }}/"><img src="{{SITE_LOGO}}" alt="Blog Logo" /></a>
-            </span>
-          {% else %}
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="{{ SITEURL }}/" title="Home"><i class="ic ic-arrow-left"></i> Retour à l'accueil du blog</a>
-            </span>
-          {% endif %}
-          <span id="menu-button" class="nav-button">
-            <!-- <a class="menu-button"><i class="ic ic-menu"></i> Menu</a> -->
-          </span>
-        </nav>
-        <h1 class="post-title">Catégorie {{ category }}</h1>
-        <span class="blog-description">Nombre d'articles : {{ articles|count }}</span>
-        {% if selected_cover %}
-            <div class="blog-cover cover" style="background-image: url('{{ selected_cover }}')">
-        {% elif selected_color %}
-            <div class="blog-cover cover" style="background-color: {{ selected_color }}">
-        {% endif %}
-      </div>
-    </header>
-{% endblock header %}
-
 {% block content %}
-
-<div id="index" class="container">
+<section id="home" class="page-section">
+  <div id="index" class="container">
+    <h1 class="blog-name">Catégorie {{ category }}</h1>
+    <span class="blog-description">Nombre d'articles : {{ articles|count }}</span>
     {% include "partials/loop.html" %}
-</div>
+  </div>
+</section>
 {% endblock content %}

@@ -130,7 +130,7 @@ Enfin, lorsque votre problématique contient de nombreux sous-ensembles, __ce ch
 
 Pour autant, __on ne vous recommande pas non plus de faire un graphique avec deux axes verticaux__. Cela pourra faire l'objet d'une prochaine note de blog! 
 
-C'est tout pour aujourd'hui! On espère que cette note vous débloquera dans le choix de votre prochaine représentation graphique. Si vous avez besoin de [conseils en programmation pour la statistique et la data science](https://statoscop.fr), n'hésitez pas à nous contacter sur notre site, [BlueSky](https://bsky.app/profile/statoscop.fr) ou [Linkedin](https://www.linkedin.com/company/statoscop).
+C'est tout pour aujourd'hui! On espère que cette note vous débloquera dans le choix de votre prochaine représentation graphique. Si vous avez besoin de conseils en programmation pour [la statistique et la data science](https://statoscop.fr), n'hésitez pas à nous contacter sur notre site, [BlueSky](https://bsky.app/profile/statoscop.fr) ou [Linkedin](https://www.linkedin.com/company/statoscop).
 
 
 <div class = "d-flex justify-content-center mt-4">

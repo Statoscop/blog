@@ -24,7 +24,7 @@ Pour cet article, nous nous reposons sur un dataset complètement fictif qui a l
 ##  $ statut: Factor w/ 2 levels "ko","ok": NA 1 NA 1 1 2 1 NA 2 2 ...
 ```
 
-Vous pouvez retrouver le code ayant servi à le générer sur [le dépôt github des notes de blog de Statoscop](https://github.com/Statoscop/notebooks-blog).  
+Vous pouvez retrouver le code ayant servi à le générer sur le dépôt github des [notes de blog de Statoscop](https://github.com/Statoscop/notebooks-blog).  
 
 Le verbe `case_when` comporte plusieurs différences avec `if_else`, mais deux nous semblent particulièrement importantes :   
 

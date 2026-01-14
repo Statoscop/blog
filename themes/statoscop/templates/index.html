@@ -18,7 +18,7 @@
         <div class="blog-cover cover" style="background-color: url('{{ selected_color }}')">
       {% endif %}  -->
 
-    <div class="nav_accueil"><span class="nav_title">Par catégorie</span>
+    <div class="nav_index"><span class="nav_indextitle">Par catégorie</span>
       <ul>
         {% for cat, articles in categories|sort %}
           <li><a href="/{{ cat.url }}">{{ cat }} ({{ articles|count }} article{% if articles|length > 1 %}s{% endif %})</a></li>
