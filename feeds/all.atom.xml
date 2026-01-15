@@ -22,7 +22,7 @@
 &lt;span class="c1"&gt;##  $ statut: Factor w/ 2 levels &amp;quot;ko&amp;quot;,&amp;quot;ok&amp;quot;: NA 1 NA 1 1 2 1 NA 2 2 ...&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Vous pouvez retrouver le code ayant servi à le générer sur &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;le dépôt github des notes de blog de Statoscop&lt;/a&gt;.  &lt;/p&gt;
+&lt;p&gt;Vous pouvez retrouver le code ayant servi à le générer sur le dépôt github des &lt;a href="https://github.com/Statoscop/notebooks-blog"&gt;notes de blog de Statoscop&lt;/a&gt;.  &lt;/p&gt;
 &lt;p&gt;Le verbe &lt;code&gt;case_when&lt;/code&gt; comporte plusieurs différences avec &lt;code&gt;if_else&lt;/code&gt;, mais deux nous semblent particulièrement importantes :   &lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;sa syntaxe rend &lt;strong&gt;la lecture de plusieurs conditions&lt;/strong&gt; bien plus aisée    &lt;/li&gt;
@@ -543,7 +543,7 @@ Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
 &lt;p&gt;Enfin, lorsque votre problématique contient de nombreux sous-ensembles, &lt;strong&gt;ce choix n'est probablement pas adapté car le total peut avoir une échelle trop différente de chacun des sous-ensembles&lt;/strong&gt;. C'est le cas par exemple pour la problématique des diamants que je présentais en début de post, et pour laquelle le graphique à barres segmentées n'aurait pas donné un résultat satisfaisant :  &lt;/p&gt;
 &lt;p&gt;&lt;img alt="Pelican" src="../images/graph_bar_empilees/unnamed-chunk-6-1.png"&gt;&lt;!-- --&gt;&lt;/p&gt;
 &lt;p&gt;Pour autant, &lt;strong&gt;on ne vous recommande pas non plus de faire un graphique avec deux axes verticaux&lt;/strong&gt;. Cela pourra faire l'objet d'une prochaine note de blog! &lt;/p&gt;
-&lt;p&gt;C'est tout pour aujourd'hui! On espère que cette note vous débloquera dans le choix de votre prochaine représentation graphique. Si vous avez besoin de &lt;a href="https://statoscop.fr"&gt;conseils en programmation pour la statistique et la data science&lt;/a&gt;, n'hésitez pas à nous contacter sur notre site, &lt;a href="https://bsky.app/profile/statoscop.fr"&gt;BlueSky&lt;/a&gt; ou &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;C'est tout pour aujourd'hui! On espère que cette note vous débloquera dans le choix de votre prochaine représentation graphique. Si vous avez besoin de conseils en programmation pour &lt;a href="https://statoscop.fr"&gt;la statistique et la data science&lt;/a&gt;, n'hésitez pas à nous contacter sur notre site, &lt;a href="https://bsky.app/profile/statoscop.fr"&gt;BlueSky&lt;/a&gt; ou &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;.&lt;/p&gt;
 &lt;div class = "d-flex justify-content-center mt-4"&gt;
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
