@@ -1,7 +1,7 @@
 Title: Faire apparaître le zéro sur l'axe des ordonnées dans vos visualisations : arguments et exemples
 Author: Antoine
 Date: '2026-01-23'
-Category: R
+Category: R, DataViz
 Tags: R, ggplot2, dataviz
 Cover: images/cover_27.png
 twitter_image: images/cover_27.png

@@ -1,7 +1,7 @@
 Title: Graphiques et diagrammes à barres empilées : présentation d'une alternative avec R et ggplot2
 Author: Antoine
 Date: '2025-04-28'
-Category: R
+Category: R, DataViz
 Tags: R, ggplot2, dataviz
 Cover: images/cover_24.png
 twitter_image: images/cover_24.png
