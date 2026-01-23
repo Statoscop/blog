@@ -1,11 +1,11 @@
-Title: Faire apparaître le zéro sur l'axe des ordonnées dans vos dataviz : arguments et exemples
+Title: Faire apparaître le zéro sur l'axe des ordonnées dans vos visualisations : arguments et exemples
 Author: Antoine
-Date: '2026-01-22'
+Date: '2026-01-23'
 Category: R
 Tags: R, ggplot2, dataviz
 Cover: images/cover_27.png
 twitter_image: images/cover_27.png
-Summary: Pourquoi il n'est pas toujours pertinent de représenter les données sur l'échelle min-max
+Summary: Comment choisir les représentations les plus pertinentes pour ne pas fausser l'interprétation de vos dataviz.
 
 [TOC]
 
@@ -22,26 +22,11 @@ C'est le cas le plus clair : **l'absence de zéro dans un graphique en barres fa
 
 ![Pelican](../images/zero-y-axis/clipboard-1.png)
 
-Cette visualition vise assez évidemment à **insister sur la baisse de la participation aux grèves**. Visuellement, il semble que **celle-ci a chuté de moitié au moins**. En effet, notre cerveau compare logiquement les volumes des deux barres et constate que **l'une est environ deux fois plus petite que l'autre**. Or, si la baisse est réelle, elle est seulement de 4 points de pourcentage, loin du rendu visuel proposé par la communication de la SNCF. Cette **manipulation de l'ampleur du phénomène** est entièrement dûe à l'absence du zéro sur l'axe des ordonnées. Voici comment rend la visualisation correctement reproduite par les auteurs de l'article :
+Cette visualition vise assez évidemment à **insister sur la baisse de la participation aux grèves**. Visuellement, il semble que **celle-ci a chuté de moitié au moins**. En effet, notre cerveau compare logiquement les volumes des deux barres et constate que **l'une est environ deux fois plus petite que l'autre**. Or, si la baisse est réelle, elle est seulement de 4 points de pourcentage soit une baisse d'à peine plus de 10%, loin du rendu visuel proposé par la communication de la SNCF. Cette **manipulation de l'ampleur du phénomène** est entièrement dûe à l'absence du zéro sur l'axe des ordonnées. Voici comment rend la visualisation correctement reproduite par les auteurs de l'article :
 
 ![Pelican](../images/zero-y-axis/clipboard-2.png)
 
 **L'effet est moins spectaculaire** mais le rendu est bien plus fidèle aux faits. Dans le cas des graphiques en colonnes, il y a donc **un certain consensus** sur le fait que le zéro sur l'axe des ordonnées n'est "pas négociable", du fait que le lecteur compare forcément les volumes et que **ceux-ci n'ont pas de sens si les colonnes ne partent pas de zéro**. Mais qu'en est-il des courbes?
-
-## Évolutions trompeuses avec les courbes
-
-Dans le cas des courbes, [le sujet fait plus débat](https://stats.stackexchange.com/questions/184525/how-to-determine-whether-or-not-the-y-axis-of-a-graph-should-start-at-zero). D'ailleurs, **`ggplot2` ne met pas le zéro par défaut sur l'axe des ordonnées pour les graphiques avec `geom_line` alors qu'il le fait avec `geom_col` ou `geom_bar.`**
-
-Pourtant, le fait de ne pas inclure le zéro dans ce type de graphiques nous semble aussi poser problème. Prenons l'exemple du réchauffement climatique, qui se traduit notamment par une augmentation de températures moyennes à la surface mondiale. On récupère ici ces données sur le site [Our World In Data](https://ourworldindata.org/). Voilà ce que donne une représentation classique de ces données si nous sélectionnons de manière malveillante les années 2016 à 2022 :  
-
-![Pelican](../images/zero-y-axis/unnamed-chunk-2-1.png)<!-- -->
-
-On voit ici qu'en plus d'avoir sélectionné les années qui nous convenaient pour faire passer un message trompeur, c'est bien __l'échelle des ordonnées de type min/max qui rend la "chute" des températures artificiellement élevée__ entre 2016 et 2022. En effet, les données dans leur ensemble racontent un tout autre message :  
-
-![Pelican](../images/zero-y-axis/unnamed-chunk-3-1.png)<!-- -->
-
-
-# Alternatives quand il semble compliqué de faire apparaître le zéro sur l'axe des ordonnées    
 
 > 👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
 > Vous voulez en savoir plus sur ce que l'on fait?
@@ -52,9 +37,26 @@ On voit ici qu'en plus d'avoir sélectionné les années qui nous convenaient po
 <br>    
 
 
+## Évolutions trompeuses avec les courbes
+
+Dans le cas des courbes, [le sujet fait plus débat](https://stats.stackexchange.com/questions/184525/how-to-determine-whether-or-not-the-y-axis-of-a-graph-should-start-at-zero). D'ailleurs, **`ggplot2` ne met pas le zéro par défaut sur l'axe des ordonnées pour les graphiques avec `geom_line` alors qu'il le fait avec `geom_col` ou `geom_bar.`**
+
+Pourtant, le fait de ne pas inclure le zéro dans ce type de graphiques nous semble aussi poser problème. Prenons l'exemple du réchauffement climatique, qui se traduit notamment par une augmentation des températures à la surface mondiales. On récupère ici ces données sur le site [Our World In Data](https://ourworldindata.org/). Voilà ce que donne une représentation classique de ces données si nous sélectionnons de manière malveillante les années 2016 à 2022 :  
+
+![Pelican](../images/zero-y-axis/unnamed-chunk-2-1.png)<!-- -->
+
+On voit ici qu'en plus d'avoir sélectionné les années qui nous convenaient pour faire passer un message trompeur, c'est bien __l'échelle des ordonnées de type min/max qui rend les variations des températures artificiellement élevées__ entre 2016 et 2022. En effet, les données dans leur ensemble racontent un tout autre message :  
+
+![Pelican](../images/zero-y-axis/unnamed-chunk-3-1.png)<!-- -->
+
+
+# Alternatives quand il semble compliqué de faire apparaître le zéro sur l'axe des ordonnées    
+
+Le dernier graphique montrant les températures moyennes entre 1950 et 2025 semble plus acceptable que le précédent, même s'il se contente de prendre une échelle min/max pour l'axe des ordonnées. Et s'il est en effet bien moins incorrect, c'est __parce qu'il contient presque l'ensemble des valeurs de température moyenne connues par l'être humain__ (qui n'ont pas beaucoup varié avant 1950). 
+
 ## Problème quand le zéro n'est pas une valeur _possible_ des données  
 
-Le dernier graphique montrant les températures moyennes entre 1950 et 2025 semble plus acceptable que le précédent, même s'il se contente de prendre une échelle min/max pour l'axe des ordonnées. Et s'il est en effet bien moins incorrect, c'est __parce qu'il contient presque l'ensemble des valeurs de température moyenne connues par l'être humain__ (qui n'ont pas beaucoup varié avant 1950). On pourrait en effet arguer que se "forcer" à inclure le zéro sur l'axe des ordonnées, alors même qu'une température moyenne mondiale à zéro degré n'aurait aucun sens sur la planète telle qu'on la connaît, fausserait le résultat. Tout d'abord cela aurait tendance à minimiser le constat du réchauffement climatique post-industriel, et cela donnerait en plus un graphique avec un grand espace vide inutilisé (et inutilisable, puisque ne contenant pas des valeurs plausibles de nos données) :  
+On pourrait en effet arguer que se "forcer" à inclure le zéro sur l'axe des ordonnées, alors même qu'une température moyenne mondiale à zéro degré n'aurait aucun sens sur la planète telle qu'on la connaît, fausserait le résultat. Tout d'abord __cela aurait tendance à minimiser le constat__ du réchauffement climatique actuel, et cela donnerait en plus un __graphique avec un grand espace inutilisé__ (et inutilisable, puisque ne contenant pas des valeurs plausibles de nos données) :  
 
 ![Pelican](../images/zero-y-axis/unnamed-chunk-4-1.png)<!-- -->
 
@@ -65,11 +67,11 @@ Alors, que faire? Dans ce cas, __inclure le zéro dans l'axe des ordonnées ne s
 ![Pelican](../images/zero-y-axis/unnamed-chunk-5-1.png)<!-- -->
 
 
-# Interprétation des visualisations de données  
+# Pour vos prochaines dataviz  
 
 Que l'on vous ait convaincu ou pas d'essayer d'inclure le zéro dans vos dataviz, on espère au moins que vous aurez désormais l'œil pour repérer ces visualisations qui - volontairement ou non - trompent le lecteur sur l'ampleur d'un phénomène. Il va de toute façon de soi __qu'aucune règle immuable ne pourra jamais nous permettre de nous passer d'un regard critique et constructif__ sur les résultats qui nous sont soumis et que l'on soumet. 
 
-C'est tout pour aujourd'hui! Si vous avez besoin de conseils en programmation pour [la statistique et la data science](https://statoscop.fr), n'hésitez pas à nous contacter sur notre site, [BlueSky](https://bsky.app/profile/statoscop.fr) ou [Linkedin](https://www.linkedin.com/company/statoscop).
+C'est tout pour aujourd'hui! Si vous avez besoin de conseils en programmation pour [la statistique et la data science](https://statoscop.fr), n'hésitez pas à nous contacter sur notre site, ou sur nos réseaux [BlueSky](https://bsky.app/profile/statoscop.fr) ou [Linkedin](https://www.linkedin.com/company/statoscop).
 
 
 <div class = "d-flex justify-content-center mt-4">
