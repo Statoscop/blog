@@ -1,5 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog</title><link href="https://blog.statoscop.fr/" rel="alternate"></link><link href="https://blog.statoscop.fr/feeds/all.atom.xml" rel="self"></link><id>https://blog.statoscop.fr/</id><updated>2025-09-16T00:00:00+02:00</updated><entry><title>Utilisation de case_when dans dplyr : cas des variables facteurs</title><link href="https://blog.statoscop.fr/utilisation-de-case_when-dans-dplyr-cas-des-variables-facteurs.html" rel="alternate"></link><published>2025-09-16T00:00:00+02:00</published><updated>2025-09-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2025-09-16:/utilisation-de-case_when-dans-dplyr-cas-des-variables-facteurs.html</id><summary type="html">&lt;p&gt;Astuces pour bien définir sa variable facteur dans une instruction case_when suite aux dernières mises à jour de dplyr.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Le blog</title><link href="https://blog.statoscop.fr/" rel="alternate"></link><link href="https://blog.statoscop.fr/feeds/all.atom.xml" rel="self"></link><id>https://blog.statoscop.fr/</id><updated>2026-01-23T00:00:00+01:00</updated><entry><title>Faire apparaître le zéro sur l'axe des ordonnées dans vos visualisations : arguments et exemples</title><link href="https://blog.statoscop.fr/faire-apparaitre-le-zero-sur-laxe-des-ordonnees-dans-vos-visualisations-arguments-et-exemples.html" rel="alternate"></link><published>2026-01-23T00:00:00+01:00</published><updated>2026-01-23T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2026-01-23:/faire-apparaitre-le-zero-sur-laxe-des-ordonnees-dans-vos-visualisations-arguments-et-exemples.html</id><summary type="html">&lt;p&gt;Comment choisir les représentations les plus pertinentes pour ne pas fausser l'interprétation de vos dataviz.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#interpretations-fallacieuses-de-visualisations-sans-le-zero-sur-laxe-des-ordonnees"&gt;Interprétations fallacieuses de visualisations sans le zéro sur l'axe des ordonnées&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#mauvais-rendu-des-quantites-reelles-pour-les-graphiques-en-barres"&gt;Mauvais rendu des quantités réelles pour les graphiques en barres&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#evolutions-trompeuses-avec-les-courbes"&gt;Évolutions trompeuses avec les courbes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#alternatives-quand-il-semble-complique-de-faire-apparaitre-le-zero-sur-laxe-des-ordonnees"&gt;Alternatives quand il semble compliqué de faire apparaître le zéro sur l'axe des ordonnées&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href="#probleme-quand-le-zero-nest-pas-une-valeur-possible-des-donnees"&gt;Problème quand le zéro n'est pas une valeur possible des données&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#visualisations-alternatives"&gt;Visualisations alternatives&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="#pour-vos-prochaines-dataviz"&gt;Pour vos prochaines dataviz&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;p&gt;Dans cette note on s'intéresse à un débat classique dans le milieu de la dataviz et de l'analyse des données en général : l'obligation (ou non) de &lt;strong&gt;faire apparaître le zéro sur l'axe des ordonnées&lt;/strong&gt;. Comme d'habitude, on essaye de vous expliquer intuitivement les causes de ce débat âpre (si si!) et de vous proposer une approche pour &lt;strong&gt;ne pas tromper involontairement&lt;/strong&gt; les lecteurs de vos prochaines visualisations de données.&lt;/p&gt;
+&lt;h1 id="interpretations-fallacieuses-de-visualisations-sans-le-zero-sur-laxe-des-ordonnees"&gt;Interprétations fallacieuses de visualisations sans le zéro sur l'axe des ordonnées&lt;/h1&gt;
+&lt;p&gt;Le choix de l'intervalle des valeurs présentées sur l'axe des ordonnées dans une visualisation se porte souvent sur les valeurs minimum et maximum des données à disposition. Pourquoi le fait de &lt;strong&gt;ne pas mettre le zéro sur l'axe des ordonnées est trompeur&lt;/strong&gt;? Nous allons essayer de répondre en distinguant les graphiques en barres et les courbes.&lt;/p&gt;
+&lt;h2 id="mauvais-rendu-des-quantites-reelles-pour-les-graphiques-en-barres"&gt;Mauvais rendu des quantités réelles pour les graphiques en barres&lt;/h2&gt;
+&lt;p&gt;C'est le cas le plus clair : &lt;strong&gt;l'absence de zéro dans un graphique en barres fausse complètement l'interprétation de ceux-ci&lt;/strong&gt;. Un exemple très parlant recensé par &lt;a href="https://quoidansmonassiette.fr/tromper-avec-graphiques-representations-visuelles-pour-manipuler-opinion-publique-guide/"&gt;le site Quoi Dans Mon Assiette&lt;/a&gt; est celui de la visualisation du taux de gréviste fourni par la SNCF durant une mobilisation en avril 2018 :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/zero-y-axis/clipboard-1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Cette visualition vise assez évidemment à &lt;strong&gt;insister sur la baisse de la participation aux grèves&lt;/strong&gt;. Visuellement, il semble que &lt;strong&gt;celle-ci a chuté de moitié au moins&lt;/strong&gt;. En effet, notre cerveau compare logiquement les volumes des deux barres et constate que &lt;strong&gt;l'une est environ deux fois plus petite que l'autre&lt;/strong&gt;. Or, si la baisse est réelle, elle est seulement de 4 points de pourcentage soit une baisse d'à peine plus de 10%, loin du rendu visuel proposé par la communication de la SNCF. Cette &lt;strong&gt;manipulation de l'ampleur du phénomène&lt;/strong&gt; est entièrement dûe à l'absence du zéro sur l'axe des ordonnées. Voici comment rend la visualisation correctement reproduite par les auteurs de l'article :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/zero-y-axis/clipboard-2.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;L'effet est moins spectaculaire&lt;/strong&gt; mais le rendu est bien plus fidèle aux faits. Dans le cas des graphiques en colonnes, il y a donc &lt;strong&gt;un certain consensus&lt;/strong&gt; sur le fait que le zéro sur l'axe des ordonnées n'est "pas négociable", du fait que le lecteur compare forcément les volumes et que &lt;strong&gt;ceux-ci n'ont pas de sens si les colonnes ne partent pas de zéro&lt;/strong&gt;. Mais qu'en est-il des courbes?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;    &lt;/p&gt;
+&lt;h2 id="evolutions-trompeuses-avec-les-courbes"&gt;Évolutions trompeuses avec les courbes&lt;/h2&gt;
+&lt;p&gt;Dans le cas des courbes, &lt;a href="https://stats.stackexchange.com/questions/184525/how-to-determine-whether-or-not-the-y-axis-of-a-graph-should-start-at-zero"&gt;le sujet fait plus débat&lt;/a&gt;. D'ailleurs, &lt;strong&gt;&lt;code&gt;ggplot2&lt;/code&gt; ne met pas le zéro par défaut sur l'axe des ordonnées pour les graphiques avec &lt;code&gt;geom_line&lt;/code&gt; alors qu'il le fait avec &lt;code&gt;geom_col&lt;/code&gt; ou &lt;code&gt;geom_bar.&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Pourtant, le fait de ne pas inclure le zéro dans ce type de graphiques nous semble aussi poser problème. Prenons l'exemple du réchauffement climatique, qui se traduit notamment par une augmentation des températures à la surface mondiales. On récupère ici ces données sur le site &lt;a href="https://ourworldindata.org/"&gt;Our World In Data&lt;/a&gt;. Voilà ce que donne une représentation classique de ces données si nous sélectionnons de manière malveillante les années 2016 à 2022 :  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/zero-y-axis/unnamed-chunk-2-1.png"&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;p&gt;On voit ici qu'en plus d'avoir sélectionné les années qui nous convenaient pour faire passer un message trompeur, c'est bien &lt;strong&gt;l'échelle des ordonnées de type min/max qui rend les variations des températures artificiellement élevées&lt;/strong&gt; entre 2016 et 2022. En effet, les données dans leur ensemble racontent un tout autre message :  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/zero-y-axis/unnamed-chunk-3-1.png"&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;h1 id="alternatives-quand-il-semble-complique-de-faire-apparaitre-le-zero-sur-laxe-des-ordonnees"&gt;Alternatives quand il semble compliqué de faire apparaître le zéro sur l'axe des ordonnées&lt;/h1&gt;
+&lt;p&gt;Le dernier graphique montrant les températures moyennes entre 1950 et 2025 semble plus acceptable que le précédent, même s'il se contente de prendre une échelle min/max pour l'axe des ordonnées. Et s'il est en effet bien moins incorrect, c'est &lt;strong&gt;parce qu'il contient presque l'ensemble des valeurs de température moyenne connues par l'être humain&lt;/strong&gt; (qui n'ont pas beaucoup varié avant 1950). &lt;/p&gt;
+&lt;h2 id="probleme-quand-le-zero-nest-pas-une-valeur-possible-des-donnees"&gt;Problème quand le zéro n'est pas une valeur &lt;em&gt;possible&lt;/em&gt; des données&lt;/h2&gt;
+&lt;p&gt;On pourrait en effet arguer que se "forcer" à inclure le zéro sur l'axe des ordonnées, alors même qu'une température moyenne mondiale à zéro degré n'aurait aucun sens sur la planète telle qu'on la connaît, fausserait le résultat. Tout d'abord &lt;strong&gt;cela aurait tendance à minimiser le constat&lt;/strong&gt; du réchauffement climatique actuel, et cela donnerait en plus un &lt;strong&gt;graphique avec un grand espace inutilisé&lt;/strong&gt; (et inutilisable, puisque ne contenant pas des valeurs plausibles de nos données) :  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/zero-y-axis/unnamed-chunk-4-1.png"&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;h2 id="visualisations-alternatives"&gt;Visualisations alternatives&lt;/h2&gt;
+&lt;p&gt;Alors, que faire? Dans ce cas, &lt;strong&gt;inclure le zéro dans l'axe des ordonnées ne semble pas pertinent&lt;/strong&gt;. Mais cette règle a l'avantage d'avoir une certaine objectivité et de ne pas permettre à chacun de faire en fonction de ce qui l'arrange. Si l'on souhaite continuer à s'y tenir, on peut imaginer des solutions alternatives. Souvent, il s'agira de &lt;strong&gt;visualiser des variations plutôt que des niveaux&lt;/strong&gt;. Cette solution permet à la fois d'avoir &lt;strong&gt;une échelle des ordonnées incluant le zéro&lt;/strong&gt; et donc moins trompeuse, et de mettre en évidence les tendances. Dans notre cas, on peut par exemple calculer la différence entre la température moyenne d'une année par rapport à la température moyenne sur tout une période. On choisit alors de &lt;strong&gt;représenter les données sous forme de barres&lt;/strong&gt; car cela nous semble mieux illustrer que nous présentons pour chaque année des écarts à une valeur fixe :  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="Pelican" src="../images/zero-y-axis/unnamed-chunk-5-1.png"&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;h1 id="pour-vos-prochaines-dataviz"&gt;Pour vos prochaines dataviz&lt;/h1&gt;
+&lt;p&gt;Que l'on vous ait convaincu ou pas d'essayer d'inclure le zéro dans vos dataviz, on espère au moins que vous aurez désormais l'œil pour repérer ces visualisations qui - volontairement ou non - trompent le lecteur sur l'ampleur d'un phénomène. Il va de toute façon de soi &lt;strong&gt;qu'aucune règle immuable ne pourra jamais nous permettre de nous passer d'un regard critique et constructif&lt;/strong&gt; sur les résultats qui nous sont soumis et que l'on soumet. &lt;/p&gt;
+&lt;p&gt;C'est tout pour aujourd'hui! Si vous avez besoin de conseils en programmation pour &lt;a href="https://statoscop.fr"&gt;la statistique et la data science&lt;/a&gt;, n'hésitez pas à nous contacter sur notre site, ou sur nos réseaux &lt;a href="https://bsky.app/profile/statoscop.fr"&gt;BlueSky&lt;/a&gt; ou &lt;a href="https://www.linkedin.com/company/statoscop"&gt;Linkedin&lt;/a&gt;.&lt;/p&gt;
+&lt;div class = "d-flex justify-content-center mt-4"&gt;
+   &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
+   &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="R"></category><category term="R"></category><category term="ggplot2"></category><category term="dataviz"></category></entry><entry><title>Utilisation de case_when dans dplyr : cas des variables facteurs</title><link href="https://blog.statoscop.fr/utilisation-de-case_when-dans-dplyr-cas-des-variables-facteurs.html" rel="alternate"></link><published>2025-09-16T00:00:00+02:00</published><updated>2025-09-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2025-09-16:/utilisation-de-case_when-dans-dplyr-cas-des-variables-facteurs.html</id><summary type="html">&lt;p&gt;Astuces pour bien définir sa variable facteur dans une instruction case_when suite aux dernières mises à jour de dplyr.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#syntaxe-de-case_when-dans-dplyr-et-differences-avec-if_else"&gt;Syntaxe de case_when dans dplyr et différences avec if_else&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#definition-de-conditions-multiples"&gt;Définition de conditions multiples&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#gestion-des-valeurs-manquantes"&gt;Gestion des valeurs manquantes&lt;/a&gt;&lt;/li&gt;
@@ -65,94 +118,94 @@
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="text-align: right;"&gt;id&lt;/th&gt;
-&lt;th style="text-align: left;"&gt;groupe&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;var1&lt;/th&gt;
-&lt;th style="text-align: left;"&gt;statut&lt;/th&gt;
-&lt;th style="text-align: left;"&gt;cond_case&lt;/th&gt;
-&lt;th style="text-align: left;"&gt;cond_ifelse&lt;/th&gt;
+&lt;th align="right"&gt;id&lt;/th&gt;
+&lt;th align="left"&gt;groupe&lt;/th&gt;
+&lt;th align="right"&gt;var1&lt;/th&gt;
+&lt;th align="left"&gt;statut&lt;/th&gt;
+&lt;th align="left"&gt;cond_case&lt;/th&gt;
+&lt;th align="left"&gt;cond_ifelse&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;C&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="left"&gt;C&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;td align="left"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;C&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;20&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;ko&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 3&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="left"&gt;C&lt;/td&gt;
+&lt;td align="right"&gt;20&lt;/td&gt;
+&lt;td align="left"&gt;ko&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;C&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;10&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 3&lt;/td&gt;
+&lt;td align="right"&gt;3&lt;/td&gt;
+&lt;td align="left"&gt;C&lt;/td&gt;
+&lt;td align="right"&gt;10&lt;/td&gt;
+&lt;td align="left"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;4&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;B&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;28&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;ko&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 2&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 2&lt;/td&gt;
+&lt;td align="right"&gt;4&lt;/td&gt;
+&lt;td align="left"&gt;B&lt;/td&gt;
+&lt;td align="right"&gt;28&lt;/td&gt;
+&lt;td align="left"&gt;ko&lt;/td&gt;
+&lt;td align="left"&gt;cas 2&lt;/td&gt;
+&lt;td align="left"&gt;cas 2&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;5&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;C&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;19&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;ko&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 3&lt;/td&gt;
+&lt;td align="right"&gt;5&lt;/td&gt;
+&lt;td align="left"&gt;C&lt;/td&gt;
+&lt;td align="right"&gt;19&lt;/td&gt;
+&lt;td align="left"&gt;ko&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;6&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;B&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;30&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;ok&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 2&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 2&lt;/td&gt;
+&lt;td align="right"&gt;6&lt;/td&gt;
+&lt;td align="left"&gt;B&lt;/td&gt;
+&lt;td align="right"&gt;30&lt;/td&gt;
+&lt;td align="left"&gt;ok&lt;/td&gt;
+&lt;td align="left"&gt;cas 2&lt;/td&gt;
+&lt;td align="left"&gt;cas 2&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;7&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;B&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;ko&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;7&lt;/td&gt;
+&lt;td align="left"&gt;B&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;ko&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;td align="left"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;8&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;B&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;22&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 3&lt;/td&gt;
+&lt;td align="right"&gt;8&lt;/td&gt;
+&lt;td align="left"&gt;B&lt;/td&gt;
+&lt;td align="right"&gt;22&lt;/td&gt;
+&lt;td align="left"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;9&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;C&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;20&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;ok&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 3&lt;/td&gt;
+&lt;td align="right"&gt;9&lt;/td&gt;
+&lt;td align="left"&gt;C&lt;/td&gt;
+&lt;td align="right"&gt;20&lt;/td&gt;
+&lt;td align="left"&gt;ok&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
+&lt;td align="left"&gt;cas 3&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;10&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;A&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;20&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;ok&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 1&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;cas 1&lt;/td&gt;
+&lt;td align="right"&gt;10&lt;/td&gt;
+&lt;td align="left"&gt;A&lt;/td&gt;
+&lt;td align="right"&gt;20&lt;/td&gt;
+&lt;td align="left"&gt;ok&lt;/td&gt;
+&lt;td align="left"&gt;cas 1&lt;/td&gt;
+&lt;td align="left"&gt;cas 1&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -982,8 +1035,8 @@ Comme on a décidé de manière complètement aléatoire l'assignation à l'un o
 &lt;p&gt;L'appariement par score de propension vise à &lt;strong&gt;recréer les conditions d'un essai clinique à partir de données observationnelles&lt;/strong&gt;. On a ainsi un ensemble de données avec par exemple un certain nombre de patients qui ont pris un traitement (le &lt;em&gt;groupe traitement&lt;/em&gt;) et d'autres qui ne l'ont pas pris (le &lt;em&gt;groupe contrôle&lt;/em&gt;). Problème : ces population qui n'ont pas été séparées de manière aléatoire &lt;strong&gt;peuvent être très différentes&lt;/strong&gt; et il n'est pas possible en l'état de conclure qu'une différence entre elles soit imputable au traitement en question. Il faut donc recréer deux groupes de contrôle et de traitement qui puissent être comparables.    &lt;/p&gt;
 &lt;h2 id="calcul-du-score-de-propension"&gt;Calcul du score de propension&lt;/h2&gt;
 &lt;p&gt;La première étape est de &lt;strong&gt;calculer le score de propension&lt;/strong&gt;. Il est nécessaire en premier lieu &lt;strong&gt;d'identifier les variables observables&lt;/strong&gt; sur lesquelles on souhaiterait rééquilibrer les deux groupes. Il n'y a pas de méthode magique pour choisir ces variables : il faut que ce soit la connaissance technique du cas qui guide votre choix. L'idée est d'identifier les variables dont vous imaginez qu'elles peuvent être &lt;strong&gt;déséquilibrées entre vos deux groupes&lt;/strong&gt; pour différentes raisons (par exemple, le traitement A est plus souvent donné aux femmes donc je sais qu'il y aura plus de femmes dans ce groupe que dans un autre). Il faut aussi bien sûr contrôler par les variables dont on sait qu'elles peuvent avoir &lt;strong&gt;un impact sur le résultat indépendemment de l'efficacité du médicament&lt;/strong&gt; (l'âge impacte souvent la probabilité de guérison par exemple).  &lt;/p&gt;
-&lt;p&gt;Une fois ces variables identifiées, il ne vous reste plus qu'à faire &lt;strong&gt;sur l'ensemble de vos données un modèle de régression logistique.&lt;/strong&gt; Par exemple, si votre groupe traitement prend un médicament A et le reste du groupe ne prend pas ce médicament, votre variable &lt;code&gt;Y&lt;/code&gt; sera l'indicatrice &lt;em&gt;Prend le médicament A&lt;/em&gt; et vos variables $X_i$ les variables sur lesquelles vous souhaitez contrôler (sexe, âge, etc...). La formule est la suivante :  &lt;/p&gt;
-&lt;p&gt;$\log \left( \frac{P(Y=1)}{1 - P(Y=1)} \right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots$&lt;/p&gt;
+&lt;p&gt;Une fois ces variables identifiées, il ne vous reste plus qu'à faire &lt;strong&gt;sur l'ensemble de vos données un modèle de régression logistique.&lt;/strong&gt; Par exemple, si votre groupe traitement prend un médicament A et le reste du groupe ne prend pas ce médicament, votre variable &lt;code&gt;Y&lt;/code&gt; sera l'indicatrice &lt;em&gt;Prend le médicament A&lt;/em&gt; et vos variables &lt;span class="math"&gt;\(X_i\)&lt;/span&gt; les variables sur lesquelles vous souhaitez contrôler (sexe, âge, etc...). La formule est la suivante :  &lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\log \left( \frac{P(Y=1)}{1 - P(Y=1)} \right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots\)&lt;/span&gt;&lt;/p&gt;
 &lt;h2 id="appariement-de-vos-donnees"&gt;Appariement de vos données&lt;/h2&gt;
 &lt;p&gt;La mise en oeuvre de cette régression logistique nous permet &lt;strong&gt;d'obtenir un score de propension&lt;/strong&gt;. Celui-ci représente pour chaque individu la probabilité prédite qu'il appartienne au groupe traitement. Ce score de propension peut-être utilisé dans différentes méthodes (IPTW, variable d'ajustement dans la modèle...). Pour le PSM, nous l'utilisons pour &lt;strong&gt;apparier les données&lt;/strong&gt;.  &lt;/p&gt;
 &lt;p&gt;En effet, pour chaque observation du groupe traité, l'idée est de lui attribuer une (ou plusieurs, selon vos données) observation(s) du groupe contrôle, ayant &lt;strong&gt;un score de propension le plus proche possible&lt;/strong&gt;, donc des caractéristiques semblables. Différentes méthodes d'appariement existent, la plus courante étant celle du plus proche voisin.  &lt;/p&gt;
@@ -1005,18 +1058,18 @@ Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="text-align: left;"&gt;high_blood_pressure&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;n&lt;/th&gt;
+&lt;th align="left"&gt;high_blood_pressure&lt;/th&gt;
+&lt;th align="right"&gt;n&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;Non&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;194&lt;/td&gt;
+&lt;td align="left"&gt;Non&lt;/td&gt;
+&lt;td align="right"&gt;194&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;Oui&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;105&lt;/td&gt;
+&lt;td align="left"&gt;Oui&lt;/td&gt;
+&lt;td align="right"&gt;105&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1035,21 +1088,21 @@ Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="text-align: left;"&gt;high_blood_pressure&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;Effectifs&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;Part de décès&lt;/th&gt;
+&lt;th align="left"&gt;high_blood_pressure&lt;/th&gt;
+&lt;th align="right"&gt;Effectifs&lt;/th&gt;
+&lt;th align="right"&gt;Part de décès&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;Non&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;194&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.29&lt;/td&gt;
+&lt;td align="left"&gt;Non&lt;/td&gt;
+&lt;td align="right"&gt;194&lt;/td&gt;
+&lt;td align="right"&gt;0.29&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;Oui&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;105&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.37&lt;/td&gt;
+&lt;td align="left"&gt;Oui&lt;/td&gt;
+&lt;td align="right"&gt;105&lt;/td&gt;
+&lt;td align="right"&gt;0.37&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1079,156 +1132,156 @@ Le paramètre &lt;code&gt;method = "ATT"&lt;/code&gt; permet d'évaluer un &lt;s
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="text-align: left;"&gt;&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;Means Treated&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;Means Control&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;Std. Mean Diff.&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;Var. Ratio&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;eCDF Mean&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;eCDF Max&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;Std. Pair Dist.&lt;/th&gt;
+&lt;th align="left"&gt;&lt;/th&gt;
+&lt;th align="right"&gt;Means Treated&lt;/th&gt;
+&lt;th align="right"&gt;Means Control&lt;/th&gt;
+&lt;th align="right"&gt;Std. Mean Diff.&lt;/th&gt;
+&lt;th align="right"&gt;Var. Ratio&lt;/th&gt;
+&lt;th align="right"&gt;eCDF Mean&lt;/th&gt;
+&lt;th align="right"&gt;eCDF Max&lt;/th&gt;
+&lt;th align="right"&gt;Std. Pair Dist.&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;distance&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.37&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.34&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.36&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;1.01&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.11&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.23&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;distance&lt;/td&gt;
+&lt;td align="right"&gt;0.37&lt;/td&gt;
+&lt;td align="right"&gt;0.34&lt;/td&gt;
+&lt;td align="right"&gt;0.36&lt;/td&gt;
+&lt;td align="right"&gt;1.01&lt;/td&gt;
+&lt;td align="right"&gt;0.11&lt;/td&gt;
+&lt;td align="right"&gt;0.23&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;age&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;62.34&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;60.02&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.20&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.91&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.06&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.13&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;age&lt;/td&gt;
+&lt;td align="right"&gt;62.34&lt;/td&gt;
+&lt;td align="right"&gt;60.02&lt;/td&gt;
+&lt;td align="right"&gt;0.20&lt;/td&gt;
+&lt;td align="right"&gt;0.91&lt;/td&gt;
+&lt;td align="right"&gt;0.06&lt;/td&gt;
+&lt;td align="right"&gt;0.13&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;sexFemme&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.42&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.31&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.21&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.10&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.10&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;sexFemme&lt;/td&gt;
+&lt;td align="right"&gt;0.42&lt;/td&gt;
+&lt;td align="right"&gt;0.31&lt;/td&gt;
+&lt;td align="right"&gt;0.21&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.10&lt;/td&gt;
+&lt;td align="right"&gt;0.10&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;sexHomme&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.58&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.69&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;-0.21&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.10&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.10&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;sexHomme&lt;/td&gt;
+&lt;td align="right"&gt;0.58&lt;/td&gt;
+&lt;td align="right"&gt;0.69&lt;/td&gt;
+&lt;td align="right"&gt;-0.21&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.10&lt;/td&gt;
+&lt;td align="right"&gt;0.10&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;anaemiaNon&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.54&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.58&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;-0.08&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;anaemiaNon&lt;/td&gt;
+&lt;td align="right"&gt;0.54&lt;/td&gt;
+&lt;td align="right"&gt;0.58&lt;/td&gt;
+&lt;td align="right"&gt;-0.08&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;anaemiaOui&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.46&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.42&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.08&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;anaemiaOui&lt;/td&gt;
+&lt;td align="right"&gt;0.46&lt;/td&gt;
+&lt;td align="right"&gt;0.42&lt;/td&gt;
+&lt;td align="right"&gt;0.08&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;creatinine_phosphokinase&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;488.90&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;632.14&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;-0.16&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.73&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.11&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;creatinine_phosphokinase&lt;/td&gt;
+&lt;td align="right"&gt;488.90&lt;/td&gt;
+&lt;td align="right"&gt;632.14&lt;/td&gt;
+&lt;td align="right"&gt;-0.16&lt;/td&gt;
+&lt;td align="right"&gt;0.73&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;0.11&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;diabetesNon&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.59&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.58&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;diabetesNon&lt;/td&gt;
+&lt;td align="right"&gt;0.59&lt;/td&gt;
+&lt;td align="right"&gt;0.58&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;diabetesOui&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.41&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.42&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;-0.03&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;diabetesOui&lt;/td&gt;
+&lt;td align="right"&gt;0.41&lt;/td&gt;
+&lt;td align="right"&gt;0.42&lt;/td&gt;
+&lt;td align="right"&gt;-0.03&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;platelets&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;269989.18&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;259769.00&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.12&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.66&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.10&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;platelets&lt;/td&gt;
+&lt;td align="right"&gt;269989.18&lt;/td&gt;
+&lt;td align="right"&gt;259769.00&lt;/td&gt;
+&lt;td align="right"&gt;0.12&lt;/td&gt;
+&lt;td align="right"&gt;0.66&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;0.10&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;serum_creatinine&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;1.39&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;1.40&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;-0.01&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;1.99&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.13&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;serum_creatinine&lt;/td&gt;
+&lt;td align="right"&gt;1.39&lt;/td&gt;
+&lt;td align="right"&gt;1.40&lt;/td&gt;
+&lt;td align="right"&gt;-0.01&lt;/td&gt;
+&lt;td align="right"&gt;1.99&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;0.13&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;serum_sodium&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;136.85&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;136.51&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.08&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.82&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;serum_sodium&lt;/td&gt;
+&lt;td align="right"&gt;136.85&lt;/td&gt;
+&lt;td align="right"&gt;136.51&lt;/td&gt;
+&lt;td align="right"&gt;0.08&lt;/td&gt;
+&lt;td align="right"&gt;0.82&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;smokingNon&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.71&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.66&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.12&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;smokingNon&lt;/td&gt;
+&lt;td align="right"&gt;0.71&lt;/td&gt;
+&lt;td align="right"&gt;0.66&lt;/td&gt;
+&lt;td align="right"&gt;0.12&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;smokingOui&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.29&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.34&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;-0.12&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
+&lt;td align="left"&gt;smokingOui&lt;/td&gt;
+&lt;td align="right"&gt;0.29&lt;/td&gt;
+&lt;td align="right"&gt;0.34&lt;/td&gt;
+&lt;td align="right"&gt;-0.12&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1241,166 +1294,166 @@ Le paramètre &lt;code&gt;method = "ATT"&lt;/code&gt; permet d'évaluer un &lt;s
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="text-align: left;"&gt;&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;Means Treated&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;Means Control&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;Std. Mean Diff.&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;Var. Ratio&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;eCDF Mean&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;eCDF Max&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;Std. Pair Dist.&lt;/th&gt;
+&lt;th align="left"&gt;&lt;/th&gt;
+&lt;th align="right"&gt;Means Treated&lt;/th&gt;
+&lt;th align="right"&gt;Means Control&lt;/th&gt;
+&lt;th align="right"&gt;Std. Mean Diff.&lt;/th&gt;
+&lt;th align="right"&gt;Var. Ratio&lt;/th&gt;
+&lt;th align="right"&gt;eCDF Mean&lt;/th&gt;
+&lt;th align="right"&gt;eCDF Max&lt;/th&gt;
+&lt;th align="right"&gt;Std. Pair Dist.&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;distance&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.37&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.37&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;1.10&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.10&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
+&lt;td align="left"&gt;distance&lt;/td&gt;
+&lt;td align="right"&gt;0.37&lt;/td&gt;
+&lt;td align="right"&gt;0.37&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;1.10&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;0.10&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;age&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;62.34&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;62.36&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.00&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.93&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.07&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.89&lt;/td&gt;
+&lt;td align="left"&gt;age&lt;/td&gt;
+&lt;td align="right"&gt;62.34&lt;/td&gt;
+&lt;td align="right"&gt;62.36&lt;/td&gt;
+&lt;td align="right"&gt;0.00&lt;/td&gt;
+&lt;td align="right"&gt;0.93&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;0.07&lt;/td&gt;
+&lt;td align="right"&gt;0.89&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;sexFemme&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.42&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.40&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.54&lt;/td&gt;
+&lt;td align="left"&gt;sexFemme&lt;/td&gt;
+&lt;td align="right"&gt;0.42&lt;/td&gt;
+&lt;td align="right"&gt;0.40&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.54&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;sexHomme&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.58&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.60&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;-0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.54&lt;/td&gt;
+&lt;td align="left"&gt;sexHomme&lt;/td&gt;
+&lt;td align="right"&gt;0.58&lt;/td&gt;
+&lt;td align="right"&gt;0.60&lt;/td&gt;
+&lt;td align="right"&gt;-0.04&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.54&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;anaemiaNon&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.54&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.56&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;-0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.96&lt;/td&gt;
+&lt;td align="left"&gt;anaemiaNon&lt;/td&gt;
+&lt;td align="right"&gt;0.54&lt;/td&gt;
+&lt;td align="right"&gt;0.56&lt;/td&gt;
+&lt;td align="right"&gt;-0.04&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.96&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;anaemiaOui&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.46&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.44&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.96&lt;/td&gt;
+&lt;td align="left"&gt;anaemiaOui&lt;/td&gt;
+&lt;td align="right"&gt;0.46&lt;/td&gt;
+&lt;td align="right"&gt;0.44&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.96&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;creatinine_phosphokinase&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;488.90&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;481.78&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.89&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.02&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.07&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.46&lt;/td&gt;
+&lt;td align="left"&gt;creatinine_phosphokinase&lt;/td&gt;
+&lt;td align="right"&gt;488.90&lt;/td&gt;
+&lt;td align="right"&gt;481.78&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;0.89&lt;/td&gt;
+&lt;td align="right"&gt;0.02&lt;/td&gt;
+&lt;td align="right"&gt;0.07&lt;/td&gt;
+&lt;td align="right"&gt;0.46&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;diabetesNon&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.59&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.63&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;-0.08&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;1.01&lt;/td&gt;
+&lt;td align="left"&gt;diabetesNon&lt;/td&gt;
+&lt;td align="right"&gt;0.59&lt;/td&gt;
+&lt;td align="right"&gt;0.63&lt;/td&gt;
+&lt;td align="right"&gt;-0.08&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;1.01&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;diabetesOui&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.41&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.37&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.08&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;1.01&lt;/td&gt;
+&lt;td align="left"&gt;diabetesOui&lt;/td&gt;
+&lt;td align="right"&gt;0.41&lt;/td&gt;
+&lt;td align="right"&gt;0.37&lt;/td&gt;
+&lt;td align="right"&gt;0.08&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;1.01&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;platelets&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;269989.18&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;264619.41&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.06&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.87&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.10&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;1.02&lt;/td&gt;
+&lt;td align="left"&gt;platelets&lt;/td&gt;
+&lt;td align="right"&gt;269989.18&lt;/td&gt;
+&lt;td align="right"&gt;264619.41&lt;/td&gt;
+&lt;td align="right"&gt;0.06&lt;/td&gt;
+&lt;td align="right"&gt;0.87&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;0.10&lt;/td&gt;
+&lt;td align="right"&gt;1.02&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;serum_creatinine&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;1.39&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;1.43&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;-0.03&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;2.09&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.04&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.18&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.66&lt;/td&gt;
+&lt;td align="left"&gt;serum_creatinine&lt;/td&gt;
+&lt;td align="right"&gt;1.39&lt;/td&gt;
+&lt;td align="right"&gt;1.43&lt;/td&gt;
+&lt;td align="right"&gt;-0.03&lt;/td&gt;
+&lt;td align="right"&gt;2.09&lt;/td&gt;
+&lt;td align="right"&gt;0.04&lt;/td&gt;
+&lt;td align="right"&gt;0.18&lt;/td&gt;
+&lt;td align="right"&gt;0.66&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;serum_sodium&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;136.85&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;136.60&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.06&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.88&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.01&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;1.07&lt;/td&gt;
+&lt;td align="left"&gt;serum_sodium&lt;/td&gt;
+&lt;td align="right"&gt;136.85&lt;/td&gt;
+&lt;td align="right"&gt;136.60&lt;/td&gt;
+&lt;td align="right"&gt;0.06&lt;/td&gt;
+&lt;td align="right"&gt;0.88&lt;/td&gt;
+&lt;td align="right"&gt;0.01&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;1.07&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;smokingNon&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.71&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.74&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;-0.06&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.74&lt;/td&gt;
+&lt;td align="left"&gt;smokingNon&lt;/td&gt;
+&lt;td align="right"&gt;0.71&lt;/td&gt;
+&lt;td align="right"&gt;0.74&lt;/td&gt;
+&lt;td align="right"&gt;-0.06&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;0.74&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;smokingOui&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.29&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.26&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.06&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;NA&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.03&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.74&lt;/td&gt;
+&lt;td align="left"&gt;smokingOui&lt;/td&gt;
+&lt;td align="right"&gt;0.29&lt;/td&gt;
+&lt;td align="right"&gt;0.26&lt;/td&gt;
+&lt;td align="right"&gt;0.06&lt;/td&gt;
+&lt;td align="right"&gt;NA&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;0.03&lt;/td&gt;
+&lt;td align="right"&gt;0.74&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;On constate que la plupart des variables sont maintenant plus équilibrées entre les deux groupes. Au global, la variable &lt;code&gt;distance&lt;/code&gt; montre la grande proximité du score de propension entre les deux groupes. On peut également mettre en évidence l'effet de l'appariement visuellement sur quelques unes des variables avec la fonction &lt;code&gt;plot&lt;/code&gt; :&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;&lt;/td&gt;
+&lt;td align="left"&gt;On constate que la plupart des variables sont maintenant plus équilibrées entre les deux groupes. Au global, la variable &lt;code&gt;distance&lt;/code&gt; montre la grande proximité du score de propension entre les deux groupes. On peut également mettre en évidence l'effet de l'appariement visuellement sur quelques unes des variables avec la fonction &lt;code&gt;plot&lt;/code&gt; :&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
+&lt;td align="right"&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1432,34 +1485,34 @@ Le paramètre &lt;code&gt;method = "ATT"&lt;/code&gt; permet d'évaluer un &lt;s
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="text-align: left;"&gt;term&lt;/th&gt;
-&lt;th style="text-align: left;"&gt;contrast&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;estimate&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;std.error&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;statistic&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;p.value&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;s.value&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;conf.low&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;conf.high&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;predicted_lo&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;predicted_hi&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;predicted&lt;/th&gt;
+&lt;th align="left"&gt;term&lt;/th&gt;
+&lt;th align="left"&gt;contrast&lt;/th&gt;
+&lt;th align="right"&gt;estimate&lt;/th&gt;
+&lt;th align="right"&gt;std.error&lt;/th&gt;
+&lt;th align="right"&gt;statistic&lt;/th&gt;
+&lt;th align="right"&gt;p.value&lt;/th&gt;
+&lt;th align="right"&gt;s.value&lt;/th&gt;
+&lt;th align="right"&gt;conf.low&lt;/th&gt;
+&lt;th align="right"&gt;conf.high&lt;/th&gt;
+&lt;th align="right"&gt;predicted_lo&lt;/th&gt;
+&lt;th align="right"&gt;predicted_hi&lt;/th&gt;
+&lt;th align="right"&gt;predicted&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;high_blood_pressure&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;Oui - Non&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.05&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.06&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.76&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.45&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;1.16&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;-0.08&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.17&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.32&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.37&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.37&lt;/td&gt;
+&lt;td align="left"&gt;high_blood_pressure&lt;/td&gt;
+&lt;td align="left"&gt;Oui - Non&lt;/td&gt;
+&lt;td align="right"&gt;0.05&lt;/td&gt;
+&lt;td align="right"&gt;0.06&lt;/td&gt;
+&lt;td align="right"&gt;0.76&lt;/td&gt;
+&lt;td align="right"&gt;0.45&lt;/td&gt;
+&lt;td align="right"&gt;1.16&lt;/td&gt;
+&lt;td align="right"&gt;-0.08&lt;/td&gt;
+&lt;td align="right"&gt;0.17&lt;/td&gt;
+&lt;td align="right"&gt;0.32&lt;/td&gt;
+&lt;td align="right"&gt;0.37&lt;/td&gt;
+&lt;td align="right"&gt;0.37&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1471,7 +1524,70 @@ Le paramètre &lt;code&gt;method = "ATT"&lt;/code&gt; permet d'évaluer un &lt;s
 &lt;div class = "d-flex justify-content-center mt-4"&gt;
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
-&lt;/div&gt;</content><category term="R"></category><category term="R"></category><category term="Rstats"></category><category term="data science"></category><category term="statistiques"></category></entry><entry><title>Passer de RMarkdown à Quarto pour vos rapports statistiques</title><link href="https://blog.statoscop.fr/quarto-rmarkdown.html" rel="alternate"></link><published>2024-12-12T00:00:00+01:00</published><updated>2024-12-12T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-12-12:/quarto-rmarkdown.html</id><summary type="html">&lt;p&gt;Petit exemple pour vous accompagner dans la transition de RMarkdown vers Quarto, et pourquoi ça va rendre vos rapports encore plus ergonomiques!&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
+&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="R"></category><category term="R"></category><category term="Rstats"></category><category term="data science"></category><category term="statistiques"></category></entry><entry><title>Passer de RMarkdown à Quarto pour vos rapports statistiques</title><link href="https://blog.statoscop.fr/quarto-rmarkdown.html" rel="alternate"></link><published>2024-12-12T00:00:00+01:00</published><updated>2024-12-12T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-12-12:/quarto-rmarkdown.html</id><summary type="html">&lt;p&gt;Petit exemple pour vous accompagner dans la transition de RMarkdown vers Quarto, et pourquoi ça va rendre vos rapports encore plus ergonomiques!&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#configuration-de-quarto"&gt;Configuration de Quarto&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#utilisation-des-onglets"&gt;Utilisation des onglets&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#generation-dynamique-de-contenu-markdown"&gt;Génération dynamique de contenu markdown&lt;/a&gt;&lt;/li&gt;
@@ -1755,11 +1871,11 @@ On vous recommande les notebooks pour la partie exploration de vos données car 
 &lt;/div&gt;
 &lt;p&gt;Aujourd'hui c'est à un grand classique de la statistique que l'on s'attaque : la &lt;strong&gt;p-value, ou valeur p&lt;/strong&gt;. Fondamentale dans l'analyse des résultats de la recherche scientifique, elle est pourtant &lt;strong&gt;souvent mal interprétée&lt;/strong&gt;. C'est sur elle que l'on s'appuie pour &lt;strong&gt;confirmer ou infirmer une hypothèse&lt;/strong&gt; et juger de la &lt;strong&gt;significativé de nos résultats&lt;/strong&gt;. Mais qu'est-ce que cela implique et comment bien appréhender ce qu'elle permet (et surtout ce qu'elle ne permet pas) de conclure? On essaye de voir ça ensemble, de la manière la plus intuitive possible!  &lt;/p&gt;
 &lt;h1 id="les-p-values-et-les-tests-statistiques"&gt;Les p-values et les tests statistiques&lt;/h1&gt;
-&lt;p&gt;Pour comprendre les p-values, il faut aborder la notion de &lt;strong&gt;tests statistiques&lt;/strong&gt;. Ils permettent de tester une &lt;strong&gt;Hypothèse nulle &lt;code&gt;H0&lt;/code&gt;&lt;/strong&gt; contre une &lt;strong&gt;hypothèse alternative &lt;code&gt;H1&lt;/code&gt;&lt;/strong&gt;. Par exemple, prenons le cas d'une régression linéaire où on cherche à estimer des coefficients $\beta_i$ décrivant le lien entre une variable d'intérêt  $Y$ et des variables explicatives $X_i$ :  &lt;/p&gt;
-&lt;p&gt;$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots$&lt;/p&gt;
-&lt;p&gt;Pour chaque coefficient estimé $\beta_i$, on utilise le &lt;strong&gt;test t de Student&lt;/strong&gt; qui nous permet de tester les hypothèses :&lt;br&gt;
-- &lt;code&gt;H0&lt;/code&gt; : $\beta_i  = 0$&lt;br&gt;
-- &lt;code&gt;H1&lt;/code&gt; : $\beta_i \neq 0$&lt;/p&gt;
+&lt;p&gt;Pour comprendre les p-values, il faut aborder la notion de &lt;strong&gt;tests statistiques&lt;/strong&gt;. Ils permettent de tester une &lt;strong&gt;Hypothèse nulle &lt;code&gt;H0&lt;/code&gt;&lt;/strong&gt; contre une &lt;strong&gt;hypothèse alternative &lt;code&gt;H1&lt;/code&gt;&lt;/strong&gt;. Par exemple, prenons le cas d'une régression linéaire où on cherche à estimer des coefficients &lt;span class="math"&gt;\(\beta_i\)&lt;/span&gt; décrivant le lien entre une variable d'intérêt  &lt;span class="math"&gt;\(Y\)&lt;/span&gt; et des variables explicatives &lt;span class="math"&gt;\(X_i\)&lt;/span&gt; :  &lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Pour chaque coefficient estimé &lt;span class="math"&gt;\(\beta_i\)&lt;/span&gt;, on utilise le &lt;strong&gt;test t de Student&lt;/strong&gt; qui nous permet de tester les hypothèses :&lt;br&gt;
+- &lt;code&gt;H0&lt;/code&gt; : &lt;span class="math"&gt;\(\beta_i  = 0\)&lt;/span&gt;&lt;br&gt;
+- &lt;code&gt;H1&lt;/code&gt; : &lt;span class="math"&gt;\(\beta_i \neq 0\)&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Le principe du test est le suivant : on va &lt;strong&gt;partir du principe que H0 est vrai&lt;/strong&gt; et on va voir &lt;strong&gt;quelle est la chance d'observer notre résultat dans ce monde théorique&lt;/strong&gt;. Ce test statistique va ainsi nous donner la &lt;strong&gt;distribution possible des résultats que l'on pourrait obtenir à partir de différents échantillons si &lt;code&gt;H0&lt;/code&gt; était vraie&lt;/strong&gt;. Selon où l'on se situe dans cette distribution, on va pouvoir juger de la &lt;strong&gt;vraisemblance de cette hypothèse H0&lt;/strong&gt;, en fonction d'un &lt;strong&gt;seuil alpha que l'on peut faire varier&lt;/strong&gt;. En fonction de la valeur de &lt;code&gt;t&lt;/code&gt; obtenue avec notre échantillon, on peut décider de rejeter ou non l'hypothèse &lt;code&gt;H0&lt;/code&gt; :  &lt;/p&gt;
 &lt;p&gt;&lt;img alt="Pelican" src="../images/p_values/unnamed-chunk-1-1.png"&gt;&lt;!-- --&gt;&lt;/p&gt;
 &lt;p&gt;Sur le graphique ci-dessus, la zone rouge représente &lt;strong&gt;5% de l'aire de la courbe de densité&lt;/strong&gt;. Si la valeur obtenue par notre test est dans cette zone, on sait que &lt;strong&gt;cela représenterait 5% ou moins des résultats possibles que l'on aurait obtenus si &lt;code&gt;H0&lt;/code&gt; était vraie&lt;/strong&gt;. On peut donc en déduire que &lt;strong&gt;la nullité du coefficient est peu probable&lt;/strong&gt;. &lt;/p&gt;
@@ -1795,7 +1911,69 @@ Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Stats &amp; ML"></category><category term="statistiques"></category><category term="p-values"></category><category term="R"></category><category term="tests"></category></entry><entry><title>Transfer Learning avec Keras : entraînement et évaluation d'un modèle de détection d'images</title><link href="https://blog.statoscop.fr/transfer-learning-keras.html" rel="alternate"></link><published>2024-02-14T00:00:00+01:00</published><updated>2024-02-14T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-02-14:/transfer-learning-keras.html</id><summary type="html">&lt;p&gt;Création d'un modèle de détection d'images permettant de classifier des fruits et leur état de maturité.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Stats &amp; ML"></category><category term="statistiques"></category><category term="p-values"></category><category term="R"></category><category term="tests"></category></entry><entry><title>Transfer Learning avec Keras : entraînement et évaluation d'un modèle de détection d'images</title><link href="https://blog.statoscop.fr/transfer-learning-keras.html" rel="alternate"></link><published>2024-02-14T00:00:00+01:00</published><updated>2024-02-14T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2024-02-14:/transfer-learning-keras.html</id><summary type="html">&lt;p&gt;Création d'un modèle de détection d'images permettant de classifier des fruits et leur état de maturité.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#preparation-des-donnees"&gt;Préparation des données&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#entrainement-du-modele"&gt;Entraînement du modèle&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#chargement-dun-modele-pre-entraine"&gt;Chargement d'un modèle pré-entraîné&lt;/a&gt;&lt;/li&gt;
@@ -2886,22 +3064,22 @@ C'est précisément ce que permet de faire la standardisation directe. Il est n�
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="text-align: right;"&gt;pclass&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;tx_survie&lt;/th&gt;
+&lt;th align="right"&gt;pclass&lt;/th&gt;
+&lt;th align="right"&gt;tx_survie&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.6373239&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="right"&gt;0.6373239&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.4406130&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="right"&gt;0.4406130&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.2614770&lt;/td&gt;
+&lt;td align="right"&gt;3&lt;/td&gt;
+&lt;td align="right"&gt;0.2614770&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -2919,71 +3097,71 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="text-align: right;"&gt;pclass&lt;/th&gt;
-&lt;th style="text-align: left;"&gt;tr_age&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;Proportion&lt;/th&gt;
+&lt;th align="right"&gt;pclass&lt;/th&gt;
+&lt;th align="left"&gt;tr_age&lt;/th&gt;
+&lt;th align="right"&gt;Proportion&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.0528169&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.0528169&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.3239437&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.3239437&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.3697183&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.3697183&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.2535211&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
+&lt;td align="right"&gt;0.2535211&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.1264368&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.1264368&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.5823755&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.5823755&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.1954023&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.1954023&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.0957854&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
+&lt;td align="right"&gt;0.0957854&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.2115768&lt;/td&gt;
+&lt;td align="right"&gt;3&lt;/td&gt;
+&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.2115768&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.6047904&lt;/td&gt;
+&lt;td align="right"&gt;3&lt;/td&gt;
+&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.6047904&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.1576846&lt;/td&gt;
+&lt;td align="right"&gt;3&lt;/td&gt;
+&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.1576846&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.0259481&lt;/td&gt;
+&lt;td align="right"&gt;3&lt;/td&gt;
+&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
+&lt;td align="right"&gt;0.0259481&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -2996,26 +3174,26 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="text-align: left;"&gt;tr_age&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;tx_survie&lt;/th&gt;
+&lt;th align="left"&gt;tr_age&lt;/th&gt;
+&lt;th align="right"&gt;tx_survie&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.5259740&lt;/td&gt;
+&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.5259740&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.3765996&lt;/td&gt;
+&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.3765996&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.4085106&lt;/td&gt;
+&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.4085106&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.4000000&lt;/td&gt;
+&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
+&lt;td align="right"&gt;0.4000000&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -3028,71 +3206,71 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="text-align: right;"&gt;pclass&lt;/th&gt;
-&lt;th style="text-align: left;"&gt;tr_age&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;tx_survie&lt;/th&gt;
+&lt;th align="right"&gt;pclass&lt;/th&gt;
+&lt;th align="left"&gt;tr_age&lt;/th&gt;
+&lt;th align="right"&gt;tx_survie&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.8666667&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.8666667&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.7065217&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.7065217&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.6285714&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.6285714&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;1&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.5138889&lt;/td&gt;
+&lt;td align="right"&gt;1&lt;/td&gt;
+&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
+&lt;td align="right"&gt;0.5138889&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.8787879&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.8787879&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.4144737&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.4144737&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.3333333&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.3333333&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;2&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.2400000&lt;/td&gt;
+&lt;td align="right"&gt;2&lt;/td&gt;
+&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
+&lt;td align="right"&gt;0.2400000&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.3679245&lt;/td&gt;
+&lt;td align="right"&gt;3&lt;/td&gt;
+&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.3679245&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.2574257&lt;/td&gt;
+&lt;td align="right"&gt;3&lt;/td&gt;
+&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.2574257&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.1645570&lt;/td&gt;
+&lt;td align="right"&gt;3&lt;/td&gt;
+&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.1645570&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;3&lt;/td&gt;
-&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.0769231&lt;/td&gt;
+&lt;td align="right"&gt;3&lt;/td&gt;
+&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
+&lt;td align="right"&gt;0.0769231&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -3112,26 +3290,26 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="text-align: left;"&gt;tr_age&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;eff&lt;/th&gt;
+&lt;th align="left"&gt;tr_age&lt;/th&gt;
+&lt;th align="right"&gt;eff&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;154&lt;/td&gt;
+&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td align="right"&gt;154&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;547&lt;/td&gt;
+&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td align="right"&gt;547&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;235&lt;/td&gt;
+&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td align="right"&gt;235&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;110&lt;/td&gt;
+&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
+&lt;td align="right"&gt;110&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -3151,36 +3329,36 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="text-align: left;"&gt;tr_age&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;survie_1&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;survie_2&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;survie_3&lt;/th&gt;
+&lt;th align="left"&gt;tr_age&lt;/th&gt;
+&lt;th align="right"&gt;survie_1&lt;/th&gt;
+&lt;th align="right"&gt;survie_2&lt;/th&gt;
+&lt;th align="right"&gt;survie_3&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.8666667&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.8787879&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.3679245&lt;/td&gt;
+&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.8666667&lt;/td&gt;
+&lt;td align="right"&gt;0.8787879&lt;/td&gt;
+&lt;td align="right"&gt;0.3679245&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.7065217&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.4144737&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.2574257&lt;/td&gt;
+&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.7065217&lt;/td&gt;
+&lt;td align="right"&gt;0.4144737&lt;/td&gt;
+&lt;td align="right"&gt;0.2574257&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.6285714&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.3333333&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.1645570&lt;/td&gt;
+&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td align="right"&gt;0.6285714&lt;/td&gt;
+&lt;td align="right"&gt;0.3333333&lt;/td&gt;
+&lt;td align="right"&gt;0.1645570&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.5138889&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.2400000&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.0769231&lt;/td&gt;
+&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
+&lt;td align="right"&gt;0.5138889&lt;/td&gt;
+&lt;td align="right"&gt;0.2400000&lt;/td&gt;
+&lt;td align="right"&gt;0.0769231&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -3194,41 +3372,41 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="text-align: left;"&gt;tr_age&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;eff&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;survie_1&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;survie_2&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;survie_3&lt;/th&gt;
+&lt;th align="left"&gt;tr_age&lt;/th&gt;
+&lt;th align="right"&gt;eff&lt;/th&gt;
+&lt;th align="right"&gt;survie_1&lt;/th&gt;
+&lt;th align="right"&gt;survie_2&lt;/th&gt;
+&lt;th align="right"&gt;survie_3&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;0 - 17 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;154&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;133.46667&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;135.33333&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;56.660377&lt;/td&gt;
+&lt;td align="left"&gt;0 - 17 ans&lt;/td&gt;
+&lt;td align="right"&gt;154&lt;/td&gt;
+&lt;td align="right"&gt;133.46667&lt;/td&gt;
+&lt;td align="right"&gt;135.33333&lt;/td&gt;
+&lt;td align="right"&gt;56.660377&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;18 - 34 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;547&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;386.46739&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;226.71711&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;140.811881&lt;/td&gt;
+&lt;td align="left"&gt;18 - 34 ans&lt;/td&gt;
+&lt;td align="right"&gt;547&lt;/td&gt;
+&lt;td align="right"&gt;386.46739&lt;/td&gt;
+&lt;td align="right"&gt;226.71711&lt;/td&gt;
+&lt;td align="right"&gt;140.811881&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;35 - 49 ans&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;235&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;147.71429&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;78.33333&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;38.670886&lt;/td&gt;
+&lt;td align="left"&gt;35 - 49 ans&lt;/td&gt;
+&lt;td align="right"&gt;235&lt;/td&gt;
+&lt;td align="right"&gt;147.71429&lt;/td&gt;
+&lt;td align="right"&gt;78.33333&lt;/td&gt;
+&lt;td align="right"&gt;38.670886&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style="text-align: left;"&gt;50 ans ou +&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;110&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;56.52778&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;26.40000&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;8.461538&lt;/td&gt;
+&lt;td align="left"&gt;50 ans ou +&lt;/td&gt;
+&lt;td align="right"&gt;110&lt;/td&gt;
+&lt;td align="right"&gt;56.52778&lt;/td&gt;
+&lt;td align="right"&gt;26.40000&lt;/td&gt;
+&lt;td align="right"&gt;8.461538&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -3244,16 +3422,16 @@ Est-on bien sûr cependant que l'on observe &lt;strong&gt;l'effet de la classe �
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th style="text-align: right;"&gt;survie_1&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;survie_2&lt;/th&gt;
-&lt;th style="text-align: right;"&gt;survie_3&lt;/th&gt;
+&lt;th align="right"&gt;survie_1&lt;/th&gt;
+&lt;th align="right"&gt;survie_2&lt;/th&gt;
+&lt;th align="right"&gt;survie_3&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td style="text-align: right;"&gt;0.692329&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.446256&lt;/td&gt;
-&lt;td style="text-align: right;"&gt;0.2338477&lt;/td&gt;
+&lt;td align="right"&gt;0.692329&lt;/td&gt;
+&lt;td align="right"&gt;0.446256&lt;/td&gt;
+&lt;td align="right"&gt;0.2338477&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -3648,7 +3826,7 @@ Copying images to TEST directory
 &lt;p&gt;Après une toute petite ellipse temporelle de plus d'un an, ce quatrième post s'attaque au vrai problème à savoir la décomposition, la modélisation et la prédiction des séries temporelles à l'aide des modèles statistiques classiques.&lt;/p&gt;
 &lt;h1 id="decomposition-dune-serie-temporelle"&gt;Décomposition d'une série temporelle&lt;/h1&gt;
 &lt;p&gt;Le principe de la décomposition des séries temporelles est de découper les séries originales en plusieurs composants indépendants (vus dans le post précédent) : tendance, saisonnalité, cycle et bruit.&lt;/p&gt;
-&lt;p&gt;Pour illustrer tout ça, on va utiliser des données qui sont aux séries temporelles ce que le dataset "Titanic" est au machine learning : la série AirPassenger qui mesure le nombre mensuel de passagers aériens, en milliers, de janvier 1949 à décembre 1960. Dans la suite, on notera $X_{t}$  la série AirPassengers et $Y_t=ln(X_t)$. &lt;/p&gt;
+&lt;p&gt;Pour illustrer tout ça, on va utiliser des données qui sont aux séries temporelles ce que le dataset "Titanic" est au machine learning : la série AirPassenger qui mesure le nombre mensuel de passagers aériens, en milliers, de janvier 1949 à décembre 1960. Dans la suite, on notera &lt;span class="math"&gt;\(X_{t}\)&lt;/span&gt;  la série AirPassengers et &lt;span class="math"&gt;\(Y_t=ln(X_t)\)&lt;/span&gt;. &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
@@ -3673,7 +3851,7 @@ Copying images to TEST directory
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp4/output_4_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;On voit sur la série initiale (en rouge) que l'amplitude des variations augmente chaque année de manière exponentielle. Or dans un cadre théorique parfait, on voudrait une variance constante au court du temps. Pour s'en approcher on peut passer par la fonction logarithme. En effet, comme $log(ab) = log(a) + log(b)$, le $log$ transforme un modèle &lt;strong&gt;multiplicatif&lt;/strong&gt; en un modèle &lt;strong&gt;additif&lt;/strong&gt;. Ainsi l'accroissement de l'amplitude des pics (donc de la variance) pour la série $X$ disparaît avec la transformation logarithmique. C'est visible sur la courbe bleue.  &lt;/p&gt;
+&lt;p&gt;On voit sur la série initiale (en rouge) que l'amplitude des variations augmente chaque année de manière exponentielle. Or dans un cadre théorique parfait, on voudrait une variance constante au court du temps. Pour s'en approcher on peut passer par la fonction logarithme. En effet, comme &lt;span class="math"&gt;\(log(ab) = log(a) + log(b)\)&lt;/span&gt;, le &lt;span class="math"&gt;\(log\)&lt;/span&gt; transforme un modèle &lt;strong&gt;multiplicatif&lt;/strong&gt; en un modèle &lt;strong&gt;additif&lt;/strong&gt;. Ainsi l'accroissement de l'amplitude des pics (donc de la variance) pour la série &lt;span class="math"&gt;\(X\)&lt;/span&gt; disparaît avec la transformation logarithmique. C'est visible sur la courbe bleue.  &lt;/p&gt;
 &lt;h2 id="la-tendance"&gt;La tendance&lt;/h2&gt;
 &lt;p&gt;On a présenté dans le premier post une façon de visualiser la tendance en lissant la courbe à l'aide des moyennes mobiles sur une fenêtre glissante d'observations. Lorsqu'on choisit différentes tailles de fenêtres glissantes, on obtient les résultats suivants.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;win&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;18&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;21&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;24&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;36&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -3750,69 +3928,71 @@ Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp4/output_12_0.png"&gt;&lt;/p&gt;
 &lt;h1 id="prevision-a-laide-dun-modele-arima"&gt;Prévision à l'aide d'un modèle ARIMA&lt;/h1&gt;
-&lt;p&gt;Un modèle autoréfressif intégré à moyennes mobiles (ARIMA) est une généralisation du modèle ARMA, aperçu dans le post précédent. Ils sont utilisés dans certains cas où les données montrent une non-stationnarité. Une étape de différenciation initiale (correspondant à la partie "intégrée" du modèle) peut alors être appliquée une ou plusieurs fois afin d'éliminer la non-stationnarité. Dans le modèle de base, trois paramètres $(p,d,q)$ sont utilisés pour caractériser les modèles ARIMA. On les note donc $ARIMA(p,d,q)$ et ils sont définis par :
-$$
+&lt;p&gt;Un modèle autoréfressif intégré à moyennes mobiles (ARIMA) est une généralisation du modèle ARMA, aperçu dans le post précédent. Ils sont utilisés dans certains cas où les données montrent une non-stationnarité. Une étape de différenciation initiale (correspondant à la partie "intégrée" du modèle) peut alors être appliquée une ou plusieurs fois afin d'éliminer la non-stationnarité. Dans le modèle de base, trois paramètres &lt;span class="math"&gt;\((p,d,q)\)&lt;/span&gt; sont utilisés pour caractériser les modèles ARIMA. On les note donc &lt;span class="math"&gt;\(ARIMA(p,d,q)\)&lt;/span&gt; et ils sont définis par :
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
 \left(1 - \sum_{i=1}^p \phi_i L^i \right) (1 - L)^d y_t = \mu + \left(1 + \sum_{i=1}^q \theta_i L^i \right) \varepsilon_t
-$$&lt;/p&gt;
-&lt;p&gt;$L$ est l'opérateur &lt;em&gt;retard&lt;/em&gt; qui consiste à décaler la série d'une observation.&lt;/p&gt;
-&lt;p&gt;SARIMA, ou ARIMA saisonnier, est une généralisation du modèle ARIMA qui permet de tenir compte de la saisonnalité. Ce modèle est caractérisé non plus par 3 paramètres $(p,d,q)$ mais par 7 ! Il est noté $SARIMA(p,d,q)(P,D,Q)_s$ où :
-- $s$ est la période de la saisonnalité
-- $(P,D,Q)$ sont les ordres de la partie saisonnière&lt;/p&gt;
+$$&lt;/div&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(L\)&lt;/span&gt; est l'opérateur &lt;em&gt;retard&lt;/em&gt; qui consiste à décaler la série d'une observation.&lt;/p&gt;
+&lt;p&gt;SARIMA, ou ARIMA saisonnier, est une généralisation du modèle ARIMA qui permet de tenir compte de la saisonnalité. Ce modèle est caractérisé non plus par 3 paramètres &lt;span class="math"&gt;\((p,d,q)\)&lt;/span&gt; mais par 7 ! Il est noté &lt;span class="math"&gt;\(SARIMA(p,d,q)(P,D,Q)_s\)&lt;/span&gt; où :
+- &lt;span class="math"&gt;\(s\)&lt;/span&gt; est la période de la saisonnalité
+- &lt;span class="math"&gt;\((P,D,Q)\)&lt;/span&gt; sont les ordres de la partie saisonnière&lt;/p&gt;
 &lt;h2 id="stationnarisation-de-la-serie"&gt;Stationnarisation de la série&lt;/h2&gt;
 &lt;p&gt;Les séries ont généralement une tendance et une saisonnalité toutefois afin de pouvoir les modéliser par des processus stationnaires comme les ARMA, il faut qu'elles soient stationnaires. Or elles ne le sont que rarement, il faut donc les stationnariser.&lt;/p&gt;
-&lt;p&gt;On sait que notre série n'est pas stationnaire (c'est vérifiable en regardant l'autocorrélogramme qui doit présenter une décroissance lente vers 0). Par ailleurs, on a déjà identifié la saisonnalité de nos observations qui est annuelle. On peut déjà effectuer une différenciation en appliquant l'opérateur $(1-L^{12})$ .&lt;/p&gt;
+&lt;p&gt;On sait que notre série n'est pas stationnaire (c'est vérifiable en regardant l'autocorrélogramme qui doit présenter une décroissance lente vers 0). Par ailleurs, on a déjà identifié la saisonnalité de nos observations qui est annuelle. On peut déjà effectuer une différenciation en appliquant l'opérateur &lt;span class="math"&gt;\((1-L^{12})\)&lt;/span&gt; .&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;y_diff_12&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shift&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;fct&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot_acf_pacf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y_diff_12&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;:],&lt;/span&gt; &lt;span class="n"&gt;fig_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp4/output_14_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;La sortie ACF présente bien une décroissance lente vers 0, ce qui traduit la non-stationnarité. On effectue donc une différenciation en appliquant cette fois l'opérateur $(1-L)$.&lt;/p&gt;
+&lt;p&gt;La sortie ACF présente bien une décroissance lente vers 0, ce qui traduit la non-stationnarité. On effectue donc une différenciation en appliquant cette fois l'opérateur &lt;span class="math"&gt;\((1-L)\)&lt;/span&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;y_diff_12_1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;y_diff_12&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;y_diff_12&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shift&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;fct&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot_acf_pacf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y_diff_12_1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;13&lt;/span&gt;&lt;span class="p"&gt;:],&lt;/span&gt; &lt;span class="n"&gt;fig_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp4/output_16_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;Avec cette double différenciation, on s'approche d'un autocorrélogramme simple empirique. On va donc modéliser la série $(1-L)(1-L^{12})ln(X_t)$ par un modèle ARMA.&lt;/p&gt;
+&lt;p&gt;Avec cette double différenciation, on s'approche d'un autocorrélogramme simple empirique. On va donc modéliser la série &lt;span class="math"&gt;\((1-L)(1-L^{12})ln(X_t)\)&lt;/span&gt; par un modèle ARMA.&lt;/p&gt;
 &lt;h2 id="identification-estimation-et-validation-de-modeles"&gt;Identification, estimation et validation de modèles&lt;/h2&gt;
 &lt;p&gt;On va s'appuyer sur les sorties ACF et PACF donc on peut utiliser une des fonctions disponibles dans &lt;code&gt;fonctions.py&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;fct&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ts_plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y_diff_12_1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;13&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Airpass&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fig_size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp4/output_19_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;Les graphiques ACF et PACF permettent de voir empiriquement qu'on va avoir un modèle $SARIMA(p,d,q)(P,D,Q)_s$ avec $s=12$.&lt;/p&gt;
-&lt;p&gt;Il est possible de trouver empiriquement un ordre de grandeur maximum pour les parties &lt;em&gt;autorégressive&lt;/em&gt; et &lt;em&gt;moyenne mobile&lt;/em&gt;, c'est-à-dire pour les valeurs $p_{max}$ et $q_{max}$ d'un modèle $ARMA(p,q)$. La détermination de bornes supérieures concernant l'ordre de la partie $AR$ et de la partie $MA$ passe par l'étude des autocorrélogrammes et des autocorrélogrammes partiels. En effet, si la série stationnaire suit un modèle $ARMA(p,q)$ alors :  &lt;/p&gt;
+&lt;p&gt;Les graphiques ACF et PACF permettent de voir empiriquement qu'on va avoir un modèle &lt;span class="math"&gt;\(SARIMA(p,d,q)(P,D,Q)_s\)&lt;/span&gt; avec &lt;span class="math"&gt;\(s=12\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Il est possible de trouver empiriquement un ordre de grandeur maximum pour les parties &lt;em&gt;autorégressive&lt;/em&gt; et &lt;em&gt;moyenne mobile&lt;/em&gt;, c'est-à-dire pour les valeurs &lt;span class="math"&gt;\(p_{max}\)&lt;/span&gt; et &lt;span class="math"&gt;\(q_{max}\)&lt;/span&gt; d'un modèle &lt;span class="math"&gt;\(ARMA(p,q)\)&lt;/span&gt;. La détermination de bornes supérieures concernant l'ordre de la partie &lt;span class="math"&gt;\(AR\)&lt;/span&gt; et de la partie &lt;span class="math"&gt;\(MA\)&lt;/span&gt; passe par l'étude des autocorrélogrammes et des autocorrélogrammes partiels. En effet, si la série stationnaire suit un modèle &lt;span class="math"&gt;\(ARMA(p,q)\)&lt;/span&gt; alors :  &lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;l'autocorrélogramme ACF devient nul à partir du rang $q+1$  &lt;/li&gt;
-&lt;li&gt;l'autocorrélogramme partiel PACF devient nul à partir du rang $p+1$&lt;/li&gt;
+&lt;li&gt;l'autocorrélogramme ACF devient nul à partir du rang &lt;span class="math"&gt;\(q+1\)&lt;/span&gt;  &lt;/li&gt;
+&lt;li&gt;l'autocorrélogramme partiel PACF devient nul à partir du rang &lt;span class="math"&gt;\(p+1\)&lt;/span&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Le tableau suivant résume les propriétés des tracés de l'ACF et de la PACF empiriques :&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
 &lt;th&gt;&lt;/th&gt;
-&lt;th style="text-align: center;"&gt;MA(q)&lt;/th&gt;
-&lt;th style="text-align: center;"&gt;AR(p)&lt;/th&gt;
-&lt;th style="text-align: center;"&gt;ARMA(p,q)&lt;/th&gt;
+&lt;th align="center"&gt;MA(q)&lt;/th&gt;
+&lt;th align="center"&gt;AR(p)&lt;/th&gt;
+&lt;th align="center"&gt;ARMA(p,q)&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;ACF&lt;/td&gt;
-&lt;td style="text-align: center;"&gt;0 si k &amp;gt; q&lt;/td&gt;
-&lt;td style="text-align: center;"&gt;$\searrow$&lt;/td&gt;
-&lt;td style="text-align: center;"&gt;$\searrow$&lt;/td&gt;
+&lt;td align="center"&gt;0 si k &amp;gt; q&lt;/td&gt;
+&lt;td align="center"&gt;&lt;span class="math"&gt;\(\searrow\)&lt;/span&gt;&lt;/td&gt;
+&lt;td align="center"&gt;&lt;span class="math"&gt;\(\searrow\)&lt;/span&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;PACF&lt;/td&gt;
-&lt;td style="text-align: center;"&gt;$\searrow$&lt;/td&gt;
-&lt;td style="text-align: center;"&gt;0 si k &amp;gt; p&lt;/td&gt;
-&lt;td style="text-align: center;"&gt;$\searrow$&lt;/td&gt;
+&lt;td align="center"&gt;&lt;span class="math"&gt;\(\searrow\)&lt;/span&gt;&lt;/td&gt;
+&lt;td align="center"&gt;0 si k &amp;gt; p&lt;/td&gt;
+&lt;td align="center"&gt;&lt;span class="math"&gt;\(\searrow\)&lt;/span&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;Dès lors, en se basant sur les autocorrélogrammes, il est possible de déterminer empiriquement les ordres maximum en regardant à partir de quel rang les autocorrélogrammes sont statistiquement nuls. Dans notre cas, on peut considérer que $p_{max} = q_{max} = 1$ et on va donc tester différents modèles compte tenu de ces bornes.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Modèle 1 :&lt;/strong&gt; pour commencer on modélise un $SARIMA(1,1,1)(1,1,1)&lt;em 1&gt;{12}$ qui s'écrit :
-$$(1-\phi&lt;/em&gt;L)(1-\phi'&lt;em t&gt;{1}L^{12})(1-L)(1-L^{12})ln(X&lt;/em&gt;L)(1+\theta'})=(1+\theta_{1&lt;em t&gt;{1}L^{12})\epsilon&lt;/em&gt; $$&lt;/p&gt;
+&lt;p&gt;Dès lors, en se basant sur les autocorrélogrammes, il est possible de déterminer empiriquement les ordres maximum en regardant à partir de quel rang les autocorrélogrammes sont statistiquement nuls. Dans notre cas, on peut considérer que &lt;span class="math"&gt;\(p_{max} = q_{max} = 1\)&lt;/span&gt; et on va donc tester différents modèles compte tenu de ces bornes.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Modèle 1 :&lt;/strong&gt; pour commencer on modélise un &lt;span class="math"&gt;\(SARIMA(1,1,1)(1,1,1)_{12}\)&lt;/span&gt; qui s'écrit :
+&lt;/p&gt;
+&lt;div class="math"&gt;$$(1-\phi_{1}L)(1-\phi'_{1}L^{12})(1-L)(1-L^{12})ln(X_{t})=(1+\theta_{1}L)(1+\theta'_{1}L^{12})\epsilon_{t} $$&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;statsmodels.tsa.statespace.sarimax&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
 
 &lt;span class="n"&gt;m1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SARIMAX&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;seasonal_order&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
@@ -3849,8 +4029,9 @@ Warnings:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Ce modèle a des coefficients non significatifs, on en teste un second en retirant dans le paramètre associé à la plus grande p-value : ici c'est le terme autorégressif saisonnier.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Modèle 2 :&lt;/strong&gt; on modélise donc un $SARIMA(1,1,1)(0,1,1)&lt;em 1&gt;{12}$ qui s'écrit :
-$$(1-\phi&lt;/em&gt;L)(1+\theta'}L)(1-L)(1-L^{12})ln(X_{t})=(1+\theta_{1&lt;em t&gt;{1}L^{12})\epsilon&lt;/em&gt; $$&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Modèle 2 :&lt;/strong&gt; on modélise donc un &lt;span class="math"&gt;\(SARIMA(1,1,1)(0,1,1)_{12}\)&lt;/span&gt; qui s'écrit :
+&lt;/p&gt;
+&lt;div class="math"&gt;$$(1-\phi_{1}L)(1-L)(1-L^{12})ln(X_{t})=(1+\theta_{1}L)(1+\theta'_{1}L^{12})\epsilon_{t} $$&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;m2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SARIMAX&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;seasonal_order&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;res2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;m2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;disp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;summary&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
@@ -3884,8 +4065,9 @@ Warnings:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Ce modèle a toujours un coefficient non significatif, on en teste un 3ème modèle en retirant le terme autorégressif d'ordre 1.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Modèle 3 :&lt;/strong&gt; on modélise donc un $SARIMA(0,1,1)(0,1,1)&lt;em t&gt;{12}$ qui s'écrit :
-$$(1-L)(1-L^{12})ln(X&lt;/em&gt;L)(1+\theta'})=(1+\theta_{1&lt;em t&gt;{1}L^{12})\epsilon&lt;/em&gt; $$&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Modèle 3 :&lt;/strong&gt; on modélise donc un &lt;span class="math"&gt;\(SARIMA(0,1,1)(0,1,1)_{12}\)&lt;/span&gt; qui s'écrit :
+&lt;/p&gt;
+&lt;div class="math"&gt;$$(1-L)(1-L^{12})ln(X_{t})=(1+\theta_{1}L)(1+\theta'_{1}L^{12})\epsilon_{t} $$&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;m3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SARIMAX&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;seasonal_order&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
 &lt;span class="n"&gt;res3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;m3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;disp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;summary&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
@@ -3934,8 +4116,8 @@ Pour ça on peut utiliser le test de Ljung-Box d'autocorrélation des résidus q
 &lt;span class="mi"&gt;36&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mf"&gt;0.560395354197207&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Toutes les p-values sont élevées ce qui signifie qu'on ne peut pas rejeter l'hypothèse nulle du test. Or, l'hypothèse $H_0$ est qu'il n'y a pas d'autocorrélation des résidus, on peut pas la rejeter, donc on est bon !&lt;/p&gt;
-&lt;p&gt;On peut enfin tester la normalité des résidus avec le test de Shapiro-Wilk implémenté dans la fonction &lt;code&gt;scipy.stats.shapiro&lt;/code&gt;, l'hypothèse nulle étant que les étant que les observations sont normalement distribuées, on souhaite encore une fois une p-value élevée pour ne pas rejeter $H_0$.&lt;/p&gt;
+&lt;p&gt;Toutes les p-values sont élevées ce qui signifie qu'on ne peut pas rejeter l'hypothèse nulle du test. Or, l'hypothèse &lt;span class="math"&gt;\(H_0\)&lt;/span&gt; est qu'il n'y a pas d'autocorrélation des résidus, on peut pas la rejeter, donc on est bon !&lt;/p&gt;
+&lt;p&gt;On peut enfin tester la normalité des résidus avec le test de Shapiro-Wilk implémenté dans la fonction &lt;code&gt;scipy.stats.shapiro&lt;/code&gt;, l'hypothèse nulle étant que les étant que les observations sont normalement distribuées, on souhaite encore une fois une p-value élevée pour ne pas rejeter &lt;span class="math"&gt;\(H_0\)&lt;/span&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scipy.stats&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;shapiro&lt;/span&gt;
 &lt;span class="n"&gt;shapiro&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;resid&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;13&lt;/span&gt;&lt;span class="p"&gt;:])&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -3969,8 +4151,8 @@ Pour ça on peut utiliser le test de Ljung-Box d'autocorrélation des résidus q
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp4/output_33_0.png"&gt;&lt;/p&gt;
 &lt;h2 id="evaluation-de-la-qualite-predictive-du-modele"&gt;Évaluation de la qualité prédictive du modèle&lt;/h2&gt;
 &lt;p&gt;On n'en a pas parlé jusqu'ici mais pour construire un modèle prédictif, il faut mettre en place, entraîner, tester et évaluer votre modèle. Pour cela, il est nécessaire de découper nos données en échantillons d'entraînement et de test. Pour des observations non chronologiques, on découpe de manière aléatoire mais pour des données temporelles, on est obligé de conserver la chronologie dans l'échantillon d'entraînement. Pour cela, on va tout simplement tronquer la série : les &lt;strong&gt;données d'entraînement sont les observations jusqu'en 1958&lt;/strong&gt; et les &lt;strong&gt;données de test sont celles des années 1959 et 1960&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;On va utiliser directement le modèle $SARIMA(0,1,1)(0,1,1)_{12}$ obtenu avec toutes les observations de la série. Toutefois, il est plus rigoureux de s'assurer que le modèle retenu précédemment est toujours valide sur la série tronquée &lt;code&gt;y_train&lt;/code&gt;. Pour cela on regarde la significativité des coefficients, l'autocorrélation et la normalité des résidus.&lt;/p&gt;
-&lt;p&gt;Le modèle $SARIMA(0,1,1)(0,1,1)_{12}$ étant bien valide sur les données tronquées, on peut prédire les valeurs des années 1959 et 1960 et les afficher sur le graphique suivant avec les valeurs réelles, prédites et les intervalles de confiance.&lt;/p&gt;
+&lt;p&gt;On va utiliser directement le modèle &lt;span class="math"&gt;\(SARIMA(0,1,1)(0,1,1)_{12}\)&lt;/span&gt; obtenu avec toutes les observations de la série. Toutefois, il est plus rigoureux de s'assurer que le modèle retenu précédemment est toujours valide sur la série tronquée &lt;code&gt;y_train&lt;/code&gt;. Pour cela on regarde la significativité des coefficients, l'autocorrélation et la normalité des résidus.&lt;/p&gt;
+&lt;p&gt;Le modèle &lt;span class="math"&gt;\(SARIMA(0,1,1)(0,1,1)_{12}\)&lt;/span&gt; étant bien valide sur les données tronquées, on peut prédire les valeurs des années 1959 et 1960 et les afficher sur le graphique suivant avec les valeurs réelles, prédites et les intervalles de confiance.&lt;/p&gt;
 &lt;p&gt;Enfin, on ajoute des métriques d'erreur : RMSE et MAPE.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# série x : série des passagers&lt;/span&gt;
 &lt;span class="n"&gt;x_train&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loc&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;1958&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Airpass&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -4053,13 +4235,13 @@ ShapiroResult(statistic=0.9883859157562256, pvalue=0.48699426651000977)
 
 &lt;p&gt;Ainsi on obtient su les 2 années 1959 et 1960, une erreur moyenne de prédiction de 43,2 passagers (RMSE) et une erreur moyenne absolue en pourcentage de 8,5%.&lt;/p&gt;
 &lt;h2 id="une-autre-approche-pour-la-determination-du-modele"&gt;Une autre approche pour la détermination du modèle&lt;/h2&gt;
-&lt;p&gt;Pour ajuster un modèle SARIMA aux données d'une série temporelle, il faut déterminer le jeu de paramètres $(p,d,q)(P,D,Q)s$ optimaux. On peut faire de la recherche sur grille qui consiste à tester de manière itérative plusieurs valeurs possibles des paramètres et d'évaluer les modèles en utilisant des critères tels que AIC ou BIC.&lt;/p&gt;
-&lt;p&gt;On utilisera nous le critère d'information Akaike ($AIC$) qui mesure la qualité relative des modèles statistiques pour un ensemble d'observations donné. À partir d'un ensemble de modèles, le critère $AIC$ permet d'estimer la qualité de chacun des modèles par rapport aux autres. Cela permet donc de sélectionner des modèles. Intuitivement, le critère $AIC$ mesure le compromis entre la qualité de l'ajustement du modèle aux observations fournies et la complexité du modèle (nombre de paramètres inclus et estimés). Le critère $AIC$ est calculé par :&lt;/p&gt;
-&lt;p&gt;$AIC=2k-2ln(L)$ avec :
-- $k$ nombre de paramètres estimés
-- $L$ valeur maximale de la vraisemblance (pour simplifier maximiser la vraisemblance revient plus ou moins à minimiser l'erreur)&lt;/p&gt;
-&lt;p&gt;Le meilleur modèle est celui qui minimise le critère $AIC$. À titre de comparaison, on regarde aussi selon le critère BIC.&lt;/p&gt;
-&lt;p&gt;Dans on premier temps, on va générer toutes les valeurs possibles des paramètres que nous aimerions évaluer, à savoir $(p,d,q)(P,D,Q)$ puisqu'on sait déjà que $s=12$. On testera les modèles pour toutes les combinaisons possibles pour des valeurs entre 0 et 1 pour chacun des 6 paramètres c'est-à-dire $2^6 = 64$ possibilités. Si on va jusqu'à 2 pour chaque paramêtre, on passe à $3^6 = 729$ possibilités, ce qui va commencer à faire un peu long...&lt;/p&gt;
+&lt;p&gt;Pour ajuster un modèle SARIMA aux données d'une série temporelle, il faut déterminer le jeu de paramètres &lt;span class="math"&gt;\((p,d,q)(P,D,Q)s\)&lt;/span&gt; optimaux. On peut faire de la recherche sur grille qui consiste à tester de manière itérative plusieurs valeurs possibles des paramètres et d'évaluer les modèles en utilisant des critères tels que AIC ou BIC.&lt;/p&gt;
+&lt;p&gt;On utilisera nous le critère d'information Akaike (&lt;span class="math"&gt;\(AIC\)&lt;/span&gt;) qui mesure la qualité relative des modèles statistiques pour un ensemble d'observations donné. À partir d'un ensemble de modèles, le critère &lt;span class="math"&gt;\(AIC\)&lt;/span&gt; permet d'estimer la qualité de chacun des modèles par rapport aux autres. Cela permet donc de sélectionner des modèles. Intuitivement, le critère &lt;span class="math"&gt;\(AIC\)&lt;/span&gt; mesure le compromis entre la qualité de l'ajustement du modèle aux observations fournies et la complexité du modèle (nombre de paramètres inclus et estimés). Le critère &lt;span class="math"&gt;\(AIC\)&lt;/span&gt; est calculé par :&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(AIC=2k-2ln(L)\)&lt;/span&gt; avec :
+- &lt;span class="math"&gt;\(k\)&lt;/span&gt; nombre de paramètres estimés
+- &lt;span class="math"&gt;\(L\)&lt;/span&gt; valeur maximale de la vraisemblance (pour simplifier maximiser la vraisemblance revient plus ou moins à minimiser l'erreur)&lt;/p&gt;
+&lt;p&gt;Le meilleur modèle est celui qui minimise le critère &lt;span class="math"&gt;\(AIC\)&lt;/span&gt;. À titre de comparaison, on regarde aussi selon le critère BIC.&lt;/p&gt;
+&lt;p&gt;Dans on premier temps, on va générer toutes les valeurs possibles des paramètres que nous aimerions évaluer, à savoir &lt;span class="math"&gt;\((p,d,q)(P,D,Q)\)&lt;/span&gt; puisqu'on sait déjà que &lt;span class="math"&gt;\(s=12\)&lt;/span&gt;. On testera les modèles pour toutes les combinaisons possibles pour des valeurs entre 0 et 1 pour chacun des 6 paramètres c'est-à-dire &lt;span class="math"&gt;\(2^6 = 64\)&lt;/span&gt; possibilités. Si on va jusqu'à 2 pour chaque paramêtre, on passe à &lt;span class="math"&gt;\(3^6 = 729\)&lt;/span&gt; possibilités, ce qui va commencer à faire un peu long...&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;statsmodels.tsa.statespace.sarimax&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
 &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tqdm&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;tqdm&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;itertools&lt;/span&gt;
@@ -4109,7 +4291,7 @@ ShapiroResult(statistic=0.9883859157562256, pvalue=0.48699426651000977)
 &lt;span class="nv"&gt;Modèle&lt;/span&gt; &lt;span class="s s-Atom"&gt;retenu&lt;/span&gt; &lt;span class="s s-Atom"&gt;selon&lt;/span&gt; &lt;span class="s s-Atom"&gt;le&lt;/span&gt; &lt;span class="s s-Atom"&gt;critère&lt;/span&gt; &lt;span class="nv"&gt;BIC&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nv"&gt;SARIMA&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;AIC&lt;/span&gt;&lt;span class="o"&gt;:-&lt;/span&gt;&lt;span class="mf"&gt;405.4220890824692&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nv"&gt;BIC&lt;/span&gt;&lt;span class="o"&gt;:-&lt;/span&gt;&lt;span class="mf"&gt;394.3055951100231&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Le meilleur modèle selon le critère AIC est le $SARIMA(0,1,1)(1,0,1)&lt;em 12&gt;{12}$ qui diffère légèrement de celui obtenu avec la méthode précédente. Il convient de noter cependant que le modèle précédent $SARIMA(0,1,1)(0,1,1)&lt;/em&gt;$ a été obtenu sur toutes les observations.&lt;/p&gt;
+&lt;p&gt;Le meilleur modèle selon le critère AIC est le &lt;span class="math"&gt;\(SARIMA(0,1,1)(1,0,1)_{12}\)&lt;/span&gt; qui diffère légèrement de celui obtenu avec la méthode précédente. Il convient de noter cependant que le modèle précédent &lt;span class="math"&gt;\(SARIMA(0,1,1)(0,1,1)_{12}\)&lt;/span&gt; a été obtenu sur toutes les observations.&lt;/p&gt;
 &lt;p&gt;Passons à la prédiction pour terminer.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# modèle retenu&lt;/span&gt;
 &lt;span class="n"&gt;res&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;best&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;aic&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;model&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
@@ -4191,7 +4373,70 @@ Test de Shapiro : ShapiroResult(statistic=0.988020658493042, pvalue=0.4595574438
 &lt;div class = "d-flex justify-content-center mt-4"&gt;
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
-&lt;/div&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category><category term="ARMA"></category><category term="SARIMA"></category><category term="Time Series"></category></entry><entry><title>Migration de SAS vers R</title><link href="https://blog.statoscop.fr/migration-de-sas-vers-r.html" rel="alternate"></link><published>2022-11-08T00:00:00+01:00</published><updated>2022-11-08T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2022-11-08:/migration-de-sas-vers-r.html</id><summary type="html">&lt;p&gt;Quelques conseils pour réussir sa transition de SAS vers R&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
+&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category><category term="ARMA"></category><category term="SARIMA"></category><category term="Time Series"></category></entry><entry><title>Migration de SAS vers R</title><link href="https://blog.statoscop.fr/migration-de-sas-vers-r.html" rel="alternate"></link><published>2022-11-08T00:00:00+01:00</published><updated>2022-11-08T00:00:00+01:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2022-11-08:/migration-de-sas-vers-r.html</id><summary type="html">&lt;p&gt;Quelques conseils pour réussir sa transition de SAS vers R&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#options-de-recodage-en-r"&gt;Options de recodage en R&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#base-r"&gt;Base R&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#tidyverse"&gt;Tidyverse&lt;/a&gt;&lt;/li&gt;
@@ -4256,7 +4501,7 @@ Quoiqu'il en soit, si cet article vous a donné envie d'aller plus loin, vous po
 &lt;/div&gt;
 &lt;p&gt;&lt;br&gt;   &lt;/p&gt;</content><category term="R"></category><category term="R"></category><category term="SAS"></category><category term="recodage"></category><category term="migration"></category><category term="codes"></category><category term="scripts"></category></entry><entry><title>Manipulation de données avec pandas</title><link href="https://blog.statoscop.fr/manip-donnees-pandas.html" rel="alternate"></link><published>2022-10-12T00:00:00+02:00</published><updated>2022-10-12T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2022-10-12:/manip-donnees-pandas.html</id><summary type="html">&lt;p&gt;Tour d'horizon des manières de filtrer des observations et sélectionner des colonnes avec pandas&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#filtrer-des-observations"&gt;Filtrer des observations&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href="#a-partir-de-leur-position-avec-iloc"&gt;À partir de leur position avec iloc&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#a-partir-de-leur-position-avec-iloc"&gt;À partir de leur position  avec iloc&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#a-partir-de-leur-index-avec-loc"&gt;À partir de leur index avec loc&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#a-partir-de-conditions-avec-loc-et"&gt;À partir de conditions avec loc et []&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -6266,7 +6511,7 @@ En plus des qualités présentées dans l'article, &lt;code&gt;renv&lt;/code&gt;
 &lt;p&gt;Dans ce troisième post, nous entrons dans le coeur du sujet avec l'introduction des notions fondamentales des séries temporelles puis nous illustrerons ces concepts par quelques "vraies" séries de données.&lt;/p&gt;
 &lt;h1 id="notions-de-bases"&gt;Notions de bases&lt;/h1&gt;
 &lt;h2 id="definition"&gt;Définition&lt;/h2&gt;
-&lt;p&gt;Une série temporelle (ou chronologique), est une suite de valeurs numériques représentant l’évolution d’une quantité au cours du temps. On la note généralement ${y_t}&lt;em T-1&gt;{t=1}^{T}$ c'est-à-dire l'ensemble des $T$ valeurs $y_1, y_2, y_3,..., y&lt;/em&gt;, y_T$.  &lt;/p&gt;
+&lt;p&gt;Une série temporelle (ou chronologique), est une suite de valeurs numériques représentant l’évolution d’une quantité au cours du temps. On la note généralement &lt;span class="math"&gt;\(\{y_t\}_{t=1}^{T}\)&lt;/span&gt; c'est-à-dire l'ensemble des &lt;span class="math"&gt;\(T\)&lt;/span&gt; valeurs &lt;span class="math"&gt;\(y_1, y_2, y_3,..., y_{T-1}, y_T\)&lt;/span&gt;.  &lt;/p&gt;
 &lt;p&gt;On rencontre parfois les termes "processus" ou "processus stochastique". Cela fait référence au mécanisme, &lt;strong&gt;inconnu et non observable&lt;/strong&gt;, qui a entraîné ces observations.&lt;/p&gt;
 &lt;h2 id="les-composantes-dune-serie-temporelle"&gt;Les composantes d'une série temporelle&lt;/h2&gt;
 &lt;p&gt;Une série temporelle peut se décomposer en 4 composantes :&lt;br&gt;
@@ -6275,10 +6520,10 @@ En plus des qualités présentées dans l'article, &lt;code&gt;renv&lt;/code&gt;
 - &lt;strong&gt;Cycle&lt;/strong&gt; : cycles économiques à long terme, sur plusieurs années&lt;br&gt;
 - &lt;strong&gt;Bruit&lt;/strong&gt; : ce qui reste après avoir extrait les composants précédents  &lt;/p&gt;
 &lt;h2 id="la-stationnarite"&gt;La stationnarité&lt;/h2&gt;
-&lt;p&gt;Un processus ${y_t}_{t=1}^{T}$ est dit stationnaire lorsque :&lt;br&gt;
-- $E(y_t) = \mu$&lt;br&gt;
-- $V(y_t) = \sigma²$&lt;br&gt;
-- $\gamma(t,s) = \gamma(t-s)$ où $\gamma$ est la fonction d'autocorrélation qu'on va découvrir de suite  &lt;/p&gt;
+&lt;p&gt;Un processus &lt;span class="math"&gt;\(\{y_t\}_{t=1}^{T}\)&lt;/span&gt; est dit stationnaire lorsque :&lt;br&gt;
+- &lt;span class="math"&gt;\(E(y_t) = \mu\)&lt;/span&gt;&lt;br&gt;
+- &lt;span class="math"&gt;\(V(y_t) = \sigma²\)&lt;/span&gt;&lt;br&gt;
+- &lt;span class="math"&gt;\(\gamma(t,s) = \gamma(t-s)\)&lt;/span&gt; où &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; est la fonction d'autocorrélation qu'on va découvrir de suite  &lt;/p&gt;
 &lt;p&gt;Ok c'est joli les formules, mais concrètement ça veut dire quoi qu'une série est stationnaire ?&lt;/p&gt;
 &lt;p&gt;Premièrement, la moyenne de la série est constante et ne dépend donc pas du temps. La courbe rouge ci-dessous n'est dès lors pas stationnaire puisque sa moyenne augmente en fonction du temps&lt;/p&gt;
 &lt;p&gt;&lt;img src='../images/SeriesTemp3/station1.png' width=700&gt;&lt;/p&gt;
@@ -6288,11 +6533,13 @@ En plus des qualités présentées dans l'article, &lt;code&gt;renv&lt;/code&gt;
 &lt;p&gt;&lt;img src='../images/SeriesTemp3/station3.png' width=700&gt;&lt;/p&gt;
 &lt;h2 id="lautocorrelation-et-lautocorrelation-partielle"&gt;L'autocorrélation et l'autocorrélation partielle&lt;/h2&gt;
 &lt;p&gt;L'autocorrélation est un indicateur montrant comment les observations d'une série temporelle sont liées entre elles. Il s'agit de la corrélation entre la série et cette même série décalée dans le temps :
-$$\gamma(t,s) = \frac{1}{\sigma²} Cov(y_t,y_s) = \frac{1}{\sigma²} E[(y_t-\mu)(y_s-\mu)]$$&lt;/p&gt;
-&lt;p&gt;Une autre notation qui peut paraître plus claire et qui fait justement intervenir le décalage $k$ considéré entre les 2 séries ${y}$ :
-$$\gamma(k) = \frac{1}{\sigma²} Cov(y_t,y_{t+k}) = \frac{1}{\sigma²} E[(y_t-\mu)(y_{t+k}-\mu)]$$&lt;/p&gt;
-&lt;p&gt;Si on ne normalise pas par $\sigma²$ on retrouve l'autocovariance. Dans le cadre des séries temporelles (et plus largement du traitement du signal) on utilise un peu indistinctement les 2 termes.&lt;/p&gt;
-&lt;p&gt;Comme la corrélation, l'autocorrélation prend ses valeurs entre $[-1,1]$. Une valeur de $1$ signifie que la série et la série décalée se superposent parfaitement.&lt;/p&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$\gamma(t,s) = \frac{1}{\sigma²} Cov(y_t,y_s) = \frac{1}{\sigma²} E[(y_t-\mu)(y_s-\mu)]$$&lt;/div&gt;
+&lt;p&gt;Une autre notation qui peut paraître plus claire et qui fait justement intervenir le décalage &lt;span class="math"&gt;\(k\)&lt;/span&gt; considéré entre les 2 séries &lt;span class="math"&gt;\(\{y\}\)&lt;/span&gt; :
+&lt;/p&gt;
+&lt;div class="math"&gt;$$\gamma(k) = \frac{1}{\sigma²} Cov(y_t,y_{t+k}) = \frac{1}{\sigma²} E[(y_t-\mu)(y_{t+k}-\mu)]$$&lt;/div&gt;
+&lt;p&gt;Si on ne normalise pas par &lt;span class="math"&gt;\(\sigma²\)&lt;/span&gt; on retrouve l'autocovariance. Dans le cadre des séries temporelles (et plus largement du traitement du signal) on utilise un peu indistinctement les 2 termes.&lt;/p&gt;
+&lt;p&gt;Comme la corrélation, l'autocorrélation prend ses valeurs entre &lt;span class="math"&gt;\([-1,1]\)&lt;/span&gt;. Une valeur de &lt;span class="math"&gt;\(1\)&lt;/span&gt; signifie que la série et la série décalée se superposent parfaitement.&lt;/p&gt;
 &lt;p&gt;La &lt;strong&gt;fonction d'autocorrélation (ACF)&lt;/strong&gt; et la &lt;strong&gt;fonction d'autocorrélation partielle (PACF)&lt;/strong&gt; permettent de mesurer l'association entre des valeurs actuelles et passées. Elles indiquent les valeurs passées les plus corrélées aux valeurs suivantes et donc les plus utiles à la prévision de valeurs futures. Pour parler &lt;em&gt;"avec les mains"&lt;/em&gt;, la fonction ACF mesure la similitude entre 2 observations en fonction du décalage temporel entre les 2.&lt;/p&gt;
 &lt;p&gt;Concrètement :&lt;br&gt;
 - ACF au décalage k = corrélation entre les valeurs séparées par k intervalles&lt;br&gt;
@@ -6300,17 +6547,17 @@ $$\gamma(k) = \frac{1}{\sigma²} Cov(y_t,y_{t+k}) = \frac{1}{\sigma²} E[(y_t-\m
 &lt;p&gt;&lt;img src='../images/SeriesTemp3/acf_pacf.png'&gt;&lt;/p&gt;
 &lt;p&gt;Ces graphiques, qui répondent au doux nom de corrélogramme, interviennent dans la détermination de l'ordre des processus d'un modèle ARIMA qu'on ne présente plus mais qu'on aura l'occasion de croiser prochainement c'est promis.&lt;/p&gt;
 &lt;h2 id="bruit-blanc"&gt;Bruit blanc&lt;/h2&gt;
-&lt;p&gt;Un &lt;strong&gt;bruit blanc&lt;/strong&gt; est un processus ${\epsilon_t}_{t=1}^{T}$ qui vérifie :&lt;br&gt;
-- $E[\epsilon_t] = 0$&lt;br&gt;
-- $E[\epsilon_t²] = \sigma²$&lt;br&gt;
-- $E[\epsilon_t\epsilon_s] = 0$ pour $s \neq t$  &lt;/p&gt;
+&lt;p&gt;Un &lt;strong&gt;bruit blanc&lt;/strong&gt; est un processus &lt;span class="math"&gt;\(\{\epsilon_t\}_{t=1}^{T}\)&lt;/span&gt; qui vérifie :&lt;br&gt;
+- &lt;span class="math"&gt;\(E[\epsilon_t] = 0\)&lt;/span&gt;&lt;br&gt;
+- &lt;span class="math"&gt;\(E[\epsilon_t²] = \sigma²\)&lt;/span&gt;&lt;br&gt;
+- &lt;span class="math"&gt;\(E[\epsilon_t\epsilon_s] = 0\)&lt;/span&gt; pour &lt;span class="math"&gt;\(s \neq t\)&lt;/span&gt;  &lt;/p&gt;
 &lt;p&gt;C'est donc une série de moyenne constante et nulle, de variance constante et de covariance nulle entre 2 observations (indépendamment du décalage entre les 2). Ce dernier point signifie donc que les observations sont &lt;strong&gt;non corrélées&lt;/strong&gt; entre elles.&lt;/p&gt;
-&lt;p&gt;Un &lt;strong&gt;bruit blanc indépendant&lt;/strong&gt; est un processus ${\epsilon_t}_{t=1}^{T}$ qui vérifie :&lt;br&gt;
-- $E[\epsilon_t] = 0$&lt;br&gt;
-- $E[\epsilon_t²] = \sigma²$&lt;br&gt;
-- $\epsilon_t$ et $\epsilon_s$ indépendants pour $s \neq t$  &lt;/p&gt;
-&lt;p&gt;Les deux premières hypothèses sont identiques. En revanche, la 3ème hypothèse est plus forte puisque l'indépendance implique que la covariance soit nulle mais la réciproque n'est pas vraie (&lt;a href="https://fr.wikipedia.org/wiki/Ind%C3%A9pendance_(probabilit%C3%A9s)#Ind%C3%A9pendance_et_corr%C3%A9lation" target="_blank"&gt;Maître Wiki&lt;/a&gt; vous fournira un contre-exemple avec des variables aléatoires discrètes ; un autre contre-exemple classique avec des variables aléatoires continues $X \hookrightarrow \mathcal{N}(0,1)$ et $Y=X²$ sont dépendantes et de covariance nulle).  &lt;/p&gt;
-&lt;p&gt;Un &lt;strong&gt;bruit blanc gaussien&lt;/strong&gt; ${\epsilon_t}_{t=1}^{T}$ est un bruit blanc indépendant qui suit une loi normale centrée : $\epsilon_t \hookrightarrow \mathcal{N}(0,\sigma²)$  &lt;/p&gt;
+&lt;p&gt;Un &lt;strong&gt;bruit blanc indépendant&lt;/strong&gt; est un processus &lt;span class="math"&gt;\(\{\epsilon_t\}_{t=1}^{T}\)&lt;/span&gt; qui vérifie :&lt;br&gt;
+- &lt;span class="math"&gt;\(E[\epsilon_t] = 0\)&lt;/span&gt;&lt;br&gt;
+- &lt;span class="math"&gt;\(E[\epsilon_t²] = \sigma²\)&lt;/span&gt;&lt;br&gt;
+- &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; et &lt;span class="math"&gt;\(\epsilon_s\)&lt;/span&gt; indépendants pour &lt;span class="math"&gt;\(s \neq t\)&lt;/span&gt;  &lt;/p&gt;
+&lt;p&gt;Les deux premières hypothèses sont identiques. En revanche, la 3ème hypothèse est plus forte puisque l'indépendance implique que la covariance soit nulle mais la réciproque n'est pas vraie (&lt;a href="https://fr.wikipedia.org/wiki/Ind%C3%A9pendance_(probabilit%C3%A9s)#Ind%C3%A9pendance_et_corr%C3%A9lation" target="_blank"&gt;Maître Wiki&lt;/a&gt; vous fournira un contre-exemple avec des variables aléatoires discrètes ; un autre contre-exemple classique avec des variables aléatoires continues &lt;span class="math"&gt;\(X \hookrightarrow \mathcal{N}(0,1)\)&lt;/span&gt; et &lt;span class="math"&gt;\(Y=X²\)&lt;/span&gt; sont dépendantes et de covariance nulle).  &lt;/p&gt;
+&lt;p&gt;Un &lt;strong&gt;bruit blanc gaussien&lt;/strong&gt; &lt;span class="math"&gt;\(\{\epsilon_t\}_{t=1}^{T}\)&lt;/span&gt; est un bruit blanc indépendant qui suit une loi normale centrée : &lt;span class="math"&gt;\(\epsilon_t \hookrightarrow \mathcal{N}(0,\sigma²)\)&lt;/span&gt;  &lt;/p&gt;
 &lt;p&gt;On ajoute donc une hypothèse supplémentaire sur la distribution qui doit être une loi normale de moyenne nulle.&lt;/p&gt;
 &lt;p&gt;Intuitivement, un bruit blanc dans le cadre des séries temporelles, c'est &lt;strong&gt;la partie purement aléatoire du processus&lt;/strong&gt;. Effectivement, j'imagine bien ce que vous pensez et vous avez tout à fait raison, les bruits blancs sont des séries stationnaires (moyenne, variance et covariance constantes).&lt;/p&gt;
 &lt;p&gt;Dans les lignes de code ci-dessous, on génère un bruit blanc gaussien qu'on visualise ensuite en utilisant la fonction &lt;code&gt;ts_plot&lt;/code&gt; qui est disponible sur le github de Statoscop, &lt;a href="https://github.com/Statoscop/notebooks-blog/blob/main/Series%20temporelles/fonctions.py" target="_blank"&gt;ici précisément&lt;/a&gt; dans le fichier &lt;code&gt;fonction.py&lt;/code&gt; du dossier Séries Temporelles.&lt;/p&gt;
@@ -6327,9 +6574,11 @@ $$\gamma(k) = \frac{1}{\sigma²} Cov(y_t,y_{t+k}) = \frac{1}{\sigma²} E[(y_t-\m
 - le QQ-plot et l'histogramme indiquent un comportement normal  &lt;/p&gt;
 &lt;p&gt;Petite parenthèse, on essaiera de faire prochainement un post sur la normalité des résidus, l'interprétation des QQ-plot ou encore les différents tests de normalité.&lt;/p&gt;
 &lt;h2 id="la-marche-aleatoire"&gt;La marche aléatoire&lt;/h2&gt;
-&lt;p&gt;Un processus de marche aléatoire ${x_t}&lt;em t-1&gt;{t=1}^{T}$ est une série qui vérifie :&lt;br&gt;
-$$x_t = x&lt;/em&gt; + \epsilon_t$$
-avec $\epsilon_t$ un bruit blanc&lt;/p&gt;
+&lt;p&gt;Un processus de marche aléatoire &lt;span class="math"&gt;\(\{x_t\}_{t=1}^{T}\)&lt;/span&gt; est une série qui vérifie :&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$x_t = x_{t-1} + \epsilon_t$$&lt;/div&gt;
+&lt;p&gt;
+avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&gt;
 &lt;p&gt;Ci-dessous, on simule et visualise une marche aléatoire.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#paramètres&lt;/span&gt;
 &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
@@ -6346,15 +6595,17 @@ avec $\epsilon_t$ un bruit blanc&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; on voit la ressemblance entre ce processus de marche aléatoire et les cours d'actifs en bourse qui sont caractérisés par : &lt;br&gt;
 - un ACF élevé pour toute longueur de décalage et un PACF élevé pour le premier décalage uniquement &lt;br&gt;
 - un QQ-plot et un histogramme indiquant que la série n'est pas un bruit blanc  &lt;/p&gt;
-&lt;p&gt;La marche aléatoire n'est clairement pas une série stationnaire. Par contre, la série différenciée $(x_t - x_{t-1})$ est stationnaire puisqu'elle vaut $(\epsilon_t)$ qui est un bruit blanc. &lt;/p&gt;
+&lt;p&gt;La marche aléatoire n'est clairement pas une série stationnaire. Par contre, la série différenciée &lt;span class="math"&gt;\((x_t - x_{t-1})\)&lt;/span&gt; est stationnaire puisqu'elle vaut &lt;span class="math"&gt;\((\epsilon_t)\)&lt;/span&gt; qui est un bruit blanc. &lt;/p&gt;
 &lt;h2 id="modele-autoregressif"&gt;Modèle autorégressif&lt;/h2&gt;
-&lt;p&gt;Une série temporelle ${x_t}&lt;em i="1"&gt;{t=1}^{T}$ qui suit un modèle autorégressif d'ordre $p$ (et noté $AR(p)$) est telle que :&lt;br&gt;
-$$x_t = \mu + \Sigma&lt;/em&gt; + \epsilon_t$$
-avec $\mu$ une constante et $\epsilon_t$ un bruit blanc}^{p}\phi_i x_{t-i&lt;/p&gt;
-&lt;p&gt;Concrètement, cela signifie que la valeur de la série au temps $t$ est une combinaison linéaire des $p$ valeurs précédentes (à un terme d'erreur $\epsilon_t$ près).&lt;/p&gt;
+&lt;p&gt;Une série temporelle &lt;span class="math"&gt;\(\{x_t\}_{t=1}^{T}\)&lt;/span&gt; qui suit un modèle autorégressif d'ordre &lt;span class="math"&gt;\(p\)&lt;/span&gt; (et noté &lt;span class="math"&gt;\(AR(p)\)&lt;/span&gt;) est telle que :&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$x_t = \mu + \Sigma_{i=1}^{p}\phi_i x_{t-i} + \epsilon_t$$&lt;/div&gt;
+&lt;p&gt;
+avec &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; une constante et &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&gt;
+&lt;p&gt;Concrètement, cela signifie que la valeur de la série au temps &lt;span class="math"&gt;\(t\)&lt;/span&gt; est une combinaison linéaire des &lt;span class="math"&gt;\(p\)&lt;/span&gt; valeurs précédentes (à un terme d'erreur &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; près).&lt;/p&gt;
 &lt;p&gt;Un processus autorégressif d'ordre 1 est donc donné par :
-$AR(1)$ : $x_t = \mu + \phi x_{t-1} + \epsilon_t$ &lt;/p&gt;
-&lt;p&gt;On simule et visualise un processus $AR(1)$ ci-dessous.&lt;/p&gt;
+&lt;span class="math"&gt;\(AR(1)\)&lt;/span&gt; : &lt;span class="math"&gt;\(x_t = \mu + \phi x_{t-1} + \epsilon_t\)&lt;/span&gt; &lt;/p&gt;
+&lt;p&gt;On simule et visualise un processus &lt;span class="math"&gt;\(AR(1)\)&lt;/span&gt; ci-dessous.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#paramètres&lt;/span&gt;
 &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
 &lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;normal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -6369,13 +6620,15 @@ $AR(1)$ : $x_t = \mu + \phi x_{t-1} + \epsilon_t$ &lt;/p&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp3/output_7_0.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt;&lt;br&gt;
-- pour un processus AR(1) avec $\phi=0.3$,on voit sur les graphiques ACF et PACF, un pic au premier décalage qui tend tout de suite vers 0.&lt;br&gt;
+- pour un processus AR(1) avec &lt;span class="math"&gt;\(\phi=0.3\)&lt;/span&gt;,on voit sur les graphiques ACF et PACF, un pic au premier décalage qui tend tout de suite vers 0.&lt;br&gt;
 - l'histogramme et le QQ-plot indiquent des résidus presque aléatoires.  &lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Remarque pas anodine&lt;/em&gt; : la marche aléatoire introduite précédemment est un processus AR(1) avec $\phi=1$ et n'est pas stationnaire. Or ici, on peut voir qu'avec $\phi=0.3$, le processus AR(1) semble stationnaire. Bizarre...vous avez dit bizarre ? En fait, la stationnarité d'un processus $AR(1)$ dépend de si $|\phi|&amp;lt;1$. On peut généraliser cette propriété aux processus $AR(p)$.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Remarque pas anodine&lt;/em&gt; : la marche aléatoire introduite précédemment est un processus AR(1) avec &lt;span class="math"&gt;\(\phi=1\)&lt;/span&gt; et n'est pas stationnaire. Or ici, on peut voir qu'avec &lt;span class="math"&gt;\(\phi=0.3\)&lt;/span&gt;, le processus AR(1) semble stationnaire. Bizarre...vous avez dit bizarre ? En fait, la stationnarité d'un processus &lt;span class="math"&gt;\(AR(1)\)&lt;/span&gt; dépend de si &lt;span class="math"&gt;\(|\phi|&amp;lt;1\)&lt;/span&gt;. On peut généraliser cette propriété aux processus &lt;span class="math"&gt;\(AR(p)\)&lt;/span&gt;.&lt;/p&gt;
 &lt;h2 id="modele-moyenne-mobile"&gt;Modèle moyenne mobile&lt;/h2&gt;
-&lt;p&gt;Le modèle de moyenne mobile d'ordre $q$ noté $MA(q)$ (pour &lt;em&gt;moving-average&lt;/em&gt;) suppose que la série temporelle observée peut être représentée par une combinaison linéaire de termes d'erreur de bruit blanc. Cela s'écrit donc :&lt;br&gt;
-$$x_t = \epsilon_t + \Sigma_{i=1}^{q}\theta_i\epsilon_{t-i}$$ avec $\epsilon_t$ un bruit blanc&lt;/p&gt;
-&lt;p&gt;Et c'est parti pour la simulation et la visualisation d'un processus $MA(2)$.&lt;/p&gt;
+&lt;p&gt;Le modèle de moyenne mobile d'ordre &lt;span class="math"&gt;\(q\)&lt;/span&gt; noté &lt;span class="math"&gt;\(MA(q)\)&lt;/span&gt; (pour &lt;em&gt;moving-average&lt;/em&gt;) suppose que la série temporelle observée peut être représentée par une combinaison linéaire de termes d'erreur de bruit blanc. Cela s'écrit donc :&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$x_t = \epsilon_t + \Sigma_{i=1}^{q}\theta_i\epsilon_{t-i}$$&lt;/div&gt;
+&lt;p&gt; avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&gt;
+&lt;p&gt;Et c'est parti pour la simulation et la visualisation d'un processus &lt;span class="math"&gt;\(MA(2)\)&lt;/span&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#paramètres&lt;/span&gt;
 &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
 &lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;normal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -6390,14 +6643,16 @@ $$x_t = \epsilon_t + \Sigma_{i=1}^{q}\theta_i\epsilon_{t-i}$$ avec $\epsilon_t$ 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img alt="Pelican" src="../images/SeriesTemp3/output_9_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; pour le processus $MA(2)$ avec les paramètres choisis, on voit un pic plus important pour le deuxième décalage dans les tracés ACF et PACF. 
+&lt;p&gt;&lt;strong&gt;Interprétation :&lt;/strong&gt; pour le processus &lt;span class="math"&gt;\(MA(2)\)&lt;/span&gt; avec les paramètres choisis, on voit un pic plus important pour le deuxième décalage dans les tracés ACF et PACF. 
 On peut observer également que le pic dans le graphique PACF ne décroît pas immédiatement mais prend quelques périodes pour se "désintégrer".&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Remarque toujours pas anodine&lt;/em&gt; : en tant que combinaison linéaire de processus stationnaires, un processus $MA(q)$ est toujours stationnaire.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Remarque toujours pas anodine&lt;/em&gt; : en tant que combinaison linéaire de processus stationnaires, un processus &lt;span class="math"&gt;\(MA(q)\)&lt;/span&gt; est toujours stationnaire.&lt;/p&gt;
 &lt;h2 id="modele-autoregressif-et-moyenne-mobile"&gt;Modèle autorégressif et moyenne mobile&lt;/h2&gt;
-&lt;p&gt;Ça va commencer à se corser un peu avec le processus $ARMA(p,q)$ qui est une combinaison des deux modèles précédents et s'écrit donc :&lt;br&gt;
-$$x_t = \epsilon_t + \Sigma_{i=1}^{p}\phi_i x_{t-i} + \Sigma_{i=1}^{q}\theta_i\epsilon_{t-i}$$
-avec $\epsilon_t$ un bruit blanc&lt;/p&gt;
-&lt;p&gt;Regardons à quoi ressemble un $ARMA(2,3)$.&lt;/p&gt;
+&lt;p&gt;Ça va commencer à se corser un peu avec le processus &lt;span class="math"&gt;\(ARMA(p,q)\)&lt;/span&gt; qui est une combinaison des deux modèles précédents et s'écrit donc :&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$x_t = \epsilon_t + \Sigma_{i=1}^{p}\phi_i x_{t-i} + \Sigma_{i=1}^{q}\theta_i\epsilon_{t-i}$$&lt;/div&gt;
+&lt;p&gt;
+avec &lt;span class="math"&gt;\(\epsilon_t\)&lt;/span&gt; un bruit blanc&lt;/p&gt;
+&lt;p&gt;Regardons à quoi ressemble un &lt;span class="math"&gt;\(ARMA(2,3)\)&lt;/span&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;#paramètres&lt;/span&gt;
 &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
 &lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;normal&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -6471,7 +6726,69 @@ Vous voulez en savoir plus sur ce que l'on fait?&lt;/p&gt;
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Fonctionnement et performances d'across dans dplyr</title><link href="https://blog.statoscop.fr/fonctionnement-et-performances-dacross-dans-dplyr.html" rel="alternate"></link><published>2021-06-02T00:00:00+02:00</published><updated>2021-06-02T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-06-02:/fonctionnement-et-performances-dacross-dans-dplyr.html</id><summary type="html">&lt;p&gt;Mise à jour de l'évaluation des performances du verbe &lt;code&gt;across&lt;/code&gt; dans dplyr version 1.0.6&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Fonctionnement et performances d'across dans dplyr</title><link href="https://blog.statoscop.fr/fonctionnement-et-performances-dacross-dans-dplyr.html" rel="alternate"></link><published>2021-06-02T00:00:00+02:00</published><updated>2021-06-02T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-06-02:/fonctionnement-et-performances-dacross-dans-dplyr.html</id><summary type="html">&lt;p&gt;Mise à jour de l'évaluation des performances du verbe &lt;code&gt;across&lt;/code&gt; dans dplyr version 1.0.6&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#across-ca-marche-comment"&gt;across(), ça marche comment?&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#syntaxe-de-base"&gt;Syntaxe de base&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#selection-avec-des-conditions"&gt;Sélection avec des conditions&lt;/a&gt;&lt;/li&gt;
@@ -7143,8 +7460,8 @@ Une autre aide utile sur les manipulation de dates est la &lt;a href="http://lab
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Grâce au type de données uniforme dans les tableaux &lt;code&gt;datetime64&lt;/code&gt;, ce genre d'opérations vectorielles peut être effectué bien plus rapidement qu'en travaillant directement avec les objets &lt;code&gt;datetime&lt;/code&gt; de Python, particulièrement pour de grands tableaux.&lt;/p&gt;
-&lt;p&gt;Une particularité des objets &lt;code&gt;datetime64&lt;/code&gt; et &lt;code&gt;timedelta64&lt;/code&gt; est qu'ils sont construits sur une &lt;em&gt;unité fondamentale de temps (UFT)&lt;/em&gt;. Comme le &lt;code&gt;datetime64&lt;/code&gt; est limité à une précision de 64-bit, le nombre de datetime qu'on peut encoder est $2^{64}$ fois l'UFT. En d'autres termes, &lt;code&gt;datetime64&lt;/code&gt; nécessite un arbitrage entre &lt;em&gt;résolution temporelle&lt;/em&gt; et &lt;em&gt;intervalle maximal de temps&lt;/em&gt; .&lt;br&gt;
-Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir la place pour encoder $2^{64}$ nanosecondes, soit un peu moins de 600 ans.&lt;/p&gt;
+&lt;p&gt;Une particularité des objets &lt;code&gt;datetime64&lt;/code&gt; et &lt;code&gt;timedelta64&lt;/code&gt; est qu'ils sont construits sur une &lt;em&gt;unité fondamentale de temps (UFT)&lt;/em&gt;. Comme le &lt;code&gt;datetime64&lt;/code&gt; est limité à une précision de 64-bit, le nombre de datetime qu'on peut encoder est &lt;span class="math"&gt;\(2^{64}\)&lt;/span&gt; fois l'UFT. En d'autres termes, &lt;code&gt;datetime64&lt;/code&gt; nécessite un arbitrage entre &lt;em&gt;résolution temporelle&lt;/em&gt; et &lt;em&gt;intervalle maximal de temps&lt;/em&gt; .&lt;br&gt;
+Par exemple, si on veut une précision de 1 nanoseconde, alors on pourra avoir la place pour encoder &lt;span class="math"&gt;\(2^{64}\)&lt;/span&gt; nanosecondes, soit un peu moins de 600 ans.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;numpy&lt;/code&gt; déduit l'UFT désirée à partir de l'input mais on peut bien sûr aussi le spécifier.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# un datetime basé sur le jour&lt;/span&gt;
 &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;datetime64&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;2021-04-30&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -7634,7 +7951,69 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Analyse en composantes principales avec Python</title><link href="https://blog.statoscop.fr/acp-python.html" rel="alternate"></link><published>2021-04-16T00:00:00+02:00</published><updated>2021-04-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-04-16:/acp-python.html</id><summary type="html">&lt;p&gt;Présentation et exemples d'utilisation de l'ACP en statistiques et data science.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category><category term="Séries temporelles"></category><category term="Datetime"></category></entry><entry><title>Analyse en composantes principales avec Python</title><link href="https://blog.statoscop.fr/acp-python.html" rel="alternate"></link><published>2021-04-16T00:00:00+02:00</published><updated>2021-04-16T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-04-16:/acp-python.html</id><summary type="html">&lt;p&gt;Présentation et exemples d'utilisation de l'ACP en statistiques et data science.&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#comprendre-et-interpreter-une-acp"&gt;Comprendre et interpréter une ACP&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#mise-en-oeuvre-dune-acp-avec-python"&gt;Mise en oeuvre d'une ACP avec Python&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#analyse-exploratoire-de-nos-donnees"&gt;Analyse exploratoire de nos données&lt;/a&gt;&lt;/li&gt;
@@ -7646,7 +8025,7 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;p&gt;Dans cet article, nous allons essayer de comprendre intuitivement comment fonctionne l'analyse en composantes principales. Nous présenterons ensuite à quoi celle-ci peut servir en prenant les exemples d'une analyse exploratoire des données et d'une problématique de réduction de dimension.   &lt;/p&gt;
 &lt;h1 id="comprendre-et-interpreter-une-acp"&gt;Comprendre et interpréter une ACP&lt;/h1&gt;
 &lt;p&gt;L'analyse en composantes principales est une &lt;strong&gt;méthode consistant à transformer des variables corrélées entre elles en nouvelles variables&lt;/strong&gt;. Chacune de ces nouvelles variables est le résultat d'une combinaison linéaire des anciennes variables. &lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Note : une combinaison linéaire de 3 variables $V_1$, $V_2$ et $V_3$ s'écrit $\alpha_1.V_1 + \alpha_2.V_2 + \alpha_3.V_3$ où les $\alpha_i$ sont des coefficients réels.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note : une combinaison linéaire de 3 variables &lt;span class="math"&gt;\(V_1\)&lt;/span&gt;, &lt;span class="math"&gt;\(V_2\)&lt;/span&gt; et &lt;span class="math"&gt;\(V_3\)&lt;/span&gt; s'écrit &lt;span class="math"&gt;\(\alpha_1.V_1 + \alpha_2.V_2 + \alpha_3.V_3\)&lt;/span&gt; où les &lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt; sont des coefficients réels.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Ces nouvelles variables sont appelées &lt;strong&gt;composantes principales&lt;/strong&gt; et sont, par contruction, décorrélées les unes des autres.  &lt;/p&gt;
 &lt;p&gt;Autrement dit, l'ACP projette vos données dans un nouvel espace. La &lt;strong&gt;première composante principale est construite de manière à capter la plus grande variance possible de vos données&lt;/strong&gt;, la seconde la part la plus importante de &lt;strong&gt;la variance possible restant à expliquer&lt;/strong&gt;, et ainsi de suite.  &lt;/p&gt;
 &lt;p&gt;Une illustration brillante de ce processus est proposée par &lt;a href="https://www.allisonhorst.com/" target="_blank"&gt;Allison Horst&lt;/a&gt;. Elle &lt;a href="https://twitter.com/allison_horst/status/1288904459490213888" target="_blank"&gt;représente&lt;/a&gt; un jeu de données à deux dimensions avec des crevettes et l'analyse en composantes principales comme les passages d'un requin-baleine affamé :  &lt;/p&gt;
@@ -7654,7 +8033,7 @@ On a déjà croisé les codes &lt;code&gt;M&lt;/code&gt; (month), &lt;code&gt;D&
 &lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_4_0.png"&gt;&lt;/p&gt;
 &lt;p&gt;La problématique du requin-baleine est en effet la même que celle de la création d'une première composante principale : &lt;strong&gt;quel axe choisir pour avaler un maximum de crevettes&lt;/strong&gt; dès le premier passage? L'axe choisi va ressembler à celui-ci :  &lt;/p&gt;
 &lt;p&gt;&lt;img alt="Pelican" src="../images/acp/output_6_0.png"&gt;&lt;/p&gt;
-&lt;p&gt;Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient &lt;strong&gt;le plus proche possible de cette droite&lt;/strong&gt;. Mathématiquement, la première composante principale est &lt;strong&gt;la combinaison linéaire des deux axes $x$ et $y$ qui maximise l'inertie projetée&lt;/strong&gt;, ce qui revient à minimiser les écarts entre les points et cette droite.&lt;/p&gt;
+&lt;p&gt;Il s'agit pour le requin de choisir la droite de sorte qu'il y ait un maximum de crevettes sur son parcours ce qui revient à ce que les crevettes soient &lt;strong&gt;le plus proche possible de cette droite&lt;/strong&gt;. Mathématiquement, la première composante principale est &lt;strong&gt;la combinaison linéaire des deux axes &lt;span class="math"&gt;\(x\)&lt;/span&gt; et &lt;span class="math"&gt;\(y\)&lt;/span&gt; qui maximise l'inertie projetée&lt;/strong&gt;, ce qui revient à minimiser les écarts entre les points et cette droite.&lt;/p&gt;
 &lt;p&gt;Dans cet exemple, la seconde composante principale sera l'axe perpendiculaire à ce premier axe.&lt;/p&gt;
 &lt;p&gt;Si les points étaient parfaitement alignés sur une ligne, l'ensemble de la variance serait expliqué par la première composante et on serait parvenus à réduire le nombre de dimensions de notre problème sans perte d'information.&lt;/p&gt;
 &lt;blockquote&gt;
@@ -7885,7 +8264,69 @@ Tout d'abord, commençons par déterminer ce nombre de dimensions. Le graphique 
    &lt;a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Visiter notre site&lt;/a&gt;
    &lt;a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button"&gt;Nous contacter&lt;/a&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;br&gt;  &lt;/p&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category></entry><entry><title>Comparaisons base R, dplyr et data.table</title><link href="https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html" rel="alternate"></link><published>2021-03-30T00:00:00+02:00</published><updated>2021-03-30T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-03-30:/comparaisons-base-dplyr-datatable.html</id><summary type="html">&lt;p&gt;Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
+&lt;p&gt;&lt;br&gt;  &lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Python"></category><category term="Python"></category><category term="Machine Learning"></category><category term="Statistiques"></category><category term="Data Science"></category></entry><entry><title>Comparaisons base R, dplyr et data.table</title><link href="https://blog.statoscop.fr/comparaisons-base-dplyr-datatable.html" rel="alternate"></link><published>2021-03-30T00:00:00+02:00</published><updated>2021-03-30T00:00:00+02:00</updated><author><name>Antoine</name></author><id>tag:blog.statoscop.fr,2021-03-30:/comparaisons-base-dplyr-datatable.html</id><summary type="html">&lt;p&gt;Comparaisons des temps d'exécution de base R, dplyr et data.table sur quelques cas d'étude&lt;/p&gt;</summary><content type="html">&lt;div class="toc"&gt;&lt;span class="toctitle"&gt;Dans cet article&lt;/span&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#rappels-sur-dplyr-et-datatable"&gt;Rappels sur dplyr et data.table&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href="#dplyr-et-le-tidyverse"&gt;dplyr et le tidyverse&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="#datatable"&gt;Data.table&lt;/a&gt;&lt;/li&gt;

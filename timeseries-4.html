@@ -221,7 +221,7 @@
 <p>Après une toute petite ellipse temporelle de plus d'un an, ce quatrième post s'attaque au vrai problème à savoir la décomposition, la modélisation et la prédiction des séries temporelles à l'aide des modèles statistiques classiques.</p>
 <h1 id="decomposition-dune-serie-temporelle">Décomposition d'une série temporelle</h1>
 <p>Le principe de la décomposition des séries temporelles est de découper les séries originales en plusieurs composants indépendants (vus dans le post précédent) : tendance, saisonnalité, cycle et bruit.</p>
-<p>Pour illustrer tout ça, on va utiliser des données qui sont aux séries temporelles ce que le dataset "Titanic" est au machine learning : la série AirPassenger qui mesure le nombre mensuel de passagers aériens, en milliers, de janvier 1949 à décembre 1960. Dans la suite, on notera $X_{t}$  la série AirPassengers et $Y_t=ln(X_t)$. </p>
+<p>Pour illustrer tout ça, on va utiliser des données qui sont aux séries temporelles ce que le dataset "Titanic" est au machine learning : la série AirPassenger qui mesure le nombre mensuel de passagers aériens, en milliers, de janvier 1949 à décembre 1960. Dans la suite, on notera <span class="math">\(X_{t}\)</span>  la série AirPassengers et <span class="math">\(Y_t=ln(X_t)\)</span>. </p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -246,7 +246,7 @@
 </code></pre></div>
 
 <p><img alt="Pelican" src="../images/SeriesTemp4/output_4_0.png"></p>
-<p>On voit sur la série initiale (en rouge) que l'amplitude des variations augmente chaque année de manière exponentielle. Or dans un cadre théorique parfait, on voudrait une variance constante au court du temps. Pour s'en approcher on peut passer par la fonction logarithme. En effet, comme $log(ab) = log(a) + log(b)$, le $log$ transforme un modèle <strong>multiplicatif</strong> en un modèle <strong>additif</strong>. Ainsi l'accroissement de l'amplitude des pics (donc de la variance) pour la série $X$ disparaît avec la transformation logarithmique. C'est visible sur la courbe bleue.  </p>
+<p>On voit sur la série initiale (en rouge) que l'amplitude des variations augmente chaque année de manière exponentielle. Or dans un cadre théorique parfait, on voudrait une variance constante au court du temps. Pour s'en approcher on peut passer par la fonction logarithme. En effet, comme <span class="math">\(log(ab) = log(a) + log(b)\)</span>, le <span class="math">\(log\)</span> transforme un modèle <strong>multiplicatif</strong> en un modèle <strong>additif</strong>. Ainsi l'accroissement de l'amplitude des pics (donc de la variance) pour la série <span class="math">\(X\)</span> disparaît avec la transformation logarithmique. C'est visible sur la courbe bleue.  </p>
 <h2 id="la-tendance">La tendance</h2>
 <p>On a présenté dans le premier post une façon de visualiser la tendance en lissant la courbe à l'aide des moyennes mobiles sur une fenêtre glissante d'observations. Lorsqu'on choisit différentes tailles de fenêtres glissantes, on obtient les résultats suivants.</p>
 <div class="highlight"><pre><span></span><code><span class="n">win</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">36</span><span class="p">]</span>
@@ -323,69 +323,71 @@ Vous voulez en savoir plus sur ce que l'on fait?</p>
 
 <p><img alt="Pelican" src="../images/SeriesTemp4/output_12_0.png"></p>
 <h1 id="prevision-a-laide-dun-modele-arima">Prévision à l'aide d'un modèle ARIMA</h1>
-<p>Un modèle autoréfressif intégré à moyennes mobiles (ARIMA) est une généralisation du modèle ARMA, aperçu dans le post précédent. Ils sont utilisés dans certains cas où les données montrent une non-stationnarité. Une étape de différenciation initiale (correspondant à la partie "intégrée" du modèle) peut alors être appliquée une ou plusieurs fois afin d'éliminer la non-stationnarité. Dans le modèle de base, trois paramètres $(p,d,q)$ sont utilisés pour caractériser les modèles ARIMA. On les note donc $ARIMA(p,d,q)$ et ils sont définis par :
-$$
+<p>Un modèle autoréfressif intégré à moyennes mobiles (ARIMA) est une généralisation du modèle ARMA, aperçu dans le post précédent. Ils sont utilisés dans certains cas où les données montrent une non-stationnarité. Une étape de différenciation initiale (correspondant à la partie "intégrée" du modèle) peut alors être appliquée une ou plusieurs fois afin d'éliminer la non-stationnarité. Dans le modèle de base, trois paramètres <span class="math">\((p,d,q)\)</span> sont utilisés pour caractériser les modèles ARIMA. On les note donc <span class="math">\(ARIMA(p,d,q)\)</span> et ils sont définis par :
+</p>
+<div class="math">$$
 \left(1 - \sum_{i=1}^p \phi_i L^i \right) (1 - L)^d y_t = \mu + \left(1 + \sum_{i=1}^q \theta_i L^i \right) \varepsilon_t
-$$</p>
-<p>$L$ est l'opérateur <em>retard</em> qui consiste à décaler la série d'une observation.</p>
-<p>SARIMA, ou ARIMA saisonnier, est une généralisation du modèle ARIMA qui permet de tenir compte de la saisonnalité. Ce modèle est caractérisé non plus par 3 paramètres $(p,d,q)$ mais par 7 ! Il est noté $SARIMA(p,d,q)(P,D,Q)_s$ où :
-- $s$ est la période de la saisonnalité
-- $(P,D,Q)$ sont les ordres de la partie saisonnière</p>
+$$</div>
+<p><span class="math">\(L\)</span> est l'opérateur <em>retard</em> qui consiste à décaler la série d'une observation.</p>
+<p>SARIMA, ou ARIMA saisonnier, est une généralisation du modèle ARIMA qui permet de tenir compte de la saisonnalité. Ce modèle est caractérisé non plus par 3 paramètres <span class="math">\((p,d,q)\)</span> mais par 7 ! Il est noté <span class="math">\(SARIMA(p,d,q)(P,D,Q)_s\)</span> où :
+- <span class="math">\(s\)</span> est la période de la saisonnalité
+- <span class="math">\((P,D,Q)\)</span> sont les ordres de la partie saisonnière</p>
 <h2 id="stationnarisation-de-la-serie">Stationnarisation de la série</h2>
 <p>Les séries ont généralement une tendance et une saisonnalité toutefois afin de pouvoir les modéliser par des processus stationnaires comme les ARMA, il faut qu'elles soient stationnaires. Or elles ne le sont que rarement, il faut donc les stationnariser.</p>
-<p>On sait que notre série n'est pas stationnaire (c'est vérifiable en regardant l'autocorrélogramme qui doit présenter une décroissance lente vers 0). Par ailleurs, on a déjà identifié la saisonnalité de nos observations qui est annuelle. On peut déjà effectuer une différenciation en appliquant l'opérateur $(1-L^{12})$ .</p>
+<p>On sait que notre série n'est pas stationnaire (c'est vérifiable en regardant l'autocorrélogramme qui doit présenter une décroissance lente vers 0). Par ailleurs, on a déjà identifié la saisonnalité de nos observations qui est annuelle. On peut déjà effectuer une différenciation en appliquant l'opérateur <span class="math">\((1-L^{12})\)</span> .</p>
 <div class="highlight"><pre><span></span><code><span class="n">y_diff_12</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
 <span class="n">fct</span><span class="o">.</span><span class="n">plot_acf_pacf</span><span class="p">(</span><span class="n">y_diff_12</span><span class="p">[</span><span class="mi">12</span><span class="p">:],</span> <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
 </code></pre></div>
 
 <p><img alt="Pelican" src="../images/SeriesTemp4/output_14_0.png"></p>
-<p>La sortie ACF présente bien une décroissance lente vers 0, ce qui traduit la non-stationnarité. On effectue donc une différenciation en appliquant cette fois l'opérateur $(1-L)$.</p>
+<p>La sortie ACF présente bien une décroissance lente vers 0, ce qui traduit la non-stationnarité. On effectue donc une différenciation en appliquant cette fois l'opérateur <span class="math">\((1-L)\)</span>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">y_diff_12_1</span> <span class="o">=</span> <span class="n">y_diff_12</span> <span class="o">-</span> <span class="n">y_diff_12</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">fct</span><span class="o">.</span><span class="n">plot_acf_pacf</span><span class="p">(</span><span class="n">y_diff_12_1</span><span class="p">[</span><span class="mi">13</span><span class="p">:],</span> <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
 </code></pre></div>
 
 <p><img alt="Pelican" src="../images/SeriesTemp4/output_16_0.png"></p>
-<p>Avec cette double différenciation, on s'approche d'un autocorrélogramme simple empirique. On va donc modéliser la série $(1-L)(1-L^{12})ln(X_t)$ par un modèle ARMA.</p>
+<p>Avec cette double différenciation, on s'approche d'un autocorrélogramme simple empirique. On va donc modéliser la série <span class="math">\((1-L)(1-L^{12})ln(X_t)\)</span> par un modèle ARMA.</p>
 <h2 id="identification-estimation-et-validation-de-modeles">Identification, estimation et validation de modèles</h2>
 <p>On va s'appuyer sur les sorties ACF et PACF donc on peut utiliser une des fonctions disponibles dans <code>fonctions.py</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="n">fct</span><span class="o">.</span><span class="n">ts_plot</span><span class="p">(</span><span class="n">y_diff_12_1</span><span class="p">[</span><span class="mi">13</span><span class="p">:]</span><span class="o">.</span><span class="n">Airpass</span><span class="p">,</span> <span class="n">fig_size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
 </code></pre></div>
 
 <p><img alt="Pelican" src="../images/SeriesTemp4/output_19_0.png"></p>
-<p>Les graphiques ACF et PACF permettent de voir empiriquement qu'on va avoir un modèle $SARIMA(p,d,q)(P,D,Q)_s$ avec $s=12$.</p>
-<p>Il est possible de trouver empiriquement un ordre de grandeur maximum pour les parties <em>autorégressive</em> et <em>moyenne mobile</em>, c'est-à-dire pour les valeurs $p_{max}$ et $q_{max}$ d'un modèle $ARMA(p,q)$. La détermination de bornes supérieures concernant l'ordre de la partie $AR$ et de la partie $MA$ passe par l'étude des autocorrélogrammes et des autocorrélogrammes partiels. En effet, si la série stationnaire suit un modèle $ARMA(p,q)$ alors :  </p>
+<p>Les graphiques ACF et PACF permettent de voir empiriquement qu'on va avoir un modèle <span class="math">\(SARIMA(p,d,q)(P,D,Q)_s\)</span> avec <span class="math">\(s=12\)</span>.</p>
+<p>Il est possible de trouver empiriquement un ordre de grandeur maximum pour les parties <em>autorégressive</em> et <em>moyenne mobile</em>, c'est-à-dire pour les valeurs <span class="math">\(p_{max}\)</span> et <span class="math">\(q_{max}\)</span> d'un modèle <span class="math">\(ARMA(p,q)\)</span>. La détermination de bornes supérieures concernant l'ordre de la partie <span class="math">\(AR\)</span> et de la partie <span class="math">\(MA\)</span> passe par l'étude des autocorrélogrammes et des autocorrélogrammes partiels. En effet, si la série stationnaire suit un modèle <span class="math">\(ARMA(p,q)\)</span> alors :  </p>
 <ul>
-<li>l'autocorrélogramme ACF devient nul à partir du rang $q+1$  </li>
-<li>l'autocorrélogramme partiel PACF devient nul à partir du rang $p+1$</li>
+<li>l'autocorrélogramme ACF devient nul à partir du rang <span class="math">\(q+1\)</span>  </li>
+<li>l'autocorrélogramme partiel PACF devient nul à partir du rang <span class="math">\(p+1\)</span></li>
 </ul>
 <p>Le tableau suivant résume les propriétés des tracés de l'ACF et de la PACF empiriques :</p>
 <table>
 <thead>
 <tr>
 <th></th>
-<th style="text-align: center;">MA(q)</th>
-<th style="text-align: center;">AR(p)</th>
-<th style="text-align: center;">ARMA(p,q)</th>
+<th align="center">MA(q)</th>
+<th align="center">AR(p)</th>
+<th align="center">ARMA(p,q)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>ACF</td>
-<td style="text-align: center;">0 si k &gt; q</td>
-<td style="text-align: center;">$\searrow$</td>
-<td style="text-align: center;">$\searrow$</td>
+<td align="center">0 si k &gt; q</td>
+<td align="center"><span class="math">\(\searrow\)</span></td>
+<td align="center"><span class="math">\(\searrow\)</span></td>
 </tr>
 <tr>
 <td>PACF</td>
-<td style="text-align: center;">$\searrow$</td>
-<td style="text-align: center;">0 si k &gt; p</td>
-<td style="text-align: center;">$\searrow$</td>
+<td align="center"><span class="math">\(\searrow\)</span></td>
+<td align="center">0 si k &gt; p</td>
+<td align="center"><span class="math">\(\searrow\)</span></td>
 </tr>
 </tbody>
 </table>
-<p>Dès lors, en se basant sur les autocorrélogrammes, il est possible de déterminer empiriquement les ordres maximum en regardant à partir de quel rang les autocorrélogrammes sont statistiquement nuls. Dans notre cas, on peut considérer que $p_{max} = q_{max} = 1$ et on va donc tester différents modèles compte tenu de ces bornes.</p>
-<p><strong>Modèle 1 :</strong> pour commencer on modélise un $SARIMA(1,1,1)(1,1,1)<em 1>{12}$ qui s'écrit :
-$$(1-\phi</em>L)(1-\phi'<em t>{1}L^{12})(1-L)(1-L^{12})ln(X</em>L)(1+\theta'})=(1+\theta_{1<em t>{1}L^{12})\epsilon</em> $$</p>
+<p>Dès lors, en se basant sur les autocorrélogrammes, il est possible de déterminer empiriquement les ordres maximum en regardant à partir de quel rang les autocorrélogrammes sont statistiquement nuls. Dans notre cas, on peut considérer que <span class="math">\(p_{max} = q_{max} = 1\)</span> et on va donc tester différents modèles compte tenu de ces bornes.</p>
+<p><strong>Modèle 1 :</strong> pour commencer on modélise un <span class="math">\(SARIMA(1,1,1)(1,1,1)_{12}\)</span> qui s'écrit :
+</p>
+<div class="math">$$(1-\phi_{1}L)(1-\phi'_{1}L^{12})(1-L)(1-L^{12})ln(X_{t})=(1+\theta_{1}L)(1+\theta'_{1}L^{12})\epsilon_{t} $$</div>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">statsmodels.tsa.statespace.sarimax</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">m1</span> <span class="o">=</span> <span class="n">SARIMAX</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">seasonal_order</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
@@ -422,8 +424,9 @@ Warnings:
 </code></pre></div>
 
 <p>Ce modèle a des coefficients non significatifs, on en teste un second en retirant dans le paramètre associé à la plus grande p-value : ici c'est le terme autorégressif saisonnier.</p>
-<p><strong>Modèle 2 :</strong> on modélise donc un $SARIMA(1,1,1)(0,1,1)<em 1>{12}$ qui s'écrit :
-$$(1-\phi</em>L)(1+\theta'}L)(1-L)(1-L^{12})ln(X_{t})=(1+\theta_{1<em t>{1}L^{12})\epsilon</em> $$</p>
+<p><strong>Modèle 2 :</strong> on modélise donc un <span class="math">\(SARIMA(1,1,1)(0,1,1)_{12}\)</span> qui s'écrit :
+</p>
+<div class="math">$$(1-\phi_{1}L)(1-L)(1-L^{12})ln(X_{t})=(1+\theta_{1}L)(1+\theta'_{1}L^{12})\epsilon_{t} $$</div>
 <div class="highlight"><pre><span></span><code><span class="n">m2</span> <span class="o">=</span> <span class="n">SARIMAX</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">seasonal_order</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
 <span class="n">res2</span> <span class="o">=</span> <span class="n">m2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">res2</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
@@ -457,8 +460,9 @@ Warnings:
 </code></pre></div>
 
 <p>Ce modèle a toujours un coefficient non significatif, on en teste un 3ème modèle en retirant le terme autorégressif d'ordre 1.</p>
-<p><strong>Modèle 3 :</strong> on modélise donc un $SARIMA(0,1,1)(0,1,1)<em t>{12}$ qui s'écrit :
-$$(1-L)(1-L^{12})ln(X</em>L)(1+\theta'})=(1+\theta_{1<em t>{1}L^{12})\epsilon</em> $$</p>
+<p><strong>Modèle 3 :</strong> on modélise donc un <span class="math">\(SARIMA(0,1,1)(0,1,1)_{12}\)</span> qui s'écrit :
+</p>
+<div class="math">$$(1-L)(1-L^{12})ln(X_{t})=(1+\theta_{1}L)(1+\theta'_{1}L^{12})\epsilon_{t} $$</div>
 <div class="highlight"><pre><span></span><code><span class="n">m3</span> <span class="o">=</span> <span class="n">SARIMAX</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">seasonal_order</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
 <span class="n">res3</span> <span class="o">=</span> <span class="n">m3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">res3</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
@@ -507,8 +511,8 @@ Pour ça on peut utiliser le test de Ljung-Box d'autocorrélation des résidus q
 <span class="mi">36</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mf">0.560395354197207</span>
 </code></pre></div>
 
-<p>Toutes les p-values sont élevées ce qui signifie qu'on ne peut pas rejeter l'hypothèse nulle du test. Or, l'hypothèse $H_0$ est qu'il n'y a pas d'autocorrélation des résidus, on peut pas la rejeter, donc on est bon !</p>
-<p>On peut enfin tester la normalité des résidus avec le test de Shapiro-Wilk implémenté dans la fonction <code>scipy.stats.shapiro</code>, l'hypothèse nulle étant que les étant que les observations sont normalement distribuées, on souhaite encore une fois une p-value élevée pour ne pas rejeter $H_0$.</p>
+<p>Toutes les p-values sont élevées ce qui signifie qu'on ne peut pas rejeter l'hypothèse nulle du test. Or, l'hypothèse <span class="math">\(H_0\)</span> est qu'il n'y a pas d'autocorrélation des résidus, on peut pas la rejeter, donc on est bon !</p>
+<p>On peut enfin tester la normalité des résidus avec le test de Shapiro-Wilk implémenté dans la fonction <code>scipy.stats.shapiro</code>, l'hypothèse nulle étant que les étant que les observations sont normalement distribuées, on souhaite encore une fois une p-value élevée pour ne pas rejeter <span class="math">\(H_0\)</span>.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">shapiro</span>
 <span class="n">shapiro</span><span class="p">(</span><span class="n">res3</span><span class="o">.</span><span class="n">resid</span><span class="p">[</span><span class="mi">13</span><span class="p">:])</span>
 </code></pre></div>
@@ -542,8 +546,8 @@ Pour ça on peut utiliser le test de Ljung-Box d'autocorrélation des résidus q
 <p><img alt="Pelican" src="../images/SeriesTemp4/output_33_0.png"></p>
 <h2 id="evaluation-de-la-qualite-predictive-du-modele">Évaluation de la qualité prédictive du modèle</h2>
 <p>On n'en a pas parlé jusqu'ici mais pour construire un modèle prédictif, il faut mettre en place, entraîner, tester et évaluer votre modèle. Pour cela, il est nécessaire de découper nos données en échantillons d'entraînement et de test. Pour des observations non chronologiques, on découpe de manière aléatoire mais pour des données temporelles, on est obligé de conserver la chronologie dans l'échantillon d'entraînement. Pour cela, on va tout simplement tronquer la série : les <strong>données d'entraînement sont les observations jusqu'en 1958</strong> et les <strong>données de test sont celles des années 1959 et 1960</strong>.</p>
-<p>On va utiliser directement le modèle $SARIMA(0,1,1)(0,1,1)_{12}$ obtenu avec toutes les observations de la série. Toutefois, il est plus rigoureux de s'assurer que le modèle retenu précédemment est toujours valide sur la série tronquée <code>y_train</code>. Pour cela on regarde la significativité des coefficients, l'autocorrélation et la normalité des résidus.</p>
-<p>Le modèle $SARIMA(0,1,1)(0,1,1)_{12}$ étant bien valide sur les données tronquées, on peut prédire les valeurs des années 1959 et 1960 et les afficher sur le graphique suivant avec les valeurs réelles, prédites et les intervalles de confiance.</p>
+<p>On va utiliser directement le modèle <span class="math">\(SARIMA(0,1,1)(0,1,1)_{12}\)</span> obtenu avec toutes les observations de la série. Toutefois, il est plus rigoureux de s'assurer que le modèle retenu précédemment est toujours valide sur la série tronquée <code>y_train</code>. Pour cela on regarde la significativité des coefficients, l'autocorrélation et la normalité des résidus.</p>
+<p>Le modèle <span class="math">\(SARIMA(0,1,1)(0,1,1)_{12}\)</span> étant bien valide sur les données tronquées, on peut prédire les valeurs des années 1959 et 1960 et les afficher sur le graphique suivant avec les valeurs réelles, prédites et les intervalles de confiance.</p>
 <p>Enfin, on ajoute des métriques d'erreur : RMSE et MAPE.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># série x : série des passagers</span>
 <span class="n">x_train</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="s1">&#39;1958&#39;</span><span class="p">,</span> <span class="s1">&#39;Airpass&#39;</span><span class="p">]</span>
@@ -626,13 +630,13 @@ ShapiroResult(statistic=0.9883859157562256, pvalue=0.48699426651000977)
 
 <p>Ainsi on obtient su les 2 années 1959 et 1960, une erreur moyenne de prédiction de 43,2 passagers (RMSE) et une erreur moyenne absolue en pourcentage de 8,5%.</p>
 <h2 id="une-autre-approche-pour-la-determination-du-modele">Une autre approche pour la détermination du modèle</h2>
-<p>Pour ajuster un modèle SARIMA aux données d'une série temporelle, il faut déterminer le jeu de paramètres $(p,d,q)(P,D,Q)s$ optimaux. On peut faire de la recherche sur grille qui consiste à tester de manière itérative plusieurs valeurs possibles des paramètres et d'évaluer les modèles en utilisant des critères tels que AIC ou BIC.</p>
-<p>On utilisera nous le critère d'information Akaike ($AIC$) qui mesure la qualité relative des modèles statistiques pour un ensemble d'observations donné. À partir d'un ensemble de modèles, le critère $AIC$ permet d'estimer la qualité de chacun des modèles par rapport aux autres. Cela permet donc de sélectionner des modèles. Intuitivement, le critère $AIC$ mesure le compromis entre la qualité de l'ajustement du modèle aux observations fournies et la complexité du modèle (nombre de paramètres inclus et estimés). Le critère $AIC$ est calculé par :</p>
-<p>$AIC=2k-2ln(L)$ avec :
-- $k$ nombre de paramètres estimés
-- $L$ valeur maximale de la vraisemblance (pour simplifier maximiser la vraisemblance revient plus ou moins à minimiser l'erreur)</p>
-<p>Le meilleur modèle est celui qui minimise le critère $AIC$. À titre de comparaison, on regarde aussi selon le critère BIC.</p>
-<p>Dans on premier temps, on va générer toutes les valeurs possibles des paramètres que nous aimerions évaluer, à savoir $(p,d,q)(P,D,Q)$ puisqu'on sait déjà que $s=12$. On testera les modèles pour toutes les combinaisons possibles pour des valeurs entre 0 et 1 pour chacun des 6 paramètres c'est-à-dire $2^6 = 64$ possibilités. Si on va jusqu'à 2 pour chaque paramêtre, on passe à $3^6 = 729$ possibilités, ce qui va commencer à faire un peu long...</p>
+<p>Pour ajuster un modèle SARIMA aux données d'une série temporelle, il faut déterminer le jeu de paramètres <span class="math">\((p,d,q)(P,D,Q)s\)</span> optimaux. On peut faire de la recherche sur grille qui consiste à tester de manière itérative plusieurs valeurs possibles des paramètres et d'évaluer les modèles en utilisant des critères tels que AIC ou BIC.</p>
+<p>On utilisera nous le critère d'information Akaike (<span class="math">\(AIC\)</span>) qui mesure la qualité relative des modèles statistiques pour un ensemble d'observations donné. À partir d'un ensemble de modèles, le critère <span class="math">\(AIC\)</span> permet d'estimer la qualité de chacun des modèles par rapport aux autres. Cela permet donc de sélectionner des modèles. Intuitivement, le critère <span class="math">\(AIC\)</span> mesure le compromis entre la qualité de l'ajustement du modèle aux observations fournies et la complexité du modèle (nombre de paramètres inclus et estimés). Le critère <span class="math">\(AIC\)</span> est calculé par :</p>
+<p><span class="math">\(AIC=2k-2ln(L)\)</span> avec :
+- <span class="math">\(k\)</span> nombre de paramètres estimés
+- <span class="math">\(L\)</span> valeur maximale de la vraisemblance (pour simplifier maximiser la vraisemblance revient plus ou moins à minimiser l'erreur)</p>
+<p>Le meilleur modèle est celui qui minimise le critère <span class="math">\(AIC\)</span>. À titre de comparaison, on regarde aussi selon le critère BIC.</p>
+<p>Dans on premier temps, on va générer toutes les valeurs possibles des paramètres que nous aimerions évaluer, à savoir <span class="math">\((p,d,q)(P,D,Q)\)</span> puisqu'on sait déjà que <span class="math">\(s=12\)</span>. On testera les modèles pour toutes les combinaisons possibles pour des valeurs entre 0 et 1 pour chacun des 6 paramètres c'est-à-dire <span class="math">\(2^6 = 64\)</span> possibilités. Si on va jusqu'à 2 pour chaque paramêtre, on passe à <span class="math">\(3^6 = 729\)</span> possibilités, ce qui va commencer à faire un peu long...</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">statsmodels.tsa.statespace.sarimax</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
@@ -682,7 +686,7 @@ ShapiroResult(statistic=0.9883859157562256, pvalue=0.48699426651000977)
 <span class="nv">Modèle</span> <span class="s s-Atom">retenu</span> <span class="s s-Atom">selon</span> <span class="s s-Atom">le</span> <span class="s s-Atom">critère</span> <span class="nv">BIC</span> <span class="o">:</span> <span class="nv">SARIMA</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="mi">12</span> <span class="o">-</span> <span class="nv">AIC</span><span class="o">:-</span><span class="mf">405.4220890824692</span> <span class="o">-</span> <span class="nv">BIC</span><span class="o">:-</span><span class="mf">394.3055951100231</span>
 </code></pre></div>
 
-<p>Le meilleur modèle selon le critère AIC est le $SARIMA(0,1,1)(1,0,1)<em 12>{12}$ qui diffère légèrement de celui obtenu avec la méthode précédente. Il convient de noter cependant que le modèle précédent $SARIMA(0,1,1)(0,1,1)</em>$ a été obtenu sur toutes les observations.</p>
+<p>Le meilleur modèle selon le critère AIC est le <span class="math">\(SARIMA(0,1,1)(1,0,1)_{12}\)</span> qui diffère légèrement de celui obtenu avec la méthode précédente. Il convient de noter cependant que le modèle précédent <span class="math">\(SARIMA(0,1,1)(0,1,1)_{12}\)</span> a été obtenu sur toutes les observations.</p>
 <p>Passons à la prédiction pour terminer.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># modèle retenu</span>
 <span class="n">res</span> <span class="o">=</span> <span class="n">best</span><span class="p">[</span><span class="s1">&#39;aic&#39;</span><span class="p">][</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
@@ -765,6 +769,69 @@ Test de Shapiro : ShapiroResult(statistic=0.988020658493042, pvalue=0.4595574438
    <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
    <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
 </div>
+
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
             </section>
 
             <section class="post-info">

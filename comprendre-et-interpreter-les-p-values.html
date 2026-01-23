@@ -189,11 +189,11 @@
 </div>
 <p>Aujourd'hui c'est à un grand classique de la statistique que l'on s'attaque : la <strong>p-value, ou valeur p</strong>. Fondamentale dans l'analyse des résultats de la recherche scientifique, elle est pourtant <strong>souvent mal interprétée</strong>. C'est sur elle que l'on s'appuie pour <strong>confirmer ou infirmer une hypothèse</strong> et juger de la <strong>significativé de nos résultats</strong>. Mais qu'est-ce que cela implique et comment bien appréhender ce qu'elle permet (et surtout ce qu'elle ne permet pas) de conclure? On essaye de voir ça ensemble, de la manière la plus intuitive possible!  </p>
 <h1 id="les-p-values-et-les-tests-statistiques">Les p-values et les tests statistiques</h1>
-<p>Pour comprendre les p-values, il faut aborder la notion de <strong>tests statistiques</strong>. Ils permettent de tester une <strong>Hypothèse nulle <code>H0</code></strong> contre une <strong>hypothèse alternative <code>H1</code></strong>. Par exemple, prenons le cas d'une régression linéaire où on cherche à estimer des coefficients $\beta_i$ décrivant le lien entre une variable d'intérêt  $Y$ et des variables explicatives $X_i$ :  </p>
-<p>$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots$</p>
-<p>Pour chaque coefficient estimé $\beta_i$, on utilise le <strong>test t de Student</strong> qui nous permet de tester les hypothèses :<br>
-- <code>H0</code> : $\beta_i  = 0$<br>
-- <code>H1</code> : $\beta_i \neq 0$</p>
+<p>Pour comprendre les p-values, il faut aborder la notion de <strong>tests statistiques</strong>. Ils permettent de tester une <strong>Hypothèse nulle <code>H0</code></strong> contre une <strong>hypothèse alternative <code>H1</code></strong>. Par exemple, prenons le cas d'une régression linéaire où on cherche à estimer des coefficients <span class="math">\(\beta_i\)</span> décrivant le lien entre une variable d'intérêt  <span class="math">\(Y\)</span> et des variables explicatives <span class="math">\(X_i\)</span> :  </p>
+<p><span class="math">\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \dots\)</span></p>
+<p>Pour chaque coefficient estimé <span class="math">\(\beta_i\)</span>, on utilise le <strong>test t de Student</strong> qui nous permet de tester les hypothèses :<br>
+- <code>H0</code> : <span class="math">\(\beta_i  = 0\)</span><br>
+- <code>H1</code> : <span class="math">\(\beta_i \neq 0\)</span></p>
 <p>Le principe du test est le suivant : on va <strong>partir du principe que H0 est vrai</strong> et on va voir <strong>quelle est la chance d'observer notre résultat dans ce monde théorique</strong>. Ce test statistique va ainsi nous donner la <strong>distribution possible des résultats que l'on pourrait obtenir à partir de différents échantillons si <code>H0</code> était vraie</strong>. Selon où l'on se situe dans cette distribution, on va pouvoir juger de la <strong>vraisemblance de cette hypothèse H0</strong>, en fonction d'un <strong>seuil alpha que l'on peut faire varier</strong>. En fonction de la valeur de <code>t</code> obtenue avec notre échantillon, on peut décider de rejeter ou non l'hypothèse <code>H0</code> :  </p>
 <p><img alt="Pelican" src="../images/p_values/unnamed-chunk-1-1.png"><!-- --></p>
 <p>Sur le graphique ci-dessus, la zone rouge représente <strong>5% de l'aire de la courbe de densité</strong>. Si la valeur obtenue par notre test est dans cette zone, on sait que <strong>cela représenterait 5% ou moins des résultats possibles que l'on aurait obtenus si <code>H0</code> était vraie</strong>. On peut donc en déduire que <strong>la nullité du coefficient est peu probable</strong>. </p>
@@ -230,6 +230,68 @@ Vous voulez en savoir plus sur ce que l'on fait?</p>
    <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
 </div>
 <p><br>  </p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
             </section>
 
             <section class="post-info">

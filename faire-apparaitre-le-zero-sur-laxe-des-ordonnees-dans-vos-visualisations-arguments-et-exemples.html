@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<title>Faire apparaître le zéro sur l'axe des ordonnées dans vos visualisations : arguments et exemples</title>    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="Le blog statistiques et data science de la coopérative Statoscop" />
+  <meta name="author" content="" />
+
+  <!-- Font Awesome icons (free version)-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+
+
+
+  <!-- <title>Le blog de Statoscop - études de cas en R et Python</title> -->
+  <link rel="icon" type="image/x-icon" href="https://blog.statoscop.fr/themes/statoscop/static/images/favicon-v1.ico" />
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://blog.statoscop.fr/faire-apparaitre-le-zero-sur-laxe-des-ordonnees-dans-vos-visualisations-arguments-et-exemples.html" rel="canonical" />
+  <!-- Feed -->
+        <link href="https://blog.statoscop.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Full Atom Feed" />
+          <link href="https://blog.statoscop.fr/feeds/{slug}.atom.xml" type="application/atom+xml" rel="alternate" title="Le blog Categories Atom Feed" />
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/styles-v1.css" type="text/css" rel="stylesheet" /> 
+  <link href="https://blog.statoscop.fr/themes/statoscop/static/css/style-blog.css" type="text/css" rel="stylesheet" /> 
+  <!-- Code highlight color scheme -->
+      <link href="https://blog.statoscop.fr/themes/statoscop/static/css/code_blocks/github.css" rel="stylesheet">
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!-- [if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  ![endif] -->
+
+
+
+    <meta name="description" content="Comment choisir les représentations les plus pertinentes pour ne pas fausser l'interprétation de vos dataviz.">
+
+    <meta name="author" content="Antoine">
+
+    <meta name="tags" content="R">
+    <meta name="tags" content="ggplot2">
+    <meta name="tags" content="dataviz">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Le blog"/>
+<meta property="og:title" content="Faire apparaître le zéro sur l'axe des ordonnées dans vos visualisations : arguments et exemples"/>
+<meta property="og:description" content="Comment choisir les représentations les plus pertinentes pour ne pas fausser l'interprétation de vos dataviz."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://blog.statoscop.fr/faire-apparaitre-le-zero-sur-laxe-des-ordonnees-dans-vos-visualisations-arguments-et-exemples.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2026-01-23 00:00:00+01:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://blog.statoscop.fr/author/antoine.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="R"/>
+<meta property="article:tag" content="ggplot2"/>
+<meta property="article:tag" content="dataviz"/>
+<meta property="og:image" content="https://blog.statoscop.fr/images/cover_27.png">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Faire apparaître le zéro sur l'axe des ordonnées dans vos visualisations : arguments et exemples",
+  "headline": "Faire apparaître le zéro sur l'axe des ordonnées dans vos visualisations : arguments et exemples",
+  "datePublished": "2026-01-23 00:00:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Antoine",
+    "url": "https://blog.statoscop.fr/author/antoine.html"
+  },
+  "image": "https://blog.statoscop.fr/images/cover_27.png",
+  "url": "https://blog.statoscop.fr/faire-apparaitre-le-zero-sur-laxe-des-ordonnees-dans-vos-visualisations-arguments-et-exemples.html",
+  "description": "Comment choisir les représentations les plus pertinentes pour ne pas fausser l'interprétation de vos dataviz."
+}
+</script>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//matomo.statoscop.fr/matomo/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+  
+
+</head>
+<!-- TODO : Body class -->
+  <body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <div class="container">
+
+        <a class="navbar-brand" href="https://statoscop.fr"><img src="https://blog.statoscop.fr/themes/statoscop/static/images/logo-statoscop-v1.png" alt="Statoscop.logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ml-auto">
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr"> Accueil </a>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr/about"> À propos </a>
+              </li>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle font-weight-bold "
+                  id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false"> Prestations </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <li><a class="dropdown-item" href="https://statoscop.fr/etudes">Conseils & études statistiques</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/recodages">Migrations de code & Recodages</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/formations">Formations</a></li>
+                      <li><a class="dropdown-item" href="https://statoscop.fr/applis">Dashboards & Applications</a></li>
+                  </ul>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger " href="https://statoscop.fr/contact">Contact</a>
+              </li>
+              <li class="nav-item font-weight-bold">
+                  <a class="nav-link js-scroll-trigger active" href="https://blog.statoscop.fr/">Le blog</a>
+              </li>
+          </ul>
+      </div>
+      </div>
+    </nav>
+    
+
+
+    <!-- Post content -->
+    <main class="content" role="main">
+      
+      <div>
+      </div>
+
+      <article class="post">
+        <div class="inner">
+
+
+
+
+            <section class="post-content">
+              <h1 class="post-title">Faire apparaître le zéro sur l'axe des ordonnées dans vos visualisations : arguments et exemples</h1>
+                <!-- Le titres et meta infos-->
+                <span class="post-meta">
+                        <a href="https://blog.statoscop.fr/author/antoine.html">Antoine</a>
+                    | <time datetime="ven. 23 janvier 2026">ven. 23 janvier 2026</time>
+                </span>
+
+                <!--Table des matieres
+-->
+                
+                <div class="toc"><span class="toctitle">Dans cet article</span><ul>
+<li><a href="#interpretations-fallacieuses-de-visualisations-sans-le-zero-sur-laxe-des-ordonnees">Interprétations fallacieuses de visualisations sans le zéro sur l'axe des ordonnées</a><ul>
+<li><a href="#mauvais-rendu-des-quantites-reelles-pour-les-graphiques-en-barres">Mauvais rendu des quantités réelles pour les graphiques en barres</a></li>
+<li><a href="#evolutions-trompeuses-avec-les-courbes">Évolutions trompeuses avec les courbes</a></li>
+</ul>
+</li>
+<li><a href="#alternatives-quand-il-semble-complique-de-faire-apparaitre-le-zero-sur-laxe-des-ordonnees">Alternatives quand il semble compliqué de faire apparaître le zéro sur l'axe des ordonnées</a><ul>
+<li><a href="#probleme-quand-le-zero-nest-pas-une-valeur-possible-des-donnees">Problème quand le zéro n'est pas une valeur possible des données</a></li>
+<li><a href="#visualisations-alternatives">Visualisations alternatives</a></li>
+</ul>
+</li>
+<li><a href="#pour-vos-prochaines-dataviz">Pour vos prochaines dataviz</a></li>
+</ul>
+</div>
+<p>Dans cette note on s'intéresse à un débat classique dans le milieu de la dataviz et de l'analyse des données en général : l'obligation (ou non) de <strong>faire apparaître le zéro sur l'axe des ordonnées</strong>. Comme d'habitude, on essaye de vous expliquer intuitivement les causes de ce débat âpre (si si!) et de vous proposer une approche pour <strong>ne pas tromper involontairement</strong> les lecteurs de vos prochaines visualisations de données.</p>
+<h1 id="interpretations-fallacieuses-de-visualisations-sans-le-zero-sur-laxe-des-ordonnees">Interprétations fallacieuses de visualisations sans le zéro sur l'axe des ordonnées</h1>
+<p>Le choix de l'intervalle des valeurs présentées sur l'axe des ordonnées dans une visualisation se porte souvent sur les valeurs minimum et maximum des données à disposition. Pourquoi le fait de <strong>ne pas mettre le zéro sur l'axe des ordonnées est trompeur</strong>? Nous allons essayer de répondre en distinguant les graphiques en barres et les courbes.</p>
+<h2 id="mauvais-rendu-des-quantites-reelles-pour-les-graphiques-en-barres">Mauvais rendu des quantités réelles pour les graphiques en barres</h2>
+<p>C'est le cas le plus clair : <strong>l'absence de zéro dans un graphique en barres fausse complètement l'interprétation de ceux-ci</strong>. Un exemple très parlant recensé par <a href="https://quoidansmonassiette.fr/tromper-avec-graphiques-representations-visuelles-pour-manipuler-opinion-publique-guide/">le site Quoi Dans Mon Assiette</a> est celui de la visualisation du taux de gréviste fourni par la SNCF durant une mobilisation en avril 2018 :</p>
+<p><img alt="Pelican" src="../images/zero-y-axis/clipboard-1.png"></p>
+<p>Cette visualition vise assez évidemment à <strong>insister sur la baisse de la participation aux grèves</strong>. Visuellement, il semble que <strong>celle-ci a chuté de moitié au moins</strong>. En effet, notre cerveau compare logiquement les volumes des deux barres et constate que <strong>l'une est environ deux fois plus petite que l'autre</strong>. Or, si la baisse est réelle, elle est seulement de 4 points de pourcentage soit une baisse d'à peine plus de 10%, loin du rendu visuel proposé par la communication de la SNCF. Cette <strong>manipulation de l'ampleur du phénomène</strong> est entièrement dûe à l'absence du zéro sur l'axe des ordonnées. Voici comment rend la visualisation correctement reproduite par les auteurs de l'article :</p>
+<p><img alt="Pelican" src="../images/zero-y-axis/clipboard-2.png"></p>
+<p><strong>L'effet est moins spectaculaire</strong> mais le rendu est bien plus fidèle aux faits. Dans le cas des graphiques en colonnes, il y a donc <strong>un certain consensus</strong> sur le fait que le zéro sur l'axe des ordonnées n'est "pas négociable", du fait que le lecteur compare forcément les volumes et que <strong>ceux-ci n'ont pas de sens si les colonnes ne partent pas de zéro</strong>. Mais qu'en est-il des courbes?</p>
+<blockquote>
+<p>👋 Nous c'est Antoine et Louis de Statoscop, une coopérative de statisticiens / data scientists.
+Vous voulez en savoir plus sur ce que l'on fait?</p>
+</blockquote>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>    </p>
+<h2 id="evolutions-trompeuses-avec-les-courbes">Évolutions trompeuses avec les courbes</h2>
+<p>Dans le cas des courbes, <a href="https://stats.stackexchange.com/questions/184525/how-to-determine-whether-or-not-the-y-axis-of-a-graph-should-start-at-zero">le sujet fait plus débat</a>. D'ailleurs, <strong><code>ggplot2</code> ne met pas le zéro par défaut sur l'axe des ordonnées pour les graphiques avec <code>geom_line</code> alors qu'il le fait avec <code>geom_col</code> ou <code>geom_bar.</code></strong></p>
+<p>Pourtant, le fait de ne pas inclure le zéro dans ce type de graphiques nous semble aussi poser problème. Prenons l'exemple du réchauffement climatique, qui se traduit notamment par une augmentation des températures à la surface mondiales. On récupère ici ces données sur le site <a href="https://ourworldindata.org/">Our World In Data</a>. Voilà ce que donne une représentation classique de ces données si nous sélectionnons de manière malveillante les années 2016 à 2022 :  </p>
+<p><img alt="Pelican" src="../images/zero-y-axis/unnamed-chunk-2-1.png"><!-- --></p>
+<p>On voit ici qu'en plus d'avoir sélectionné les années qui nous convenaient pour faire passer un message trompeur, c'est bien <strong>l'échelle des ordonnées de type min/max qui rend les variations des températures artificiellement élevées</strong> entre 2016 et 2022. En effet, les données dans leur ensemble racontent un tout autre message :  </p>
+<p><img alt="Pelican" src="../images/zero-y-axis/unnamed-chunk-3-1.png"><!-- --></p>
+<h1 id="alternatives-quand-il-semble-complique-de-faire-apparaitre-le-zero-sur-laxe-des-ordonnees">Alternatives quand il semble compliqué de faire apparaître le zéro sur l'axe des ordonnées</h1>
+<p>Le dernier graphique montrant les températures moyennes entre 1950 et 2025 semble plus acceptable que le précédent, même s'il se contente de prendre une échelle min/max pour l'axe des ordonnées. Et s'il est en effet bien moins incorrect, c'est <strong>parce qu'il contient presque l'ensemble des valeurs de température moyenne connues par l'être humain</strong> (qui n'ont pas beaucoup varié avant 1950). </p>
+<h2 id="probleme-quand-le-zero-nest-pas-une-valeur-possible-des-donnees">Problème quand le zéro n'est pas une valeur <em>possible</em> des données</h2>
+<p>On pourrait en effet arguer que se "forcer" à inclure le zéro sur l'axe des ordonnées, alors même qu'une température moyenne mondiale à zéro degré n'aurait aucun sens sur la planète telle qu'on la connaît, fausserait le résultat. Tout d'abord <strong>cela aurait tendance à minimiser le constat</strong> du réchauffement climatique actuel, et cela donnerait en plus un <strong>graphique avec un grand espace inutilisé</strong> (et inutilisable, puisque ne contenant pas des valeurs plausibles de nos données) :  </p>
+<p><img alt="Pelican" src="../images/zero-y-axis/unnamed-chunk-4-1.png"><!-- --></p>
+<h2 id="visualisations-alternatives">Visualisations alternatives</h2>
+<p>Alors, que faire? Dans ce cas, <strong>inclure le zéro dans l'axe des ordonnées ne semble pas pertinent</strong>. Mais cette règle a l'avantage d'avoir une certaine objectivité et de ne pas permettre à chacun de faire en fonction de ce qui l'arrange. Si l'on souhaite continuer à s'y tenir, on peut imaginer des solutions alternatives. Souvent, il s'agira de <strong>visualiser des variations plutôt que des niveaux</strong>. Cette solution permet à la fois d'avoir <strong>une échelle des ordonnées incluant le zéro</strong> et donc moins trompeuse, et de mettre en évidence les tendances. Dans notre cas, on peut par exemple calculer la différence entre la température moyenne d'une année par rapport à la température moyenne sur tout une période. On choisit alors de <strong>représenter les données sous forme de barres</strong> car cela nous semble mieux illustrer que nous présentons pour chaque année des écarts à une valeur fixe :  </p>
+<p><img alt="Pelican" src="../images/zero-y-axis/unnamed-chunk-5-1.png"><!-- --></p>
+<h1 id="pour-vos-prochaines-dataviz">Pour vos prochaines dataviz</h1>
+<p>Que l'on vous ait convaincu ou pas d'essayer d'inclure le zéro dans vos dataviz, on espère au moins que vous aurez désormais l'œil pour repérer ces visualisations qui - volontairement ou non - trompent le lecteur sur l'ampleur d'un phénomène. Il va de toute façon de soi <strong>qu'aucune règle immuable ne pourra jamais nous permettre de nous passer d'un regard critique et constructif</strong> sur les résultats qui nous sont soumis et que l'on soumet. </p>
+<p>C'est tout pour aujourd'hui! Si vous avez besoin de conseils en programmation pour <a href="https://statoscop.fr">la statistique et la data science</a>, n'hésitez pas à nous contacter sur notre site, ou sur nos réseaux <a href="https://bsky.app/profile/statoscop.fr">BlueSky</a> ou <a href="https://www.linkedin.com/company/statoscop">Linkedin</a>.</p>
+<div class = "d-flex justify-content-center mt-4">
+   <a href="https://statoscop.fr" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Visiter notre site</a>
+   <a href="https://statoscop.fr/contact" target=_blank class="btn btn-primary btn-custom text-uppercase" type="button">Nous contacter</a>
+</div>
+<p><br>  </p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Faire apparaître le zéro sur l'axe des ordonnées dans vos visualisations : arguments et exemples&amp;url=https://blog.statoscop.fr/faire-apparaitre-le-zero-sur-laxe-des-ordonnees-dans-vos-visualisations-arguments-et-exemples.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://blog.statoscop.fr/tag/r.html">R</a><a href="https://blog.statoscop.fr/tag/ggplot2.html">ggplot2</a><a href="https://blog.statoscop.fr/tag/dataviz.html">dataviz</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+    
+        <!-- Footer-->
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 text-lg-left"> © Statoscop<br> 3 rue Jacques Roudil 31300 Toulouse</div>
+                    <div class="col-lg-4 my-3 my-lg-0">
+                        <a class="btn btn-dark btn-social mx-2" href="https://fr.linkedin.com/company/statoscop" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <div class="col-lg-4 text-lg-left"> 
+                        Blog publié avec <a class="js-scroll-trigger text-info" href="https://docs.getpelican.com/en/latest/"  target="_blank">Pelican</a> et
+                        déployé sur <a class="js-scroll-trigger text-info" href="https://pages.github.com/"  target="_blank">Github Pages</a>.
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="https://blog.statoscop.fr/themes/statoscop/static/js/script.js"></script>
+
+  </body>
+</html>
