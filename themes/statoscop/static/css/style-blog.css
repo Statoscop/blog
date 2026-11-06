@@ -1546,3 +1546,19 @@ table td:after {
 }
 
 
+
+/* Sélecteur de langue avec drapeaux */
+.lang-flag {
+  width: 1.5rem;
+  height: 1.125rem;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+  vertical-align: middle;
+}
+.dropdown-menu.lang-menu {
+  min-width: 0;
+}
+.dropdown-menu.lang-menu .dropdown-item {
+  text-align: center;
+}
