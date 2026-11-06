@@ -140,9 +140,11 @@
                   <a class="nav-link js-scroll-trigger {% block navbar_blog_active %}{% endblock %}" href="https://blog.statoscop.fr/">Le blog</a>
               </li>
               <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle font-weight-bold" id="navbarLangMenuLink" aria-haspopup="true" aria-expanded="false"> FR </a>
-                  <ul class="dropdown-menu" aria-labelledby="navbarLangMenuLink">
-                      <li><a class="dropdown-item active" href="{{ SITEURL }}/">Français</a></li>
+                  <a class="nav-link dropdown-toggle font-weight-bold" id="navbarLangMenuLink" aria-haspopup="true" aria-expanded="false" title="Français">
+                      <img class="lang-flag" src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/images/flags/fr.svg" alt="Français">
+                  </a>
+                  <ul class="dropdown-menu lang-menu" aria-labelledby="navbarLangMenuLink">
+                      <li><a class="dropdown-item active" href="{{ SITEURL }}/" title="Français"><img class="lang-flag" src="{{ SITEURL }}/{{ THEME_STATIC_DIR }}/images/flags/fr.svg" alt="Français"></a></li>
                   </ul>
               </li>
           </ul>
